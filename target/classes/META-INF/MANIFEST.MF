@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
-Implementation-Title: yiyao
+Implementation-Title: xitu
 Implementation-Version: 1.0-SNAPSHOT
 Built-By: liubingchuan
-Implementation-Vendor-Id: com.yiyao
+Implementation-Vendor-Id: com.xitu
 Build-Jdk: 1.8.0_131
 Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
- ot-starter-parent/yiyao
+ ot-starter-parent/xitu
 Created-By: Maven Integration for Eclipse
 

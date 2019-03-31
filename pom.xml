@@ -3,12 +3,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.yiyao</groupId>
-	<artifactId>yiyao</artifactId>
+	<groupId>com.xitu</groupId>
+	<artifactId>xitu</artifactId>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>yiyao</name>
-	<description>yiyao</description>
+	<name>xitu</name>
+	<description>xitu</description>
 
 	 <parent>
 		<groupId>org.springframework.boot</groupId>
