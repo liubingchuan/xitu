@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" th:href="@{/css/init.css}" />
+		<link rel="stylesheet" th:href="@{/css/main.css}" />
+		<script type="text/javascript" th:src="@{/js/jquery-1.7.2.js}" ></script>
+		<!--百度编辑器-->
+		<script type="text/javascript" charset="utf-8" th:src="@{/js/ueditor/ueditor.config.js}"></script>
+        <script type="text/javascript" charset="utf-8" th:src="@{/js/ueditor/ueditor.all.min.js}"></script>
+        <script type="text/javascript" charset="utf-8" th:src="@{/js/ueditor/lang/zh-cn/zh-cn.js}"></script>
+	</head>
+	<body class="manageBody">
+		<div class="manageLf">
+			<div class="manageLfM">
+				<div class="manageLfLogo">
+					<img th:src="@{/images/logo.png}" />
+				</div>
+				<a href="#" class="manageMenuF">		
+						订单管理
+				</a>
+				<a th:href="@{/project/list(pageSize=10,pageIndex=0)}" class="manageMenuF">		
+						项目信息
+				</a>
+				<a href="javascript:;" class="manageMenuF">		
+						信息采集<em></em>
+				</a>
+				<div class="manageMenuS">
+					<a href="#">
+						采集任务
+					</a>
+					<a href="#">
+						结果列表
+					</a>
+					<a href="#">
+						采集日志
+					</a>
+				</div>
+				<a href="javascript:;" class="manageMenuF">		
+						企业智库<em></em>
+				</a>
+				<div class="manageMenuS">
+					<a th:href="@{/report/list(pageSize=10,pageIndex=0)}">
+						分析报告
+					</a>
+					<a th:href="@{/org/list}">
+						重点机构
+					</a>
+					<a th:href="@{/expert/list(pageSize=10,pageIndex=0)}">
+						行业人才
+					</a>
+				</div>
+				<a th:each="cookie :${#httpServletRequest.getCookies()}" th:if="${cookie.getName().equals('token')}"  th:href="@{/user/list(token=${cookie.getValue()},pageIndex=0,pageSize=10)}" class="manageMenuF">		
+						用户管理
+				</a>
+				<a th:href="@{/item/config}" class="manageMenuF">		
+						分类设置
+				</a>
+			</div>
+		</div>
+		<div class="managHead clearfix">
+			<div class="right manageTx">
+				<div class="clearfix">
+				<img th:src="@{/images/tx.jpeg}" class="manageTxImg left" />
+				<span class="left manageTxName">张伟</span>
+				<em class="manageTxIco left"></em>
+				</div>
+			    <div class="loginAfterNo">
+								
+								<div class="loginAfterNoM">
+									<em class="loginAfterNoMSj"></em>
+									<p>
+										<span class="loginName">
+											张伟
+										</span>
+										<span class="vip">
+											超级管理员
+										</span>
+									</p>
+									<p>
+										<a href="#">
+											<img th:src="@{/images/tuichu.png}" />
+											退出
+										</a>
+									</p>
+									
+								</div>
+							</div>
+			</div>
+		</div>
+		<div class="manageNr">
+			<div class="M_mess">
+				<div class="M_messOne">
+					<b>机构详情</b>
+				</div>
+				
+			    <div class="M_messTwoB">
+			    	     
+			        <div class="M_messTwoBm active">
+			    		<form name="saveForm" th:action="@{/org/save}" th:object="${org}" th:method="post">
+			    		<div class="M_messGp clearfix">
+			    			<span class="left M_messGpName">
+			    				机构名称：
+			    			</span>
+			    			<div class="M_messGpRt">
+			    				<input type="text" class="M_messInp" th:field="*{name}" />
+			    			</div>
+			    		</div>
+			    		<div class="M_messGp clearfix">
+			    			<span class="left M_messGpName">
+			    				其他名称：
+			    			</span>
+			    			<div class="M_messGpRt">
+			    				<input type="text" class="M_messInp" th:field="*{alias}" />
+			    			</div>
+			    		</div>
+			    		<div class="M_messGp clearfix">
+			    			<span class="left M_messGpName">
+			    				研究领域：
+			    			</span>
+			    			<div class="M_messGpRt">
+			    				<select th:field="*{area}" th:value="*{area}" name="area">
+			    					<option value="">请选择项目分类</option>
+			    					<option th:selected="*{area=='疫苗'}" value="疫苗">疫苗</option>
+			    					<option th:selected="*{area=='医疗器械'}" value="医疗器械">医疗器械</option>
+			    					<option th:selected="*{area=='制药'}" value="制药">制药</option>
+			    					<option th:selected="*{area=='医疗保健'}" value="医疗保健">医疗保健</option>
+			    				</select>
+			    			</div>
+			    		</div>
+			    		<div class="M_messGp clearfix">
+			    			<span class="left M_messGpName">
+			    				机构介绍：
+			    			</span>
+			    			<div class="M_messGpRt">
+			    				<div class="shuru">
+						          <script id="editor" type="text/plain" style="height:228px;width: 705px;" th:field="*{description}" th:utext="*{description}"></script>
+	        	                </div>
+	        	                 <script>
+	        	                 	$(function() {
+
+	//本来是这样的:UE.getEditor('editor');  传入参数后就是下面那样子了，toolbars里的就是工具的图标
+
+	UE.getEditor('editor', {
+
+		toolbars: [
+
+			['undo', 'redo', 'bold', 'italic', 'underline', 'fontborder', 'backcolor', 'fontsize', 'fontfamily', 'removeformat', 'formatmatch', 'simpleupload', 'insertimage', 'forecolor', 'backcolor', 'cleardoc', 'link', 'unlink', 'emotion']
+
+		]
+
+	});
+
+})</script>
+			    			</div>
+			    		</div>
+			    		<div class="M_messGp clearfix">
+			    			<span class="left M_messGpName">
+			    				机构类型：
+			    			</span>
+			    			<div class="M_messGpRt">
+			    				<select th:field="*{type}" th:value="*{type}" name="type">
+			    					<option value="">请选择机构类型</option>
+			    					<option th:selected="*{type=='企业'}" value="企业">企业</option>
+			    				</select>
+			    			</div>
+			    		</div>
+			    		<div class="M_messGp clearfix">
+			    			<span class="left M_messGpName">
+			    				国家：
+			    			</span>
+			    			<div class="M_messGpRt" th:field="*{country}">
+			    				<select th:field="*{country}" th:value="*{country}" name="country">
+			    					<option value="">请选择国家</option>
+			    					<option th:selected="*{country=='中国'}" value="中国">中国</option>
+			    					<option th:selected="*{country=='美国'}" value="美国">美国</option>
+			    				</select>
+			    			</div>
+			    		</div>
+			    		<div class="M_messGp clearfix">
+			    			<span class="left M_messGpName">
+			    				产业链：
+			    			</span>
+			    			<div class="M_messGpRt" th:field="*{link}">
+			    				<select th:field="*{link}" th:value="*{link}" name="link">
+			    					<option value="">请选择产业链</option>
+			    					<option th:selected="*{link=='上游'}" value="上游">上游</option>
+			    					<option th:selected="*{link=='中游'}" value="中游">中游</option>
+			    					<option th:selected="*{link=='下游'}" value="下游">下游</option>
+			    				</select>
+			    			</div>
+			    		</div>
+			    		<div class="M_messGp clearfix">
+			    			<span class="left M_messGpName">
+			    				产品类型：
+			    			</span>
+			    			<div class="M_messGpRt">
+			    				<div class="clearfix" >
+			    				<select th:field="*{classic}" th:value="*{classic}" name="classic">
+			    					<option value="">请选择产品类型</option>
+			    					<option th:selected="*{classic=='疫苗'}" value="疫苗">疫苗</option>
+			    					<option th:selected="*{classic=='眼科'}" value="眼科">眼科</option>
+			    					<option th:selected="*{classic=='保健'}" value="保健">保健</option>
+			    					<option th:selected="*{classic=='中成药;化学药;生物制品'}" value="中成药;化学药;生物制品">中成药;化学药;生物制品</option>
+			    				</select>
+			    				<!-- <a href="#" class="left colorBlue zengjialx">+增加产品类型</a> -->
+			    				</div>
+			    			</div>
+			    		</div>
+			    		
+			    		<div class="M_messGp clearfix">
+			    			<span class="left M_messGpName">
+			    				机构LOGO：
+			    			</span>
+			    			<div class="M_messGpRt">
+			    				<div class="clearfix M_messGpImg M_messGpImgjg">
+			    					<div class="left M_messGpImgGp">
+			    						<img th:src="@{/images/bjlogp_03.png}" />
+			    						<p>
+			    							LOGO.jpg&nbsp;1000kb&nbsp;<a href="#" class="colorRed">删除</a>
+			    						</p>
+			    					</div>
+			    				</div>
+			    			</div>
+			    		</div>
+			    		<div class="M_messGp clearfix">
+			    			<span class="left M_messGpName">
+			    				提交时间：
+			    			</span>
+			    			<div class="M_messGpRt">
+			    				<span class="M_messGpRtText" th:text="${new java.util.Date()}">></span>
+			    			</div>
+			    		</div>
+			    		<div class="M_messGp clearfix">
+			    			<span class="left M_messGpName">
+			    				上传人：
+			    			</span>
+			    			<div class="M_messGpRt">
+			    				<span class="M_messGpRtText">王伟</span>
+			    			</div>
+			    		</div>
+			    		<div class="M_messGp clearfix">
+			    			<span class="left M_messGpName">
+			    				修改人：
+			    			</span>
+			    			<div class="M_messGpRt">
+			    				<span class="M_messGpRtText">王伟</span>
+			    			</div>
+			    		</div>
+			    		<div class="clearfix bianjinrbtn">
+			    		<input type="hidden" th:field="*{id}" />
+			    		<input name="info" type="hidden" id="info">
+			    		<input type="hidden" th:field="*{ctime}" th:value="${new java.util.Date()}">
+			    		<input type="button" value="提交" class="M_messSub left" onClick="uptext();"/>
+			    		<a th:href="@{/org/list}" class="colorRed left shanchubtn">取消</a>
+			    		</div>
+			    		</form>
+			    	</div>
+			    </div>
+			</div>
+		</div>
+		<script type="text/javascript" th:src="@{/js/main.js}" ></script>
+		<script type="text/javascript">
+    
+			//这段要放在文本编辑器的实例化之后
+			function uptext() {
+				if (!UE.getEditor('editor').hasContents()) {
+					alert('请先填写内容!');
+				} else {
+					$("#info").val(UE.getEditor('editor').getContent());
+					$("form[name='saveForm']").submit();
+				}
+			}
+		</script>
+	</body>
+</html>

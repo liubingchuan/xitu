@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" th:href="@{/css/init.css}" />
+		<link rel="stylesheet" th:href="@{/css/datePicker.css}" />
+		<link rel="stylesheet" th:href="@{/css/main.css}" />
+		<script type="text/javascript" th:src="@{/js/jquery-1.7.2.js}" ></script>
+		 <script type="text/javascript" th:src="@{/js/jedate/jedate.js}" ></script>
+	</head>
+	<body>
+		<div class="nyMain">
+			<div class="nycontainer">
+			<div class="head">
+			<div class="clearfix">
+				<a href="/" class="left logo">
+					<img th:src="@{/images/logo.png}" />
+				</a>
+				<a href="/" class="left headBack">
+					<<返回首页
+				</a>
+				<div class="left headsuos">
+					<em></em>
+					<input type="button" class="headsuosBtn" value="搜索"  onClick="search();"/>
+					<input type="text" class="headsuosInp" th:text="${query}" id="keywords"/>
+				</div>
+				<div class="right">
+					<!--登录前-->
+					<!--<div class="loginbefore">
+						<a href="javascript:;" class="loginBtn">登录</a><span>/</span><a href="loginBtn">注册</a>
+					</div>-->
+					<!--登陆后-->
+					<div class="loginAfter">
+						<div class="loginAfterM">
+							<a href="#" class="loginAfterTx">
+								<img th:src="@{/images/tx.jpeg}" />
+							</a>
+							<div class="loginAfterNo">
+								
+								<div class="loginAfterNoM">
+									<em class="loginAfterNoMSj"></em>
+									<p>
+										<span class="loginName">
+											张伟
+										</span>
+										<span class="vip">
+											超级管理员
+										</span>
+									</p>
+									<p>
+										<a th:href="@{/user/list(pageIndex=0,pageSize=10)}">
+											<img th:src="@{/images/houtai.png}" />
+											进入管理后台
+										</a>
+									</p>
+									<p>
+										<a href="#">
+											<img th:src="@{/images/dingdan.png}" />
+											我的申请
+										</a>
+									</p>
+									<p>
+										<a href="#">
+											<img th:src="@{/images/tuichu.png}" />
+											退出
+										</a>
+									</p>
+									
+								</div>
+							</div>
+						</div>
+					</div>
+				
+				</div>
+			</div>
+		</div>              
+		    <div class="jiansuoNR">
+		    	<div class="jiansuoOne clearfix">
+		    		<div class="left jiansuoOnelf" th:text="检索结果：+ ${totalCount}">
+		    		</div>
+		    		<div class="jiansuoOneRt">
+		    			<a th:href="@{/patent/list(q=${query})}">
+		    				专利
+		    			</a>
+		    			<a th:href="@{/paper/list(q=${query})}">
+		    				<font color="red">论文</font>
+		    			</a>
+		    			<a th:href="@{/project/list(q=${query},front=0)}">
+		    				项目
+		    			</a>
+		    		</div>
+		    		<em class="jiansuoOneIco">
+		    			专利分析
+		    		</em>
+		    	</div>
+		        <div class="jiansuoCon clearfix">
+		        	<div class="left jiansuoLf">
+		        		<div class="jiansuoTl">
+		        			<img th:src="@{/images/1.png}" />
+		        			<a href="#">首页</a>><span>论文</span>
+		        		</div>
+		        		<div class="jiansuoZX">
+		        			<img th:src="@{/images/2.png}" style="width: 100%;vertical-align: middle;" />
+		        		</div>
+		        		<div class="jiansuoLfGp">
+		        			<h3 class="jiansuoLfGpTl">
+		        				研究机构
+		        			</h3>
+		        			<div class="jiansuoLfGpList">
+		        				<div class="jiansuoLfGx" th:each="institution : ${aginstitution}">
+		        					<input type="checkbox" th:id="'institution'+${institution.key}" th:name="institution" th:value="${institution.key}" />
+		        					<label th:for="'institution'+${institution.key}" th:text="${institution.key} + '(' + ${institution.value} + ')'"></label>
+		        				</div>
+		        			</div>
+		        		    <a href="javascript:;" class="jiansuoLfMore">
+		        		    	展开更多
+		        		    </a>
+		        		</div>
+		        		 <div class="jiansuoLfGp">
+		        			<h3 class="jiansuoLfGpTl">
+		        				发表时间
+		        			</h3>
+		        			
+		        				<div class="jiansuoLfGx" th:each="year : ${agyear}">
+		        					<input type="checkbox" th:id="'year'+${year.key}" th:name="year" th:value="${year.key}" />
+		        					<label th:for="'year'+${year.key}" th:text="${year.key} + '(' + ${year.value} + ')'"></label>
+		        				</div>
+		        				<!-- <div class="clearfix jiansuanDate">
+		        					<input type="text" class="left" id="dateinfo" />
+		        					<span class="left jiesunH">-</span>
+		        					<input type="text" class="left" id="dateinfo1" />
+		        				</div>
+		        				<input type="button" value="确认" class="jiansuanDateSub" /> -->
+		        		</div>
+		        	    <div class="jiansuoLfGp">
+		        			<h3 class="jiansuoLfGpTl">
+		        				文献出处
+		        			</h3>
+		        			<div class="jiansuoLfGpList">
+		        				<div class="jiansuoLfGx" th:each="journal : ${agjournal}">
+		        					<input type="checkbox" th:id="'journal'+${journal.key}" th:name="journal" th:value="${journal.key}" />
+		        					<label th:for="'journal'+${journal.key}" th:text="${journal.key} + '(' + ${journal.value} + ')'"></label>
+		        				</div>
+		        			</div>
+		        		    <a href="javascript:;" class="jiansuoLfMore">
+		        		    	展开更多
+		        		    </a>
+		        		</div>
+		        	   
+		        	    <div class="jiansuoLfGp">
+		        			<h3 class="jiansuoLfGpTl">
+		        				作者
+		        			</h3>
+		        			<div class="jiansuoLfGpList">
+		        				<div class="jiansuoLfGx" th:each="author : ${agauthor}">
+		        					<input type="checkbox" th:id="'author'+${author.key}" th:name="author" th:value="${author.key}" />
+		        					<label th:for="'author'+${author.key}" th:text="${author.key} + '(' + ${author.value} + ')'"></label>
+		        				</div>
+		        			</div>
+		        		    <a href="javascript:;" class="jiansuoLfMore">
+		        		    	展开更多
+		        		    </a>
+		        		</div>
+		        	</div>
+		            <div class="right jiansuoRt">
+		            	<ul class="jiansuoUl">
+		            		<li th:each="paper: ${paperList}">
+		            			<div class="jiansuoLiTL">
+		            				<a th:href="@{/paper/get(id=${paper.id})}" th:text="${paper.title}">
+		            				</a>
+		            			</div>
+		            			<div class="jiansuoLiTag">
+		            				<span th:text="'出处：' + ${paper.journal}"></span>
+		            				<span th:text="'出版年：' + ${paper.year}"></span>
+		            			</div>
+		            			<div class="jiansuoLiText">
+		            				<span class="jiansuoLiTextSpan" th:utext="${paper.subject}">
+		            				</span>
+		            				<a href="javascript:;" class="jiansuoLImore">
+		            					展开更多
+		            				</a>
+		            			</div>
+		            		</li>
+		            	</ul>
+		            </div>
+		        </div>
+		    </div>
+			</div>
+			</div>
+			<div class="footer">
+	    	<div class="footerTop">
+	    		<div class="index-container clearfix">
+	    			<div class="left footerTopLf">
+	    				<p class="footerTopTl">
+	    					<img th:src="@{/images/pingtai.png}" />
+	    					平台介绍
+	    				</p>
+	    				<div class="footerTopText">
+	    					平台围绕生物医药领域进行信息监测与情报服务，结合文献情报中心的文献服务、情报咨询服务等，为领域研究相关科研机构、政府部门、企业等提供产业技术情报服务和科技咨询服务。
+	    				</div>
+	    			</div>
+	    			<div class="left footerTopMiddle">
+	    				<div class="footerTopMiddleTop">
+	    				<p class="footerTopTl">	    				
+	    					交流合作
+	    				</p>
+	    				<div class="footerTopText">
+	    					<span>平台围绕生物医药领域进行信息监测与情报服务，结合文献情报中心的文献服务、情报咨询服务等，为领域研究相关科研机构、政府部门、企业等提供产业技术情报服务和科技咨询服务。</span><a href="#">更多>></a>
+	    				</div>
+	    				</div>
+	    				<p class="footerTopTl">	    				
+	    					关于我们
+	    				</p>
+	    				<div class="footerTopText">
+	    					<span>平台围绕生物医药领域进行信息监测与情报服务，结合文献情报中心的文献服务、情报咨询服务等，为领域研究相关科研机构、政府部门、企业等提供产业技术情报服务和科技咨询服务。</span><a href="#">更多>></a>
+	    				</div>
+	    			</div>
+	    		    <div class="left footerTopLX">
+	    		    	<div class="footerTopLXT">
+	    		    	<p class="footerTopTl">	    				
+	    					<img th:src="@{/images/lianxifangshi.png}" />联系方式
+	    				</p>
+	    				<div class="footerTopText">
+	    					<p>电话：010-82626611-6302</p>
+                             <p>邮箱：chinakx@mail.las.ac.cn</p>
+	    				</div>
+	    		    	</div>
+	    		        <div class="footerTopText footerTopLXB">
+	    		        	<p class="footerTopTl">	    				
+	    				 	<img th:src="@{/images/jigou.png}" />合作机构
+	    				    </p>
+	    		        	<ul>
+	    		        		<li>
+	    		        			<a href="#">•&nbsp;沈阳浑南高新技术开发区</a>
+	    		        		</li>
+	    		        		<li>
+	    		        			<a href="#">•&nbsp;中国科学院沈阳分院</a>
+	    		        		</li>
+	    		        		<li>
+	    		        			<a href="#">•&nbsp;中国科学院文献情报中心</a>
+	    		        		</li>
+	    		        		<li>
+	    		        			<a href="#">•&nbsp;国家科学图书文献中心</a>
+	    		        		</li>
+	    		        	</ul>
+	    		        </div>
+	    		    </div>
+	    		    <div class="right footerTopErw">
+	    		    	<img th:src="@{/images/erw.png}" />
+	    		    	<p>
+	    		    		<em></em>扫码快速关注公众号
+	    		    	</p>
+	    		    </div>
+	    		</div>
+	    	</div>
+	        <div class="footerB">
+	        	<div class="index-container">
+	        		版权所有 @ 2017 沈阳高新区生物医药知识服务云平台 中国科学院文献情报中心,京ICP证030173号
+	        	</div>
+	        </div>
+	    </div>
+		<script type="text/javascript" th:src="@{/js/main.js}" ></script>
+		<script type="text/javascript" th:inline="javascript">
+		    
+			jeDate({
+				dateCell:"#dateinfo",
+				format:"YYYY年MM月DD日",
+				isinitVal:true,
+				isTime:false, //isClear:false,
+			    isClear:true,
+			})
+			jeDate({
+				dateCell:"#dateinfo1",
+				format:"YYYY年MM月DD日",
+				isinitVal:true,
+				isTime:false, //isClear:false,
+			    isClear:true,
+			})
+			
+			function search(){
+		    	var uri = '';
+		    	/* var entrust = ''
+		    	$.each($('input:checkbox:checked'),function(){
+		    		if($(this).attr("name") == "entrust") {
+		    			if(entrust == '') 
+		    			{
+		    				entrust = $(this).val()
+		    			}
+		    			else
+		    			{
+		    				entrust = entrust + '-' + $(this).val()
+		    			}
+		    		}
+		        });
+		    	if(entrust != '') {
+		    		uri = uri + 'entrust=' + entrust + ''
+		    	} */
+				/* window.location.href="http://47.104.7.73/project/list?q=" + $("#keywords").val() + "&" + uri; */
+				if($("#keywords").val() != "") {
+			    	window.location.href="/paper/list?q=" + $("#keywords").val() + "&" + uri;
+				}
+			}
+				</script>
+	</body>
+</html>
