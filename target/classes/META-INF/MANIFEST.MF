@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Implementation-Title: xitu
 Implementation-Version: 1.0-SNAPSHOT
-Built-By: liubingchuan
+Built-By: abc
 Implementation-Vendor-Id: com.xitu
-Build-Jdk: 1.8.0_131
+Build-Jdk: 1.8.0_121
 Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
  ot-starter-parent/xitu
 Created-By: Maven Integration for Eclipse

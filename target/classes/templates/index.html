@@ -3,28 +3,28 @@
 	<head>
 		<meta charset="utf-8" />
 		<title></title>
-		<link rel="stylesheet" th:href="@{/css/init.css}" />
-		<link rel="stylesheet" th:href="@{/css/swiper.min.css}" />
-		<link rel="stylesheet" th:href="@{/css/main.css}" />
+		<link rel="stylesheet" th:href="@{/css/xinit.css}" />
+		<link rel="stylesheet" th:href="@{/css/xswiper.min.css}" />
+		<link rel="stylesheet" th:href="@{/css/xmain.css}" />
 		<script type="text/javascript" th:src="@{/js/jquery-1.7.2.js}" ></script>
 		<script type="text/javascript" th:src="@{/js/jquery.cookie.js}" ></script>
 		<script type="text/javascript" th:src="@{/js/swiper.min.js}" ></script>
 	</head>
-	<body>
+	<body class="indexBody">
 		<div class="indexbanner">
 		<div class="index-container">
 		<div class="head">
 			<div class="clearfix">
 				<a href="index.html" class="left logo">
-					<img th:src="@{/images/logo.png}" />
+					<img th:src="@{/ximages/logo.png}" />
 				</a>
 				<div class="left menu clearfix">
 					<a href="/">平台首页</a>
+					<a href="#">稀土智库</a>
+					<a href="#">材料计算</a>
 					<a href="#">产业监测</a>
-					<a th:href="@{/org/list(pageSize=10,pageIndex=0,front=0)}">企业智库</a>
 					<a href="#">知识服务</a>
-					<a th:href="@{/patent/analysis}">专利分析</a>
-					<a href="#">园区介绍</a>
+					<a href="#">合作交流</a>
 					<a href="#">关于我们</a>
 				</div>
 				<div class="right">
@@ -40,7 +40,7 @@
 					<div class="loginAfter" id="loginAfter">
 						<div class="loginAfterM">
 							<a href="#" class="loginAfterTx">
-								<img th:src="@{/images/tx.jpeg}" />
+								<img th:src="@{/ximages/tx.jpeg}" />
 							</a>
 							<div class="loginAfterNo">
 
@@ -55,19 +55,19 @@
 									<p>
 										<!-- <a th:each="cookie :${#httpServletRequest.getCookies()}" th:if="${cookie.getName().equals('token')}"  th:href="@{/user/list(token=${cookie.getValue()},pageIndex=0,pageSize=10)}"> -->
 										<a th:href="@{/user/list(pageIndex=0,pageSize=10)}">
-											<img th:src="@{/images/houtai.png}" />
+											<img th:src="@{/ximages/houtai.png}" />
 											进入管理后台
 										</a>
 									</p>
 									<p>
 										<a href="#">
-											<img th:src="@{/images/dingdan.png}" />
+											<img th:src="@{/ximages/dingdan.png}" />
 											我的申请
 										</a>
 									</p>
 									<p>
 										<a href="#">
-											<img th:src="@{/images/tuichu.png}" />
+											<img th:src="@{/ximages/tuichu.png}" />
 											退出
 										</a>
 									</p>
@@ -81,293 +81,279 @@
 			</div>
 		</div>
 		<div class="logoText">
-			沈阳高新区生物医药知识服务云平台
+			稀土大数据平台
 		</div>
 		<div class="indexTopSmall">
-			整合稀生物医药领域信息资源，为沈阳高新区提供定制化知识服务
+			整合稀土领域各类科技信息资源，为稀土行业提供定制化知识服务
 		</div>
 		<div class="headSS clearfix">
-			<input type="text" class="left headSSLf" placeholder="请输入生物医药相关的关键词" id="keywords"/>
+			<input type="text" class="left headSSLf" placeholder="请输入稀土相关的关键词" id="keywords"/>
 			<input type="button" class="left headSSRt" value="搜索" id="search" onClick="search();"/>
 		</div>
 		<div class="headCompanyTl">
 			<span>
-				重点企业导航
+				元素导航
 			</span>
 		</div>
-		<div class="headCompanyNr">
-			 <div class="headCompanyNrM">
-			 	<div class="swiper-container">
-                    <div class="swiper-wrapper">
-	    			 <div class="swiper-slide">
-	    			 	<a href="#" class="headCompanyA">
-	    			 		<img th:src="@{/images/qiyelogo1.png}" />
-	    			 	</a>
-	    			  </div>
-	    			  <div class="swiper-slide">
-	    			 	<a href="#" class="headCompanyA">
-	    			 		<img th:src="@{/images/qiyelogo_2.png}" />
-	    			 	</a>
-	    			  </div>
-	    			   <div class="swiper-slide">
-	    			 	<a href="#" class="headCompanyA">
-	    			 		<img th:src="@{/images/qiyelogo_3.png}" />
-	    			 	</a>
-	    			  </div>
-	    			  <div class="swiper-slide">
-	    			 	<a href="#" class="headCompanyA">
-	    			 		<img th:src="@{/images/qiyelogo_4.png}" />
-	    			 	</a>
-	    			  </div>
-	    			  <div class="swiper-slide">
-	    			 	<a href="#" class="headCompanyA">
-	    			 		<img th:src="@{/images/qiyelogo1.png}" />
-	    			 	</a>
-	    			  </div>
-	    			  <div class="swiper-slide">
-	    			 	<a href="#" class="headCompanyA">
-	    			 		<img th:src="@{/images/qiyelogo_2.png}" />
-	    			 	</a>
-	    			  </div>
-	    			   <div class="swiper-slide">
-	    			 	<a href="#" class="headCompanyA">
-	    			 		<img th:src="@{/images/qiyelogo_3.png}" />
-	    			 	</a>
-	    			  </div>
-	    			  <div class="swiper-slide">
-	    			 	<a href="#" class="headCompanyA">
-	    			 		<img th:src="@{/images/qiyelogo_4.png}" />
-	    			 	</a>
-	    			  </div>
-	    			 </div>
-	    	      </div>
-			    <div class="swiper-button-next"></div>
-                 <div class="swiper-button-prev"></div>
-			    <script>
-    var swiper = new Swiper('.headCompanyNrM .swiper-container', {
-      slidesPerView: 7,
-      spaceBetween: 20,
-      loop:true,
-     navigation: {
-								nextEl: '.headCompanyNrM .swiper-button-next',
-								prevEl: '.headCompanyNrM .swiper-button-prev',
-							},
-    });
-    
-  </script>
-			 </div>
+		<div class="clearfix yuansu">
+			<a href="#">
+				<p class="yuansuTop">
+					57
+				</p>
+				<p class="yuansuM">
+					镧
+				</p>
+				<p class="yuansuB">
+					La
+				</p>
+			</a>
+			<a href="#">
+				<p class="yuansuTop">
+					58
+				</p>
+				<p class="yuansuM">
+					铈
+				</p>
+				<p class="yuansuB">
+					Ce
+				</p>
+			</a>
+			<a href="#">
+				<p class="yuansuTop">
+					59
+				</p>
+				<p class="yuansuM">
+					镨
+				</p>
+				<p class="yuansuB">
+					Pr
+				</p>
+			</a>
+			<a href="#">
+				<p class="yuansuTop">
+					60
+				</p>
+				<p class="yuansuM">
+					钕
+				</p>
+				<p class="yuansuB">
+					Nd
+				</p>
+			</a>
+			<a href="#">
+				<p class="yuansuTop">
+					61
+				</p>
+				<p class="yuansuM">
+					钷
+				</p>
+				<p class="yuansuB">
+					Pm
+				</p>
+			</a>
+			<a href="#">
+				<p class="yuansuTop">
+					62
+				</p>
+				<p class="yuansuM">
+					钐
+				</p>
+				<p class="yuansuB">
+					Sm
+				</p>
+			</a>
+			<a href="#">
+				<p class="yuansuTop">
+					63
+				</p>
+				<p class="yuansuM">
+					铕
+				</p>
+				<p class="yuansuB">
+					Eu
+				</p>
+			</a>
+			<a href="#">
+				<p class="yuansuTop">
+					64
+				</p>
+				<p class="yuansuM">
+					钆
+				</p>
+				<p class="yuansuB">
+					Gd
+				</p>
+			</a>
+			<a href="#">
+				<p class="yuansuTop">
+					65
+				</p>
+				<p class="yuansuM">
+					铽
+				</p>
+				<p class="yuansuB">
+					Tb
+				</p>
+			</a>
+			<a href="#">
+				<p class="yuansuTop">
+					66
+				</p>
+				<p class="yuansuM">
+					镝
+				</p>
+				<p class="yuansuB">
+					Dy
+				</p>
+			</a>
+			<a href="#">
+				<p class="yuansuTop">
+					67
+				</p>
+				<p class="yuansuM">
+					钬
+				</p>
+				<p class="yuansuB">
+					Ho
+				</p>
+			</a>
+			<a href="#">
+				<p class="yuansuTop">
+					68
+				</p>
+				<p class="yuansuM">
+					铒
+				</p>
+				<p class="yuansuB">
+					Er
+				</p>
+			</a>
+			<a href="#">
+				<p class="yuansuTop">
+					69
+				</p>
+				<p class="yuansuM">
+					铥
+				</p>
+				<p class="yuansuB">
+					Tm
+				</p>
+			</a>
+			<a href="#">
+				<p class="yuansuTop">
+					70
+				</p>
+				<p class="yuansuM">
+					镱
+				</p>
+				<p class="yuansuB">
+					Yb
+				</p>
+			</a>
+			<a href="#">
+				<p class="yuansuTop">
+					71
+				</p>
+				<p class="yuansuM">
+					镥
+				</p>
+				<p class="yuansuB">
+					Lu
+				</p>
+			</a>
+			<a href="#">
+				<p class="yuansuTop">
+					21
+				</p>
+				<p class="yuansuM">
+					钪
+				</p>
+				<p class="yuansuB">
+					Sc
+				</p>
+			</a>
+			<a href="#">
+				<p class="yuansuTop">
+					39
+				</p>
+				<p class="yuansuM">
+					钇
+				</p>
+				<p class="yuansuB">
+					Y
+				</p>
+			</a>
+		</div>
+		<div class="headCompanyTl" style="margin-top: 0px;">
+			<span>
+				功能导航
+			</span>
 		</div>
 		</div>
+		<div class="gongneng">
+			<div class="index-container clearfix">
+				<a href="#" class="left">
+					<img th:src="@{/ximages/gongneg4.png}" />
+					稀土智库
+				</a>
+				<a href="#" class="left">
+					<img th:src="@{/ximages/gongneng3.png}" />
+					知识服务
+				</a>
+				<a href="#" class="left">
+					<img th:src="@{/ximages/gongneng1.png}" />
+					材料计算
+				</a>
+				<a href="#" class="left">
+					<img th:src="@{/ximages/gongneng2.png}" />
+					产业监测
+				</a>
+			</div>
 		</div>
-	    <div class="main">
-	    	<div class="indexNr">
-	    	<div class="index-container clearfix">
-	    		<div class="left indexLF">
-	    			<div class="indexLFTL clearfix">
-	    				<a href="javascript:;" class="ahover">
-	    					专利分析
-	    				</a>
-	    				<a href="javascript:;">
-	    					知识服务
-	    				</a>
-	    				<a href="javascript:;">
-	    					企业智库
-	    				</a>
-	    			</div>
-	    		    <div class="indexLFB">
-	    		    	<div class="indexLFBM active clearfix">
-	    		    		<img th:src="@{/images/zhuanlifenxi.png}" class="left indexLFBImg" />
-	    		    		<div class="right indexLFBRt">
-	    		    			<p>
-	    		    				提供动态更新的生物医药科技最新数据
-	    		    			</p>
-	    		    			<ul class="indexLFBUl">
-	    		    				<li>
-	    		    					产业核心专利数据
-	    		    				</li>
-	    		    				<li>
-	    		    					细分专利领域分类
-	    		    				</li>
-	    		    				<li>
-	    		    					专利核心指标分析
-	    		    				</li>
-	    		    				<li>
-	    		    					可视化数据展示
-	    		    				</li>
-	    		    			</ul>
-	    		    			<a href="#" class="btnYellow indexLFA">
-	    		    				进入数据库>>
-	    		    			</a>
-	    		    		</div>
-	    		    	</div>
-	    		        <div class="indexLFBM clearfix">
-	    		    		<img th:src="@{/images/zhishifuwu.png}" class="left indexLFBImg indexLFBImgZ" />
-	    		    		<div class="right indexLFBRt indexLFBRtz">
-	    		    			<p>
-	    		    				提供专业的情报知识服务
-	    		    			</p>
-	    		    			<ul class="indexLFBUl">
-	    		    				<li>
-	    		    					快速准确的文献传递
-	    		    				</li>
-	    		    				<li>
-	    		    					国家级科技查新服务
-	    		    				</li>
-	    		    				
-	    		    			</ul>
-	    		    			<a href="#" class="btnYellow indexLFA">
-	    		    				开始委托>>
-	    		    			</a>
-	    		    		</div>
-	    		    	</div>
-	    		         <div class="indexLFBM clearfix">
-	    		    		<img th:src="@{/images/qiyezhiku.png}" class="left indexLFBImg" />
-	    		    		<div class="right indexLFBRt">
-	    		    			<p>
-	    		    				提供丰富的行业智库信息
-	    		    			</p>
-	    		    			<ul class="indexLFBUl">
-	    		    				<li>
-	    		    					领域专家数据
-	    		    				</li>
-	    		    				<li>
-	    		    					重点机构数据
-	    		    				</li>
-	    		    				<li>
-	    		    					行业分析报告数据
-	    		    				</li>
-	    		    			</ul>
-	    		    			<a href="#" class="btnYellow indexLFA">
-	    		    				进入智库>>
-	    		    			</a>
-	    		    		</div>
-	    		    	</div>
-	    		    </div>
-	    		</div>
-	    	    <div class="right indexRt">
-	    	    	<div class="indexRtTL clearfix">
-	    	    		<a href="javascript:;" class="ahover">行业新闻</a>
-	    	    		<a href="javascript:;">国家政策</a>
-	    	    		<a href="javascript:;">产业动态</a>
-	    	    		<a href="javascript:;">科研进展</a>
-	    	    	</div>
-	    	    	<div class="indexRtB">
-	    	    		<div class="indexRtBM active">
-	    	    			<ul class="indexRtUl">
-	    	    				<li class="clearfix">    
-	    	    					<a href="#" class="left">
-	    	    						• 未盈利生物医药将有望在A股上市? 业内人士认为任重道远
-	    	    					</a>
-	    	    					<span class="right">
-	    	    						2018-4-5
-	    	    					</span>
-	    	    				</li>
-	    	    				<li class="clearfix">
-	    	    					<a href="#" class="left">
-	    	    						• 2018第五届诺贝尔奖获得者医学峰会暨全球生物医药创…
-	    	    					</a>
-	    	    					<span class="right">
-	    	    						2018-4-5
-	    	    					</span>
-	    	    				</li>
-	    	    				<li class="clearfix">
-	    	    					<a href="#" class="left">
-	    	    						• 厦门海沧签约项目总额超27亿元 生物医药产业再添新军…
-	    	    					</a>
-	    	    					<span class="right">
-	    	    						2018-4-5
-	    	    					</span>
-	    	    				</li>
-	    	    				<li class="clearfix">
-	    	    					<a href="#" class="left">
-	    	    						• 研究丨有关未盈利生物医药企业在香港及内地上市要求…
-	    	    					</a>
-	    	    					<span class="right">
-	    	    						2018-4-5
-	    	    					</span>
-	    	    				</li>
-	    	    				<li class="clearfix">
-	    	    					<a href="#" class="left">
-	    	    						• 对接生物医药 聚焦行业前沿 
-	    	    					</a>
-	    	    					<span class="right">
-	    	    						2018-4-5
-	    	    					</span>
-	    	    				</li>
-	    	    				<li class="clearfix">
-	    	    					<a href="#" class="left">
-	    	    						• 创投企业奖励最高超过2000万 生物医药企业上市门槛降低 
-	    	    					</a>
-	    	    					<span class="right">
-	    	    						2018-4-5
-	    	    					</span>
-	    	    				</li>
-	    	    				<li class="clearfix">
-	    	    					<a href="#" class="left">
-	    	    						 • 成都生物医药产业发展势头迅猛 生命力旺盛 
-	    	    					</a>
-	    	    					<span class="right">
-	    	    						2018-4-5
-	    	    					</span>
-	    	    				</li>
-	    	    			</ul>
-	    	    			<a href="#" class="indexRtMore">
-	    	    				更多内容>>
-	    	    			</a>
-	    	    		</div>
-	    	    	</div>
-	    	    </div>
-	    	</div>
-	    	</div>
-	    </div>
-	    <div class="footer">
+		</div>
+	    
+		<div class="footer">
 	    	<div class="footerTop">
 	    		<div class="index-container clearfix">
 	    			<div class="left footerTopLf">
+	    				<img th:src="@{/ximages/wb.png}" class="xitufooterIMg" />
+	    			</div>
+	    			<div class="left footerTopMiddle">
+	    				<div class="footerTopMiddleTop">
 	    				<p class="footerTopTl">
-	    					<img th:src="@{/images/pingtai.png}" />
+	    					<img th:src="@{/ximages/pingtai.png}" />
 	    					平台介绍
 	    				</p>
 	    				<div class="footerTopText">
 	    					平台围绕生物医药领域进行信息监测与情报服务，结合文献情报中心的文献服务、情报咨询服务等，为领域研究相关科研机构、政府部门、企业等提供产业技术情报服务和科技咨询服务。
 	    				</div>
-	    			</div>
-	    			<div class="left footerTopMiddle">
-	    				<div class="footerTopMiddleTop">
-	    				<p class="footerTopTl">	    				
-	    					交流合作
-	    				</p>
-	    				<div class="footerTopText">
-	    					<span>平台围绕生物医药领域进行信息监测与情报服务，结合文献情报中心的文献服务、情报咨询服务等，为领域研究相关科研机构、政府部门、企业等提供产业技术情报服务和科技咨询服务。</span><a href="#">更多>></a>
-	    				</div>
 	    				</div>
 	    				<p class="footerTopTl">	    				
-	    					关于我们
-	    				</p>
-	    				<div class="footerTopText">
-	    					<span>平台围绕生物医药领域进行信息监测与情报服务，结合文献情报中心的文献服务、情报咨询服务等，为领域研究相关科研机构、政府部门、企业等提供产业技术情报服务和科技咨询服务。</span><a href="#">更多>></a>
-	    				</div>
-	    			</div>
-	    		    <div class="left footerTopLX">
-	    		    	<div class="footerTopLXT">
-	    		    	<p class="footerTopTl">	    				
-	    					<img th:src="@{/images/lianxifangshi.png}" />联系方式
+	    					<img th:src="@{/ximages/lianxifangshi.png}" />联系方式
 	    				</p>
 	    				<div class="footerTopText">
 	    					<p>电话：010-82626611-6302</p>
                              <p>邮箱：chinakx@mail.las.ac.cn</p>
 	    				</div>
-	    		    	</div>
-	    		        <div class="footerTopText footerTopLXB">
+	    			</div>
+	    		    <div class="left footerTopLX">
+	    		    	
+	    		        <div class="footerTopText">
 	    		        	<p class="footerTopTl">	    				
-	    				 	<img th:src="@{/images/jigou.png}" />合作机构
+	    				 	<img th:src="@{/ximages/jigou.png}" />合作机构
 	    				    </p>
 	    		        	<ul>
 	    		        		<li>
-	    		        			<a href="#">•&nbsp;沈阳浑南高新技术开发区</a>
+	    		        			<a href="#">•&nbsp;中国科学院分院</a>
 	    		        		</li>
 	    		        		<li>
-	    		        			<a href="#">•&nbsp;中国科学院沈阳分院</a>
+	    		        			<a href="#">•&nbsp;中国科学院文献情</a>
+	    		        		</li>
+	    		        		<li>
+	    		        			<a href="#">•&nbsp;中国科学院分院</a>
+	    		        		</li>
+	    		        		<li>
+	    		        			<a href="#">•&nbsp;国家科学图书文献中心</a>
 	    		        		</li>
 	    		        		<li>
 	    		        			<a href="#">•&nbsp;中国科学院文献情报中心</a>
@@ -379,7 +365,7 @@
 	    		        </div>
 	    		    </div>
 	    		    <div class="right footerTopErw">
-	    		    	<img th:src="@{/images/erw.png}" />
+	    		    	<img th:src="@{/ximages/erw.png}" />
 	    		    	<p>
 	    		    		<em></em>扫码快速关注公众号
 	    		    	</p>
@@ -396,7 +382,7 @@
 	    <div class="alertBg"></div>
 	    <!--登录二维码弹窗-->
 	    <div class="alertCon alertErw">
-	    	<img th:src="@{/images/erw.png}" />
+	    	<img th:src="@{/ximages/erw.png}" />
 	    	<p class="alertErwText">
 	    		<span>微信</span>扫描直接注册登陆
 	    	</p>

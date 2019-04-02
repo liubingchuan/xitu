@@ -13,19 +13,19 @@ import java.util.List;
 @Component
 public interface UserMapper {
 
-	@Select("SELECT * FROM yiyao_user where account = #{account} limit 1")
+	@Select("SELECT * FROM xitu_user where account = #{account} limit 1")
 	User getUserByAccount(@Param("account") String account);
 	
-	@Select("select * from yiyao_user limit #{pageIndex}, #{pageSize}")
+	@Select("select * from xitu_user limit #{pageIndex}, #{pageSize}")
     List<User> getUsers(@Param("pageIndex") int pageIndex, @Param("pageSize") int pageSize);
 	
-	@Select("select count(*) from yiyao_user")
+	@Select("select count(*) from xitu_user")
     int getUserCount();
 	
 	@InsertProvider(type = BasedProvider.class, method = BasedProvider.INSERT)
 	int insertUser(User user);
 	
-	@Update("UPDATE yiyao_user SET account = #{user.account}, password = #{user.password}, name = #{user.name}, "
+	@Update("UPDATE xitu_user SET account = #{user.account}, password = #{user.password}, name = #{user.name}, "
 			    + "identity = #{user.identity}, unit = #{user.unit}, job = #{user.job}, "
 			    + "duty = #{user.duty}, major = #{user.major}, email = #{user.email}, "
 			    + "phone = #{user.phone}, stamp = #{user.stamp} "
