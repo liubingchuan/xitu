@@ -217,6 +217,7 @@ public class PatentController {
 						Bucket cpcBucket = cpcbit.next();
 						cpcMap.put(cpcBucket.getKey().toString(), Long.valueOf(cpcBucket.getDocCount()));
 					}
+					
 					model.addAttribute("agcpc", cpcMap);
 					
 					StringTerms personTerms = (StringTerms) aggregations.asMap().get("agperson");
@@ -359,9 +360,24 @@ public class PatentController {
 	public String agpeople() {
 		return "zhuanlifenxifamingrenjizhuanliquanren";
 	}
+	@GetMapping(value = "patent/agpeoplecon")
+	public String agpeoplecon() {
+		return "T-hangyeCon";
+	}
+	
 	@GetMapping(value = "patent/agclassis")
 	public String agclassis() {
 		return "zhuanlifenxijishufenlei";
+	}
+	
+	@GetMapping(value = "patent/agclassiscon")
+	public String agclassiscon() {
+		return "T-jigouCon";
+	}
+	
+	@GetMapping(value = "patent/agtypecon")
+	public String agtypecon() {
+		return "T-rencaiCon";
 	}
 	
 	@ResponseBody

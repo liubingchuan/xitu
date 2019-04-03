@@ -48,7 +48,6 @@ public class UserController {
 		model.addAttribute("user", user);
 		return "index";
 	}
-
 	
 	@ResponseBody
 	@RequestMapping(value = "user/bind", method = RequestMethod.POST,consumes = "application/json")

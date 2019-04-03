@@ -15,12 +15,12 @@
 		<div class="index-container">
 		<div class="head">
 			<div class="clearfix">
-				<a href="index.html" class="left logo">
+				<a href="/" class="left logo">
 					<img th:src="@{/ximages/logo.png}" />
 				</a>
 				<div class="left menu clearfix">
 					<a href="/">平台首页</a>
-					<a href="#">稀土智库</a>
+					<a th:href="@{/patent/agmount}">稀土智库</a>
 					<a href="#">材料计算</a>
 					<a href="#">产业监测</a>
 					<a href="#">知识服务</a>
@@ -96,7 +96,7 @@
 			</span>
 		</div>
 		<div class="clearfix yuansu">
-			<a href="#">
+		<a th:href="@{/yuansu/xiangqing}">
 				<p class="yuansuTop">
 					57
 				</p>
@@ -292,7 +292,7 @@
 		</div>
 		<div class="gongneng">
 			<div class="index-container clearfix">
-				<a href="#" class="left">
+				<a th:href="@{/patent/agmount}" class="left">
 					<img th:src="@{/ximages/gongneg4.png}" />
 					稀土智库
 				</a>

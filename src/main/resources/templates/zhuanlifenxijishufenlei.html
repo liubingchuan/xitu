@@ -3,8 +3,8 @@
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
-		<link rel="stylesheet" th:href="@{/css/init.css}" />
-		<link rel="stylesheet" th:href="@{/css/main.css}" />
+		<link rel="stylesheet" th:href="@{/css/xinit.css}" />
+		<link rel="stylesheet" th:href="@{/css/xmain.css}" />
 		<script type="text/javascript" th:src="@{/js/jquery-1.7.2.js}" ></script>
 		<script type="text/javascript" th:src="@{/js/echarts.min.js}" ></script>
 	</head>
@@ -13,16 +13,16 @@
 			<div class="nycontainer">
 			<div class="head">
 			<div class="clearfix">
-				<a href="index.html" class="left logo">
-					<img src="images/logo.png" />
+				<a href="/" class="left logo">
+					<img th:src="@{/ximages/logo.png}" />
 				</a>
 				<a href="/" class="left headBack">
 					<<返回首页
 				</a>
 				<div class="left headsuos">
 					<em></em>
-					<input type="button" class="headsuosBtn" value="搜索" />
-					<input type="text" class="headsuosInp" />
+					<input type="button" class="headsuosBtn" value="搜索" onClick="search();"/>
+					<input type="text" class="headsuosInp" th:text="${query}" id="keywords"/>
 				</div>
 				<div class="right">
 					<!--登录前-->
@@ -33,7 +33,7 @@
 					<div class="loginAfter">
 						<div class="loginAfterM">
 							<a href="#" class="loginAfterTx">
-								<img src="images/tx.jpeg" />
+								<img th:src="@{/ximages/tx.jpeg}" />
 							</a>
 							<div class="loginAfterNo">
 								
@@ -49,19 +49,19 @@
 									</p>
 									<p>
 										<a th:href="@{/user/list(pageIndex=0,pageSize=10)}">
-											<img th:src="@{/images/houtai.png}" />
+											<img th:src="@{/ximages/houtai.png}" />
 											进入管理后台
 										</a>
 									</p>
 									<p>
 										<a href="#">
-											<img th:src="@{/images/dingdan.png}" />
+											<img th:src="@{/ximages/dingdan.png}" />
 											我的申请
 										</a>
 									</p>
 									<p>
 										<a href="#">
-											<img th:src="@{/images/tuichu.png}" />
+											<img th:src="@{/ximages/tuichu.png}" />
 											退出
 										</a>
 									</p>
@@ -78,7 +78,7 @@
 			</div>
 			<div class="nycontainer rencaiM">
 				<div class="rencaiTl">
-					专利分析
+					重点机构
 				</div>
 				<div class="rencaiNr clearfix">
 					<div class="rencaiLf left">
@@ -88,61 +88,215 @@
 						<ul class="rencaiLfUl">
 							<li>
 								<a th:href="@{/patent/agmount}">
-									<span>专利申请量</span>
+									<span>实时价格</span>
 								</a>
 							</li>
 							<li>
 								<a th:href="@{/patent/agcountry}">
-									<span>专利申请国</span>
+									<span>原料分布</span>
 								</a>
 							</li>
 							<li>
-								<a th:href="@{/patent/agpeople}">
-									<span>发明人及专利权人</span>
+								<a th:href="@{/patent/agpeople}" >
+									<span>分析报告</span>
 								</a>
 							</li>
 							<li>
-								<a th:href="@{/patent/agclassis}">
-									<span>技术分类</span>
+								<a th:href="@{/patent/agclassis}" class="ahover">
+									<span>重点机构</span>
 								</a>
 							</li>
 							<li>
 								<a th:href="@{/patent/agtype}">
-									<span>专利类型</span>
+									<span>行业人才</span>
 								</a>
 							</li>
 						</ul>
 					</div>
 				    <div class="rencaiRt right">
-				    	    <div class="zhuanlFive clearfix">
-				    	    	<span class="left">
-				    	    		检索命中: 109090条 
-				    	    	</span>
-				    	    	<a href="#" class="right btnYellow">
-				    	    		下载数据
-				    	    	</a>
-				    	    </div>
-				    		<div class="recaiForm clearfix zhuanlOneNr">
-				    			<span class="left zhuanlOne">
-				    				技术分类
-				    			</span>
-				    			<div class="right zhuanlTwo">
-				    				<a href="javascript:shuliang()" class="ahover">
-				    					数量
-				    				</a>
-				    				<a href="javascript:showqushi();">
-				    					趋势
-				    				</a>
-				    				
-				    			</div>
+				    	<form>
+				    		<div class="recaiForm clearfix">
+				    			<select class="left">
+				    				<option>
+				    					全产业链
+				    				</option>
+				    			</select>
+				    			<select class="left">
+				    				<option>
+				    					所有产品类型
+				    				</option>
+				    			</select>
+				    			<select class="left">
+				    				<option>
+				    					所有机构类型
+				    				</option>
+				    			</select>
+				    			<input type="button" class="left shaixuanbtn" value="筛选">
 				    		</div>
-				    	<div  id="shuliang" style="width: 100%; height: 500px;">
-				    		
-				    	</div>
-						<div  id="qushi" style="width: 100%; height: 500px;">
-				    		
-				    	</div>
-				       
+				    	</form>
+				       <ul class="clearfix jigouUl">
+				       	<li class="clearfix">
+				       		<a th:href="@{/patent/agclassiscon}" class="left jigouliLf">
+				       			<img th:src="@{/ximages/gongsiLogo.png}"/>
+				       		</a>
+				       		<div class="right jigouRt">
+				       			<div class="jiansuoLiTL">
+		            				<a th:href="@{/patent/agclassiscon}">
+		            					东软医疗
+		            				</a>
+		            			</div>
+		            			<div class="jiansuoLiTag">
+		            				<span>相关成果：专家 <i class="colorBlue">300</i>人 </span>
+		            				<span>专利：<i class="colorBlue">20</i>件 </span>
+		            				<span>文献：<i class="colorBlue">900</i>条</span>
+		            			</div>
+		            			<div class="jiansuoLiText">
+		            				<span class="jiansuoLiTextSpan">
+		            				东软医疗系统有限公司（以下简称“东软医疗”）成立于1998年，总部位于沈阳，是中国大型医疗设备推动者之一。成功研制具有中国自主知识产权的CT、磁共振、数字X线机、彩超、实验室自动化、放射治疗设备以及核医学成像设备等系列产品，提供放射影像、常规检查、放疗与核医学、临床应用解决方案。
+		            				</span>
+		            				
+		            			</div>
+				       		</div>
+				       	</li>
+				       	<li class="clearfix">
+				       		<a href="#" class="left jigouliLf">
+				       			<img th:src="@{/ximages/gongsiLogo.png}"/>
+				       		</a>
+				       		<div class="right jigouRt">
+				       			<div class="jiansuoLiTL">
+		            				<a href="#">
+		            					东软医疗
+		            				</a>
+		            			</div>
+		            			<div class="jiansuoLiTag">
+		            				<span>相关成果：专家 <i class="colorBlue">300</i>人 </span>
+		            				<span>专利：<i class="colorBlue">20</i>件 </span>
+		            				<span>文献：<i class="colorBlue">900</i>条</span>
+		            			</div>
+		            			<div class="jiansuoLiText">
+		            				<span class="jiansuoLiTextSpan">
+		            				东软医疗系统有限公司（以下简称“东软医疗”）成立于1998年，总部位于沈阳，是中国大型医疗设备推动者之一。成功研制具有中国自主知识产权的CT、磁共振、数字X线机、彩超、实验室自动化、放射治疗设备以及核医学成像设备等系列产品，提供放射影像、常规检查、放疗与核医学、临床应用解决方案。
+		            				</span>
+		            				
+		            			</div>
+				       		</div>
+				       	</li>
+				       	<li class="clearfix">
+				       		<a href="#" class="left jigouliLf">
+				       			<img th:src="@{/ximages/gongsiLogo.png}"/>
+				       		</a>
+				       		<div class="right jigouRt">
+				       			<div class="jiansuoLiTL">
+		            				<a href="#">
+		            					东软医疗
+		            				</a>
+		            			</div>
+		            			<div class="jiansuoLiTag">
+		            				<span>相关成果：专家 <i class="colorBlue">300</i>人 </span>
+		            				<span>专利：<i class="colorBlue">20</i>件 </span>
+		            				<span>文献：<i class="colorBlue">900</i>条</span>
+		            			</div>
+		            			<div class="jiansuoLiText">
+		            				<span class="jiansuoLiTextSpan">
+		            				东软医疗系统有限公司（以下简称“东软医疗”）成立于1998年，总部位于沈阳，是中国大型医疗设备推动者之一。成功研制具有中国自主知识产权的CT、磁共振、数字X线机、彩超、实验室自动化、放射治疗设备以及核医学成像设备等系列产品，提供放射影像、常规检查、放疗与核医学、临床应用解决方案。
+		            				</span>
+		            				
+		            			</div>
+				       		</div>
+				       	</li>
+				       	<li class="clearfix">
+				       		<a href="#" class="left jigouliLf">
+				       			<img th:src="@{/ximages/gongsiLogo.png}"/>
+				       		</a>
+				       		<div class="right jigouRt">
+				       			<div class="jiansuoLiTL">
+		            				<a href="#">
+		            					东软医疗
+		            				</a>
+		            			</div>
+		            			<div class="jiansuoLiTag">
+		            				<span>相关成果：专家 <i class="colorBlue">300</i>人 </span>
+		            				<span>专利：<i class="colorBlue">20</i>件 </span>
+		            				<span>文献：<i class="colorBlue">900</i>条</span>
+		            			</div>
+		            			<div class="jiansuoLiText">
+		            				<span class="jiansuoLiTextSpan">
+		            				东软医疗系统有限公司（以下简称“东软医疗”）成立于1998年，总部位于沈阳，是中国大型医疗设备推动者之一。成功研制具有中国自主知识产权的CT、磁共振、数字X线机、彩超、实验室自动化、放射治疗设备以及核医学成像设备等系列产品，提供放射影像、常规检查、放疗与核医学、临床应用解决方案。
+		            				</span>
+		            				
+		            			</div>
+				       		</div>
+				       	</li>
+				       	<li class="clearfix">
+				       		<a href="#" class="left jigouliLf">
+				       			<img th:src="@{/ximages/gongsiLogo.png}"/>
+				       		</a>
+				       		<div class="right jigouRt">
+				       			<div class="jiansuoLiTL">
+		            				<a href="#">
+		            					东软医疗
+		            				</a>
+		            			</div>
+		            			<div class="jiansuoLiTag">
+		            				<span>相关成果：专家 <i class="colorBlue">300</i>人 </span>
+		            				<span>专利：<i class="colorBlue">20</i>件 </span>
+		            				<span>文献：<i class="colorBlue">900</i>条</span>
+		            			</div>
+		            			<div class="jiansuoLiText">
+		            				<span class="jiansuoLiTextSpan">
+		            				东软医疗系统有限公司（以下简称“东软医疗”）成立于1998年，总部位于沈阳，是中国大型医疗设备推动者之一。成功研制具有中国自主知识产权的CT、磁共振、数字X线机、彩超、实验室自动化、放射治疗设备以及核医学成像设备等系列产品，提供放射影像、常规检查、放疗与核医学、临床应用解决方案。
+		            				</span>
+		            				
+		            			</div>
+				       		</div>
+				       	</li>
+				       	<li class="clearfix">
+				       		<a href="#" class="left jigouliLf">
+				       			<img th:src="@{/ximages/gongsiLogo.png}"/>
+				       		</a>
+				       		<div class="right jigouRt">
+				       			<div class="jiansuoLiTL">
+		            				<a href="#">
+		            					东软医疗
+		            				</a>
+		            			</div>
+		            			<div class="jiansuoLiTag">
+		            				<span>相关成果：专家 <i class="colorBlue">300</i>人 </span>
+		            				<span>专利：<i class="colorBlue">20</i>件 </span>
+		            				<span>文献：<i class="colorBlue">900</i>条</span>
+		            			</div>
+		            			<div class="jiansuoLiText">
+		            				<span class="jiansuoLiTextSpan">
+		            				东软医疗系统有限公司（以下简称“东软医疗”）成立于1998年，总部位于沈阳，是中国大型医疗设备推动者之一。成功研制具有中国自主知识产权的CT、磁共振、数字X线机、彩超、实验室自动化、放射治疗设备以及核医学成像设备等系列产品，提供放射影像、常规检查、放疗与核医学、临床应用解决方案。
+		            				</span>
+		            				
+		            			</div>
+				       		</div>
+				       	</li>
+				       	<li class="clearfix">
+				       		<a href="#" class="left jigouliLf">
+				       			<img th:src="@{/ximages/gongsiLogo.png}"/>
+				       		</a>
+				       		<div class="right jigouRt">
+				       			<div class="jiansuoLiTL">
+		            				<a href="#">
+		            					东软医疗
+		            				</a>
+		            			</div>
+		            			<div class="jiansuoLiTag">
+		            				<span>相关成果：专家 <i class="colorBlue">300</i>人 </span>
+		            				<span>专利：<i class="colorBlue">20</i>件 </span>
+		            				<span>文献：<i class="colorBlue">900</i>条</span>
+		            			</div>
+		            			<div class="jiansuoLiText">
+		            				<span class="jiansuoLiTextSpan">
+		            				东软医疗系统有限公司（以下简称“东软医疗”）成立于1998年，总部位于沈阳，是中国大型医疗设备推动者之一。成功研制具有中国自主知识产权的CT、磁共振、数字X线机、彩超、实验室自动化、放射治疗设备以及核医学成像设备等系列产品，提供放射影像、常规检查、放疗与核医学、临床应用解决方案。
+		            				</span>
+		            				
+		            			</div>
+				       		</div>
+				       	</li>
+				       </ul>
 				    </div>
 				</div>
 			</div>
@@ -151,50 +305,44 @@
 	    	<div class="footerTop">
 	    		<div class="index-container clearfix">
 	    			<div class="left footerTopLf">
+	    				<img th:src="@{/ximages/wb.png}" class="xitufooterIMg" />
+	    			</div>
+	    			<div class="left footerTopMiddle">
+	    				<div class="footerTopMiddleTop">
 	    				<p class="footerTopTl">
-	    					<img src="images/pingtai.png" />
+	    					<img th:src="@{/ximages/pingtai.png}" />
 	    					平台介绍
 	    				</p>
 	    				<div class="footerTopText">
 	    					平台围绕生物医药领域进行信息监测与情报服务，结合文献情报中心的文献服务、情报咨询服务等，为领域研究相关科研机构、政府部门、企业等提供产业技术情报服务和科技咨询服务。
 	    				</div>
-	    			</div>
-	    			<div class="left footerTopMiddle">
-	    				<div class="footerTopMiddleTop">
-	    				<p class="footerTopTl">	    				
-	    					交流合作
-	    				</p>
-	    				<div class="footerTopText">
-	    					<span>平台围绕生物医药领域进行信息监测与情报服务，结合文献情报中心的文献服务、情报咨询服务等，为领域研究相关科研机构、政府部门、企业等提供产业技术情报服务和科技咨询服务。</span><a href="#">更多>></a>
-	    				</div>
 	    				</div>
 	    				<p class="footerTopTl">	    				
-	    					关于我们
-	    				</p>
-	    				<div class="footerTopText">
-	    					<span>平台围绕生物医药领域进行信息监测与情报服务，结合文献情报中心的文献服务、情报咨询服务等，为领域研究相关科研机构、政府部门、企业等提供产业技术情报服务和科技咨询服务。</span><a href="#">更多>></a>
-	    				</div>
-	    			</div>
-	    		    <div class="left footerTopLX">
-	    		    	<div class="footerTopLXT">
-	    		    	<p class="footerTopTl">	    				
-	    					<img src="images/lianxifangshi.png" />联系方式
+	    					<img th:src="@{/ximages/lianxifangshi.png}" />联系方式
 	    				</p>
 	    				<div class="footerTopText">
 	    					<p>电话：010-82626611-6302</p>
                              <p>邮箱：chinakx@mail.las.ac.cn</p>
 	    				</div>
-	    		    	</div>
-	    		        <div class="footerTopText footerTopLXB">
+	    			</div>
+	    		    <div class="left footerTopLX">
+	    		    	
+	    		        <div class="footerTopText">
 	    		        	<p class="footerTopTl">	    				
-	    				 	<img src="images/jigou.png" />合作机构
+	    				 	<img th:src="@{/ximages/jigou.png}" />合作机构
 	    				    </p>
 	    		        	<ul>
 	    		        		<li>
-	    		        			<a href="#">•&nbsp;沈阳浑南高新技术开发区</a>
+	    		        			<a href="#">•&nbsp;中国科学院分院</a>
 	    		        		</li>
 	    		        		<li>
-	    		        			<a href="#">•&nbsp;中国科学院沈阳分院</a>
+	    		        			<a href="#">•&nbsp;中国科学院文献情</a>
+	    		        		</li>
+	    		        		<li>
+	    		        			<a href="#">•&nbsp;中国科学院分院</a>
+	    		        		</li>
+	    		        		<li>
+	    		        			<a href="#">•&nbsp;国家科学图书文献中心</a>
 	    		        		</li>
 	    		        		<li>
 	    		        			<a href="#">•&nbsp;中国科学院文献情报中心</a>
@@ -206,7 +354,7 @@
 	    		        </div>
 	    		    </div>
 	    		    <div class="right footerTopErw">
-	    		    	<img src="images/erw.png" />
+	    		    	<img th:src="@{/ximages/erw.png}" />
 	    		    	<p>
 	    		    		<em></em>扫码快速关注公众号
 	    		    	</p>
@@ -374,7 +522,29 @@
 
 				myChart.setOption(option);
 			}
-			
+			function search(){
+		    	var uri = '';
+		    	/* var entrust = ''
+		    	$.each($('input:checkbox:checked'),function(){
+		    		if($(this).attr("name") == "entrust") {
+		    			if(entrust == '') 
+		    			{
+		    				entrust = $(this).val()
+		    			}
+		    			else
+		    			{
+		    				entrust = entrust + '-' + $(this).val()
+		    			}
+		    		}
+		        });
+		    	if(entrust != '') {
+		    		uri = uri + 'entrust=' + entrust + ''
+		    	} */
+				/* window.location.href="http://47.104.7.73/project/list?q=" + $("#keywords").val() + "&" + uri; */
+				if($("#keywords").val() != "") {
+			    	window.location.href="/patent/list?q=" + $("#keywords").val() + "&" + uri;
+				}
+			}
 		</script>
 	</body>
 </html>

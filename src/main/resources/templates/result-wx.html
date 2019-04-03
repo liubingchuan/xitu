@@ -98,22 +98,24 @@
 		        	<div class="left jiansuoLf">
 		        		<div class="jiansuoTl">
 		        			<img th:src="@{/ximages/1.png}" />
-		        			<a href="#">首页</a>><span>论文</span>
+		        			<a href="/">首页</a>><span>论文</span>
 		        		</div>
-		        		<div class="jiansuoZX">
-		        			<img th:src="@{/ximages/2.png}" style="width: 100%;vertical-align: middle;" />
-		        		</div>
-		        		<div class="jiansuoLfGp">
+		        		
+		        		<div class="jiansuoLfGp" th:if=" ${not #maps.isEmpty(aginstitution)}">
 		        			<h3 class="jiansuoLfGpTl">
 		        				研究机构
 		        			</h3>
-		        			<div class="jiansuoLfGpList">
+		        			<div class="jiansuoLfGpList" th:if=" ${#maps.size(aginstitution) > 5}">
 		        				<div class="jiansuoLfGx" th:each="institution : ${aginstitution}">
 		        					<input type="checkbox" th:id="'institution'+${institution.key}" th:name="institution" th:value="${institution.key}" />
 		        					<label th:for="'institution'+${institution.key}" th:text="${institution.key} + '(' + ${institution.value} + ')'"></label>
 		        				</div>
 		        			</div>
-		        		    <a href="javascript:;" class="jiansuoLfMore">
+		        			<div class="jiansuoLfGx" th:each="institution : ${aginstitution}" th:if=" ${#maps.size(aginstitution) <= 5}">
+		        					<input type="checkbox" th:id="'institution'+${institution.key}" th:name="institution" th:value="${institution.key}" />
+		        					<label th:for="'institution'+${institution.key}" th:text="${institution.key} + '(' + ${institution.value} + ')'"></label>
+		        			</div>
+		        		    <a href="javascript:;" class="jiansuoLfMore" th:if=" ${#maps.size(aginstitution) > 5}">
 		        		    	展开更多
 		        		    </a>
 		        		</div>
@@ -121,29 +123,35 @@
 		        			<h3 class="jiansuoLfGpTl">
 		        				发表时间
 		        			</h3>
-		        			
+		        			<div class="jiansuoLfGpList" th:if=" ${#maps.size(agyear) > 5}">
 		        				<div class="jiansuoLfGx" th:each="year : ${agyear}">
 		        					<input type="checkbox" th:id="'year'+${year.key}" th:name="year" th:value="${year.key}" />
 		        					<label th:for="'year'+${year.key}" th:text="${year.key} + '(' + ${year.value} + ')'"></label>
 		        				</div>
-		        				<!-- <div class="clearfix jiansuanDate">
-		        					<input type="text" class="left" id="dateinfo" />
-		        					<span class="left jiesunH">-</span>
-		        					<input type="text" class="left" id="dateinfo1" />
-		        				</div>
-		        				<input type="button" value="确认" class="jiansuanDateSub" /> -->
+		        			</div>	
+		        			<div class="jiansuoLfGx" th:each="year : ${agyear}" th:if=" ${#maps.size(agyear) <= 5}">
+		        					<input type="checkbox" th:id="'year'+${year.key}" th:name="year" th:value="${year.key}" />
+		        					<label th:for="'year'+${year.key}" th:text="${year.key} + '(' + ${year.value} + ')'"></label>
+		        			</div>
+		        			 <a href="javascript:;" class="jiansuoLfMore" th:if=" ${#maps.size(agyear) > 5}">
+		        		    	展开更多
+		        		    </a>
 		        		</div>
 		        	    <div class="jiansuoLfGp">
 		        			<h3 class="jiansuoLfGpTl">
 		        				文献出处
 		        			</h3>
-		        			<div class="jiansuoLfGpList">
+		        			<div class="jiansuoLfGpList" th:if=" ${#maps.size(agjournal) > 5}">
 		        				<div class="jiansuoLfGx" th:each="journal : ${agjournal}">
 		        					<input type="checkbox" th:id="'journal'+${journal.key}" th:name="journal" th:value="${journal.key}" />
 		        					<label th:for="'journal'+${journal.key}" th:text="${journal.key} + '(' + ${journal.value} + ')'"></label>
 		        				</div>
 		        			</div>
-		        		    <a href="javascript:;" class="jiansuoLfMore">
+		        			<div class="jiansuoLfGx" th:each="journal : ${agjournal}" th:if=" ${#maps.size(agjournal) <= 5}">
+		        					<input type="checkbox" th:id="'journal'+${journal.key}" th:name="journal" th:value="${journal.key}" />
+		        					<label th:for="'journal'+${journal.key}" th:text="${journal.key} + '(' + ${journal.value} + ')'"></label>
+		        				</div>
+		        		    <a href="javascript:;" class="jiansuoLfMore" th:if=" ${#maps.size(agjournal) > 5}">
 		        		    	展开更多
 		        		    </a>
 		        		</div>
@@ -152,13 +160,17 @@
 		        			<h3 class="jiansuoLfGpTl">
 		        				作者
 		        			</h3>
-		        			<div class="jiansuoLfGpList">
-		        				<div class="jiansuoLfGx" th:each="author : ${agauthor}">
+		        			<div class="jiansuoLfGpList" th:if=" ${#maps.size(agauthor) > 5}">
+		        				<div class="jiansuoLfGx" th:each="author : ${agauthor}" >
 		        					<input type="checkbox" th:id="'author'+${author.key}" th:name="author" th:value="${author.key}" />
 		        					<label th:for="'author'+${author.key}" th:text="${author.key} + '(' + ${author.value} + ')'"></label>
 		        				</div>
 		        			</div>
-		        		    <a href="javascript:;" class="jiansuoLfMore">
+		        			<div class="jiansuoLfGx" th:each="author : ${agauthor}" th:if=" ${#maps.size(agauthor) <= 5}">
+		        					<input type="checkbox" th:id="'author'+${author.key}" th:name="author" th:value="${author.key}" />
+		        					<label th:for="'author'+${author.key}" th:text="${author.key} + '(' + ${author.value} + ')'"></label>
+		        				</div>
+		        		    <a href="javascript:;" class="jiansuoLfMore" th:if=" ${#maps.size(agauthor) > 5}">
 		        		    	展开更多
 		        		    </a>
 		        		</div>

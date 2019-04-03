@@ -14,7 +14,7 @@
 			<div class="nycontainer">
 			<div class="head">
 			<div class="clearfix">
-				<a href="index.html" class="left logo">
+				<a href="/" class="left logo">
 					<img th:src="@{/ximages/logo.png}" />
 				</a>
 				<a href="/" class="left headBack">
@@ -98,52 +98,62 @@
 		        	<div class="left jiansuoLf">
 		        		<div class="jiansuoTl">
 		        			<img th:src="@{/ximages/1.png}" />
-		        			<a href="#">首页</a>><span>项目</span>
+		        			<a href="/">首页</a>><span>项目</span>
 		        		</div>
-		        		<div class="jiansuoZX">
-		        			<img th:src="@{/ximages/2.png}" style="width: 100%;vertical-align: middle;" />
-		        		</div>
-		        		<div class="jiansuoLfGp">
+		        	
+		        		<div class="jiansuoLfGp" th:if=" ${not #maps.isEmpty(agentrust)}">
 		        			<h3 class="jiansuoLfGpTl">
 		        				委托单位
 		        			</h3>
-		        			<div class="jiansuoLfGpList" th:each="entrust : ${agentrust}">
-		        				<div class="jiansuoLfGx">
+		        			<div class="jiansuoLfGpList" th:if=" ${#maps.size(agentrust) > 5}">
+		        				<div class="jiansuoLfGx"  th:each="entrust : ${agentrust}" >
 		        					<input type="checkbox" th:id="'en'+${entrust.key}" onclick="checkboxOnclick(this)" th:name="entrust" th:value="${entrust.key}"/>
 		        					<label th:for="'en'+${entrust.key}" th:text="${entrust.key} + '(' + ${entrust.value} + ')'"></label>
 		        				</div>
 		        			</div>
-		        		    <a href="javascript:;" class="jiansuoLfMore">
+		        			<div class="jiansuoLfGx"  th:each="entrust : ${agentrust}" th:if=" ${#maps.size(agentrust) <= 5}">
+		        					<input type="checkbox" th:id="'en'+${entrust.key}" onclick="checkboxOnclick(this)" th:name="entrust" th:value="${entrust.key}"/>
+		        					<label th:for="'en'+${entrust.key}" th:text="${entrust.key} + '(' + ${entrust.value} + ')'"></label>
+		        			</div>
+		        		    <a href="javascript:;" class="jiansuoLfMore" th:if=" ${#maps.size(agentrust) > 5}">
 		        		    	展开更多
 		        		    </a>
 		        		</div>
 		        		
-		        	    <div class="jiansuoLfGp">
+		        	    <div class="jiansuoLfGp" th:if=" ${not #maps.isEmpty(agclassis)}">
 		        			<h3 class="jiansuoLfGpTl">
 		        				项目分类
 		        			</h3>
-		        			<div class="jiansuoLfGpList" th:each="cls : ${agclassis}">
-		        				<div class="jiansuoLfGx">
+		        			<div class="jiansuoLfGpList" th:if=" ${#maps.size(agclassis) > 5}">
+		        				<div class="jiansuoLfGx" th:each="cls : ${agclassis}">
 		        					<input type="checkbox" th:id="'cl'+${cls.key}" onclick="checkboxOnclick(this)" th:name="cls" th:value="${cls.key}"/>
 		        					<label th:for="'cl'+${cls.key}" th:text="${cls.key} + '(' + ${cls.value} + ')'"></label>
 		        				</div>
 		        			</div>
-		        		    <a href="javascript:;" class="jiansuoLfMore">
+		        			<div class="jiansuoLfGx" th:each="cls : ${agclassis}" th:if=" ${#maps.size(agclassis) <= 5}">
+		        					<input type="checkbox" th:id="'cl'+${cls.key}" onclick="checkboxOnclick(this)" th:name="cls" th:value="${cls.key}"/>
+		        					<label th:for="'cl'+${cls.key}" th:text="${cls.key} + '(' + ${cls.value} + ')'"></label>
+		        				</div>
+		        		    <a href="javascript:;" class="jiansuoLfMore" th:if=" ${#maps.size(agclassis) > 5}">
 		        		    	展开更多
 		        		    </a>
 		        		</div>
 		        	   
-		        	    <div class="jiansuoLfGp">
+		        	    <div class="jiansuoLfGp" th:if=" ${not #maps.isEmpty(agbudget)}">
 		        			<h3 class="jiansuoLfGpTl">
 		        				项目预算
 		        			</h3>
-		        			<div class="jiansuoLfGpList" th:each="budget : ${agbudget}">
-		        				<div class="jiansuoLfGx">
+		        			<div class="jiansuoLfGpList" th:if=" ${#maps.size(agbudget) > 5}">
+		        				<div class="jiansuoLfGx" th:each="budget : ${agbudget}">
 		        					<input type="checkbox" th:id="'bu'+${budget.key}" onclick="checkboxOnclick(this)" th:name="budget" th:value="${budget.key}"/>
 		        					<label th:for="'bu'+${budget.key}" th:text="${budget.key} + '(' + ${budget.value} + ')'"></label>
 		        				</div>
 		        			</div>
-		        		    <a href="javascript:;" class="jiansuoLfMore">
+		        			<div class="jiansuoLfGx" th:each="budget : ${agbudget}" th:if=" ${#maps.size(agbudget) <= 5}">
+		        					<input type="checkbox" th:id="'bu'+${budget.key}" onclick="checkboxOnclick(this)" th:name="budget" th:value="${budget.key}"/>
+		        					<label th:for="'bu'+${budget.key}" th:text="${budget.key} + '(' + ${budget.value} + ')'"></label>
+		        				</div>
+		        		    <a href="javascript:;" class="jiansuoLfMore" th:if=" ${#maps.size(agbudget) > 5}">
 		        		    	展开更多
 		        		    </a>
 		        		</div>
