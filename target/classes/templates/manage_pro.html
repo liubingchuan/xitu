@@ -47,7 +47,7 @@
 						行业人才
 					</a>
 				</div>
-				<a th:each="cookie :${#httpServletRequest.getCookies()}" th:if="${cookie.getName().equals('token')}"  th:href="@{/user/list(token=${cookie.getValue()},pageIndex=0,pageSize=10)}" class="manageMenuF">		
+				<a th:href="@{/user/list(token=${cookie.getValue()},pageIndex=0,pageSize=10)}" class="manageMenuF">		
 						用户管理
 				</a>
 				<a th:href="@{/item/config}" class="manageMenuF">		

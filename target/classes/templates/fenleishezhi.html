@@ -47,7 +47,7 @@
 						行业人才
 					</a>
 				</div>
-				<a href="#" class="manageMenuF">		
+				<a th:href="@{/user/list(pageIndex=0,pageSize=10)}" class="manageMenuF">		
 						用户管理
 				</a>
 				<a th:href="@{/item/config}" class="manageMenuF">		
@@ -58,7 +58,7 @@
 		<div class="managHead clearfix">
 			<div class="right manageTx">
 				<div class="clearfix">
-				<img src="images/tx.jpeg" class="manageTxImg left" />
+				<img th:src="@{/images/tx.jpeg}" class="manageTxImg left" />
 				<span class="left manageTxName">张伟</span>
 				<em class="manageTxIco left"></em>
 				</div>
@@ -76,7 +76,7 @@
 									</p>
 									<p>
 										<a href="#">
-											<img src="images/tuichu.png" />
+											<img th:src="@{/images/tuichu.png}" />
 											退出
 										</a>
 									</p>
