@@ -91,7 +91,7 @@
 					<div class="clearfix">
 						<span class="left usermanageOneTl" th:text="'行业人才' + '(' + ${totalCount} + ')'">
 						</span>
-						<a th:href="@{/expert/get}" class="left manageproAddA">
+						<a th:href="@{/expert/get(disable='0')}" class="left manageproAddA">
 							新增人才
 						</a>
 						<div class="right usermanageOneSS">
@@ -126,8 +126,8 @@
 		    			
 		    		</tr>
 		    		<tr th:each="expert : ${expertList}">
-		    			<td th:text="${expert.name}">
-		    				<a href="#" class="colorBlue">
+		    			<td>
+		    				<a th:href="@{/expert/get(id=${expert.id})}" th:text="${expert.name}" class="colorBlue">
 		    				</a>
 		    			</td>
 		    			<td th:text="${expert.unit}">
@@ -140,10 +140,10 @@
 		    			<td th:text="${expert.ctime}">
 		    			</td>
 		    			<td>
-		    				<a th:href="@{/expert/get(id=${expert.id})}" class="manageProBj">
+		    				<a th:href="@{/expert/get(id=${expert.id},disable='0')}" class="manageProBj">
 		    					编辑
 		    				</a>
-		    				<a th:href="@{/expert/delete(id=${expert.id})}" class="manageProsc">
+		    				<a th:href="@{/expert/delete(id=${expert.id})}" onclick="if(confirm('确定删除?')==false)return false;" class="manageProsc">
 		    					删除
 		    				</a>
 		    			</td>

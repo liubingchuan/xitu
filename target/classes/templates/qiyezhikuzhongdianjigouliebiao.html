@@ -91,7 +91,7 @@
 					<div class="clearfix">
 						<span class="left usermanageOneTl" th:text="重点机构 + '(' + ${totalCount} + ')'">
 						</span>
-						<a th:href="@{/org/get}" class="left manageproAddA">
+						<a th:href="@{/org/get(disable='0')}" class="left manageproAddA">
 							新增机构
 						</a>
 						<div class="right usermanageOneSS">
@@ -125,7 +125,7 @@
 		    		</tr>
 		    		<tr th:each="org : ${orgList}">
 		    			<td>
-		    				<a href="#" class="colorBlue" th:text="${org.name}">
+		    				<a th:href="@{/org/get(id=${org.id})}" class="colorBlue" th:text="${org.name}">
 		    				</a>
 		    			</td>
 		    			<td th:text="${org.area}">
@@ -137,10 +137,10 @@
 		    			<td th:text="${org.ctime}">
 		    			</td>
 		    			<td>
-		    				<a th:href="@{/org/get(id=${org.id})}" class="manageProBj">
+		    				<a th:href="@{/org/get(id=${org.id},disable='0')}" class="manageProBj">
 		    					编辑
 		    				</a>
-		    				<a th:href="@{/org/delete(id=${org.id})}" class="manageProsc">
+		    				<a th:href="@{/org/delete(id=${org.id})}" onclick="if(confirm('确定删除?')==false)return false;" class="manageProsc">
 		    					删除
 		    				</a>
 		    			</td>

@@ -120,11 +120,10 @@
 			    				研究领域：
 			    			</span>
 			    			<div class="M_messGpRt">
-			    				<select th:field="*{area}" th:value="*{area}" name="area">
-			    					<option value="">请选择研究领域</option>
-			    					<option th:selected="*{type=='生物质转化'}" value="生物质转化">生物质转化</option>
-			    					<option th:selected="*{type=='森林土壤发生特性、系统分类、森林土壤碳、氮循环、农林废弃物资源转化利用的研究'}" value="森林土壤发生特性、系统分类、森林土壤碳、氮循环、农林废弃物资源转化利用的研究">森林土壤发生特性、系统分类、森林土壤碳、氮循环、农林废弃物资源转化利用的研究</option>
-			    				</select>
+			    				<select th:field="*{area}"  th:value="*{area}" name="area">
+                            		<option value="">请选择研究领域</option>
+                            		<option th:each="item : ${yjlyitems}" th:value="${item}" th:text="${item}"></option>
+                        		</select>
 			    			</div>
 			    		</div>
 			    		<div class="M_messGp clearfix">
@@ -191,12 +190,10 @@
 			    				职务：
 			    			</span>
 			    			<div class="M_messGpRt">
-			    				<select th:field="*{duty}" th:value="*{duty}" name="duty">
-			    					<option value="">请选择职务</option>
-			    					<option th:selected="*{type=='团队负责人'}" value="团队负责人">团队负责人</option>
-			    					<option th:selected="*{type=='主任'}" value="主任">主任</option>
-			    					<option th:selected="*{type=='无'}" value="无">无</option>
-			    				</select>
+			    				<select th:field="*{duty}"  th:value="*{duty}" name="duty">
+                            		<option value="">请选择职务</option>
+                            		<option th:each="item : ${zwitems}" th:value="${item}" th:text="${item}"></option>
+                        		</select>
 			    			</div>
 			    		</div>
 			    		<div class="M_messGp clearfix">
@@ -204,14 +201,10 @@
 			    				职称：
 			    			</span>
 			    			<div class="M_messGpRt">
-			    				<select th:field="*{title}" th:value="*{title}" name="title">
-			    					<option value="">请选择职称</option>
-			    					<option th:selected="*{type=='研究员'}" value="研究员">研究员</option>
-			    					<option th:selected="*{type=='项目研究员'}" value="项目研究员">项目研究员</option>
-			    					<option th:selected="*{type=='副研究员'}" value="副研究员">副研究员</option>
-			    					<option th:selected="*{type=='教授'}" value="教授">教授</option>
-			    					<option th:selected="*{type=='教授（博导）'}" value="教授（博导）">教授（博导）</option>
-			    				</select>
+			    				<select th:field="*{title}"  th:value="*{title}" name="title">
+                            		<option value="">请选择职称</option>
+                            		<option th:each="item : ${zcitems}" th:value="${item}" th:text="${item}"></option>
+                        		</select>
 			    			</div>
 			    		</div>
 			    		
@@ -219,15 +212,24 @@
 			    			<span class="left M_messGpName">
 			    				照片：
 			    			</span>
-			    			<div class="M_messGpRt">
+			    			<div id="frontendShow" class="M_messGpRt">
 			    				<div class="clearfix M_messGpImg">
 			    					<div class="left M_messGpImgGp">
-			    						<img th:src="@{/images/per.png}" />
-			    						<p>
-			    							LOGO.jpg&nbsp;1000kb&nbsp;<a href="#" class="colorRed">删除</a>
+			    						<img id="frontendImg" th:src="@{/images/slider.png}" />
+			    						<p id="frontendPid">
+			    							LOGO.jpg&nbsp;1000kb&nbsp;<a id="frontendDel" href="javascript:delFrontend()" class="colorRed">删除</a>
 			    						</p>
 			    					</div>
 			    				</div>
+			    			</div>
+			    			<div id="frontendUpload" class="M_messGpRt">
+			    				<a href="javascript:;" class="colorBlue shangchuanjb">
+			    					点击上传报告封面
+			    					<input id="frontendFile" type="file" name="frontendFile"/>
+			    					<input id="frontendFileHidden" type="hidden" th:field="*{frontend}"/>
+			    					<input id="frontendFileNameHidden" type="hidden" th:field="*{frontendFileName}"/>
+			    					<input id="frontendSizeHidden" type="hidden" th:field="*{frontendSize}"/>
+			    				</a>
 			    			</div>
 			    		</div>
 			    		<div class="M_messGp clearfix">
@@ -257,8 +259,8 @@
 			    		<div class="clearfix bianjinrbtn">
 			    		<input type="hidden" th:field="*{id}" />
 			    		<input name="info" type="hidden" id="info">
-			    		<input type="button" value="提交" class="M_messSub left" onClick="uptext();"/>
-			    		<a href="#" class="colorRed left shanchubtn">删除</a>
+			    		<input style="display:inline;" th:if="${disable.equals('0')}" type="button" value="保存修改" class="M_messSub" onClick="uptext();"/>
+			    		<input style="display:inline;" type="button" value="返回" class="M_messSub" onClick="javascript:history.back(-1);"/>
 			    		</div>
 			    		</form>
 			    	</div>
@@ -266,7 +268,7 @@
 			</div>
 		</div>
 		<script type="text/javascript" th:src="@{/js/main.js}" ></script>
-		<script type="text/javascript">
+		<script type="text/javascript" th:inline="javascript">
     
 			//这段要放在文本编辑器的实例化之后
 			function uptext() {
@@ -277,6 +279,54 @@
 					$("form[name='saveForm']").submit();
 				}
 			}
+			
+			function delFrontend() {
+				$("#frontendShow").hide();
+				$("#frontendUpload").show();
+			}
+			
+			var frontendId =  [[${frontendId}]];
+			var frontendFileName =  [[${frontendFileName}]];
+			var frontendSize =  [[${frontendSize}]];
+			
+			$(document).ready(function () {
+				
+				if(frontendId == null){
+					$("#frontendShow").hide();
+					$("#frontendUpload").show();
+				}else {
+					$("#frontendImg").attr('src','/file/fileDownload?filename='+frontendId);
+					$('#frontendPid').replaceWith('<p id="frontendPid">' + frontendFileName + '&nbsp;' + frontendSize + 'kb&nbsp;<a href="javascript:delFrontend()" class="colorRed">删除</a></p>');
+					$("#frontendShow").show();
+					$("#frontendUpload").hide();
+				}
+			});
+			
+			$("#frontendFile").live('change',function() {
+				var formData = new FormData();
+				formData.append('file', $('#frontendFile')[0].files[0]);
+// 				$('#inputFileID').replaceWith('<input id="file" type="file" name="file"  />');
+				$.ajax({
+					url : '/file/fileUpload/'+frontendId,
+					type : 'POST',
+					cache : false,
+					data : formData,
+					processData : false,
+					contentType : false
+				}).done(function(res) {
+					$("#frontendImg").attr('src',res.img);
+					$('#frontendPid').replaceWith('<p id="frontendPid">' + res.filename + '&nbsp;' + res.size + 'kb&nbsp;<a id="frontendDel" href="javascript:delFrontend()" class="colorRed">删除</a></p>');
+					$("#frontendShow").show();
+					$("#frontendUpload").hide();
+					$("#frontendFileHidden").val(res.uuid + '_' + res.filename)
+					$("#frontendFileNameHidden").val(res.filename)
+					$("#frontendSizeHidden").val(res.size)
+					frontendId = res.uuid + '_' + res.filename;
+				}).fail(function(res) {
+					alert("文件上传失败，请重试")
+				});
+				
+			});
 		</script>
 	</body>
 </html>

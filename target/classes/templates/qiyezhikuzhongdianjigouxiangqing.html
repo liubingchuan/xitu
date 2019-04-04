@@ -120,13 +120,10 @@
 			    				研究领域：
 			    			</span>
 			    			<div class="M_messGpRt">
-			    				<select th:field="*{area}" th:value="*{area}" name="area">
-			    					<option value="">请选择项目分类</option>
-			    					<option th:selected="*{area=='疫苗'}" value="疫苗">疫苗</option>
-			    					<option th:selected="*{area=='医疗器械'}" value="医疗器械">医疗器械</option>
-			    					<option th:selected="*{area=='制药'}" value="制药">制药</option>
-			    					<option th:selected="*{area=='医疗保健'}" value="医疗保健">医疗保健</option>
-			    				</select>
+			    				<select th:field="*{area}"  th:value="*{area}" name="area">
+                            		<option value="">请选择研究领域</option>
+                            		<option th:each="item : ${yjlyitems}" th:value="${item}" th:text="${item}"></option>
+                        		</select>
 			    			</div>
 			    		</div>
 			    		<div class="M_messGp clearfix">
@@ -160,35 +157,32 @@
 			    				机构类型：
 			    			</span>
 			    			<div class="M_messGpRt">
-			    				<select th:field="*{type}" th:value="*{type}" name="type">
-			    					<option value="">请选择机构类型</option>
-			    					<option th:selected="*{type=='企业'}" value="企业">企业</option>
-			    				</select>
+			    				<select th:field="*{type}"  th:value="*{type}" name="type">
+                            		<option value="">请选择机构类型</option>
+                            		<option th:each="item : ${jglxitems}" th:value="${item}" th:text="${item}"></option>
+                        		</select>
 			    			</div>
 			    		</div>
 			    		<div class="M_messGp clearfix">
 			    			<span class="left M_messGpName">
 			    				国家：
 			    			</span>
-			    			<div class="M_messGpRt" th:field="*{country}">
-			    				<select th:field="*{country}" th:value="*{country}" name="country">
-			    					<option value="">请选择国家</option>
-			    					<option th:selected="*{country=='中国'}" value="中国">中国</option>
-			    					<option th:selected="*{country=='美国'}" value="美国">美国</option>
-			    				</select>
+			    			<div class="M_messGpRt">
+			    				<select th:field="*{country}"  th:value="*{country}" name="country">
+                            		<option value="">请选择国家</option>
+                            		<option th:each="item : ${gjitems}" th:value="${item}" th:text="${item}"></option>
+                        		</select>
 			    			</div>
 			    		</div>
 			    		<div class="M_messGp clearfix">
 			    			<span class="left M_messGpName">
 			    				产业链：
 			    			</span>
-			    			<div class="M_messGpRt" th:field="*{link}">
-			    				<select th:field="*{link}" th:value="*{link}" name="link">
-			    					<option value="">请选择产业链</option>
-			    					<option th:selected="*{link=='上游'}" value="上游">上游</option>
-			    					<option th:selected="*{link=='中游'}" value="中游">中游</option>
-			    					<option th:selected="*{link=='下游'}" value="下游">下游</option>
-			    				</select>
+			    			<div class="M_messGpRt">
+			    				<select th:field="*{link}"  th:value="*{link}" name="link">
+                            		<option value="">请选择产业链</option>
+                            		<option th:each="item : ${cylitems}" th:value="${item}" th:text="${item}"></option>
+                        		</select>
 			    			</div>
 			    		</div>
 			    		<div class="M_messGp clearfix">
@@ -197,13 +191,10 @@
 			    			</span>
 			    			<div class="M_messGpRt">
 			    				<div class="clearfix" >
-			    				<select th:field="*{classic}" th:value="*{classic}" name="classic">
-			    					<option value="">请选择产品类型</option>
-			    					<option th:selected="*{classic=='疫苗'}" value="疫苗">疫苗</option>
-			    					<option th:selected="*{classic=='眼科'}" value="眼科">眼科</option>
-			    					<option th:selected="*{classic=='保健'}" value="保健">保健</option>
-			    					<option th:selected="*{classic=='中成药;化学药;生物制品'}" value="中成药;化学药;生物制品">中成药;化学药;生物制品</option>
-			    				</select>
+			    				<select th:field="*{classic}"  th:value="*{classic}" name="classic">
+                            		<option value="">请选择产品类型</option>
+                            		<option th:each="item : ${cplxitems}" th:value="${item}" th:text="${item}"></option>
+                        		</select>
 			    				<!-- <a href="#" class="left colorBlue zengjialx">+增加产品类型</a> -->
 			    				</div>
 			    			</div>
@@ -213,15 +204,24 @@
 			    			<span class="left M_messGpName">
 			    				机构LOGO：
 			    			</span>
-			    			<div class="M_messGpRt">
-			    				<div class="clearfix M_messGpImg M_messGpImgjg">
+			    			<div id="frontendShow" class="M_messGpRt">
+			    				<div class="clearfix M_messGpImg">
 			    					<div class="left M_messGpImgGp">
-			    						<img th:src="@{/images/bjlogp_03.png}" />
-			    						<p>
-			    							LOGO.jpg&nbsp;1000kb&nbsp;<a href="#" class="colorRed">删除</a>
+			    						<img id="frontendImg" th:src="@{/images/slider.png}" />
+			    						<p id="frontendPid">
+			    							LOGO.jpg&nbsp;1000kb&nbsp;<a id="frontendDel" href="javascript:delFrontend()" class="colorRed">删除</a>
 			    						</p>
 			    					</div>
 			    				</div>
+			    			</div>
+			    			<div id="frontendUpload" class="M_messGpRt">
+			    				<a href="javascript:;" class="colorBlue shangchuanjb">
+			    					点击上传LOGO
+			    					<input id="frontendFile" type="file" name="frontendFile"/>
+			    					<input id="frontendFileHidden" type="hidden" th:field="*{frontend}"/>
+			    					<input id="frontendFileNameHidden" type="hidden" th:field="*{frontendFileName}"/>
+			    					<input id="frontendSizeHidden" type="hidden" th:field="*{frontendSize}"/>
+			    				</a>
 			    			</div>
 			    		</div>
 			    		<div class="M_messGp clearfix">
@@ -252,8 +252,8 @@
 			    		<input type="hidden" th:field="*{id}" />
 			    		<input name="info" type="hidden" id="info">
 			    		<input type="hidden" th:field="*{ctime}" th:value="${new java.util.Date()}">
-			    		<input type="button" value="提交" class="M_messSub left" onClick="uptext();"/>
-			    		<a th:href="@{/org/list}" class="colorRed left shanchubtn">取消</a>
+			    		<input style="display:inline;" th:if="${disable.equals('0')}" type="button" value="保存修改" class="M_messSub" onClick="uptext();"/>
+			    		<input style="display:inline;" type="button" value="返回" class="M_messSub" onClick="javascript:history.back(-1);"/>
 			    		</div>
 			    		</form>
 			    	</div>
@@ -261,7 +261,7 @@
 			</div>
 		</div>
 		<script type="text/javascript" th:src="@{/js/main.js}" ></script>
-		<script type="text/javascript">
+		<script type="text/javascript" th:inline="javascript">
     
 			//这段要放在文本编辑器的实例化之后
 			function uptext() {
@@ -272,6 +272,54 @@
 					$("form[name='saveForm']").submit();
 				}
 			}
+			
+			function delFrontend() {
+				$("#frontendShow").hide();
+				$("#frontendUpload").show();
+			}
+			
+			var frontendId =  [[${frontendId}]];
+			var frontendFileName =  [[${frontendFileName}]];
+			var frontendSize =  [[${frontendSize}]];
+			
+			$(document).ready(function () {
+				
+				if(frontendId == null){
+					$("#frontendShow").hide();
+					$("#frontendUpload").show();
+				}else {
+					$("#frontendImg").attr('src','/file/fileDownload?filename='+frontendId);
+					$('#frontendPid').replaceWith('<p id="frontendPid">' + frontendFileName + '&nbsp;' + frontendSize + 'kb&nbsp;<a href="javascript:delFrontend()" class="colorRed">删除</a></p>');
+					$("#frontendShow").show();
+					$("#frontendUpload").hide();
+				}
+			});
+			
+			$("#frontendFile").live('change',function() {
+				var formData = new FormData();
+				formData.append('file', $('#frontendFile')[0].files[0]);
+// 				$('#inputFileID').replaceWith('<input id="file" type="file" name="file"  />');
+				$.ajax({
+					url : '/file/fileUpload/'+frontendId,
+					type : 'POST',
+					cache : false,
+					data : formData,
+					processData : false,
+					contentType : false
+				}).done(function(res) {
+					$("#frontendImg").attr('src',res.img);
+					$('#frontendPid').replaceWith('<p id="frontendPid">' + res.filename + '&nbsp;' + res.size + 'kb&nbsp;<a id="frontendDel" href="javascript:delFrontend()" class="colorRed">删除</a></p>');
+					$("#frontendShow").show();
+					$("#frontendUpload").hide();
+					$("#frontendFileHidden").val(res.uuid + '_' + res.filename)
+					$("#frontendFileNameHidden").val(res.filename)
+					$("#frontendSizeHidden").val(res.size)
+					frontendId = res.uuid + '_' + res.filename;
+				}).fail(function(res) {
+					alert("文件上传失败，请重试")
+				});
+				
+			});
 		</script>
 	</body>
 </html>

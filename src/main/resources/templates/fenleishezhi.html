@@ -132,6 +132,41 @@
 										报告类型 
 									</a>
 								</p>
+								<p>
+									<a href="javascript:;" class="abc" value="yjly">
+										研究领域 
+									</a>
+								</p>
+								<p>
+									<a href="javascript:;" class="abc" value="jglx">
+										机构类型 
+									</a>
+								</p>
+								<p>
+									<a href="javascript:;" class="abc" value="gj">
+										国家 
+									</a>
+								</p>
+								<p>
+									<a href="javascript:;" class="abc" value="cyl">
+										产业链 
+									</a>
+								</p>
+								<p>
+									<a href="javascript:;" class="abc" value="cplx">
+										产品类型 
+									</a>
+								</p>
+								<p>
+									<a href="javascript:;" class="abc" value="zw">
+										职务 
+									</a>
+								</p>
+								<p>
+									<a href="javascript:;" class="abc" value="zc">
+										职称
+									</a>
+								</p>
 							</div>
 						</div>
 					    <div class="left xiangguanThree">
@@ -260,6 +295,9 @@
 				let service = $(".ahover").attr("value").trim()
 				let items = services[service];
 				$.each(items,function(index,value){
+					if(value===""){
+						return true;
+					}
 					let div = $('<div class="gouxuan"></div>');
 					let input = $('<input name="serviceitem" type="checkbox"/>');
 					input.attr("id",index);

@@ -91,7 +91,7 @@
 					<div class="clearfix">
 						<span class="left usermanageOneTl" th:text="'分析报告' + '(' + ${totalCount} + ')'">
 						</span>
-						<a th:href="@{/report/get}" class="left manageproAddA">
+						<a th:href="@{/report/get(disable='0')}" class="left manageproAddA">
 						新增报告
 						</a>
 						<div class="right usermanageOneSS">
@@ -124,9 +124,8 @@
 		    			
 		    		</tr>
 		    		<tr th:each="report : ${reportList}">
-		    			<td th:text="${report.name}">
-		    				<a href="#" class="colorBlue">
-		    					2018年中国生物制品医药制品行业细分市
+		    			<td>
+		    				<a th:href="@{/report/get(id=${report.id})}" class="colorBlue" th:text="${report.name}">
 		    				</a>
 		    			</td>
 		    			<td th:text="${report.unit}">
@@ -138,10 +137,10 @@
 		    			<td th:text="${report.ptime}">
 		    			</td>
 		    			<td>
-		    				<a th:href="@{/report/get(id=${report.id})}" class="manageProBj">
+		    				<a th:href="@{/report/get(id=${report.id},disable='0')}" class="manageProBj">
 		    					编辑
 		    				</a>
-		    				<a th:href="@{/report/delete(id=${report.id})}" class="manageProsc">
+		    				<a th:href="@{/report/delete(id=${report.id})}" onclick="if(confirm('确定删除?')==false)return false;" class="manageProsc">
 		    					删除
 		    				</a>
 		    			</td>

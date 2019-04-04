@@ -89,7 +89,7 @@
 					<div class="clearfix">
 						<span class="left usermanageOneTl" th:text="项目信息：+ ${totalCount}">
 						</span>
-						<a th:href="@{/project/get}" class="left manageproAddA">
+						<a th:href="@{/project/get(disable='0')}" class="left manageproAddA">
 							新增项目
 						</a>
 						<div class="right usermanageOneSS">
@@ -136,7 +136,7 @@
 		    				<a th:href="@{/project/get(id=${project.id},disable='0')}" class="manageProBj">
 		    					编辑
 		    				</a>
-		    				<a th:href="@{/project/delete(id=${project.id})}" class="manageProsc">
+		    				<a th:href="@{/project/delete(id=${project.id})}" onclick="if(confirm('确定删除?')==false)return false;" class="manageProsc">
 		    					删除
 		    				</a>
 		    			</td>
