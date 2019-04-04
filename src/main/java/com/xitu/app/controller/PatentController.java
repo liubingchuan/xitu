@@ -92,7 +92,7 @@ public class PatentController {
 		return "result-zlCon";
 	}
 	
-	@GetMapping(value = "patent/list")
+	@RequestMapping(value = "patent/list")
 	public String patents(@RequestParam(required=false,value="q") String q,
 			@RequestParam(required=false,value="year") String year,
 			@RequestParam(required=false,value="ipc") String ipc,

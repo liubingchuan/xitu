@@ -352,7 +352,7 @@
 			//写入加载内容
 			
 			
-				var url = 'http://localhost:8090/patent/lists';
+// 				var url = 'patent/list?q=' + encodeURI(encodeURI(query)) + '&pageIndex=' + (pageIndex+1);
 				var param = {
 					'q' : query,
 					'pageIndex' : pageIndex+1
@@ -367,6 +367,10 @@
 						$("#content").html(content);
 					}
 				}); 
+// 				 $.get(url, function(result){
+// 					 content+= $("#content").html();
+// 						$("#content").html(content);
+// 				 });
 		}  
 	} 
 </script>
