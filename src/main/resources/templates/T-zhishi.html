@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" th:href="@{/css/xinit.css}" />
+		<link rel="stylesheet" th:href="@{/css/xmain.css}" />
+		<script type="text/javascript" th:src="@{/js/jquery-1.7.2.js}" ></script>
+	</head>
+	<body class="whitebg">
+		<div class="nyMain">
+			<div class="nycontainer">
+			<div class="head">
+			<div class="clearfix">
+				<a href="/" class="left logo">
+					<img th:src="@{/ximages/logo.png}" />
+				</a>
+				<a href="/" class="left headBack">
+				<<返回首页
+				</a>
+				<div class="left headsuos">
+					<em></em>
+					<input type="button" class="headsuosBtn" value="搜索"  onClick="search();"/>
+					<input type="text" class="headsuosInp" th:text="${query}" id="keywords"/>
+				</div>
+				<div class="right">
+					<!--登录前-->
+					<!--<div class="loginbefore">
+						<a href="javascript:;" class="loginBtn">登录</a><span>/</span><a href="loginBtn">注册</a>
+					</div>-->
+					<!--登陆后-->
+					<div class="loginAfter">
+						<div class="loginAfterM">
+							<a href="#" class="loginAfterTx">
+								<img th:src="@{/ximages/tx.jpeg}" />
+							</a>
+							<div class="loginAfterNo">
+								
+								<div class="loginAfterNoM">
+									<em class="loginAfterNoMSj"></em>
+									<p>
+										<span class="loginName">
+											张伟
+										</span>
+										<span class="vip">
+											超级管理员
+										</span>
+									</p>
+									<p>
+										<a th:href="@{/user/list(pageIndex=0,pageSize=10)}">
+											<img th:src="@{/ximages/houtai.png}" />
+											进入管理后台
+										</a>
+									</p>
+									<p>
+										<a href="#">
+											<img th:src="@{/ximages/dingdan.png}" />
+											我的申请
+										</a>
+									</p>
+									<p>
+										<a href="#">
+											<img th:src="@{/ximages/tuichu.png}" />
+											退出
+										</a>
+									</p>
+									
+								</div>
+							</div>
+						</div>
+					</div>
+				
+				</div>
+			</div>
+		</div>              
+		    <div class="chaxinOne">
+		    	<h1>
+		    		知识服务
+		    	</h1>
+		    	<div class="chaxinOneText">
+		    		调研国内外领域/研究方向的科技政策，综合分析国家/机构中长期发展计划、科技前沿动态、行业报告与咨询报告，追踪研判国际年度重点农业政策，并进行解读解析，为我国机构、科研团队、科技政策制定部门、资金资助部门和贸易合作决策部门等提供支撑服务
+		    	</div>
+		    	<a th:href="@{/zhishifuwu/shenqinglist}">
+		    		查看我的申请>>
+		    	</a>
+		    </div>
+			</div>
+			<div class="chaxinBottom">
+				<div class="nycontainer clearfix">
+					<div class="left chaxinLF">
+						<form>
+							<div class="chaxinTwo">
+								<div class="chaxinK chaxinTwoGp">
+									<em class="chaxintwoDel">×</em>
+									<div class="chaxinTwoTl">
+										主要联系人
+									</div>
+									<div class="chaxinTwoB">
+										<div class="clearfix">
+											<div class="left chaxingpLf erro">
+												<p class="chaxinName">
+													姓名<span class="colorRed">*</span>
+												</p>
+												<input type="text" class="chaxingpInp" />
+												<div class="erroText">
+	    				                                                输入错误
+	    			                            </div>
+											</div>
+											<div class="right chaxingpRt">
+												<p class="chaxinName">
+													邮箱<span class="colorRed">*</span>
+												</p>
+												<input type="text" class="chaxingpInp" />
+												<div class="erroText">
+	    				                                                输入错误
+	    			                            </div>
+											</div>
+										</div>
+									    <div class="clearfix">
+											<div class="left chaxingpLf">
+												<p class="chaxinName">
+												单位 <span class="colorRed">*</span>
+												</p>
+												<input type="text" class="chaxingpInp" />
+												<div class="erroText">
+	    				                                                输入错误
+	    			                            </div>
+											</div>
+											<div class="right chaxingpRt">
+												<p class="chaxinName">
+												手机<span class="colorRed">*</span>
+												</p>
+												<input type="text" class="chaxingpInp" />
+												<div class="erroText">
+	    				                                                输入错误
+	    			                            </div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<a href="javascript:;" class="chaxinThree">
+								+添加其他联系人
+							</a>
+							<div class="chaxinK">
+								<div class="chaxinTwoTl">
+								项目信息
+								</div>
+								<div class="chaxinTwoB">
+									<div class="chaxinMB chaxinw-one">
+										       <p class="chaxinName">
+												项目名称<span class="colorRed">*</span>
+												</p>
+												<input type="text" class="chaxingpInp" />
+												<div class="erroText">
+	    				                                                输入错误
+	    			                            </div>
+									</div>
+								    <div class="clearfix">
+								    	<div class="left chaxinMB chaxinw-two">
+								    		<p class="chaxinName">
+												查新范围<span class="colorRed">*</span>
+												</p>
+												<select class="chaxinselect">
+													<option>请选择查新范围</option>
+												</select>
+												<div class="erroText">
+	    				                                                输入错误
+	    			                            </div>
+								    	</div>
+								    	<div class="left chaxinMB chaxinw-three ml21">
+								    		<p class="chaxinName">
+												项目目的
+												</p>
+												<select class="chaxinselect">
+													<option>请选择查新范围</option>
+												</select>
+												<div class="erroText">
+	    				                                                输入错误
+	    			                            </div>
+								    	</div>
+								    </div>
+								    <div class="chaxinMB">
+										       <p class="chaxinName">
+												项目科学要点
+												</p>
+												<textarea class="chaxintextarea" placeholder="充分反映出查新项目的概貌，简述项目的背景、技术问题、解决技术问题所采用的方案、主要技术特征、技术参数或指标、应用范围等相关技术内容。"></textarea>
+												<div class="erroText">
+	    				                                                输入错误
+	    			                            </div>
+									</div>
+								    <div class="chaxinzj">
+								    	<div class="clearfix chaxinzjGp">
+								    	<div class="chaxinMB chaxinw-four left">
+										       <p class="chaxinName">
+												检索点
+												</p>
+												<input type="text" class="chaxingpInp" />
+												<div class="erroText">
+	    				                                                输入错误
+	    			                            </div>
+									    </div>
+									    <a href="javascript:;" class="left chaxinbtn chaxinzjADD">
+									    	<img th:src="@{/ximages/Sketchchaxin_13.png}"/>
+									    </a>
+									    <a href="javascript:;" class="left chaxinbtn chaxinzjdel">
+									    	<img th:src="@{/ximages/Sketchchaxin_15.png}" />
+									    </a>
+								        </div>
+								    </div>
+								    <div class="chaxinzj">
+								    	<div class="clearfix chaxinzjGp">
+								    	<div class="chaxinMB chaxinw-four left">
+										       <p class="chaxinName">
+												参考检索词
+												</p>
+												<input type="text" class="chaxingpInp" />
+												<div class="erroText">
+	    				                                                输入错误
+	    			                            </div>
+									    </div>
+									    <a href="javascript:;" class="left chaxinbtn chaxinzjADD">
+									    	<img th:src="@{/ximages/Sketchchaxin_13.png}"/>
+									    </a>
+									    <a href="javascript:;" class="left chaxinbtn chaxinzjdel">
+									    	<img th:src="@{/ximages/Sketchchaxin_15.png}" />
+									    </a>
+								        </div>
+								    </div>
+								    <div class="clearfix">
+								    	<div class="left chaxinMB chaxinw-two">
+								    		<p class="chaxinName">
+												学科分类
+												</p>
+												<select class="chaxinselect">
+													<option>学科分类</option>
+												</select>
+												<div class="erroText">
+	    				                                                输入错误
+	    			                            </div>
+								    	</div>
+								    	<div class="left chaxinMB  chaxinw-two ml21">
+								    		<p class="chaxinName">
+												产业分类
+												</p>
+												<select class="chaxinselect">
+													<option>请选择产业分类</option>
+												</select>
+												<div class="erroText">
+	    				                                                输入错误
+	    			                            </div>
+								    	</div>
+								    </div>
+								    <div class="chaxinMB">
+										       <p class="chaxinName">
+												说明<span class="colorRed">*</span>
+												</p>
+												<div class="chaxinUp">
+													<div class="chaxinUpText">
+														注1：委托方申请、拥有或使用的与本委托项目密切相关的专利、论文文献发表情况（列出文献与专利的题目、作者、出处、编号、日期、年、卷、期、页等）；<br/>
+													        注2：项目知识产权若属引进、购买或共有，列出清单说明；<br/> 
+													        注3：必要时需提供的其他资料包括：开题报告（可行性报告）、研制报告（结题报告）、产品样本、检测报告、用户报告等内容。<br/>
+													       注4：列出与委托项目相关的文献（列出文献与专利的题目、作者、出处、编号、日期、年、卷、期、页信息）。
+													</div>
+													<div class="chaxinUpNrLIST">
+														<div class="chaxinUplistgp clearfix">
+															<a href="#" class="left chaxinUplistName">
+																调研资料报告
+															</a>
+															<a href="javascript:;" class="right chaxinUpDel">
+																删除
+															</a>
+															<span class="right">
+																2017 09-10&nbsp;13:00
+															</span>
+														</div>
+														<div class="chaxinUplistgp clearfix">
+															<a href="#" class="left chaxinUplistName">
+																调研资料报告
+															</a>
+															<a href="javascript:;" class="right chaxinUpDel">
+																删除
+															</a>
+															<span class="right">
+																2017 09-10&nbsp;13:00
+															</span>
+														</div>
+														<div class="chaxinUplistgp clearfix">
+															<a href="#" class="left chaxinUplistName">
+																调研资料报告
+															</a>
+															<a href="javascript:;" class="right chaxinUpDel">
+																删除
+															</a>
+															<span class="right">
+																2017 09-10&nbsp;13:00
+															</span>
+														</div>
+													    <div class="chaxinupBtn">
+													    	<a href="javascript:;">
+													    		+ 点此上传附件
+													    		<input type="file" />
+													    	</a>
+													    </div>
+													</div>
+												</div>
+									</div>
+								</div>
+							</div>
+							<div class="huakuai">
+								<div class="outer" id="outer">
+            <input type="hidden" id="CaptchaID" value="0" />
+            <div class="filter-box"></div>
+            <span class="txtRoll">
+                按住滑块，拖拽到最右边
+            </span>
+            <div class="inner">&gt;&gt;</div>
+        </div>
+							</div>
+						    <input type="button" value="提交" class="chaxinSubmit" />
+						</form>
+					</div>
+				    <div class="right chaxinRt">
+				    	
+				    	<div class="chaxinfwTl">
+				    		服务标准
+				    	</div>
+				    	<div class="chaxinfwgp">
+				    		<div class="chaxinfwgpTl">
+				    			国内知识服务 
+				    		</div>
+				    		<P>费用：1000元/项</P>
+				    		<P> 时间：7个工作日 </P>
+				    		 <P>每项委托包含1个查新点。国内查新每增加1个查新点，查新费用增加300元，工作时间增加1个工作日； </P>
+				    	</div>
+				    	<div class="chaxinfwgp">
+				    		<div class="chaxinfwgpTl">
+				    			国外知识服务  
+				    		</div>
+				    		<P>费用：2000元/项</P>
+				    		<P>时间：10个工作日</P>
+				    		 <P>国内外查新每增加1个查新点，查新费用增加600元，工作时间增加3个工作日。</P>
+				    	</div>
+				    	<div class="chaxinfwgp">
+				    		<div class="chaxinfwgpTl">
+				    			说明 
+				    		</div>
+				    		<P>如需加急，按查新实际时间计算； </P>
+				    		<P>每项查新提交用户一式2份查新报告原件，每增加1份报告30元；</P>
+				    		 <P> 邮寄查新报告另收邮费及长话费50元。 </P>
+				    	</div>
+				    	
+				    </div>
+				</div>
+			</div>
+			</div>
+		 <div class="footer">
+	    	<div class="footerTop">
+	    		<div class="index-container clearfix">
+	    			<div class="left footerTopLf">
+	    				<img th:src="@{/ximages/wb.png}" class="xitufooterIMg" />
+	    			</div>
+	    			<div class="left footerTopMiddle">
+	    				<div class="footerTopMiddleTop">
+	    				<p class="footerTopTl">
+	    					<img th:src="@{/ximages/pingtai.png}" />
+	    					平台介绍
+	    				</p>
+	    				<div class="footerTopText">
+	    					平台围绕生物医药领域进行信息监测与情报服务，结合文献情报中心的文献服务、情报咨询服务等，为领域研究相关科研机构、政府部门、企业等提供产业技术情报服务和科技咨询服务。
+	    				</div>
+	    				</div>
+	    				<p class="footerTopTl">	    				
+	    					<img th:src="@{/ximages/lianxifangshi.png}" />联系方式
+	    				</p>
+	    				<div class="footerTopText">
+	    					<p>电话：010-82626611-6302</p>
+                             <p>邮箱：chinakx@mail.las.ac.cn</p>
+	    				</div>
+	    			</div>
+	    		    <div class="left footerTopLX">
+	    		    	
+	    		        <div class="footerTopText">
+	    		        	<p class="footerTopTl">	    				
+	    				 	<img th:src="@{/ximages/jigou.png}" />合作机构
+	    				    </p>
+	    		        	<ul>
+	    		        		<li>
+	    		        			<a href="#">•&nbsp;中国科学院分院</a>
+	    		        		</li>
+	    		        		<li>
+	    		        			<a href="#">•&nbsp;中国科学院文献情</a>
+	    		        		</li>
+	    		        		<li>
+	    		        			<a href="#">•&nbsp;中国科学院分院</a>
+	    		        		</li>
+	    		        		<li>
+	    		        			<a href="#">•&nbsp;国家科学图书文献中心</a>
+	    		        		</li>
+	    		        		<li>
+	    		        			<a href="#">•&nbsp;中国科学院文献情报中心</a>
+	    		        		</li>
+	    		        		<li>
+	    		        			<a href="#">•&nbsp;国家科学图书文献中心</a>
+	    		        		</li>
+	    		        	</ul>
+	    		        </div>
+	    		    </div>
+	    		    <div class="right footerTopErw">
+	    		    	<img th:src="@{/ximages/erw.png}" />
+	    		    	<p>
+	    		    		<em></em>扫码快速关注公众号
+	    		    	</p>
+	    		    </div>
+	    		</div>
+	    	</div>
+	        <div class="footerB">
+	        	<div class="index-container">
+	        		版权所有 @ 2017 沈阳高新区生物医药知识服务云平台 中国科学院文献情报中心,京ICP证030173号
+	        	</div>
+	        </div>
+	    </div>
+		<!--弹窗-->
+		<div class="alertBg"></div>
+		<div class="alertCon alertxuq">
+	    	<img src="images/Icon.png" />
+	    	<div class="alertxuqTEXT">
+	    		您的需求已提交<br />
+	    		请到<a href="#">我的申请</a>中查看最新进展
+	    	</div>
+	    	<div class="alertxuqa clearfix">
+	    		<a href="index.html">
+	    			返回首页
+	    		</a>
+	    		<a href="javascript:;" class="alertxuqaNext">
+	    			继续申请
+	    		</a>
+	    	</div>
+	    </div>
+		<script type="text/javascript" th:src="@{/js/main.js}" ></script>
+		<script type="text/javascript" th:src="@{/js/huakuai.js}" ></script>
+		<script type="text/javascript" th:inline="javascript">
+		    
+			jeDate({
+				dateCell:"#dateinfo",
+				format:"YYYY年MM月DD日",
+				isinitVal:true,
+				isTime:false, //isClear:false,
+			    isClear:true,
+			})
+			jeDate({
+				dateCell:"#dateinfo1",
+				format:"YYYY年MM月DD日",
+				isinitVal:true,
+				isTime:false, //isClear:false,
+			    isClear:true,
+			})
+			
+			function search(){
+			    /*  window.location.href="http://127.0.0.1:8088/project/list?q=" + $("#keywords").val(); */
+			    window.location.href="/patent/list?q=" + $("#keywords").val();
+				/* window.location.href="http://47.104.7.73/patent/list?q=" + $("#keywords").val(); */
+			}
+				</script>
+		
+	</body>
+</html>
