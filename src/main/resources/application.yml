@@ -2,7 +2,7 @@ spring:
   application:
      name: xitu
   datasource:
-#     url: 'jdbc:mysql://47.104.7.73:3306/?useUnicode=true&characterEncoding=utf-8&useSSL=false'
+     #url: 'jdbc:mysql://47.104.7.73:3306/?useUnicode=true&characterEncoding=utf-8&useSSL=false'
      url: 'jdbc:mysql://127.0.0.1:3306/?useUnicode=true&characterEncoding=utf-8&useSSL=false'
      username: root
      password: 123456
@@ -20,7 +20,7 @@ spring:
      elasticsearch:
        cluster-name: docker-cluster
        #cluster-nodes: 47.104.7.73:9300
-       cluster-nodes: 127.0.0.1:9300
+       cluster-nodes: 45.77.86.209:9300
        #cluster-nodes: 47.104.7.73:9300
 
 server:
@@ -29,3 +29,6 @@ server:
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
+    
+files:
+  path: /root/files

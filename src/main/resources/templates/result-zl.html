@@ -347,7 +347,7 @@
 		return scrollHeight;  
 	} 
 	var content = $("#content").html();
-	/* window.onscroll = function () { 
+	window.onscroll = function () { 
 		if(getScrollHeight() == getWindowHeight() + getDocumentTop()){ 
 			//写入加载内容
 			
@@ -369,18 +369,18 @@
 							return;
 						}
 						$.each(items,function(index,value){
-							let li = $('<li"></li>');
-							let div1 = $('<div class="jiansuoLiTL"></div>');
-							let a1 = $('<a href="/patent/get(id="' + value.id + '")" text="'+ value.title + '"></a>');
+							let li = $('<li></li>');
+							let div1 = $('<div class=\"jiansuoLiTL\"></div>');
+							let a1 = $('<a href=\"/patent/get?id=' + value.id + '\">'+ value.title + '</a>');
 							div1.append(a1);
-							let div2 = $('<div class="jiansuoLiTag"></div>');
-							let span1 = $('<span text="专利权人：' + value.person+ '"></span>');
-							let span2 = $('<span text="公开（公告）日：' + value.publictime+ '"></span>');
+							let div2 = $('<div class=\"jiansuoLiTag\"></div>');
+							let span1 = $('<span>专利权人：' + value.person+ '</span>');
+							let span2 = $('<span>公开（公告）日：' + value.publictime+ '</span>');
 							div2.append(span1);
 							div2.append(span2);
-							let div3 = $('<div class="jiansuoLiText"></div>');
-							let span3 = $('<span class="jiansuoLiTextSpan" text="' + value.subject+ '"></span>');
-							let a2 = $('<a href="javascript:;" class="jiansuoLImore">展开更多</a>');
+							let div3 = $('<div class=\"jiansuoLiText\"></div>');
+							let span3 = $('<span class=\"jiansuoLiTextSpan\">' + value.subject+ '</span>');
+							let a2 = $('<a href=\"javascript:;\" class=\"jiansuoLImore\">展开更多</a>');
 							div3.append(span3);
 							div3.append(a2);
 // 							input.attr("id",index);
@@ -399,7 +399,7 @@
 				}); 
  			
 		}  
-	}  */
+	} 
 </script>
 	</body>
 </html>

@@ -28,7 +28,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.xitu.app.common.request.SaveExpertRequest;
+import com.xitu.app.mapper.ItemMapper;
 import com.xitu.app.model.Expert;
+import com.xitu.app.model.Item;
 import com.xitu.app.repository.ExpertRepository;
 import com.xitu.app.utils.BeanUtil;
 
@@ -46,6 +48,9 @@ public class ExpertController {
 	@Autowired
 	private ElasticsearchTemplate esTemplate;
 	
+	@Autowired
+    private ItemMapper itemMapper;
+	
 	@PostMapping(value = "expert/save")
 	public String saveExpert(SaveExpertRequest request,Model model) {
 		
@@ -56,14 +61,17 @@ public class ExpertController {
 		}
 		List<String> areaList =new ArrayList<String>();
 		List<String> dutyList =new ArrayList<String>();
+		List<String> titleList =new ArrayList<String>();
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		areaList.add(request.getArea());
 		dutyList.add(request.getDuty());
+		titleList.add(request.getTitle());
 		expert.setArea(areaList);;
 		expert.setDuty(dutyList);
 		expert.setResume(request.getInfo());
 		expert.setNow(System.currentTimeMillis());
 		expert.setCtime(df.format(new Date()));
+		expert.setTitle(titleList);
 		expert.setUnit("中国科学院青岛生物能源与过程研究所");
 		expertRepository.save(expert);
 		return "redirect:/expert/list";
@@ -81,15 +89,51 @@ public class ExpertController {
 	
 	@GetMapping(value = "expert/get")
 	public String getExpert(@RequestParam(required=false,value="front") String front,
+			@RequestParam(required=false,value="disable") String disable,
 			@RequestParam(required=false,value="id") String id, Model model) {
 		String view = "qiyezhikuhangyerencaixiangqing";
 		Expert expert = new Expert();
 		if(id != null) {
 			expert = expertRepository.findById(id).get();
+			model.addAttribute("frontendId", "".equals(expert.getFrontend())?null:expert.getFrontend());
+			model.addAttribute("frontendFileName", "".equals(expert.getFrontendFileName())?null:expert.getFrontendFileName());
+			model.addAttribute("frontendSize", "".equals(expert.getFrontendSize())?null:expert.getFrontendSize());
 		}
 		if(front != null) {
 			view = "qiyezhikuhangyerencaizhuanjiaxiangqingyemian";
 		}
+		if(disable !=null) {
+			model.addAttribute("disable", "0");
+		}else {
+			model.addAttribute("disable", "1");
+		}
+		
+		Item yjlyitem = itemMapper.selectItemByService("yjly");
+		List<String> yjlyitemitems = new ArrayList<String>();
+		if(yjlyitem != null) {
+			for(String s: yjlyitem.getItem().split(";")) {
+				yjlyitemitems.add(s);
+			}
+		}
+		model.addAttribute("yjlyitems", yjlyitemitems);
+		
+		Item zcitems = itemMapper.selectItemByService("zc");
+		List<String> zcitemitems = new ArrayList<String>();
+		if(zcitems != null) {
+			for(String s: zcitems.getItem().split(";")) {
+				zcitemitems.add(s);
+			}
+		}
+		model.addAttribute("zcitems", zcitemitems);
+		
+		Item zwitems = itemMapper.selectItemByService("zw");
+		List<String> zwitemitems = new ArrayList<String>();
+		if(zwitems != null) {
+			for(String s: zwitems.getItem().split(";")) {
+				zwitemitems.add(s);
+			}
+		}
+		model.addAttribute("zwitems", zwitemitems);
 		
 		model.addAttribute("expert", expert);
 		return view;

@@ -62,6 +62,13 @@ public class ItemController {
 		map.put("rczc", new ArrayList<String>());
 		map.put("xmfl", new ArrayList<String>());
 		map.put("bglx", new ArrayList<String>());
+		map.put("yjly", new ArrayList<String>());
+		map.put("jglx", new ArrayList<String>());
+		map.put("gj", new ArrayList<String>());
+		map.put("cyl", new ArrayList<String>());
+		map.put("cplx", new ArrayList<String>());
+		map.put("zw", new ArrayList<String>());
+		map.put("zc", new ArrayList<String>());
 		if(items==null || items.size()==0) {
 			return R.notFound().put("services", map);
 		}
@@ -87,8 +94,16 @@ public class ItemController {
 				item.setService(field.getName());
 				List<String> items = (List<String>) method.invoke(request);
 				StringBuilder buffer = new StringBuilder();
-				items.forEach(o->buffer.append(o).append(";"));
-				item.setItem(buffer.length()==0?"":buffer.substring(0, buffer.length()-1));
+				boolean append = false;
+				for(String s: items) {
+					if("".equals(s)) {
+						append=false;
+						continue;
+					}
+					if(append) buffer.append(";"); else append = true; 
+					buffer.append(s);
+				}
+				item.setItem(buffer.toString().length()==0?"":buffer.substring(0, buffer.length()-1));
 				itemMapper.deleteItemByService(item.getService());
 				itemMapper.insertItem(item);
 			} catch (NoSuchMethodException e) {

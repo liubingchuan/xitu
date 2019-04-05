@@ -36,6 +36,9 @@ public class Org implements Serializable{
 	private String message; // 相关动态
 	private String ctime; // 提交时间
 	private Long now; // 更改时间
+	private String frontend; // LOGO封面
+	private String frontendFileName; // LOGO文件名
+	private String frontendSize; // LOGO大小
 	
 	public String getCtime() {
 		return ctime;
@@ -156,6 +159,24 @@ public class Org implements Serializable{
 	}
 	public void setClassic(List<String> classic) {
 		this.classic = classic;
+	}
+	public String getFrontend() {
+		return frontend;
+	}
+	public void setFrontend(String frontend) {
+		this.frontend = frontend;
+	}
+	public String getFrontendFileName() {
+		return frontendFileName;
+	}
+	public void setFrontendFileName(String frontendFileName) {
+		this.frontendFileName = frontendFileName;
+	}
+	public String getFrontendSize() {
+		return frontendSize;
+	}
+	public void setFrontendSize(String frontendSize) {
+		this.frontendSize = frontendSize;
 	}
 	
 	

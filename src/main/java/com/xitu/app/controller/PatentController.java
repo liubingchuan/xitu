@@ -106,7 +106,7 @@ public class PatentController {
 			@RequestParam(required=false, value="pageIndex") Integer pageIndex, 
 			Model model) {
 		if(pageSize == null) {
-			pageSize = 100;
+			pageSize = 10;
 		}
 		if(pageIndex == null) {
 			pageIndex = 0;

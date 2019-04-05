@@ -12,7 +12,11 @@ public class SaveReportRequest extends BaseRequest{
 	private String ptime;  // 发布时间
 	private String type; // 报告分类
 	private String frontend; // 报告封面
+	private String frontendFileName; // 报告封面文件名
+	private String frontendSize; // 报告封面大小
 	private String pdf; // pdf 简报
+	private String pdfFileName;
+	private String pdfSize;
 	private Long now; // 更改时间
 	private String info;
 	
@@ -82,6 +86,30 @@ public class SaveReportRequest extends BaseRequest{
 	}
 	public void setNow(Long now) {
 		this.now = now;
+	}
+	public String getFrontendFileName() {
+		return frontendFileName;
+	}
+	public void setFrontendFileName(String frontendFileName) {
+		this.frontendFileName = frontendFileName;
+	}
+	public String getFrontendSize() {
+		return frontendSize;
+	}
+	public void setFrontendSize(String frontendSize) {
+		this.frontendSize = frontendSize;
+	}
+	public String getPdfFileName() {
+		return pdfFileName;
+	}
+	public void setPdfFileName(String pdfFileName) {
+		this.pdfFileName = pdfFileName;
+	}
+	public String getPdfSize() {
+		return pdfSize;
+	}
+	public void setPdfSize(String pdfSize) {
+		this.pdfSize = pdfSize;
 	}
 	
 	

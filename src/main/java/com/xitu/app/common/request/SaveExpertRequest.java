@@ -16,12 +16,14 @@ public class SaveExpertRequest extends BaseRequest{
 	private String title; // 职称
 	private String resume; // 简历
 	private String project; // 科研项目
-	private String photo;   // 照片
 	private String ctime;  // 提交时间
 	private String uploader; // 提交人
 	private String info;
 	private String name;
 	private String alias;
+	private String frontend; // 专家照片
+	private String frontendFileName; // 专家照片文件名
+	private String frontendSize; // 专家照片大小
 	
 	
 	
@@ -109,12 +111,6 @@ public class SaveExpertRequest extends BaseRequest{
 	public void setProject(String project) {
 		this.project = project;
 	}
-	public String getPhoto() {
-		return photo;
-	}
-	public void setPhoto(String photo) {
-		this.photo = photo;
-	}
 	public String getCtime() {
 		return ctime;
 	}
@@ -132,6 +128,24 @@ public class SaveExpertRequest extends BaseRequest{
 	}
 	public void setArea(String area) {
 		this.area = area;
+	}
+	public String getFrontend() {
+		return frontend;
+	}
+	public void setFrontend(String frontend) {
+		this.frontend = frontend;
+	}
+	public String getFrontendFileName() {
+		return frontendFileName;
+	}
+	public void setFrontendFileName(String frontendFileName) {
+		this.frontendFileName = frontendFileName;
+	}
+	public String getFrontendSize() {
+		return frontendSize;
+	}
+	public void setFrontendSize(String frontendSize) {
+		this.frontendSize = frontendSize;
 	}
 	
 	
