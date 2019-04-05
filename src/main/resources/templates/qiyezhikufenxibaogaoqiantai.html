@@ -137,8 +137,8 @@
 				    	</form>
 				       <ul class="clearfix jigouUl fenxiUl">
 				       	<li class="clearfix" th:each="report: ${reportList}">
-				       		<a href="#" class="left jigouliLf">
-				       			<img th:src="@{/images/fenxi_03.png}" />
+				       		<a th:href="@{/report/get(id=${report.id},front=0)}" class="left jigouliLf">
+				       			<img id="frontendImg" th:src="@{/file/fileDownload?filename={filename}(filename=${report.frontend})}" />
 				       		</a>
 				       		<div class="left jigouRt">
 				       			<div class="jiansuoLiTL">
@@ -231,6 +231,5 @@
 	    </div>
 		
 		<script type="text/javascript" th:src="@{/js/main.js}" ></script>
-
 	</body>
 </html>

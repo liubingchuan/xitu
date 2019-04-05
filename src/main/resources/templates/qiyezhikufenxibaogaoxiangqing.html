@@ -202,9 +202,9 @@
 			    			<div id="pdfShow" class="M_messGpRt">
 			    				<div class="clearfix M_messGpImg">
 			    					<div class="left M_messGpImgGp">
-			    						<img id="pdfImg" th:src="@{/images/slider.png}" />
+<!-- 			    						<img id="pdfImg" th:src="@{/images/slider.png}" /> -->
 			    						<p id="pdfPid">
-			    							PDF简版封面.jpg&nbsp;1000kb&nbsp;<a id="pdfDel" href="javascript:delPdf()" class="colorRed">删除</a>
+			    							PDF简版.jpg&nbsp;1000kb&nbsp;<a id="pdfDel" href="javascript:delPdf()" class="colorRed">删除</a>
 			    						</p>
 			    					</div>
 			    				</div>
@@ -329,7 +329,7 @@
 					processData : false,
 					contentType : false
 				}).done(function(res) {
-					$("#pdfImg").attr('src',res.img);
+// 					$("#pdfImg").attr('src',res.img);
 					$('#pdfPid').replaceWith('<p id="pdfPid">' + res.filename + '&nbsp;' + res.size + 'kb&nbsp;<a id="pdfDel" href="javascript:delPdf()" class="colorRed">删除</a></p>');
 					$("#pdfShow").show();
 					$("#pdfUpload").hide();
