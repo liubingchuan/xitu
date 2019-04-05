@@ -12,6 +12,14 @@ public class SaveItemRequest extends BaseRequest{
 	private List<String> xkfl;
 	private List<String> rczc;
 	private List<String> xmfl;
+	private List<String> bglx;
+	private List<String> yjly;
+	private List<String> jglx;
+	private List<String> gj;
+	private List<String> cyl;
+	private List<String> cplx;
+	private List<String> zw;
+	private List<String> zc;
 	public List<String> getXxcjlm() {
 		return xxcjlm;
 	}
@@ -47,6 +55,54 @@ public class SaveItemRequest extends BaseRequest{
 	}
 	public void setXmfl(List<String> xmfl) {
 		this.xmfl = xmfl;
+	}
+	public List<String> getBglx() {
+		return bglx;
+	}
+	public void setBglx(List<String> bglx) {
+		this.bglx = bglx;
+	}
+	public List<String> getYjly() {
+		return yjly;
+	}
+	public void setYjly(List<String> yjly) {
+		this.yjly = yjly;
+	}
+	public List<String> getJglx() {
+		return jglx;
+	}
+	public void setJglx(List<String> jglx) {
+		this.jglx = jglx;
+	}
+	public List<String> getGj() {
+		return gj;
+	}
+	public void setGj(List<String> gj) {
+		this.gj = gj;
+	}
+	public List<String> getCyl() {
+		return cyl;
+	}
+	public void setCyl(List<String> cyl) {
+		this.cyl = cyl;
+	}
+	public List<String> getCplx() {
+		return cplx;
+	}
+	public void setCplx(List<String> cplx) {
+		this.cplx = cplx;
+	}
+	public List<String> getZw() {
+		return zw;
+	}
+	public void setZw(List<String> zw) {
+		this.zw = zw;
+	}
+	public List<String> getZc() {
+		return zc;
+	}
+	public void setZc(List<String> zc) {
+		this.zc = zc;
 	}
 	
 	

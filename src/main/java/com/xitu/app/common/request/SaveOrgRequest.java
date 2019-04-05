@@ -13,7 +13,9 @@ public class SaveOrgRequest extends BaseRequest{
 	private String country; // 国家
 	private String link; // 产业链
 	private String classic; // 产品类型
-	private String logo; // 机构logo
+	private String frontend; // logo
+	private String frontendFileName; // logo文件名
+	private String frontendSize; // logo大小
 	private String professors; // 专家数量
 	private String patents;   // 专利数量
 	private String dymanics;   // 动态数量
@@ -86,12 +88,6 @@ public class SaveOrgRequest extends BaseRequest{
 	public void setClassic(String classic) {
 		this.classic = classic;
 	}
-	public String getLogo() {
-		return logo;
-	}
-	public void setLogo(String logo) {
-		this.logo = logo;
-	}
 	public String getProfessors() {
 		return professors;
 	}
@@ -151,6 +147,24 @@ public class SaveOrgRequest extends BaseRequest{
 	}
 	public void setNow(Long now) {
 		this.now = now;
+	}
+	public String getFrontend() {
+		return frontend;
+	}
+	public void setFrontend(String frontend) {
+		this.frontend = frontend;
+	}
+	public String getFrontendFileName() {
+		return frontendFileName;
+	}
+	public void setFrontendFileName(String frontendFileName) {
+		this.frontendFileName = frontendFileName;
+	}
+	public String getFrontendSize() {
+		return frontendSize;
+	}
+	public void setFrontendSize(String frontendSize) {
+		this.frontendSize = frontendSize;
 	}
 	
 	

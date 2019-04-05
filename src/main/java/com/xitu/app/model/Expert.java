@@ -36,6 +36,9 @@ public class Expert implements Serializable{
 	private String ctime;  // 提交时间
 	private String uploader; // 提交人
 	private Long now;
+	private String frontend; // 专家照片
+	private String frontendFileName; // 专家照片名
+	private String frontendSize; // 专家照片大小
 	public String getId() {
 		return id;
 	}
@@ -145,6 +148,24 @@ public class Expert implements Serializable{
 	}
 	public void setProject(List<String> project) {
 		this.project = project;
+	}
+	public String getFrontend() {
+		return frontend;
+	}
+	public void setFrontend(String frontend) {
+		this.frontend = frontend;
+	}
+	public String getFrontendFileName() {
+		return frontendFileName;
+	}
+	public void setFrontendFileName(String frontendFileName) {
+		this.frontendFileName = frontendFileName;
+	}
+	public String getFrontendSize() {
+		return frontendSize;
+	}
+	public void setFrontendSize(String frontendSize) {
+		this.frontendSize = frontendSize;
 	}
 	
 	

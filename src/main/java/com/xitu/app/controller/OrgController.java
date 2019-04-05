@@ -28,6 +28,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.xitu.app.common.request.SaveOrgRequest;
+import com.xitu.app.mapper.ItemMapper;
+import com.xitu.app.model.Item;
 import com.xitu.app.model.Org;
 import com.xitu.app.model.Project;
 import com.xitu.app.repository.OrgRepository;
@@ -46,6 +48,9 @@ public class OrgController {
 	
 	@Autowired
 	private ElasticsearchTemplate esTemplate;
+	
+	@Autowired
+    private ItemMapper itemMapper;
 	
 	@PostMapping(value = "org/save")
 	public String saveOrg(SaveOrgRequest request,Model model) {
@@ -71,15 +76,60 @@ public class OrgController {
 	
 	@GetMapping(value = "org/get")
 	public String getOrg(@RequestParam(required=false,value="front") String front,
+			@RequestParam(required=false,value="disable") String disable,
 			@RequestParam(required=false,value="id") String id, Model model) {
 		String view = "qiyezhikuzhongdianjigouxiangqing";
 		Org org = new Org();
 		if(id != null) {
 			org = orgRepository.findById(id).get();
+			model.addAttribute("frontendId", "".equals(org.getFrontend())?null:org.getFrontend());
+			model.addAttribute("frontendFileName", "".equals(org.getFrontendFileName())?null:org.getFrontendFileName());
+			model.addAttribute("frontendSize", "".equals(org.getFrontendSize())?null:org.getFrontendSize());
 		}
 		if(front != null) {
 			view = "qiyezhikujigouxiangqing";
 		}
+		
+		if(disable !=null) {
+			model.addAttribute("disable", "0");
+		}else {
+			model.addAttribute("disable", "1");
+		}
+		
+		Item yjlyitem = itemMapper.selectItemByService("yjly");
+		List<String> yjlyitemitems = new ArrayList<String>();
+		for(String s: yjlyitem.getItem().split(";")) {
+			yjlyitemitems.add(s);
+		}
+		model.addAttribute("yjlyitems", yjlyitemitems);
+		
+		Item jglxitems = itemMapper.selectItemByService("jglx");
+		List<String> jglxitemitems = new ArrayList<String>();
+		for(String s: jglxitems.getItem().split(";")) {
+			jglxitemitems.add(s);
+		}
+		model.addAttribute("jglxitems", jglxitemitems);
+		
+		Item gjitems = itemMapper.selectItemByService("gj");
+		List<String> gjitemitems = new ArrayList<String>();
+		for(String s: gjitems.getItem().split(";")) {
+			gjitemitems.add(s);
+		}
+		model.addAttribute("gjitems", gjitemitems);
+		
+		Item cylitems = itemMapper.selectItemByService("cyl");
+		List<String> cylitemitems = new ArrayList<String>();
+		for(String s: cylitems.getItem().split(";")) {
+			cylitemitems.add(s);
+		}
+		model.addAttribute("cylitems", cylitemitems);
+		
+		Item cplxitems = itemMapper.selectItemByService("cplx");
+		List<String> cplxitemitems = new ArrayList<String>();
+		for(String s: cplxitems.getItem().split(";")) {
+			cplxitemitems.add(s);
+		}
+		model.addAttribute("cplxitems", cplxitemitems);
 		
 		model.addAttribute("org", org);
 		return view;

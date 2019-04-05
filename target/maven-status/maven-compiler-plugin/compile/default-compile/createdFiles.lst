@@ -67,3 +67,4 @@ com\xitu\app\config\RestTemplateConfig.class
 com\xitu\app\controller\PatentController.class
 com\xitu\app\annotation\ColumnName.class
 com\xitu\app\common\request\LoginRequest.class
+
