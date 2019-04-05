@@ -136,7 +136,7 @@
 				       <ul class="clearfix jigouUl">
 				       	<li class="clearfix" th:each="org: ${orgList}">
 				       		<a href="#" class="left jigouliLf">
-				       			<img th:src="@{/images/gongsiLogo.png}" />
+				       			<img id="frontendImg" th:src="@{/file/fileDownload?filename={filename}(filename=${org.frontend})}" />
 				       		</a>
 				       		<div class="right jigouRt">
 				       			<div class="jiansuoLiTL">
@@ -146,7 +146,7 @@
 		            			<div class="jiansuoLiTag">
 		            				<span>相关成果：专家 <i class="colorBlue" th:text="${org.professors}"></i>人 </span>
 		            				<span>专利：<i class="colorBlue" th:text="${org.patents}">20</i>件 </span>
-		            				<span>文献：<i class="colorBlue">900</i>条</span>
+		            				<span>文献：<i class="colorBlue"></i>条</span>
 		            			</div>
 		            			<div class="jiansuoLiText">
 		            				<span class="jiansuoLiTextSpan" th:utext="${org.description}">
