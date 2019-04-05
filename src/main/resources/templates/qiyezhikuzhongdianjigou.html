@@ -3,8 +3,8 @@
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
-		<link rel="stylesheet" th:href="@{/css/init.css}" />
-		<link rel="stylesheet" th:href="@{/css/main.css}" />
+		<link rel="stylesheet" th:href="@{/css/xinit.css}" />
+		<link rel="stylesheet" th:href="@{/css/xmain.css}" />
 		<script type="text/javascript" th:src="@{/js/jquery-1.7.2.js}" ></script>
 	</head>
 	<body>
@@ -13,7 +13,7 @@
 			<div class="head">
 			<div class="clearfix">
 				<a href="/" class="left logo">
-					<img th:src="@{/images/logo.png}" />
+					<img th:src="@{/ximages/logo.png}" />
 				</a>
 				<a href="/" class="left headBack">
 					<<返回首页
@@ -47,7 +47,7 @@
 										</span>
 									</p>
 									<p>
-										<a href="#">
+										<a th:href="@{/user/list(pageIndex=0,pageSize=10)}">
 											<img th:src="@{/images/houtai.png}" />
 											进入管理后台
 										</a>
@@ -86,6 +86,21 @@
 						</div>
 						<ul class="rencaiLfUl">
 							<li>
+								<a th:href="@{/patent/agmount}" class="ahover">
+									<span>实时价格</span>
+								</a>
+							</li>
+							<li>
+								<a th:href="@{/patent/agcountry}">
+									<span>原料分布</span>
+								</a>
+							</li>
+							<li>
+								<a th:href="@{/report/list(front=0)}">
+									<span>分析报告</span>
+								</a>
+							</li>
+							<li>
 								<a th:href="@{/org/list(front=0)}" class="ahover">
 									<span>重点机构</span>
 								</a>
@@ -93,11 +108,6 @@
 							<li>
 								<a th:href="@{/expert/list(front=0)}">
 									<span>行业人才</span>
-								</a>
-							</li>
-							<li>
-								<a th:href="@{/report/list(front=0)}">
-									<span>分析报告</span>
 								</a>
 							</li>
 						</ul>
@@ -154,50 +164,44 @@
 	    	<div class="footerTop">
 	    		<div class="index-container clearfix">
 	    			<div class="left footerTopLf">
+	    				<img th:src="@{/ximages/wb.png}" class="xitufooterIMg" />
+	    			</div>
+	    			<div class="left footerTopMiddle">
+	    				<div class="footerTopMiddleTop">
 	    				<p class="footerTopTl">
-	    					<img src="images/pingtai.png" />
+	    					<img th:src="@{/ximages/pingtai.png}" />
 	    					平台介绍
 	    				</p>
 	    				<div class="footerTopText">
 	    					平台围绕生物医药领域进行信息监测与情报服务，结合文献情报中心的文献服务、情报咨询服务等，为领域研究相关科研机构、政府部门、企业等提供产业技术情报服务和科技咨询服务。
 	    				</div>
-	    			</div>
-	    			<div class="left footerTopMiddle">
-	    				<div class="footerTopMiddleTop">
-	    				<p class="footerTopTl">	    				
-	    					交流合作
-	    				</p>
-	    				<div class="footerTopText">
-	    					<span>平台围绕生物医药领域进行信息监测与情报服务，结合文献情报中心的文献服务、情报咨询服务等，为领域研究相关科研机构、政府部门、企业等提供产业技术情报服务和科技咨询服务。</span><a href="#">更多>></a>
-	    				</div>
 	    				</div>
 	    				<p class="footerTopTl">	    				
-	    					关于我们
-	    				</p>
-	    				<div class="footerTopText">
-	    					<span>平台围绕生物医药领域进行信息监测与情报服务，结合文献情报中心的文献服务、情报咨询服务等，为领域研究相关科研机构、政府部门、企业等提供产业技术情报服务和科技咨询服务。</span><a href="#">更多>></a>
-	    				</div>
-	    			</div>
-	    		    <div class="left footerTopLX">
-	    		    	<div class="footerTopLXT">
-	    		    	<p class="footerTopTl">	    				
-	    					<img th:src="@{/images/lianxifangshi.png}" />联系方式
+	    					<img th:src="@{/ximages/lianxifangshi.png}" />联系方式
 	    				</p>
 	    				<div class="footerTopText">
 	    					<p>电话：010-82626611-6302</p>
                              <p>邮箱：chinakx@mail.las.ac.cn</p>
 	    				</div>
-	    		    	</div>
-	    		        <div class="footerTopText footerTopLXB">
+	    			</div>
+	    		    <div class="left footerTopLX">
+	    		    	
+	    		        <div class="footerTopText">
 	    		        	<p class="footerTopTl">	    				
-	    				 	<img src="images/jigou.png" />合作机构
+	    				 	<img th:src="@{/ximages/jigou.png}" />合作机构
 	    				    </p>
 	    		        	<ul>
 	    		        		<li>
-	    		        			<a href="#">•&nbsp;沈阳浑南高新技术开发区</a>
+	    		        			<a href="#">•&nbsp;中国科学院分院</a>
 	    		        		</li>
 	    		        		<li>
-	    		        			<a href="#">•&nbsp;中国科学院沈阳分院</a>
+	    		        			<a href="#">•&nbsp;中国科学院文献情</a>
+	    		        		</li>
+	    		        		<li>
+	    		        			<a href="#">•&nbsp;中国科学院分院</a>
+	    		        		</li>
+	    		        		<li>
+	    		        			<a href="#">•&nbsp;国家科学图书文献中心</a>
 	    		        		</li>
 	    		        		<li>
 	    		        			<a href="#">•&nbsp;中国科学院文献情报中心</a>
@@ -209,7 +213,7 @@
 	    		        </div>
 	    		    </div>
 	    		    <div class="right footerTopErw">
-	    		    	<img th:src="@{/images/erw.png}" />
+	    		    	<img th:src="@{/ximages/erw.png}" />
 	    		    	<p>
 	    		    		<em></em>扫码快速关注公众号
 	    		    	</p>

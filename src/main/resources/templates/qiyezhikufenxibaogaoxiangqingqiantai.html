@@ -47,7 +47,7 @@
 										</span>
 									</p>
 									<p>
-										<a href="#">
+										<a th:href="@{/user/list(pageIndex=0,pageSize=10)}">
 											<img th:src="@{/images/houtai.png}" />
 											进入管理后台
 										</a>
@@ -89,44 +89,38 @@
 								<p class="rencaiLFmessName">
 									报告作者：  
 								</p>
-								<p>
-									李文健 
+								<p th:text="*{author}">
 								</p>
 								<p class="rencaiLFmessName">
 									完成单位：  
 								</p>
-								<p>
-									中国科学院文献情报中心  
+								<p th:text="*{unit}">
 								</p>
 								<p class="rencaiLFmessName">
 									发布时间：  
 								</p>
-								<p>
-									2018-09-29 
+								<p th:text="*{ptime}">
 								</p>
 								<p class="rencaiLFmessName">
 									主题分类： 
 								</p>
-								<p>
-									生物医药
+								<p th:text="*{type}">
 								</p>
 							</div>
 						</div>
 						
 					</div>
 				    <div class="rencaiRt right rencaiRtMess">
-				    	<div class="hangyeContl">
-				    		2018年中国生物制品医药制品行业细分市场研究及重点企业
+				    	<div class="hangyeContl" th:text="*{name}">
 				    	</div>
 		            	<div class="zhuanliConOne">
-		            	 <P>摘要：人类对健康的追求永无止境，进入21世纪全球医疗需求增加，发展中国家随着对健康意识越来越强，数据显示，生物医药产业在全球发展近三十年内，平均每年生物医药销售额以25%—30%的速度增长，其中美国以为代表的生物医药发展大国，总产值占到了GDP的17%左右，成为最具成长性产业之一。美国生物医药产品在全球市场占据主导地位，全球市场的90%生物药品来自美国的著名企业，如默克、强生、罗氏、诺华等。在欧洲以德国为例其生物医药总产值占GDP的12%左右。生物医药产业是继汽车、机械制造业之后的第三大产业，通过实施一系列全方位的科技计划推进生物科技创新，政府重视生物医药发展，大力扶持创新性生物技术企业，把生物医药作为新的经济增长点来培育。日本生物医药产业正快速由最具发展潜力的高技术产业向高技术支柱产业发展。</P>
-		            	  <P>技术创新已成为全球生物医药产业发展主要推动力。美国的技术创新力量是以大学和科研机构为核心的网络型研发体系，如美国的马萨诸塞州拥有百所一流的高校和科研机构哈佛大学、麻省理工等，几乎所有的著名生物医药公司以他们为网络核心在此设立了研发中心。创新成果在网络内以较快的速度通过专门的平台进行技术转化，进而顺利过渡到产业化阶段。由于其强烈的创新意识，每年美国FDA公布的生物制品专利数处于世界领先地位。欧洲以英国和德国为例，英国的生物医药产业仅次于美国，在技术研发领域已有21位科学家获得诺贝尔奖，产业学科基础其他国家无法比拟。德国是欧洲生物技术研发中心，构建了第一个生物技术产学研网络——“RNA＂技术网络，此外还拥有强大的创新团队。日本虽起步较晚，但日本本着产业立国的思路，坚持大型企业承担重大生物技术创新的任务，从2002来至至今生物医药产业发展迅速居亚洲之首。</P>
+		            	 <P th:utext="*{subject}"></P>
 		            	</div>
 		            	<div class="hangyeContlSmall">
 		            		报告预览:<span>请通过JS插件，可预览报告前15页</span>
 		            	</div>
 		            	<div class="huandengpian">
-		            		<img src="images/hangye_05.png" style="width: 100%;" />
+		            		<img th:src="@{/images/hangye_05.png}" style="width: 100%;" />
 		            	</div>
 				    </div>
 				</div>
@@ -137,7 +131,7 @@
 	    		<div class="index-container clearfix">
 	    			<div class="left footerTopLf">
 	    				<p class="footerTopTl">
-	    					<img src="images/pingtai.png" />
+	    					<img th:src="@{/images/pingtai.png}" />
 	    					平台介绍
 	    				</p>
 	    				<div class="footerTopText">
@@ -163,7 +157,7 @@
 	    		    <div class="left footerTopLX">
 	    		    	<div class="footerTopLXT">
 	    		    	<p class="footerTopTl">	    				
-	    					<img src="images/lianxifangshi.png" />联系方式
+	    					<img th:src="@{/images/lianxifangshi.png}" />联系方式
 	    				</p>
 	    				<div class="footerTopText">
 	    					<p>电话：010-82626611-6302</p>
@@ -172,7 +166,7 @@
 	    		    	</div>
 	    		        <div class="footerTopText footerTopLXB">
 	    		        	<p class="footerTopTl">	    				
-	    				 	<img src="images/jigou.png" />合作机构
+	    				 	<img th:src="@{/images/jigou.png}" />合作机构
 	    				    </p>
 	    		        	<ul>
 	    		        		<li>
@@ -191,7 +185,7 @@
 	    		        </div>
 	    		    </div>
 	    		    <div class="right footerTopErw">
-	    		    	<img src="images/erw.png" />
+	    		    	<img th:src="@{/images/erw.png}" />
 	    		    	<p>
 	    		    		<em></em>扫码快速关注公众号
 	    		    	</p>
