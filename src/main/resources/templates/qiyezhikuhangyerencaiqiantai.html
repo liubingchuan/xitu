@@ -138,7 +138,7 @@
 				        <ul class="clearfix rencaiUl">
 				        	<li th:each="expert: ${expertList}">
 				        		<a th:href="@{/expert/get(id=${expert.id},front=0)}" class="rencailiM clearfix">
-				        			<img th:src="@{/images/per.png}" class="left rencailiMImg" />
+				        			<img th:src="@{/file/fileDownload?filename={filename}(filename=${expert.frontend})}" class="left rencailiMImg" />
 				        			<div class="rencailiMRt">
 				        				<div class="rencailiMRtName" th:text="${expert.name}">
 				        				</div>
