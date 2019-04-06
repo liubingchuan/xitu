@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" th:href="@{/css/xinit.css}" />
+		<link rel="stylesheet" th:href="@{/css/xmain.css}" />
+		<script type="text/javascript" th:src="@{/js/jquery-1.7.2.js}" ></script>
+	</head>
+	<body>
+		<div class="nyMain">
+			<div class="nycontainer">
+			<div class="head">
+			<div class="clearfix">
+				<a href="/" class="left logo">
+					<img th:src="@{/ximages/logo.png}" />
+				</a>
+				<a href="/" class="left headBack">
+				<<返回首页
+				</a>
+				<div class="left headsuos">
+					<em></em>
+					<input type="button" class="headsuosBtn" value="搜索"  onClick="search();"/>
+					<input type="text" class="headsuosInp" th:text="${query}" id="keywords"/>
+				</div>
+				<div class="right">
+					<!--登录前-->
+					<!--<div class="loginbefore">
+						<a href="javascript:;" class="loginBtn">登录</a><span>/</span><a href="loginBtn">注册</a>
+					</div>-->
+					<!--登陆后-->
+					<div class="loginAfter">
+						<div class="loginAfterM">
+							<a href="#" class="loginAfterTx">
+								<img th:src="@{/ximages/tx.jpeg}" />
+							</a>
+							<div class="loginAfterNo">
+								
+								<div class="loginAfterNoM">
+									<em class="loginAfterNoMSj"></em>
+									<p>
+										<span class="loginName">
+											张伟
+										</span>
+										<span class="vip">
+											超级管理员
+										</span>
+									</p>
+									<p>
+										<a th:href="@{/user/list(pageIndex=0,pageSize=10)}">
+											<img th:src="@{/ximages/houtai.png}" />
+											进入管理后台
+										</a>
+									</p>
+									<p>
+										<a href="#">
+											<img th:src="@{/ximages/dingdan.png}" />
+											我的申请
+										</a>
+									</p>
+									<p>
+										<a href="#">
+											<img th:src="@{/ximages/tuichu.png}" />
+											退出
+										</a>
+									</p>
+									
+								</div>
+							</div>
+						</div>
+					</div>
+				
+				</div>
+			</div>
+		</div>              
+		   
+			</div>
+			<div class="jianceConnr">
+				<div class="nycontainer">
+					<div class="jianceCon clearfix">
+						<div class="left jiansuoLf">
+		        		<div class="jiansuoTl">
+		        			<img th:src="@{/ximages/1.png}" />
+		        			<a href="#">首页</a>&gt;<span>信息监测</span>
+		        		</div>
+		        		<div class="resultLfConNr">
+		        		<div class="resultLfCon">
+		        			<div class="resultLfConTl">
+		        			来源机构：  
+		        			</div>
+		        			<p>杭州市政府  </p>
+		        		</div>
+		        		<div class="resultLfCon">
+		        			<div class="resultLfConTl">
+		        			栏目分类： 
+		        			</div>
+		        			<p class="colorBlue">
+		        			科技前沿 
+		        			</p>
+		        		</div>
+		        		<div class="resultLfCon">
+		        			<div class="resultLfConTl">
+		        			主题分类：  
+		        			</div>
+		        			<p>
+		        			国家项目 
+		        			</p>
+		        		</div>
+		        		<div class="resultLfCon">
+		        			<div class="resultLfConTl">
+		        			发布时间：
+		        			</div>
+		        			<p>
+		        			 2018-09-29
+		        			</p>
+		        		</div>
+		        		<a href="#" class="resultDown btnblue">
+		        			原文地址
+		        		</a>
+		        		
+		        		</div>
+		        	    
+		        	    
+		        	   
+		        	   
+		        	    
+		        	</div>
+					    <div class="right jiansuoRt">
+					    	<h1 class="jianceTl">
+					    		杭州市政府设立300亿产业母基金，将重点投入生物医药产业 
+					    	</h1>
+					    	<div class="jiancenrText">
+					    		 在浙江（杭州）国际生物医药产业投资峰会上，杭州市投促局局长王翀透露，杭州市政府设立300亿元产业母基金，生物医药产业是其中一个重点投资领域。 健康产业已经成为浙江省支柱型产业。据浙江省发展和改革委员会副主任焦旭祥透露， 2017年全省健康产业总产出达6483亿，比上年增长了10.3%。目前浙江省社会办医医疗机构1.5万家，社会办医床位是7.49万张，同比分别增长了5.3%、19.3%；全省医疗器械产业实现工业总产值是250亿元，同比增长39.6%；医药工业总产值达到了1428.7亿。 十多年以前，杭州提出了“两港”建设，分别是信息港和医药港。与信息港建设相比，医药港的建设略有滞后。今年年初，杭州市政府重新启动了医药港建设，钛媒体了解到，杭州东部医药港集聚了辉瑞、默沙东、吉丽亚等全球药企近500余家，生物医药产值规模达到了250亿元，年均增长超过了20%。过去十个月，杭州市新增了生物和医药企业3870家，新增企业数的增速较去年同期达到了26%，新增的注册资本金的增速达到了39%。此外，据杭州市投促局统计，今年1—10月份，杭州市生物医药领域融资额达到了62亿，比上一年增长了200%。 截至目前，杭州市集聚了88家生物医药企业，20多家上市公司，包括多家明星企业。比如贝达药业，是中国第一个真正具有商业意义的创新药；泰格医药，国内领先的临床CRO企业；歌礼生物，是港交所第一家启动新制度后上市的无盈利生物医药企业…… 王翀表示，浙医、邵逸夫、浙二、省人民、市一等一批省市级等高端医疗资源集聚，为生物医药产业发展提供了非常丰富的临床资源，同时也是药物研发非常重要的创新载体。此外，包括浙江大学、西湖大学在内，杭州地区有生命科学、生物医药相关专业的高等院校超过16所。接下来，杭州市将围绕新药研发、医疗器械、医疗数据三个方向发力。在新药研发方面，将围绕新药研发、转化、生产、销售等环节形成产业闭环；在医疗数据方面，计划建设国际标准的生物医药大数据中心；在医疗器械方面，将聚焦生物材料、传感器等核心技术，注重虚拟现实与医疗大数据、人工智能等在医学的应用。
+					    	    <br /><br />
+					    	    <img th:src="@{/ximages/jiance.png}" />
+					    	</div>
+					    </div>
+					</div>
+					
+				</div>
+			</div>
+			</div>
+		<div class="footer">
+	    	<div class="footerTop">
+	    		<div class="index-container clearfix">
+	    			<div class="left footerTopLf">
+	    				<img th:src="@{/ximages/wb.png}" class="xitufooterIMg" />
+	    			</div>
+	    			<div class="left footerTopMiddle">
+	    				<div class="footerTopMiddleTop">
+	    				<p class="footerTopTl">
+	    					<img th:src="@{/ximages/pingtai.png}" />
+	    					平台介绍
+	    				</p>
+	    				<div class="footerTopText">
+	    					平台围绕生物医药领域进行信息监测与情报服务，结合文献情报中心的文献服务、情报咨询服务等，为领域研究相关科研机构、政府部门、企业等提供产业技术情报服务和科技咨询服务。
+	    				</div>
+	    				</div>
+	    				<p class="footerTopTl">	    				
+	    					<img th:src="@{/ximages/lianxifangshi.png}" />联系方式
+	    				</p>
+	    				<div class="footerTopText">
+	    					<p>电话：010-82626611-6302</p>
+                             <p>邮箱：chinakx@mail.las.ac.cn</p>
+	    				</div>
+	    			</div>
+	    		    <div class="left footerTopLX">
+	    		    	
+	    		        <div class="footerTopText">
+	    		        	<p class="footerTopTl">	    				
+	    				 	<img th:src="@{/ximages/jigou.png}" />合作机构
+	    				    </p>
+	    		        	<ul>
+	    		        		<li>
+	    		        			<a href="#">•&nbsp;中国科学院分院</a>
+	    		        		</li>
+	    		        		<li>
+	    		        			<a href="#">•&nbsp;中国科学院文献情</a>
+	    		        		</li>
+	    		        		<li>
+	    		        			<a href="#">•&nbsp;中国科学院分院</a>
+	    		        		</li>
+	    		        		<li>
+	    		        			<a href="#">•&nbsp;国家科学图书文献中心</a>
+	    		        		</li>
+	    		        		<li>
+	    		        			<a href="#">•&nbsp;中国科学院文献情报中心</a>
+	    		        		</li>
+	    		        		<li>
+	    		        			<a href="#">•&nbsp;国家科学图书文献中心</a>
+	    		        		</li>
+	    		        	</ul>
+	    		        </div>
+	    		    </div>
+	    		    <div class="right footerTopErw">
+	    		    	<img th:src="@{/ximages/erw.png}" />
+	    		    	<p>
+	    		    		<em></em>扫码快速关注公众号
+	    		    	</p>
+	    		    </div>
+	    		</div>
+	    	</div>
+	        <div class="footerB">
+	        	<div class="index-container">
+	        		版权所有 @ 2017 沈阳高新区生物医药知识服务云平台 中国科学院文献情报中心,京ICP证030173号
+	        	</div>
+	        </div>
+	    </div>
+		<!--弹窗-->
+		<div class="alertBg"></div>
+		<div class="alertCon alertxuq">
+	    	<img src="images/Icon.png" />
+	    	<div class="alertxuqTEXT">
+	    		您的需求已提交<br />
+	    		请到<a href="#">我的申请</a>中查看最新进展
+	    	</div>
+	    	<div class="alertxuqa clearfix">
+	    		<a href="index.html">
+	    			返回首页
+	    		</a>
+	    		<a href="javascript:;" class="alertxuqaNext">
+	    			继续申请
+	    		</a>
+	    	</div>
+	    </div>
+		<script type="text/javascript" th:src="@{/js/main.js}" ></script>
+		<script type="text/javascript" th:src="@{/js/huakuai.js}" ></script>
+		<script type="text/javascript" th:inline="javascript">
+		    
+			jeDate({
+				dateCell:"#dateinfo",
+				format:"YYYY年MM月DD日",
+				isinitVal:true,
+				isTime:false, //isClear:false,
+			    isClear:true,
+			})
+			jeDate({
+				dateCell:"#dateinfo1",
+				format:"YYYY年MM月DD日",
+				isinitVal:true,
+				isTime:false, //isClear:false,
+			    isClear:true,
+			})
+			
+			function search(){
+			    /*  window.location.href="http://127.0.0.1:8088/project/list?q=" + $("#keywords").val(); */
+			    window.location.href="/patent/list?q=" + $("#keywords").val();
+				/* window.location.href="http://47.104.7.73/patent/list?q=" + $("#keywords").val(); */
+			}
+				</script>
+	</body>
+</html>
