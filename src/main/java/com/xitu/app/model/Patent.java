@@ -14,10 +14,10 @@ public class Patent implements Serializable{
 
 	@Id
 	private String id;
-	private String title;  //标题
-	private String subject; //摘要
+	private String title;  //标题 （天地锁）
+	private String subject; //摘要 
 	@Field(type=FieldType.Keyword)
-	private List<String> person;   // 专利权人
+	private List<String> person;   // 专利权人（申请人）
 	@Field(type=FieldType.Keyword)
 	private List<String> creator;
 	@Field(type=FieldType.Keyword)
@@ -32,13 +32,13 @@ public class Patent implements Serializable{
 	private String type; // 专利类型
 	private String description; // 专利描述
 	@Field(type=FieldType.Keyword)
-	private String claim; //权利要求
+	private String claim; //权利要求 （主权项）
 	@Field(type=FieldType.Keyword)
 	private String publicnumber; //公开号
 	@Field(type=FieldType.Keyword)
 	private String applynumber; //申请号
 	@Field(type=FieldType.Keyword)
-	private List<String> ipc; // ipc
+	private List<String> ipc; // ipc (分类号)
 	@Field(type=FieldType.Keyword)
 	private List<String> cpc; // cpc
 	@Field(type=FieldType.Keyword)
