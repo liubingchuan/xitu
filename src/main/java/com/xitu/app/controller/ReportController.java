@@ -91,7 +91,9 @@ public class ReportController {
 	}
 	
 	@GetMapping(value = "report/get")
-	public String getReport(@RequestParam(required=false,value="id") String id,@RequestParam(required=false,value="disable") String disable, Model model) {
+	public String getReport(@RequestParam(required=false,value="front") String front,
+			@RequestParam(required=false,value="id") String id,
+			@RequestParam(required=false,value="disable") String disable, Model model) {
 		Report report = new Report();
 		if(id != null) {
 			report = reportRepository.findById(id).get();
@@ -117,6 +119,9 @@ public class ReportController {
 		model.addAttribute("items", items);
 		
 		String view = "qiyezhikufenxibaogaoxiangqing";
+		if(front != null) {
+			view = "qiyezhikufenxibaogaoxiangqingqiantai";
+		}
 //		if(esTemplate.indexExists(Report.class)) {
 //			// 分页参数
 //			Pageable pageable = new PageRequest(pageIndex, pageSize);
