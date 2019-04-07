@@ -47,8 +47,10 @@ import com.xitu.app.common.request.AgTypeRequest;
 import com.xitu.app.common.request.PatentPageListRequest;
 import com.xitu.app.common.request.RegisterRequest;
 import com.xitu.app.common.request.SaveItemRequest;
+import com.xitu.app.mapper.PriceMapper;
 import com.xitu.app.model.Paper;
 import com.xitu.app.model.Patent;
+import com.xitu.app.model.Price;
 import com.xitu.app.repository.PatentRepository;
 
 
@@ -64,6 +66,9 @@ public class PatentController {
 	
 	@Autowired
 	private ElasticsearchTemplate esTemplate;
+	
+	@Autowired
+    private PriceMapper priceMapper;
 	
 //	@PostMapping(value = "papepr/save")
 //	public String savePaper(SavePaperRequest request,Model model) {
@@ -534,7 +539,14 @@ public class PatentController {
 		return "zhuanlifenxizhuanlileixing";
 	}
 	@GetMapping(value = "patent/agmount")
-	public String agmount() {
+	public String agmount(Model model) {
+		String time = priceMapper.getLatestUpdateTime();
+		if(time != null) {
+			List<Price> prices = priceMapper.getPricesByUpdateTime(time);
+			model.addAttribute("prices", prices);
+		}else {
+			model.addAttribute("prices", new ArrayList<String>());
+		}
 		return "zhuanlifenxizhuanlishenqingliang";
 	}
 	@GetMapping(value = "patent/agcountry")
