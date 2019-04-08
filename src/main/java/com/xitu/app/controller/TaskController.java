@@ -34,14 +34,4 @@ public class TaskController {
 		return "xinxicaijicaijirenwuxinjianrenwu";
 	}
 	
-	@GetMapping(value = "jiance/jiancelist")
-	public String JianceList() {
-		return "T-jiance";
-	}
-	
-	@GetMapping(value = "jiance/xiangqing")
-	public String Jiancexiangqing() {
-		return "T-jianceCon";
-	}
-	
 }

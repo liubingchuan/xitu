@@ -77,46 +77,44 @@
 			</div>
 			<div class="jianceConnr">
 				<div class="nycontainer">
-					<div class="jianceCon clearfix">
+					<div class="jianceCon clearfix" th:object="${paper}">
 						<div class="left jiansuoLf">
 		        		<div class="jiansuoTl">
 		        			<img th:src="@{/ximages/1.png}" />
-		        			<a href="#">首页</a>&gt;<span>信息监测</span>
+		        			<a href="/">首页</a>&gt;<span>信息监测</span>
 		        		</div>
 		        		<div class="resultLfConNr">
 		        		<div class="resultLfCon">
 		        			<div class="resultLfConTl">
 		        			来源机构：  
 		        			</div>
-		        			<p>杭州市政府  </p>
+		        			<p th:text="*{institution}"> </p>
 		        		</div>
 		        		<div class="resultLfCon">
 		        			<div class="resultLfConTl">
 		        			栏目分类： 
 		        			</div>
-		        			<p class="colorBlue">
-		        			科技前沿 
+		        			<p th:text="*{lanmu}">
 		        			</p>
 		        		</div>
-		        		<div class="resultLfCon">
+		        		<!-- <div class="resultLfCon">
 		        			<div class="resultLfConTl">
 		        			主题分类：  
 		        			</div>
 		        			<p>
 		        			国家项目 
 		        			</p>
-		        		</div>
+		        		</div> -->
 		        		<div class="resultLfCon">
 		        			<div class="resultLfConTl">
 		        			发布时间：
 		        			</div>
-		        			<p>
-		        			 2018-09-29
+		        			<p th:text="*{pubtime}">
 		        			</p>
 		        		</div>
-		        		<a href="#" class="resultDown btnblue">
+		        		<!-- <a href="#" class="resultDown btnblue">
 		        			原文地址
-		        		</a>
+		        		</a> -->
 		        		
 		        		</div>
 		        	    
@@ -126,13 +124,11 @@
 		        	    
 		        	</div>
 					    <div class="right jiansuoRt">
-					    	<h1 class="jianceTl">
-					    		杭州市政府设立300亿产业母基金，将重点投入生物医药产业 
+					    	<h1 class="jianceTl" th:text="*{title}">
 					    	</h1>
-					    	<div class="jiancenrText">
-					    		 在浙江（杭州）国际生物医药产业投资峰会上，杭州市投促局局长王翀透露，杭州市政府设立300亿元产业母基金，生物医药产业是其中一个重点投资领域。 健康产业已经成为浙江省支柱型产业。据浙江省发展和改革委员会副主任焦旭祥透露， 2017年全省健康产业总产出达6483亿，比上年增长了10.3%。目前浙江省社会办医医疗机构1.5万家，社会办医床位是7.49万张，同比分别增长了5.3%、19.3%；全省医疗器械产业实现工业总产值是250亿元，同比增长39.6%；医药工业总产值达到了1428.7亿。 十多年以前，杭州提出了“两港”建设，分别是信息港和医药港。与信息港建设相比，医药港的建设略有滞后。今年年初，杭州市政府重新启动了医药港建设，钛媒体了解到，杭州东部医药港集聚了辉瑞、默沙东、吉丽亚等全球药企近500余家，生物医药产值规模达到了250亿元，年均增长超过了20%。过去十个月，杭州市新增了生物和医药企业3870家，新增企业数的增速较去年同期达到了26%，新增的注册资本金的增速达到了39%。此外，据杭州市投促局统计，今年1—10月份，杭州市生物医药领域融资额达到了62亿，比上一年增长了200%。 截至目前，杭州市集聚了88家生物医药企业，20多家上市公司，包括多家明星企业。比如贝达药业，是中国第一个真正具有商业意义的创新药；泰格医药，国内领先的临床CRO企业；歌礼生物，是港交所第一家启动新制度后上市的无盈利生物医药企业…… 王翀表示，浙医、邵逸夫、浙二、省人民、市一等一批省市级等高端医疗资源集聚，为生物医药产业发展提供了非常丰富的临床资源，同时也是药物研发非常重要的创新载体。此外，包括浙江大学、西湖大学在内，杭州地区有生命科学、生物医药相关专业的高等院校超过16所。接下来，杭州市将围绕新药研发、医疗器械、医疗数据三个方向发力。在新药研发方面，将围绕新药研发、转化、生产、销售等环节形成产业闭环；在医疗数据方面，计划建设国际标准的生物医药大数据中心；在医疗器械方面，将聚焦生物材料、传感器等核心技术，注重虚拟现实与医疗大数据、人工智能等在医学的应用。
+					    	<div class="jiancenrText" th:text="*{description}">
 					    	    <br /><br />
-					    	    <img th:src="@{/ximages/jiance.png}" />
+					    	    <!-- <img th:src="@{/ximages/jiance.png}" /> -->
 					    	</div>
 					    </div>
 					</div>

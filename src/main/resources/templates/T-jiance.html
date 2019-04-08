@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
@@ -15,13 +15,14 @@
 				<a href="/" class="left logo">
 					<img th:src="@{/ximages/logo.png}" />
 				</a>
-				<a href="/" class="left headBack">
-				<<返回首页
-				</a>
-				<div class="left headsuos">
-					<em></em>
-					<input type="button" class="headsuosBtn" value="搜索"  onClick="search();"/>
-					<input type="text" class="headsuosInp" th:text="${query}" id="keywords"/>
+				<div class="left menu clearfix">
+					<a href="/">平台首页</a>
+					<a th:href="@{/patent/agmount}">稀土智库</a>
+					<a href="#">材料计算</a>
+					<a th:href="@{/jiance/jiancelist}">产业监测</a>
+					<a th:href="@{/zhishifuwu/zhishifuwu}">知识服务</a>
+					<a href="#">合作交流</a>
+					<a href="#">关于我们</a>
 				</div>
 				<div class="right">
 					<!--登录前-->
@@ -78,7 +79,7 @@
 		    		产业监测
 		    	</h1>
 		    	<div class="chaxinOneText">
-		    	围绕传统产业转型和战略性新兴产业发展，面向战略决策，提供政策与技术发展态势监测、市场分析与投资咨询、前沿技术趋势预见等服务，为用户在市场拓展、技术引进、技术研发决策提供帮助。提供三类情报调研服务：产业细分领域前沿技术研究；产业细分领域市场分析；产业细分领域态势监
+		    	围绕传统产业转型和战略性新兴产业发展，面向战略决策，提供政策与技术发展态势监测、市场分析与投资咨询、前沿技术趋势预见等服务，为用户在市场拓展、技术引进、技术研发决策提供帮助。提供三类情报调研服务：产业细分领域前沿技术研究；产业细分领域市场分析；产业细分领域态势监测。
 		    	</div>
 		    	
 		    </div>
@@ -90,121 +91,54 @@
 							产业监测
 						</span>
 						<div class="left usermanageOneSS">
-							<input type="text">
-							<em></em>
+							<input type="text"  id="keywords"/>
+							<em onClick="search();"></em>
 						</div>
 					</div>
 					<div class="clearfix">
 						<div class="left jiansuoLf jianceLf">
-							<div class="jiansuoLfGp">
+							
+		        		<div class="jiansuoLfGp" th:if=" ${not #maps.isEmpty(aglanmu)}">
 		        			<h3 class="jiansuoLfGpTl">
 		        				栏目
 		        			</h3>
 		        			<div class="jiancelfgpB">
-		        			<div class="jiansuoLfGpList">
-		        				<div class="jiansuoLfGx">
-		        					<input type="checkbox" id="10">
-		        					<label for="10">前沿观察</label>
-		        				</div>
-		        				<div class="jiansuoLfGx">
-		        					<input type="checkbox" id="11">
-		        					<label for="11">创新科技</label>
-		        				</div>
-		        				<div class="jiansuoLfGx">
-		        					<input type="checkbox" id="12">
-		        					<label for="12">政策规划</label>
-		        				</div>
-		        				<div class="jiansuoLfGx">
-		        					<input type="checkbox" id="13">
-		        					<label for="13">机构动态</label>
-		        				</div>
-		        				<div class="jiansuoLfGx">
-		        					<input type="checkbox" id="14">
-		        					<label for="14">热点新闻</label>
-		        				</div>
-		        				<div class="jiansuoLfGx">
-		        					<input type="checkbox" id="15">
-		        					<label for="15">热点新闻</label>
+		        			<div class="jiansuoLfGpList" th:if=" ${#maps.size(aglanmu) > 5}">
+		        				<div class="jiansuoLfGx" th:each="institution : ${aglanmu}">
+		        					<input type="checkbox" th:id="'institution'+${institution.key}" th:name="institution" th:value="${institution.key}" />
+		        					<label th:for="'institution'+${institution.key}" th:text="${institution.key} + '(' + ${institution.value} + ')'"></label>
 		        				</div>
 		        			</div>
-		        		    <a href="javascript:;" class="jiansuoLfMore">
+		        		    <div class="jiansuoLfGx" th:each="institution : ${aglanmu}" th:if=" ${#maps.size(aglanmu) <= 5}">
+		        					<input type="checkbox" th:id="'institution'+${institution.key}" th:name="institution" th:value="${institution.key}" />
+		        					<label th:for="'institution'+${institution.key}" th:text="${institution.key} + '(' + ${institution.value} + ')'"></label>
+		        			</div>
+		        		    <a href="javascript:;" class="jiansuoLfMore" th:if=" ${#maps.size(aglanmu) > 5}">
 		        		    	展开更多
 		        		    </a>
 		        		    </div>
 		        		</div>
-						    <div class="jiansuoLfGp">
-		        			<h3 class="jiansuoLfGpTl">
-		        				学科分类
-		        			</h3>
-		        			<div class="jiancelfgpB">
-		        			<div class="jiansuoLfGpList">
-		        				<div class="jiansuoLfGx">
-		        					<input type="checkbox" id="16">
-		        					<label for="16">生物医药</label>
-		        				</div>
-		        				<div class="jiansuoLfGx">
-		        					<input type="checkbox" id="17">
-		        					<label for="17">中药</label>
-		        				</div>
-		        				<div class="jiansuoLfGx">
-		        					<input type="checkbox" id="18">
-		        					<label for="18">化学药</label>
-		        				</div>
-		        				<div class="jiansuoLfGx">
-		        					<input type="checkbox" id="19">
-		        					<label for="19">医疗器械</label>
-		        				</div>
-		        				<div class="jiansuoLfGx">
-		        					<input type="checkbox" id="20">
-		        					<label for="20">医疗辅材</label>
-		        				</div>
-		        				<div class="jiansuoLfGx">
-		        					<input type="checkbox" id="21">
-		        					<label for="21">热点新闻</label>
-		        				</div>
-		        			</div>
-		        		    <a href="javascript:;" class="jiansuoLfMore">
-		        		    	展开更多
-		        		    </a>
-		        		    </div>
-		        		</div>
-						    <div class="jiansuoLfGp">
+						    <div class="jiansuoLfGp" th:if=" ${not #maps.isEmpty(aginstitution)}">
 		        			<h3 class="jiansuoLfGpTl">
 		        				来源机构
 		        			</h3>
 		        			<div class="jiancelfgpB">
-		        			<div class="jiansuoLfGpList">
-		        				<div class="jiansuoLfGx">
-		        					<input type="checkbox" id="22">
-		        					<label for="22">辽宁成大生物股份有限公司</label>
-		        				</div>
-		        				<div class="jiansuoLfGx">
-		        					<input type="checkbox" id="23">
-		        					<label for="23">上海联影医疗科技有限公司</label>
-		        				</div>
-		        				<div class="jiansuoLfGx">
-		        					<input type="checkbox" id="24">
-		        					<label for="24">中国先进技术研究院</label>
-		        				</div>
-		        				<div class="jiansuoLfGx">
-		        					<input type="checkbox" id="25">
-		        					<label for="25">佳能医疗（原东芝）</label>
-		        				</div>
-		        				<div class="jiansuoLfGx">
-		        					<input type="checkbox" id="26">
-		        					<label for="26">华中科技大学</label>
-		        				</div>
-		        				<div class="jiansuoLfGx">
-		        					<input type="checkbox" id="27">
-		        					<label for="27">热点新闻</label>
+		        			<div class="jiansuoLfGpList" th:if=" ${#maps.size(aginstitution) > 5}">
+		        				<div class="jiansuoLfGx" th:each="institution : ${aginstitution}">
+		        					<input type="checkbox" th:id="'institution'+${institution.key}" th:name="institution" th:value="${institution.key}" />
+		        					<label th:for="'institution'+${institution.key}" th:text="${institution.key} + '(' + ${institution.value} + ')'"></label>
 		        				</div>
 		        			</div>
-		        		    <a href="javascript:;" class="jiansuoLfMore">
+		        		    <div class="jiansuoLfGx" th:each="institution : ${aginstitution}" th:if=" ${#maps.size(aginstitution) <= 5}">
+		        					<input type="checkbox" th:id="'institution'+${institution.key}" th:name="institution" th:value="${institution.key}" />
+		        					<label th:for="'institution'+${institution.key}" th:text="${institution.key} + '(' + ${institution.value} + ')'"></label>
+		        			</div>
+		        		    <a href="javascript:;" class="jiansuoLfMore" th:if=" ${#maps.size(aginstitution) > 5}">
 		        		    	展开更多
 		        		    </a>
 		        		    </div>
 		        		</div>
-						     <div class="jiansuoLfGp">
+						     <!-- <div class="jiansuoLfGp">
 		        			<h3 class="jiansuoLfGpTl">
 		        				发布日期
 		        			</h3>
@@ -239,39 +173,37 @@
 		        		    	展开更多
 		        		    </a>
 		        		    </div>
-		        		</div>
+		        		</div> -->
 						</div>
 					    <div class="right jiansuoRt jianceRt">
 		            	<ul class="jiansuoUl">
-		            		<li>
+		            		<li th:each="paper: ${paperList}">
 		            			<div class="jiansuoLiTL">
-		            				<a th:href="@{/jiance/xiangqing}">
-		            					用于哮喘预防和免疫治疗的嵌合型DNA疫苗Hsp70/CD80
+		            				<a th:href="@{/jiance/get(id=${paper.id})}" th:text="${paper.title}">
 		            				</a>
 		            			</div>
 		            			
 		            			<div class="jiansuoLiText">
-		            				<span class="jiansuoLiTextSpan">
-		            					本发明属于生物医药领域，具体涉及一种用于哮喘预防和免疫治疗的嵌合型DNA疫苗。本发明要解决的技术问题是现有的pcDNA3.1-HSP70/CD80嵌合疫苗药效还不够理想以及安全性不好。本发明的技术方案是提供一种新的嵌合型DNA疫苗。该嵌合型DNA疫苗为含有HSP70/CD80嵌合蛋白的编码基因并能在体内将其表达的的pVAXI质粒。使用pVAXI载体替换现有技术的pcDNA3.1(+)载体后，在哮踹的预防和治疗..
+		            				<span class="jiansuoLiTextSpan" th:text="${paper.description}">
 		            				</span>
 		            				
 		            			</div>
 		            			<div class="jianceTag">
 		            				<span>
-		            					<b>发布日期：</b>2018-12-19 
+		            					<b>发布日期：</b><span th:text="${paper.pubtime}"></span>
 		            				</span>
-		            				<span>
+		            				<!-- <span>
 		            					<b>学科分类：</b>生物医药 
-		            				</span>
+		            				</span> -->
 		            				<span>
-		            					<b>来源机构：</b>东南大学 
+		            					<b>来源机构：</b><span th:text="${paper.institution}"></span>
 		            				</span>
 		            			</div>
 		            		</li>
 		            		
 		            	</ul>
 		            	<div class="sqPage">
-					    	<span>共 10 条申请订单记录</span><a href="#">首页</a><a href="#">上一页</a><a href="#">下一页</a><a href="#">尾页</a><span>页次：1/20</span>
+					    	<span th:text="'共 ' + ${totalCount}+' 条监测信息'"></span><a href="#">首页</a><a href="#">上一页</a><a href="#">下一页</a><a href="#">尾页</a><span th:text="'页次：' + ${totalPages} +'/'+ ${totalPages}"></span>
 					    </div>
 		            </div>
 					</div>
@@ -364,25 +296,10 @@
 		<script type="text/javascript" th:src="@{/js/main.js}" ></script>
 		<script type="text/javascript" th:src="@{/js/huakuai.js}" ></script>
 		<script type="text/javascript" th:inline="javascript">
-		    
-			jeDate({
-				dateCell:"#dateinfo",
-				format:"YYYY年MM月DD日",
-				isinitVal:true,
-				isTime:false, //isClear:false,
-			    isClear:true,
-			})
-			jeDate({
-				dateCell:"#dateinfo1",
-				format:"YYYY年MM月DD日",
-				isinitVal:true,
-				isTime:false, //isClear:false,
-			    isClear:true,
-			})
 			
 			function search(){
 			    /*  window.location.href="http://127.0.0.1:8088/project/list?q=" + $("#keywords").val(); */
-			    window.location.href="/patent/list?q=" + $("#keywords").val();
+			    window.location.href="/jiance/jiancelist?q=" + $("#keywords").val();
 				/* window.location.href="http://47.104.7.73/patent/list?q=" + $("#keywords").val(); */
 			}
 				</script>
