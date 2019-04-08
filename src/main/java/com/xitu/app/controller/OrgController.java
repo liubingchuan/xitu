@@ -160,6 +160,9 @@ public class OrgController {
 		long totalPages = 0L;
 		List<Org> orgList = new ArrayList<Org>();
 		String view = "qiyezhikuzhongdianjigouliebiao";
+		if (front != null) {
+			view = "qiyezhikuzhongdianjigou";
+		}
 		if(esTemplate.indexExists(Project.class)) {
 			if(q == null) {
 				totalCount = orgRepository.count();
@@ -170,9 +173,6 @@ public class OrgController {
 							.withPageable(pageable).build();
 					Page<Org> orgPage = orgRepository.search(searchQuery);
 					orgList = orgPage.getContent();
-					if (front != null) {
-						view = "qiyezhikuzhongdianjigou";
-					}
 				}
 			}else {
 				// 分页参数
@@ -189,7 +189,7 @@ public class OrgController {
 				orgList = searchPageResults.getContent();
 				totalCount = esTemplate.count(searchQuery, Org.class);
 				totalPages = Math.round(totalCount/pageSize);
-				view = "qiyezhikuzhongdianjigou";
+//				view = "qiyezhikuzhongdianjigou";
 			}
 		}
 		model.addAttribute("orgList", orgList);

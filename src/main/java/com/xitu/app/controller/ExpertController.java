@@ -155,6 +155,9 @@ public class ExpertController {
 		long totalPages = 0L;
 		List<Expert> expertList = new ArrayList<Expert>();
 		String view = "qiyezhikuhangyerencailiebiao";
+		if (front != null) {
+			view = "qiyezhikuhangyerencaiqiantai";
+		}
 		if(esTemplate.indexExists(Expert.class)) {
 			if(q == null) {
 				totalCount = expertRepository.count();
@@ -165,9 +168,6 @@ public class ExpertController {
 							.withPageable(pageable).build();
 					Page<Expert> expertPage = expertRepository.search(searchQuery);
 					expertList = expertPage.getContent();
-					if (front != null) {
-						view = "qiyezhikuhangyerencaiqiantai";
-					}
 				}
 			}else {
 				// 分页参数
@@ -184,9 +184,9 @@ public class ExpertController {
 				expertList = searchPageResults.getContent();
 				totalCount = esTemplate.count(searchQuery, Expert.class);
 				totalPages = Math.round(totalCount/pageSize);
-				if (front != null) {
-					view = "qiyezhikuhangyerencaiqiantai";
-				}
+//				if (front != null) {
+//					view = "qiyezhikuhangyerencaiqiantai";
+//				}
 			}
 		}
 		model.addAttribute("expertList", expertList);
