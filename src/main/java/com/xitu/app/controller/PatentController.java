@@ -1,10 +1,16 @@
 package com.xitu.app.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
@@ -17,6 +23,11 @@ import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.Aggregations;
 import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
 import org.elasticsearch.search.aggregations.bucket.terms.StringTerms.Bucket;
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -643,4 +654,302 @@ public class PatentController {
 	}
 	
 	
+	@ResponseBody
+	@RequestMapping(value = "patent/fetch/local", method = RequestMethod.GET)
+	public R fetchLocal(@RequestParam(required=false,value="interval") Integer interval,
+			@RequestParam(required=false,value="patentIndex") Integer patentIndex,
+			@RequestParam(required=false,value="tail") Integer tail) {
+		String[] url={"http://www2.soopat.com/Home/Result","http://www1.soopat.com/Home/Result"};
+		String[] base = {"http://www1.soopat.com","http://www2.soopat.com"};
+//		List<String> ipList = new ArrayList<String>();
+		List<String> missedList = new ArrayList<String>();
+		Random random = new Random();
+//		try {
+//			ipList = getIPList();
+//		} catch (IOException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
+//		int length = ipList.size();
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("SearchWord", "稀土");
+		map.put("FMZL", "Y");
+		map.put("SYXX", "Y");
+		map.put("WGZL", "Y");
+		map.put("FMSQ", "Y");
+		List<Patent> patents = new LinkedList<Patent>();
+		int out=0;
+		for(;patentIndex<tail;){
+			System.out.println("开启新的一页");
+//			if(patents.size() >= 100) {
+//				System.out.println("新插入100条");
+//				patentRepository.saveAll(patents);
+//				patents.clear();
+//			}
+			
+			Map<String,String> innerPathMap = new HashMap<String,String>();
+			if(missedList.size() > 0) {
+				for(String s: missedList) {
+					String[] str = s.split("%");
+					innerPathMap.put(str[0], str[1]);
+				}
+				missedList.clear();
+			}
+			map.put("PatentIndex", String.valueOf(patentIndex));
+			
+			int ipIndex = 0;
+			String ip = "";
+			String[] r = new String[]{};
+//			do{
+//				ipIndex = random.nextInt(length);
+//				ip = ipList.get(ipIndex);
+//				r = ip.split(":");
+//			}while(r[0].equals(System.getProperties().getProperty("http.proxyHost")));
+//			System.getProperties().setProperty("http.proxyHost", r[0]);
+//			System.getProperties().setProperty("http.proxyPort", r[1]);
+			try {
+				String pageUrl = url[out%2];
+				System.out.println("pageUrl is ->" + pageUrl);
+				Connection conn = Jsoup.connect(pageUrl);
+				conn.data(map);
+				Document doc = conn.get();
+				if(doc.toString().contains("请按图片上的要求依次点击图片上对应的字符")) {
+					System.out.println("已被拦截，当前PatentIndex为"+ patentIndex + "手动干预后放开断点，并继续执行");
+//					System.out.println("当前被封ip--》" + System.getProperties().getProperty("http.proxyHost") + System.getProperties().getProperty("http.proxyPort"));
+					System.out.println("正在尝试的url是 " + url[out%3]);
+//					do{
+//						ipIndex = random.nextInt(length);
+//						ip = ipList.get(ipIndex);
+//						r = ip.split(":");
+//					}while(r[0].equals(System.getProperties().getProperty("http.proxyHost")));
+//					System.getProperties().setProperty("http.proxyHost", r[0]);
+//					System.getProperties().setProperty("http.proxyPort", r[1]);
+					// retry
+					doc = conn.get();
+
+				}
+				out++;
+//				System.out.println(doc.toString());
+				Elements patentBlocks = doc.getElementsByClass("PatentBlock");
+				
+				for(Element patentBlock: patentBlocks) {
+					Document patentDoc = Jsoup.parse(patentBlock.toString());
+					Elements patentTypeElements = patentDoc.getElementsByClass("PatentTypeBlock");
+					if(patentTypeElements.size() == 0) {
+						continue;
+					}
+	jump:
+					for(Element pte: patentTypeElements) {
+						// FIXME
+						System.out.println(pte.text());
+						String type = extractMessageByRegular(pte.text()).get(0);
+						Document pteDoc = Jsoup.parse(pte.toString());
+						Elements hrefs = pteDoc.select("a[href]");
+						for(Element elem: hrefs) {
+		                	if(!"".equals(elem.attr("href"))){
+		                		String href = elem.attr("href");
+		                		innerPathMap.put(href, type);
+		                		break jump;
+		                	}
+		                }
+					}
+				}
+				
+				int max=5000;
+				int min=2000;
+				
+				int in=0;
+				for(Map.Entry<String, String> entry: innerPathMap.entrySet()) {
+					int sleep = random.nextInt(max)%(max-min+1) + min;
+					System.out.println("休眠" + sleep + "毫秒");
+					try {
+						Thread.sleep(sleep);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					Patent patent = new Patent();
+					String singleUrl = base[in%2] + entry.getKey();
+					in++;
+					System.out.println("正在调用-------------------------->" + entry.getKey());
+//					do{
+//						ipIndex = random.nextInt(length);
+//						ip = ipList.get(ipIndex);
+//						r = ip.split(":");
+//					}while(r[0].equals(System.getProperties().getProperty("http.proxyHost")));
+//					System.getProperties().setProperty("http.proxyHost", r[0]);
+//					System.getProperties().setProperty("http.proxyPort", r[1]);
+					Connection singlePageConn = Jsoup.connect(singleUrl);
+					try {
+						Document singleDoc = singlePageConn.get();
+						System.out.println("成功调用-------------------->" + entry.getKey());
+						if(singleDoc.toString().contains("请按图片上的要求依次点击图片上对应的字符")) {
+							java.awt.Toolkit.getDefaultToolkit().beep();
+							System.out.println("已被拦截，当前PatentIndex为"+ patentIndex + "手动干预后放开断点，并继续执行");
+//							System.out.println("当前被封ip---》" + System.getProperties().getProperty("http.proxyHost") + ":" + System.getProperties().getProperty("http.proxyPort"));
+							System.out.println("正在尝试的url是 " + singleUrl);
+//							do{
+//								ipIndex = random.nextInt(length);
+//								ip = ipList.get(ipIndex);
+//								r = ip.split(":");
+//							}while(r[0].equals(System.getProperties().getProperty("http.proxyHost")));
+//							System.getProperties().setProperty("http.proxyHost", r[0]);
+//							System.getProperties().setProperty("http.proxyPort", r[1]);
+							
+							// retry
+							singleDoc = singlePageConn.get();
+							
+//							System.getProperties().remove("http.proxyHost");
+//							System.getProperties().remove("http.proxyPort");
+							
+//							return R.error();
+
+						}
+						Elements h1Elements = singleDoc.getElementsByTag("h1");
+						if(h1Elements == null) {
+							System.out.println("获取h1失败------------------------patentIndex=" + patentIndex);
+							return R.error();
+						}
+						for(Element h1Element: h1Elements) {
+							String title = h1Element.text();
+							if(title != null) {
+								patent.setType(entry.getValue());
+								patent.setTitle(title.split(" ")[0]);
+								patent.setLawstatus(title.split(" ")[1]);
+								break;
+							}
+						}
+						
+						Elements grayElements = singleDoc.getElementsByClass("gray");
+						for(Element grayElement: grayElements) {
+							String appliance = grayElement.text();
+							if(appliance != null) {
+								String[] s = appliance.split(" ");
+								if(s.length>=2) {
+									patent.setApplynumber(s[0].substring(4, s[0].length()));
+									String applytime = s[1].substring(4, s[1].length());
+									patent.setApplytime(applytime);
+									patent.setApplyyear(applytime.substring(0, 4));
+									break;
+								}
+							}
+						}
+						
+						Elements datainfoElements = singleDoc.getElementsByClass("datainfo");
+						for(Element dataInfo : datainfoElements) {
+							Elements tdelements = dataInfo.getElementsByTag("td");
+							for(Element td: tdelements) {
+								if(td.text().contains("摘要：")){
+									patent.setSubject(td.text());
+								}else if(td.text().contains("申请人：")){
+									List<String> persons = new ArrayList<String>();
+									persons.add(td.text().replace("申请人：", ""));
+									patent.setPerson(persons);
+								}else if(td.text().contains("发明(设计)人：")) {
+									List<String> creators = new ArrayList<String>();
+									creators.add(td.text().replace("发明(设计)人：", ""));
+									patent.setCreator(creators);
+								}else if(td.text().contains("分类号：") && (!td.text().contains("主分类号："))) {
+									List<String> ipcs = new ArrayList<String>();
+									String ipc = td.text().replace("分类号：", "");
+									String[] ipcArray = ipc.split(" ");
+									for(String s: ipcArray) {
+										ipcs.add(s);
+									}
+									patent.setIpc(ipcs);
+								}
+								System.out.println(td.text());
+							}
+						}
+						Elements vipcomElements = singleDoc.getElementsByClass("vipcom");
+						for(Element vipcom: vipcomElements) {
+							String s = vipcom.toString();
+							if(s.contains("其他信息")) {
+								int i = 0;
+								Elements tdelements = vipcom.getElementsByTag("td");
+								for(Element td: tdelements) {
+									if(i==1) {
+										patent.setClaim(td.text());
+									}else if(i==5) {
+										patent.setPublicnumber(td.text());
+									}else if(i==8) {
+										patent.setPublictime(td.text());
+										if(td.text().contains("-")) {
+											patent.setPublicyear(td.text().split("-")[0]);
+										}
+									}else if(i==20) {
+										System.out.println("priority-----" + td.text());
+										patent.setPiroryear(td.text().equals("&nbsp;")?"":td.text());
+									}
+									i++;
+								}
+							}
+						}
+						patent.setId(UUID.randomUUID().toString());
+						patentRepository.save(patent);
+						patents.add(patent);
+					} catch(Exception e) {
+						missedList.add(entry.getKey() + "%" + entry.getValue());
+					}
+				}
+				
+				System.out.println("fasdf");
+				patentIndex += 10;
+				try {
+					Thread.sleep(interval);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+		return R.ok();
+	}
+	
+	private List<String> extractMessageByRegular(String msg){
+		
+		List<String> list=new ArrayList<String>();
+		Pattern p = Pattern.compile("(\\[[^\\]]*\\])");
+		Matcher m = p.matcher(msg);
+		while(m.find()){
+			list.add(m.group().substring(1, m.group().length()-1));
+		}
+		return list;
+	}
+
+	
+	private List<String> getIPList() throws IOException {
+        Document doc = null;
+        try {
+            // doc = Jsoup.connect("http://www.baidu.com")
+            doc = Jsoup.connect("http://www.xicidaili.com/nt")
+            // .data("query", "Java")
+                    .userAgent("Mozilla")
+                    // .cookie("auth", "token")
+                    // .timeout(3000)
+                    .get();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        List<String> list = new ArrayList<String>();
+        Elements elements = doc.select("tr.odd");
+        int len = elements.size();
+        Element element = null;
+        for (int i = 0; i < len; i++) {
+            element = elements.get(i);
+            StringBuilder sBuilder = new StringBuilder(20);
+            sBuilder.append(element.child(1).text());
+            sBuilder.append(":");
+            sBuilder.append(element.child(2).text());
+            list.add(sBuilder.toString());
+        }
+        // System.out.println(doc.html());
+        doc = null;
+        elements.clear();
+        elements = null;
+        return list;
+    }
 }
