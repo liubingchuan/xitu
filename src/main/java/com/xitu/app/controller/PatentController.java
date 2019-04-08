@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -884,6 +885,7 @@ public class PatentController {
 								}
 							}
 						}
+						patent.setId(UUID.randomUUID().toString());
 						patentRepository.save(patent);
 						patents.add(patent);
 					} catch(Exception e) {
