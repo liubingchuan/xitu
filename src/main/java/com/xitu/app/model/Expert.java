@@ -168,6 +168,4 @@ public class Expert implements Serializable{
 		this.frontendSize = frontendSize;
 	}
 	
-	
-	
 }

@@ -45,6 +45,8 @@ public class Patent implements Serializable{
 	private String piroryear; //优先权年
 	@Field(type=FieldType.Keyword)
 	private String country; //国家
+	@Field(type=FieldType.Keyword)
+	private String law; // 法律状态
 	private Long now;
 	public String getId() {
 		return id;
@@ -160,10 +162,11 @@ public class Patent implements Serializable{
 	public void setCpc(List<String> cpc) {
 		this.cpc = cpc;
 	}
-	
-	
-	
-	
-	
+	public String getLaw() {
+		return law;
+	}
+	public void setLaw(String law) {
+		this.law = law;
+	}
 	
 }
