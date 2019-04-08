@@ -194,7 +194,7 @@ jump:
 				String title = h1Element.text();
 				if(title != null) {
 					patent.setTitle(title.split(" ")[0]);
-					patent.setLaw(title.split(" ")[1]);
+					patent.setLawstatus(title.split(" ")[1]);
 					break;
 				}
 			}
