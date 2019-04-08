@@ -133,7 +133,7 @@ public class JianceController {
 				// 分页参数
 				Pageable pageable = new PageRequest(pageIndex, pageSize);
 
-				BoolQueryBuilder queryBuilder = QueryBuilders.boolQuery().should(QueryBuilders.matchPhraseQuery("title", q)).should(QueryBuilders.matchPhraseQuery("subject", q));
+				BoolQueryBuilder queryBuilder = QueryBuilders.boolQuery().should(QueryBuilders.matchPhraseQuery("title", q)).should(QueryBuilders.matchPhraseQuery("description", q));
 				if(year != null) {
 					String[] years = year.split("-");
 					queryBuilder.filter(QueryBuilders.termsQuery("year", years));
