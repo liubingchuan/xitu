@@ -23,12 +23,12 @@ import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.Aggregations;
 import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
 import org.elasticsearch.search.aggregations.bucket.terms.StringTerms.Bucket;
+import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +45,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -56,11 +55,10 @@ import com.xitu.app.common.R;
 import com.xitu.app.common.request.AgPersonRequest;
 import com.xitu.app.common.request.AgTypeRequest;
 import com.xitu.app.common.request.PatentPageListRequest;
-import com.xitu.app.common.request.RegisterRequest;
-import com.xitu.app.common.request.SaveItemRequest;
+import com.xitu.app.mapper.PatentMapper;
 import com.xitu.app.mapper.PriceMapper;
-import com.xitu.app.model.Paper;
 import com.xitu.app.model.Patent;
+import com.xitu.app.model.PatentMysql;
 import com.xitu.app.model.Price;
 import com.xitu.app.repository.PatentRepository;
 
@@ -80,6 +78,9 @@ public class PatentController {
 	
 	@Autowired
     private PriceMapper priceMapper;
+	
+	@Autowired
+	private PatentMapper patentMapper;
 	
 //	@PostMapping(value = "papepr/save")
 //	public String savePaper(SavePaperRequest request,Model model) {
@@ -769,6 +770,7 @@ public class PatentController {
 						e.printStackTrace();
 					}
 					Patent patent = new Patent();
+					PatentMysql patentMysql = new PatentMysql();
 					String singleUrl = base[in%2] + entry.getKey();
 					in++;
 					System.out.println("正在调用-------------------------->" + entry.getKey());
@@ -816,6 +818,9 @@ public class PatentController {
 								patent.setType(entry.getValue());
 								patent.setTitle(title.split(" ")[0]);
 								patent.setLawstatus(title.split(" ")[1]);
+								patentMysql.setType(entry.getValue());
+								patentMysql.setTitle(title.split(" ")[0]);
+								patentMysql.setLawstatus(title.split(" ")[1]);
 								break;
 							}
 						}
@@ -827,8 +832,11 @@ public class PatentController {
 								String[] s = appliance.split(" ");
 								if(s.length>=2) {
 									patent.setApplynumber(s[0].substring(4, s[0].length()));
+									patentMysql.setApplynumber(s[0].substring(4, s[0].length()));
 									String applytime = s[1].substring(4, s[1].length());
 									patent.setApplytime(applytime);
+									patentMysql.setApplytime(applytime);
+									patent.setApplyyear(applytime.substring(0, 4));
 									patent.setApplyyear(applytime.substring(0, 4));
 									break;
 								}
@@ -841,13 +849,16 @@ public class PatentController {
 							for(Element td: tdelements) {
 								if(td.text().contains("摘要：")){
 									patent.setSubject(td.text());
+									patentMysql.setSubject(td.text());
 								}else if(td.text().contains("申请人：")){
 									List<String> persons = new ArrayList<String>();
 									persons.add(td.text().replace("申请人：", ""));
+									patentMysql.setPerson(td.text().replace("申请人：", ""));
 									patent.setPerson(persons);
 								}else if(td.text().contains("发明(设计)人：")) {
 									List<String> creators = new ArrayList<String>();
 									creators.add(td.text().replace("发明(设计)人：", ""));
+									patentMysql.setCreator(td.text().replace("发明(设计)人：", ""));
 									patent.setCreator(creators);
 								}else if(td.text().contains("分类号：") && (!td.text().contains("主分类号："))) {
 									List<String> ipcs = new ArrayList<String>();
@@ -856,6 +867,7 @@ public class PatentController {
 									for(String s: ipcArray) {
 										ipcs.add(s);
 									}
+									patentMysql.setIpc(ipc.replace(" ", ";"));
 									patent.setIpc(ipcs);
 								}
 								System.out.println(td.text());
@@ -870,22 +882,28 @@ public class PatentController {
 								for(Element td: tdelements) {
 									if(i==1) {
 										patent.setClaim(td.text());
+										patentMysql.setClaim(td.text());
 									}else if(i==5) {
 										patent.setPublicnumber(td.text());
+										patentMysql.setPublicnumber(td.text());
 									}else if(i==8) {
 										patent.setPublictime(td.text());
+										patentMysql.setPublictime(td.text());
 										if(td.text().contains("-")) {
 											patent.setPublicyear(td.text().split("-")[0]);
+											patentMysql.setPublicyear(td.text().split("-")[0]);
 										}
 									}else if(i==20) {
 										System.out.println("priority-----" + td.text());
 										patent.setPiroryear(td.text().equals("&nbsp;")?"":td.text());
+										patentMysql.setPiroryear(td.text().equals("&nbsp;")?"":td.text());
 									}
 									i++;
 								}
 							}
 						}
 						patent.setId(UUID.randomUUID().toString());
+						patentMapper.insertPatent(patentMysql);
 						patentRepository.save(patent);
 						patents.add(patent);
 					} catch(Exception e) {

@@ -45,6 +45,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.xitu.app.common.R;
 import com.xitu.app.common.request.SavePaperRequest;
+import com.xitu.app.mapper.PatentMapper;
 import com.xitu.app.model.Paper;
 import com.xitu.app.model.Project;
 import com.xitu.app.repository.PaperRepository;
@@ -64,24 +65,6 @@ public class PaperController {
 	@Autowired
 	private ElasticsearchTemplate esTemplate;
 	
-//	@PostMapping(value = "papepr/save")
-//	public String savePaper(SavePaperRequest request,Model model) {
-//		
-//		Paper paper = new Project();
-//		BeanUtil.copyBean(request, project);
-//		if(project.getId() == null || "".equals(project.getId())) {
-//			project.setId(UUID.randomUUID().toString());
-//		}
-//		project.setDescription(request.getInfo());
-//		project.setNow(System.currentTimeMillis());
-////		List<String> list = new ArrayList<String>();
-////		list.add("sdf");
-////		list.add("gasdf");
-////		list.add("kkkkkk");
-////		project.setList(list);
-//		projectRepository.save(project);
-//		return "redirect:/project/list";
-//	}
 	
 	@GetMapping(value = "paper/get")
 	public String getPaper(@RequestParam(required=false,value="id") String id, Model model) {
