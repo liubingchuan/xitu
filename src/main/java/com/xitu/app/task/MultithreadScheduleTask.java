@@ -1,9 +1,14 @@
 package com.xitu.app.task;
 
 import java.io.IOException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -16,8 +21,14 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.rometools.rome.feed.synd.SyndEntry;
+import com.rometools.rome.feed.synd.SyndFeed;
+import com.rometools.rome.io.SyndFeedInput;
+import com.rometools.rome.io.XmlReader;
 import com.xitu.app.mapper.PriceMapper;
+import com.xitu.app.model.Jiance;
 import com.xitu.app.model.Price;
+import com.xitu.app.repository.JianceRepository;
 
 @Component
 @EnableScheduling   // 1.开启定时任务
@@ -26,6 +37,9 @@ public class MultithreadScheduleTask {
 
 	@Autowired
     private PriceMapper priceMapper;
+	
+	@Autowired
+    private JianceRepository jianceRepository;
 	
 	@Async
     @Scheduled(cron = "0 0 0,8,16,21 * * ?")  //间隔1秒
@@ -107,4 +121,40 @@ jump:
         }
 	
     }
-}
+	
+	@Async
+    @Scheduled(cron = "0 0 12 * * ?")
+	public void jiance(){
+    	List<Jiance> objs = new LinkedList<Jiance>();
+    	try {
+    		Map<String, String> map = new HashMap<String, String>();
+    		map.put("http://35.201.235.191:3000/users/1/web_requests/15/xituzixun.xml", "新闻动态");
+    		map.put("http://35.201.235.191:3000/users/1/web_requests/18/xituguojiazhengce.xml", "国家政策");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			for(Map.Entry<String, String> kv: map.entrySet()) {
+				try (XmlReader reader = new XmlReader(new URL(kv.getKey()))) {
+					SyndFeed feed = new SyndFeedInput().build(reader);
+					System.out.println(feed.getTitle());
+					System.out.println("***********************************");
+					for (SyndEntry entry : feed.getEntries()) {
+						Jiance jiance = new Jiance();
+						jiance.setId(UUID.randomUUID().toString());
+						jiance.setTitle(entry.getTitle());
+						jiance.setDescription(entry.getDescription().getValue());
+						jiance.setPubtime(sdf.format(entry.getPublishedDate()));
+						jiance.setLanmu(kv.getValue());
+						jiance.setInstitution("中国稀土网");
+						objs.add(jiance);
+						System.out.println("***********************************");
+					}
+					System.out.println("Done");
+				}
+			}
+			jianceRepository.saveAll(objs);
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+ }

@@ -5,6 +5,7 @@ import java.net.URL;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +28,7 @@ import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;
+import com.xitu.app.model.Jiance;
 import com.xitu.app.model.Patent;
 
 public class Test {
@@ -276,15 +278,19 @@ public class Test {
 	public static void main(String[] args) {
 		try {
 			String url = "http://35.201.235.191:3000/users/1/web_requests/15/xituzixun.xml";
+			String type = "新闻动态";
  
 			try (XmlReader reader = new XmlReader(new URL(url))) {
 				SyndFeed feed = new SyndFeedInput().build(reader);
 				System.out.println(feed.getTitle());
 				System.out.println("***********************************");
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				for (SyndEntry entry : feed.getEntries()) {
-					System.out.println(entry.getTitle());
-					System.out.println(entry.getLink());
-					System.out.println(entry.getDescription());
+					Jiance jiance = new Jiance();
+					jiance.setTitle(entry.getTitle());
+					jiance.setDescription(entry.getDescription().getValue());
+					jiance.setPubtime(sdf.format(entry.getPublishedDate()));
+					
 					System.out.println("***********************************");
 				}
 				System.out.println("Done");

@@ -205,6 +205,10 @@ public class JianceController {
 				
 			}
 		}
+		for(Jiance jc: paperList) {
+			jc.setDescription(jc.getDescription().replace("&lt;", "<"));
+			jc.setDescription(jc.getDescription().replace("&gt;", ">"));
+		}
 		model.addAttribute("paperList", paperList);
 		model.addAttribute("pageSize", pageSize);
 		model.addAttribute("pageIndex", pageIndex);
