@@ -7,9 +7,12 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
@@ -30,6 +33,7 @@ import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;
 import com.xitu.app.model.Jiance;
 import com.xitu.app.model.Patent;
+import com.xitu.app.model.Price;
 
 public class Test {
 	
@@ -275,31 +279,119 @@ public class Test {
 //	}
 	
 	
+//	public static void main(String[] args) {
+//		try {
+//			String url = "http://35.201.235.191:3000/users/1/web_requests/15/xituzixun.xml";
+//			String type = "新闻动态";
+// 
+//			try (XmlReader reader = new XmlReader(new URL(url))) {
+//				SyndFeed feed = new SyndFeedInput().build(reader);
+//				System.out.println(feed.getTitle());
+//				System.out.println("***********************************");
+//				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//				for (SyndEntry entry : feed.getEntries()) {
+//					Jiance jiance = new Jiance();
+//					jiance.setTitle(entry.getTitle());
+//					jiance.setDescription(entry.getDescription().getValue());
+//					jiance.setPubtime(sdf.format(entry.getPublishedDate()));
+//					
+//					System.out.println("***********************************");
+//				}
+//				System.out.println("Done");
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//
+//	}
+	
 	public static void main(String[] args) {
-		try {
-			String url = "http://35.201.235.191:3000/users/1/web_requests/15/xituzixun.xml";
-			String type = "新闻动态";
- 
-			try (XmlReader reader = new XmlReader(new URL(url))) {
-				SyndFeed feed = new SyndFeedInput().build(reader);
-				System.out.println(feed.getTitle());
-				System.out.println("***********************************");
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-				for (SyndEntry entry : feed.getEntries()) {
-					Jiance jiance = new Jiance();
-					jiance.setTitle(entry.getTitle());
-					jiance.setDescription(entry.getDescription().getValue());
-					jiance.setPubtime(sdf.format(entry.getPublishedDate()));
-					
-					System.out.println("***********************************");
-				}
-				System.out.println("Done");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+//		final String url="http://nm.sci99.com/news/s8784.html" ;
+        
+		for(int i=1;i<5;i++) {
+			String url="http://nm.sci99.com/news/?page=" + i + "&sid=8784&siteid=10" ;
+			String base = "http://nm.sci99.com";
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+			Date date = new Date();
+			String ymd = formatter.format(date);
+			try {
+	        	
+//	        	Price exist = priceMapper.getPriceByUpdateTime(ymd);
+	        	
+//	        	if(exist != null) {
+//	        		return;
+//	        	}
+
+	            Document doc = Jsoup.connect(url).get();
+
+	            Elements module = doc.getElementsByClass("ul_w690");
+
+	            Document moduleDoc = Jsoup.parse(module.toString());
+
+	            Elements lis = moduleDoc.getElementsByTag("li");  //选择器的形式
+
+	            Map<String,String> urls = new HashMap<String,String>();
+	            for (Element li : lis){
+	                Document liDoc = Jsoup.parse(li.toString());
+	                Elements hrefs = liDoc.select("a[href]");
+	                for(Element elem: hrefs) {
+	                	System.out.println(elem.text().substring(elem.text().length()-9,elem.text().length()-1));
+	                	
+	                	if(!"".equals(elem.attr("href"))){
+	                		String href = elem.attr("href");
+	                		base = base + href;
+	                		urls.put(base + href, elem.text().substring(elem.text().length()-9,elem.text().length()-1));
+	                	}
+	                }
+
+	            }
+	            for(Map.Entry<String, String> entry: urls.entrySet()) {
+	            	
+	            	Document singleDoc = Jsoup.connect(entry.getKey()).get();
+//	            if(!singleDoc.toString().contains(ymd)){
+//	            	return;
+//	            }
+	            	Element zoom = singleDoc.getElementById("zoom");
+	            	Elements trElements = zoom.select("tr");
+	            	boolean ignore = true;
+	            	for(Element tdelement : trElements) {
+	            		if(ignore) {
+	            			ignore = false;
+	            			continue;
+	            		}
+	            		Elements tdes = tdelement.select("td");
+	            		Price price = new Price();
+	            		price.setUpdateTime(entry.getValue());
+	            		for(int j = 0; j < tdes.size(); j++){
+	            			if(j==0) {
+	            				price.setName(tdes.get(j).text());
+	            			}else if(j==1) {
+	            				price.setDescription(tdes.get(j).text());
+	            			}else if(j==6) {
+	            				price.setUnit(tdes.get(j).text());
+	            			}else if(j==3) {
+	            				price.setPrice(tdes.get(j).text());
+	            			}else if(j==5) {
+	            				price.setFloating(tdes.get(j).text());
+	            			}
+	            		}
+//	            	priceMapper.insertPrice(price);
+	            	}
+	            	//  String title = clearfixli.getElementsByTag("a").text();
+	            	System.out.println("fasdf");
+	            }
+
+
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
 		}
 
+        
 	}
+	
+	
+	
 	
 	private static void disableSslVerification() {
 		try {

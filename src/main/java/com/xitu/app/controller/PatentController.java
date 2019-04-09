@@ -589,6 +589,85 @@ public class PatentController {
 		return "T-rencaiCon";
 	}
 	
+	@GetMapping(value = "price")
+	public String price() {
+		for(int i=1;i<5;i++) {
+			String url="http://nm.sci99.com/news/?page=" + i + "&sid=8784&siteid=10" ;
+			String base = "http://nm.sci99.com";
+			try {
+	        	
+//	        	Price exist = priceMapper.getPriceByUpdateTime(ymd);
+	        	
+//	        	if(exist != null) {
+//	        		return;
+//	        	}
+
+	            Document doc = Jsoup.connect(url).get();
+
+	            Elements module = doc.getElementsByClass("ul_w690");
+
+	            Document moduleDoc = Jsoup.parse(module.toString());
+
+	            Elements lis = moduleDoc.getElementsByTag("li");  //选择器的形式
+
+	            Map<String,String> urls = new HashMap<String,String>();
+	            for (Element li : lis){
+	                Document liDoc = Jsoup.parse(li.toString());
+	                Elements hrefs = liDoc.select("a[href]");
+	                for(Element elem: hrefs) {
+	                	System.out.println(elem.text().substring(elem.text().length()-9,elem.text().length()-1));
+	                	
+	                	if(!"".equals(elem.attr("href"))){
+	                		String href = elem.attr("href");
+	                		urls.put(base + href, elem.text().substring(elem.text().length()-9,elem.text().length()-1));
+	                	}
+	                }
+
+	            }
+	            for(Map.Entry<String, String> entry: urls.entrySet()) {
+	            	
+	            	Document singleDoc = Jsoup.connect(entry.getKey()).get();
+//	            if(!singleDoc.toString().contains(ymd)){
+//	            	return;
+//	            }
+	            	Element zoom = singleDoc.getElementById("zoom");
+	            	Elements trElements = zoom.select("tr");
+	            	boolean ignore = true;
+	            	for(Element tdelement : trElements) {
+	            		if(ignore) {
+	            			ignore = false;
+	            			continue;
+	            		}
+	            		Elements tdes = tdelement.select("td");
+	            		Price price = new Price();
+	            		price.setUpdateTime(entry.getValue());
+	            		for(int j = 0; j < tdes.size(); j++){
+	            			if(j==0) {
+	            				price.setName(tdes.get(j).text());
+	            			}else if(j==1) {
+	            				price.setDescription(tdes.get(j).text());
+	            			}else if(j==6) {
+	            				price.setUnit(tdes.get(j).text());
+	            			}else if(j==3) {
+	            				price.setPrice(tdes.get(j).text());
+	            			}else if(j==5) {
+	            				price.setFloating(tdes.get(j).text());
+	            			}
+	            		}
+	            	priceMapper.insertPrice(price);
+	            	}
+	            	//  String title = clearfixli.getElementsByTag("a").text();
+	            	System.out.println("fasdf");
+	            }
+
+
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+		}
+		return "T-rencaiCon";
+	}
+	
 	@ResponseBody
 	@RequestMapping(value = "patent/agtypes", method = RequestMethod.POST,consumes = "application/json")
 	public R types(@RequestBody AgTypeRequest request) {
