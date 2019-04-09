@@ -20,7 +20,7 @@ public class PatentMysql {
 	private String publictime; // 公开（公告）日
 	private String applyyear; // 申请年
 	private String publicyear; // 公开年
-	private String type; // 专利类型
+	private String ptype; // 专利类型
 	private String description; // 专利描述
 	private String claim; //权利要求 （主权项）
 	private String publicnumber; //公开号
@@ -85,12 +85,6 @@ public class PatentMysql {
 	public void setPublicyear(String publicyear) {
 		this.publicyear = publicyear;
 	}
-	public String getType() {
-		return type;
-	}
-	public void setType(String type) {
-		this.type = type;
-	}
 	public String getDescription() {
 		return description;
 	}
@@ -150,6 +144,12 @@ public class PatentMysql {
 	}
 	public void setNow(Long now) {
 		this.now = now;
+	}
+	public String getPtype() {
+		return ptype;
+	}
+	public void setPtype(String ptype) {
+		this.ptype = ptype;
 	}
 	
 	
