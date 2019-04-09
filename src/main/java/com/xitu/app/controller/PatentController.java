@@ -917,7 +917,7 @@ public class PatentController {
 								String[] s = appliance.split(" ");
 								if(s.length>=2) {
 									patent.setApplynumber(s[0].substring(4, s[0].length()));
-									patent.setId(s[0].substring(4, s[0].length()));
+//									patent.setId(s[0].substring(4, s[0].length()));
 									patentMysql.setApplynumber(s[0].substring(4, s[0].length()));
 									String applytime = s[1].substring(4, s[1].length());
 									patent.setApplytime(applytime);
@@ -989,7 +989,7 @@ public class PatentController {
 								}
 							}
 						}
-//						patent.setId(UUID.randomUUID().toString());
+						patent.setId(UUID.randomUUID().toString());
 						patent.setCountry("中国");
 						patentMysql.setCountry("中国");
 						System.out.println("开始插入es");
