@@ -127,7 +127,7 @@
 		    		</tr>
 		    		<tr th:each="expert : ${expertList}">
 		    			<td>
-		    				<a th:href="@{/expert/get(id=${expert.id})}" th:text="${expert.name}" class="colorBlue">
+		    				<a th:href="@{/expert/get(id=${expert.id},disable='0')}" th:text="${expert.name}" class="colorBlue">
 		    				</a>
 		    			</td>
 		    			<td th:text="${expert.unit}">

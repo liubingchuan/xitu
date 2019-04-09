@@ -154,6 +154,24 @@
 		        		    	展开更多
 		        		    </a>
 		        		</div>
+		        	    <div class="jiansuoLfGp" th:if=" ${not #maps.isEmpty(aglawstatus)}">
+		        			<h3 class="jiansuoLfGpTl">
+		        				法律状态
+		        			</h3>
+		        			<div class="jiansuoLfGpList" th:if=" ${#maps.size(aglawstatus) > 5}">
+		        			<div class="jiansuoLfGx" th:each="year : ${aglawstatus}" >
+		        					<input type="checkbox" th:id="'lawstatus'+${lawstatus.key}" th:name="lawstatus" th:value="${lawstatus.key}" />
+		        					<label th:for="'lawstatus'+${lawstatus.key}" th:text="${lawstatus.key} + '(' + ${lawstatus.value} + ')'"></label>
+		        			</div>
+		        			</div>
+		        			<div class="jiansuoLfGx" th:each="year : ${agyear}" th:if=" ${#maps.size(agyear) <= 5}">
+		        					<input type="checkbox" th:id="'year'+${year.key}" th:name="year" th:value="${year.key}" />
+		        					<label th:for="'year'+${year.key}" th:text="${year.key} + '(' + ${year.value} + ')'"></label>
+		        			</div>
+		        			<a href="javascript:;" class="jiansuoLfMore" th:if=" ${#maps.size(agyear) > 5}">
+		        		    	展开更多
+		        		    </a>
+		        		</div>
 		        	    <div class="jiansuoLfGp" th:if=" ${not #maps.isEmpty(agcountry)}">
 		        			<h3 class="jiansuoLfGpTl">
 		        				国家

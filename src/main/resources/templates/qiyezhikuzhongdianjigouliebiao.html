@@ -125,7 +125,7 @@
 		    		</tr>
 		    		<tr th:each="org : ${orgList}">
 		    			<td>
-		    				<a th:href="@{/org/get(id=${org.id})}" class="colorBlue" th:text="${org.name}">
+		    				<a th:href="@{/org/get(id=${org.id},disable='0')}" class="colorBlue" th:text="${org.name}">
 		    				</a>
 		    			</td>
 		    			<td th:text="${org.area}">

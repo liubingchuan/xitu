@@ -82,24 +82,6 @@ public class PatentController {
 	@Autowired
 	private PatentMapper patentMapper;
 	
-//	@PostMapping(value = "papepr/save")
-//	public String savePaper(SavePaperRequest request,Model model) {
-//		
-//		Paper paper = new Project();
-//		BeanUtil.copyBean(request, project);
-//		if(project.getId() == null || "".equals(project.getId())) {
-//			project.setId(UUID.randomUUID().toString());
-//		}
-//		project.setDescription(request.getInfo());
-//		project.setNow(System.currentTimeMillis());
-////		List<String> list = new ArrayList<String>();
-////		list.add("sdf");
-////		list.add("gasdf");
-////		list.add("kkkkkk");
-////		project.setList(list);
-//		projectRepository.save(project);
-//		return "redirect:/project/list";
-//	}
 	
 	@GetMapping(value = "patent/get")
 	public String getPatent(@RequestParam(required=false,value="id") String id, Model model) {
@@ -118,6 +100,7 @@ public class PatentController {
 			@RequestParam(required=false,value="cpc") String cpc,
 			@RequestParam(required=false,value="person") String person,
 			@RequestParam(required=false,value="creator") String creator,
+			@RequestParam(required=false,value="lawstatus") String lawstatus,
 			@RequestParam(required=false,value="country") String country,
 			@RequestParam(required=false,value="pageSize") Integer pageSize, 
 			@RequestParam(required=false, value="pageIndex") Integer pageIndex, 
@@ -166,6 +149,10 @@ public class PatentController {
 					String[] persons = person.split("-");
 					queryBuilder.filter(QueryBuilders.termsQuery("person", persons));
 				}
+				if(lawstatus != null) {
+					String[] lawstatuses = lawstatus.split("%");
+					queryBuilder.filter(QueryBuilders.termsQuery("lawstatus", lawstatuses));
+				}
 				if(creator != null) {
 					String[] creators = creator.split("-");
 					queryBuilder.filter(QueryBuilders.termsQuery("creator", creators));
@@ -202,6 +189,7 @@ public class PatentController {
 						.addAggregation(AggregationBuilders.terms("agperson").field("person").order(Terms.Order.count(false)).size(10))
 						.addAggregation(AggregationBuilders.terms("agcreator").field("creator").order(Terms.Order.count(false)).size(10))
 						.addAggregation(AggregationBuilders.terms("agcountry").field("country").order(Terms.Order.count(false)).size(10))
+						.addAggregation(AggregationBuilders.terms("aglawstatus").field("lawstatus").order(Terms.Order.count(false)).size(10))
 						.build();
 				Aggregations aggregations = esTemplate.query(nativeSearchQueryBuilder, new ResultsExtractor<Aggregations>() {
 			        @Override
@@ -228,6 +216,15 @@ public class PatentController {
 						ipcMap.put(ipcBucket.getKey().toString(), Long.valueOf(ipcBucket.getDocCount()));
 					}
 					model.addAttribute("agipc", ipcMap);
+					
+					StringTerms lawstatusTerms = (StringTerms) aggregations.asMap().get("aglawstatus");
+					Iterator<Bucket> lawstatusbit = lawstatusTerms.getBuckets().iterator();
+					Map<String, Long> lawstatusMap = new HashMap<String, Long>();
+					while(lawstatusbit.hasNext()) {
+						Bucket lawstatusBucket = lawstatusbit.next();
+						lawstatusMap.put(lawstatusBucket.getKey().toString(), Long.valueOf(lawstatusBucket.getDocCount()));
+					}
+					model.addAttribute("aglawstatus", lawstatusMap);
 					
 					StringTerms cpcTerms = (StringTerms) aggregations.asMap().get("agcpc");
 					Iterator<Bucket> cpcbit = cpcTerms.getBuckets().iterator();
@@ -992,7 +989,9 @@ public class PatentController {
 						}
 						patent.setId(UUID.randomUUID().toString());
 						patent.setCountry("中国");
+						patent.setNow(System.currentTimeMillis());
 						patentMysql.setCountry("中国");
+						patentMysql.setNow(System.currentTimeMillis());
 						System.out.println("开始插入mysql");
 						patentMapper.insertPatent(patentMysql);
 						System.out.println("结束插入mysql");
