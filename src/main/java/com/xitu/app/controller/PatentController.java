@@ -739,8 +739,8 @@ public class PatentController {
 	public R fetchLocal(@RequestParam(required=false,value="interval") Integer interval,
 			@RequestParam(required=false,value="patentIndex") Integer patentIndex,
 			@RequestParam(required=false,value="tail") Integer tail) {
-		String[] url={"http://www.soopat.com/","http://www2.soopat.com/Home/Result","http://www1.soopat.com/Home/Result"};
-		String[] base = {"http://www.soopat.com/","http://www1.soopat.com","http://www2.soopat.com"};
+		String[] url={"http://www.soopat.com/Home/Result","http://www2.soopat.com/Home/Result","http://www1.soopat.com/Home/Result"};
+		String[] base = {"http://www.soopat.com","http://www1.soopat.com","http://www2.soopat.com"};
 //		List<String> ipList = new ArrayList<String>();
 		List<String> missedList = new ArrayList<String>();
 		Random random = new Random();
@@ -891,9 +891,9 @@ public class PatentController {
 
 						}
 						Elements h1Elements = singleDoc.getElementsByTag("h1");
-						if(h1Elements == null) {
-							System.out.println("获取h1失败------------------------patentIndex=" + patentIndex);
-							return R.error();
+						if(h1Elements==null || h1Elements.size()==0) {
+							missedList.add(entry.getKey() + "%" + entry.getValue());
+							continue;
 						}
 						for(Element h1Element: h1Elements) {
 							String title = h1Element.text();
@@ -989,10 +989,16 @@ public class PatentController {
 						patent.setId(UUID.randomUUID().toString());
 						patent.setCountry("中国");
 						patentMysql.setCountry("中国");
-						patentMapper.insertPatent(patentMysql);
+						System.out.println("开始插入es");
 						patentRepository.save(patent);
+						System.out.println("结束插入es");
+						System.out.println("开始插入mysql");
+						patentMapper.insertPatent(patentMysql);
+						System.out.println("结束插入mysql");
 						patents.add(patent);
 					} catch(Exception e) {
+						e.printStackTrace();
+						System.out.println("出现异常，进入补偿队列的是---->" + entry.getKey() + "%" + entry.getValue());
 						missedList.add(entry.getKey() + "%" + entry.getValue());
 					}
 				}
