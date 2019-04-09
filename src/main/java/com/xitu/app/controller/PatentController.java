@@ -739,7 +739,7 @@ public class PatentController {
 	public R fetchLocal(@RequestParam(required=false,value="interval") Integer interval,
 			@RequestParam(required=false,value="patentIndex") Integer patentIndex,
 			@RequestParam(required=false,value="tail") Integer tail) {
-		String[] url={"http://www.soopat.com/","http://www2.soopat.com/Home/Result","http://www1.soopat.com/Home/Result"};
+		String[] url={"http://www.soopat.com/Home/Result","http://www2.soopat.com/Home/Result","http://www1.soopat.com/Home/Result"};
 		String[] base = {"http://www.soopat.com/","http://www1.soopat.com","http://www2.soopat.com"};
 //		List<String> ipList = new ArrayList<String>();
 		List<String> missedList = new ArrayList<String>();
