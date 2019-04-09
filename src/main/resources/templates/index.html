@@ -598,7 +598,12 @@
 					$('.erroText').css('display','none');
 				});
 			});*/
-			
+			$("#keywords").keypress(function(e) {
+	            var eCode = e.keyCode ? e.keyCode : e.which ? e.which : e.charCode;
+	             if (eCode == 13){
+	                 search();
+	             }
+	     	});
 			
 			function search(){
 			    /*  window.location.href="http://127.0.0.1:8088/project/list?q=" + $("#keywords").val(); */
