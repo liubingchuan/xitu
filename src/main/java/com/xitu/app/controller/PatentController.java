@@ -897,7 +897,7 @@ public class PatentController {
 								patent.setType(entry.getValue());
 								patent.setTitle(title.split(" ")[0]);
 								patent.setLawstatus(title.split(" ")[1]);
-								patentMysql.setType(entry.getValue());
+								patentMysql.setPtype(entry.getValue());
 								patentMysql.setTitle(title.split(" ")[0]);
 								patentMysql.setLawstatus(title.split(" ")[1]);
 								break;
