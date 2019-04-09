@@ -760,6 +760,7 @@ public class PatentController {
 		List<Patent> patents = new LinkedList<Patent>();
 		int out=0;
 		for(;patentIndex<tail;){
+			boolean retry = true;
 			System.out.println("开启新的一页");
 //			if(patents.size() >= 100) {
 //				System.out.println("新插入100条");
@@ -776,6 +777,7 @@ public class PatentController {
 				missedList.clear();
 			}
 			map.put("PatentIndex", String.valueOf(patentIndex));
+			patentIndex += 10;
 			
 			int ipIndex = 0;
 			String ip = "";
@@ -794,7 +796,7 @@ public class PatentController {
 				conn.data(map);
 				Document doc = conn.get();
 				if(doc.toString().contains("请按图片上的要求依次点击图片上对应的字符")) {
-					System.out.println("已被拦截，当前PatentIndex为"+ patentIndex + "手动干预后放开断点，并继续执行");
+					System.out.println("已被拦截，当前PatentIndex为"+ (patentIndex-10) + "手动干预后放开断点，并继续执行");
 //					System.out.println("当前被封ip--》" + System.getProperties().getProperty("http.proxyHost") + System.getProperties().getProperty("http.proxyPort"));
 					System.out.println("正在尝试的url是 " + url[out%3]);
 //					do{
@@ -808,6 +810,7 @@ public class PatentController {
 					doc = conn.get();
 
 				}
+				retry = false;
 				out++;
 //				System.out.println(doc.toString());
 				Elements patentBlocks = doc.getElementsByClass("PatentBlock");
@@ -852,6 +855,7 @@ public class PatentController {
 					PatentMysql patentMysql = new PatentMysql();
 					String singleUrl = base[in%2] + entry.getKey();
 					in++;
+					
 					System.out.println("正在调用-------------------------->" + entry.getKey());
 //					do{
 //						ipIndex = random.nextInt(length);
@@ -866,7 +870,7 @@ public class PatentController {
 						System.out.println("成功调用-------------------->" + entry.getKey());
 						if(singleDoc.toString().contains("请按图片上的要求依次点击图片上对应的字符")) {
 							java.awt.Toolkit.getDefaultToolkit().beep();
-							System.out.println("已被拦截，当前PatentIndex为"+ patentIndex + "手动干预后放开断点，并继续执行");
+							System.out.println("已被拦截，当前PatentIndex为"+ (patentIndex-10) + "手动干预后放开断点，并继续执行");
 //							System.out.println("当前被封ip---》" + System.getProperties().getProperty("http.proxyHost") + ":" + System.getProperties().getProperty("http.proxyPort"));
 							System.out.println("正在尝试的url是 " + singleUrl);
 //							do{
@@ -916,7 +920,7 @@ public class PatentController {
 									patent.setApplytime(applytime);
 									patentMysql.setApplytime(applytime);
 									patent.setApplyyear(applytime.substring(0, 4));
-									patent.setApplyyear(applytime.substring(0, 4));
+									patentMysql.setApplyyear(applytime.substring(0, 4));
 									break;
 								}
 							}
@@ -962,17 +966,18 @@ public class PatentController {
 									if(i==1) {
 										patent.setClaim(td.text());
 										patentMysql.setClaim(td.text());
-									}else if(i==5) {
+									}else if(i==4) {
 										patent.setPublicnumber(td.text());
 										patentMysql.setPublicnumber(td.text());
-									}else if(i==8) {
-										patent.setPublictime(td.text());
-										patentMysql.setPublictime(td.text());
-										if(td.text().contains("-")) {
-											patent.setPublicyear(td.text().split("-")[0]);
-											patentMysql.setPublicyear(td.text().split("-")[0]);
+									}else if(i==7) {
+										String publictime = td.text().replace("&nbsp;", "").trim();
+										patent.setPublictime(publictime);
+										patentMysql.setPublictime(publictime);
+										if(publictime.contains("-")) {
+											patent.setPublicyear(publictime.split("-")[0]);
+											patentMysql.setPublicyear(publictime.split("-")[0]);
 										}
-									}else if(i==20) {
+									}else if(i==19) {
 										System.out.println("priority-----" + td.text());
 										patent.setPiroryear(td.text().equals("&nbsp;")?"":td.text());
 										patentMysql.setPiroryear(td.text().equals("&nbsp;")?"":td.text());
@@ -982,6 +987,8 @@ public class PatentController {
 							}
 						}
 						patent.setId(UUID.randomUUID().toString());
+						patent.setCountry("中国");
+						patentMysql.setCountry("中国");
 						patentMapper.insertPatent(patentMysql);
 						patentRepository.save(patent);
 						patents.add(patent);
@@ -991,15 +998,18 @@ public class PatentController {
 				}
 				
 				System.out.println("fasdf");
-				patentIndex += 10;
+				
 				try {
 					Thread.sleep(interval);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
+			if(retry) {
+				patentIndex -= 10;
+			}
 		}
 	}
 		return R.ok();
