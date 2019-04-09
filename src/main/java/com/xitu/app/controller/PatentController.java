@@ -739,8 +739,8 @@ public class PatentController {
 	public R fetchLocal(@RequestParam(required=false,value="interval") Integer interval,
 			@RequestParam(required=false,value="patentIndex") Integer patentIndex,
 			@RequestParam(required=false,value="tail") Integer tail) {
-		String[] url={"http://www2.soopat.com/Home/Result","http://www1.soopat.com/Home/Result"};
-		String[] base = {"http://www1.soopat.com","http://www2.soopat.com"};
+		String[] url={"http://www.soopat.com/","http://www2.soopat.com/Home/Result","http://www1.soopat.com/Home/Result"};
+		String[] base = {"http://www.soopat.com/","http://www1.soopat.com","http://www2.soopat.com"};
 //		List<String> ipList = new ArrayList<String>();
 		List<String> missedList = new ArrayList<String>();
 		Random random = new Random();
@@ -790,7 +790,7 @@ public class PatentController {
 //			System.getProperties().setProperty("http.proxyHost", r[0]);
 //			System.getProperties().setProperty("http.proxyPort", r[1]);
 			try {
-				String pageUrl = url[out%2];
+				String pageUrl = url[out%3];
 				System.out.println("pageUrl is ->" + pageUrl);
 				Connection conn = Jsoup.connect(pageUrl);
 				conn.data(map);
@@ -853,7 +853,7 @@ public class PatentController {
 					}
 					Patent patent = new Patent();
 					PatentMysql patentMysql = new PatentMysql();
-					String singleUrl = base[in%2] + entry.getKey();
+					String singleUrl = base[in%3] + entry.getKey();
 					in++;
 					
 					System.out.println("正在调用-------------------------->" + entry.getKey());
