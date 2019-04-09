@@ -761,7 +761,7 @@ public class PatentController {
 		int out=0;
 		for(;patentIndex<tail;){
 			boolean retry = true;
-			System.out.println("开启新的一页");
+			System.out.println("开启新的一页------>patentIndex---->" + patentIndex );
 //			if(patents.size() >= 100) {
 //				System.out.println("新插入100条");
 //				patentRepository.saveAll(patents);
@@ -779,9 +779,6 @@ public class PatentController {
 			map.put("PatentIndex", String.valueOf(patentIndex));
 			patentIndex += 10;
 			
-			int ipIndex = 0;
-			String ip = "";
-			String[] r = new String[]{};
 //			do{
 //				ipIndex = random.nextInt(length);
 //				ip = ipList.get(ipIndex);
@@ -815,28 +812,33 @@ public class PatentController {
 //				System.out.println(doc.toString());
 				Elements patentBlocks = doc.getElementsByClass("PatentBlock");
 				
-				for(Element patentBlock: patentBlocks) {
-					Document patentDoc = Jsoup.parse(patentBlock.toString());
-					Elements patentTypeElements = patentDoc.getElementsByClass("PatentTypeBlock");
-					if(patentTypeElements.size() == 0) {
-						continue;
+				if(patentBlocks.size()>0) {
+					for(Element patentBlock: patentBlocks) {
+						Document patentDoc = Jsoup.parse(patentBlock.toString());
+						Elements patentTypeElements = patentDoc.getElementsByClass("PatentTypeBlock");
+						if(patentTypeElements.size() == 0) {
+							continue;
+						}
+						jump:
+							for(Element pte: patentTypeElements) {
+								// FIXME
+								System.out.println(pte.text());
+								String type = extractMessageByRegular(pte.text()).get(0);
+								Document pteDoc = Jsoup.parse(pte.toString());
+								Elements hrefs = pteDoc.select("a[href]");
+								for(Element elem: hrefs) {
+									if(!"".equals(elem.attr("href"))){
+										String href = elem.attr("href");
+										innerPathMap.put(href, type);
+										break jump;
+									}
+								}
+							}
 					}
-	jump:
-					for(Element pte: patentTypeElements) {
-						// FIXME
-						System.out.println(pte.text());
-						String type = extractMessageByRegular(pte.text()).get(0);
-						Document pteDoc = Jsoup.parse(pte.toString());
-						Elements hrefs = pteDoc.select("a[href]");
-						for(Element elem: hrefs) {
-		                	if(!"".equals(elem.attr("href"))){
-		                		String href = elem.attr("href");
-		                		innerPathMap.put(href, type);
-		                		break jump;
-		                	}
-		                }
-					}
+				}else {
+					patentIndex -= 10;
 				}
+				
 				
 				int max=5000;
 				int min=2000;
@@ -1018,6 +1020,7 @@ public class PatentController {
 			}
 		}
 	}
+		System.out.println("这一轮全部结束");
 		return R.ok();
 	}
 	
