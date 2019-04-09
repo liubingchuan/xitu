@@ -837,6 +837,7 @@ public class PatentController {
 					}
 				}else {
 					patentIndex -= 10;
+					retry = true;
 				}
 				
 				
@@ -872,7 +873,7 @@ public class PatentController {
 						System.out.println("成功调用-------------------->" + entry.getKey());
 						if(singleDoc.toString().contains("请按图片上的要求依次点击图片上对应的字符")) {
 							java.awt.Toolkit.getDefaultToolkit().beep();
-							System.out.println("已被拦截，当前PatentIndex为"+ (patentIndex-10) + "手动干预后放开断点，并继续执行");
+							System.out.println("已被拦截，当前PatentIndex为"+ (retry==true?patentIndex:(patentIndex-10)) + "手动干预后放开断点，并继续执行");
 //							System.out.println("当前被封ip---》" + System.getProperties().getProperty("http.proxyHost") + ":" + System.getProperties().getProperty("http.proxyPort"));
 							System.out.println("正在尝试的url是 " + singleUrl);
 //							do{
@@ -992,12 +993,12 @@ public class PatentController {
 						patent.setId(UUID.randomUUID().toString());
 						patent.setCountry("中国");
 						patentMysql.setCountry("中国");
-						System.out.println("开始插入es");
-						patentRepository.save(patent);
-						System.out.println("结束插入es");
 						System.out.println("开始插入mysql");
 						patentMapper.insertPatent(patentMysql);
 						System.out.println("结束插入mysql");
+						System.out.println("开始插入es");
+						patentRepository.save(patent);
+						System.out.println("结束插入es");
 						patents.add(patent);
 					} catch(Exception e) {
 						e.printStackTrace();
