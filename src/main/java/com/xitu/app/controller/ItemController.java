@@ -103,7 +103,7 @@ public class ItemController {
 					if(append) buffer.append(";"); else append = true; 
 					buffer.append(s);
 				}
-				item.setItem(buffer.toString().length()==0?"":buffer.substring(0, buffer.length()-1));
+				item.setItem(buffer.toString().length()==0?"":buffer.substring(0, buffer.length()));
 				itemMapper.deleteItemByService(item.getService());
 				itemMapper.insertItem(item);
 			} catch (NoSuchMethodException e) {

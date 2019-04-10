@@ -78,7 +78,8 @@ public class FileController {
     /**
      * 实现文件下载
      * */
-    @RequestMapping(value="file/fileDownload")
+    @SuppressWarnings("unused")
+	@RequestMapping(value="file/fileDownload")
     public void fileDownload(@RequestParam("filename") String filename,HttpServletRequest request, HttpServletResponse response){
     	
     	FileInputStream fis = null;  
@@ -97,8 +98,12 @@ public class FileController {
             e.printStackTrace();  
         } finally {  
             try {  
-                fis.close();  
-                os.close();  
+            	if(fis != null) {
+            		fis.close();  
+            	}
+            	if(os != null) {
+            		os.close();  
+            	}
             } catch (IOException e) {  
                 e.printStackTrace();  
             }  
