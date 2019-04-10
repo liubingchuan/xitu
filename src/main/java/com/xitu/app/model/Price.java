@@ -16,6 +16,7 @@ public class Price {
 	private String description; // 描述
 	private String unit; // 单位
 	private String price; //参考价 
+	private String avg; //均价 
 	private String floating;  // 涨跌
 	private String updateTime; // 更新时间
 	public Integer getId() {
@@ -59,6 +60,12 @@ public class Price {
 	}
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	public String getAvg() {
+		return avg;
+	}
+	public void setAvg(String avg) {
+		this.avg = avg;
 	}
 
 }

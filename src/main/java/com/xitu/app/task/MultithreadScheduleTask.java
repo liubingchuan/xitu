@@ -43,9 +43,9 @@ public class MultithreadScheduleTask {
     private JianceRepository jianceRepository;
 	
 	@Async
-    @Scheduled(cron = "0 0 0,8,16,21 * * ?")  //间隔1秒
+    @Scheduled(cron = "0 0 0,12,14,21 * * ?") 
 //	@Async
-//	@Scheduled(cron = "*/150 * * * * ?")  //间隔十五秒
+//	@Scheduled(cron = "*/15 * * * * ?")  //间隔十五秒
     public void price() throws InterruptedException {
 
 		final String url="http://nm.sci99.com/news/s8784.html" ;
@@ -65,6 +65,10 @@ public class MultithreadScheduleTask {
             Document doc = Jsoup.connect(url).get();
 
             Elements module = doc.getElementsByClass("ul_w690");
+            if(!module.text().contains(ymd)) {
+            	return;
+            }
+            System.out.println(module.text());
 
             Document moduleDoc = Jsoup.parse(module.toString());
 
@@ -108,7 +112,12 @@ jump:
             			price.setUnit(tdes.get(i).text());
             		}else if(i==3) {
             			price.setPrice(tdes.get(i).text());
-            		}else if(i==5) {
+            		}else if(i==4) {
+            			price.setAvg(tdes.get(i).text());
+            			Price yesterday = priceMapper.getLatestPrice(price.getName());
+            			int before = Integer.valueOf(yesterday.getAvg());
+            			int now = Integer.valueOf(tdes.get(i).text());
+            			
             			price.setFloating(tdes.get(i).text());
             		}
 				}

@@ -647,6 +647,8 @@ public class PatentController {
 	            				price.setUnit(tdes.get(j).text());
 	            			}else if(j==3) {
 	            				price.setPrice(tdes.get(j).text());
+	            			}else if(j==4){
+	            				price.setAvg(tdes.get(j).text());
 	            			}else if(j==5) {
 	            				price.setFloating(tdes.get(j).text());
 	            			}
@@ -744,7 +746,6 @@ public class PatentController {
 //		try {
 //			ipList = getIPList();
 //		} catch (IOException e1) {
-//			// TODO Auto-generated catch block
 //			e1.printStackTrace();
 //		}
 //		int length = ipList.size();
@@ -801,6 +802,7 @@ public class PatentController {
 //					System.getProperties().setProperty("http.proxyHost", r[0]);
 //					System.getProperties().setProperty("http.proxyPort", r[1]);
 					// retry
+					// TODO
 					doc = conn.get();
 
 				}
@@ -818,7 +820,6 @@ public class PatentController {
 						}
 						jump:
 							for(Element pte: patentTypeElements) {
-								// FIXME
 								System.out.println(pte.text());
 								String type = extractMessageByRegular(pte.text()).get(0);
 								Document pteDoc = Jsoup.parse(pte.toString());
@@ -848,7 +849,6 @@ public class PatentController {
 					try {
 						Thread.sleep(sleep);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					Patent patent = new Patent();
@@ -882,6 +882,7 @@ public class PatentController {
 //							System.getProperties().setProperty("http.proxyPort", r[1]);
 							
 							// retry
+							// TODO
 							singleDoc = singlePageConn.get();
 							
 //							System.getProperties().remove("http.proxyHost");
@@ -1011,7 +1012,6 @@ public class PatentController {
 				try {
 					Thread.sleep(interval);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 		} catch (Exception e) {
@@ -1048,7 +1048,6 @@ public class PatentController {
                     // .timeout(3000)
                     .get();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         List<String> list = new ArrayList<String>();
