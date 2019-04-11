@@ -105,12 +105,12 @@
 		        			<div class="jiancelfgpB">
 		        			<div class="jiansuoLfGpList" th:if=" ${#maps.size(aglanmu) > 5}">
 		        				<div class="jiansuoLfGx" th:each="institution : ${aglanmu}">
-		        					<input type="checkbox" th:id="'institution'+${institution.key}" th:name="institution" th:value="${institution.key}" />
+		        					<input type="checkbox" th:id="'institution'+${institution.key}" th:name="lanmu" th:value="${institution.key}" onclick="checkfm('lanmu','lanmu')">
 		        					<label th:for="'institution'+${institution.key}" th:text="${institution.key} + '(' + ${institution.value} + ')'"></label>
 		        				</div>
 		        			</div>
 		        		    <div class="jiansuoLfGx" th:each="institution : ${aglanmu}" th:if=" ${#maps.size(aglanmu) <= 5}">
-		        					<input type="checkbox" th:id="'institution'+${institution.key}" th:name="institution" th:value="${institution.key}" />
+		        					<input type="checkbox" th:id="'institution'+${institution.key}" th:name="lanmu" th:value="${institution.key}" onclick="checkfm('lanmu','lanmu')"/>
 		        					<label th:for="'institution'+${institution.key}" th:text="${institution.key} + '(' + ${institution.value} + ')'"></label>
 		        			</div>
 		        		    <a href="javascript:;" class="jiansuoLfMore" th:if=" ${#maps.size(aglanmu) > 5}">
@@ -125,12 +125,12 @@
 		        			<div class="jiancelfgpB">
 		        			<div class="jiansuoLfGpList" th:if=" ${#maps.size(aginstitution) > 5}">
 		        				<div class="jiansuoLfGx" th:each="institution : ${aginstitution}">
-		        					<input type="checkbox" th:id="'institution'+${institution.key}" th:name="institution" th:value="${institution.key}" />
+		        					<input type="checkbox" th:id="'institution'+${institution.key}" th:name="institution" th:value="${institution.key}" onclick="checkfm('institution','institution')"/>
 		        					<label th:for="'institution'+${institution.key}" th:text="${institution.key} + '(' + ${institution.value} + ')'"></label>
 		        				</div>
 		        			</div>
 		        		    <div class="jiansuoLfGx" th:each="institution : ${aginstitution}" th:if=" ${#maps.size(aginstitution) <= 5}">
-		        					<input type="checkbox" th:id="'institution'+${institution.key}" th:name="institution" th:value="${institution.key}" />
+		        					<input type="checkbox" th:id="'institution'+${institution.key}" th:name="institution" th:value="${institution.key}" onclick="checkfm('institution','institution')"/>
 		        					<label th:for="'institution'+${institution.key}" th:text="${institution.key} + '(' + ${institution.value} + ')'"></label>
 		        			</div>
 		        		    <a href="javascript:;" class="jiansuoLfMore" th:if=" ${#maps.size(aginstitution) > 5}">
@@ -202,26 +202,11 @@
 		            		</li>
 		            		
 		            	</ul>
-		            	<!-- <div class="sqPage">
-					    	<span th:text="'共 ' + ${totalCount}+' 条监测信息'">
-					    	</span>
-					    	<span th:if=" ${pageIndex == 0}">
-					    		<font color="#707076">首页</font>
-					    	</span>
-					    	<a th:href="@{/jiance/jiancelist(pageIndex=0,pageSize=10)}" th:if="${pageIndex > 0}">首页</a>
-					    	<span th:if=" ${pageIndex-10 < 0}">
-					    		<font color="#707076">上一页</font>
-					    	</span>
-					    	<a th:href="@{/jiance/jiancelist(pageIndex=${pageIndex-10},pageSize=10)}" th:if="${pageIndex-10 >= 0}">上一页</a>
-					    	<a th:href="@{/jiance/jiancelist(pageIndex=${pageIndex+10},pageSize=10)}" th:if="${pageIndex+10 < totalCount}">下一页</a>
-					    	<a th:href="@{/jiance/jiancelist(pageIndex=${(totalPages-1)*10},pageSize=10)}">尾页</a>
-					    	<span th:text="'页次：' + ${currentPages} +'/'+ ${totalPages}"></span>
-					    </div> -->
 					    <div class="sqPage">
 					    	<span th:text="'共 ' + ${totalCount}+' 条监测信息'">
 					    	</span>
-					    	<a th:style="'display:' + @{((${pageIndex}+1) == 1 ? 'none' : 'inline-block')} + ''"  th:href="@{/jiance/jiancelist(pageIndex=0,pageSize=10)}">首页</a>
- 							<a th:style="'display:' + @{((${pageIndex}+1) == 1 ? 'none' : 'inline-block')} + ''" th:href="@{/jiance/jiancelist(pageIndex=(${pageIndex}-1),pageSize=10)}">上一页</a>
+					    	<a th:style="'display:' + @{((${pageIndex}+1) == 1 ? 'none' : 'inline-block')} + ''"  th:href="@{/jiance/jiancelist(pageIndex=0,pageSize=10)}"><首页</a>
+ 							<a th:style="'display:' + @{((${pageIndex}+1) == 1 ? 'none' : 'inline-block')} + ''" th:href="@{/jiance/jiancelist(pageIndex=(${pageIndex}-1),pageSize=10)}"><上一页</a>
  							<!-- <a th:href="@{/jiance/jiancelist(pageIndex=(${pageIndex}),pageSize=10)}" th:text="(${pageIndex}+1) + '/' + ${totalPages}" ></a> -->
 							<a th:style="'display:' + @{((${pageIndex}+1) == ${totalPages} ? 'none' : 'inline-block')} + ''" th:href="@{/jiance/jiancelist(pageIndex=(${pageIndex}+1),pageSize=10)}">下一页<em>></em></a>
 							<a th:style="'display:' + @{((${pageIndex}+1) == ${totalPages} ? 'none' : 'inline-block')} + ''" th:href="@{/jiance/jiancelist(pageIndex=(${totalPages}-1),pageSize=10)}">尾页<em>></em></a>
@@ -300,21 +285,7 @@
 	    </div>
 		<!--弹窗-->
 		<div class="alertBg"></div>
-		<div class="alertCon alertxuq">
-	    	<img src="images/Icon.png" />
-	    	<div class="alertxuqTEXT">
-	    		您的需求已提交<br />
-	    		请到<a href="#">我的申请</a>中查看最新进展
-	    	</div>
-	    	<div class="alertxuqa clearfix">
-	    		<a href="index.html">
-	    			返回首页
-	    		</a>
-	    		<a href="javascript:;" class="alertxuqaNext">
-	    			继续申请
-	    		</a>
-	    	</div>
-	    </div>
+		
 		<script type="text/javascript" th:src="@{/js/main.js}" ></script>
 		<script type="text/javascript" th:src="@{/js/huakuai.js}" ></script>
 		<script type="text/javascript" th:inline="javascript">
@@ -330,6 +301,82 @@
 	                 search();
 	             }
 	     	});
+			
+			function checkfm(name,fmtype){
+		        obj = document.getElementsByName(name);
+		        check_val = [];
+		        for(var i=0;i<obj.length;i++){ 
+		        	if(obj[i].checked){ 
+		        		 check_val.push(obj[i].value);
+		        	} 
+		        }
+		        ss =  check_val.toString();
+		        if(fmtype == 'lanmu'){
+		        	var url = "<c:url value='/search/searchResult'/>?searchtext="
+		    				+ encodeURI(encodeURIComponent(searchText)) + "&sub=" + encodeURI(encodeURIComponent(ss));
+		        	if (date != "" && date != "null") {
+			        		url+="&date="+date;
+		        	}
+		        	if (jou != "" && jou != "null") {
+		        		url+="&jou="+encodeURI(encodeURIComponent(jou));
+		        	} 
+		        	if (lwlx != "" && lwlx != "null") {
+		        		url += "&lwlx=" + encodeURI(encodeURIComponent(lwlx));
+		        	}
+		        	/* url+="&dhtype="+dhtype;
+		        	url+="&username="+username;
+		        	url+="&uesremail="+encodeURI(encodeURIComponent(uesremail)); */
+		        	window.location.href=url;
+		        }
+		        if(fmtype == 'date'){
+		        	var url = "<c:url value='/search/searchResult'/>?searchtext="
+		    				+ encodeURI(encodeURIComponent(searchText)) + "&date=" + encodeURI(encodeURIComponent(ss));
+		        	if (sub != "" && sub != "null") {
+		        		url+="&sub="+encodeURI(encodeURI(sub));
+		        	}
+		        	if (jou != "" && jou != "null") {
+		        		url+="&jou="+encodeURI(encodeURIComponent(jou));
+		        	} 
+		        	if (lwlx != "" && lwlx != "null") {
+		        		url += "&lwlx=" + encodeURI(encodeURIComponent(lwlx));
+		        	}
+		        	/* url+="&uesremail="+encodeURI(encodeURIComponent(uesremail));
+		        	url+="&dhtype="+dhtype;
+		        	url+="&username="+username; */
+		        	window.location.href=url;
+		        }
+		        if(fmtype == 'jou'){
+		        	 var url = "<c:url value='/search/searchResult'/>?searchtext="
+		    				+ encodeURI(encodeURIComponent(searchText)) + "&jou=" + encodeURI(encodeURIComponent(ss));
+		        	 if (sub != "" && sub != "null") {
+			        		url+="&sub="+encodeURI(encodeURI(sub));
+			        	}
+		        	 if (date != "" && date != "null") {
+			        		url+="&date="+date;
+			        	} 
+		        	 if (lwlx != "" && lwlx != "null") {
+			        	url += "&lwlx=" + encodeURI(encodeURIComponent(lwlx));
+			          }
+		        	 /* url+="&uesremail="+encodeURI(encodeURIComponent(uesremail));
+		        	 url+="&dhtype="+dhtype;
+		        	 url+="&username="+username; */
+		        	 window.location.href=url;
+		        }
+		        if(fmtype == 'lwlx'){
+		        	var url = "<c:url value='/search/searchResult'/>?searchtext="
+	    				+ encodeURI(encodeURIComponent(searchText)) + "&lwlx=" + encodeURI(encodeURIComponent(ss));
+		        	if (sub != "" && sub != "null") {
+		        		url+="&sub="+encodeURI(encodeURI(sub));
+		        	}
+		        	 if (date != "" && date != "null") {
+			        		url+="&date="+date;
+			        	} 
+		        	 if (jou != "" && jou != "null") {
+			        		url+="&jou="+encodeURI(encodeURIComponent(jou));
+			        	}
+		        	window.location.href=url;
+		        }
+		    }
 				</script>
 	</body>
 </html>

@@ -59,6 +59,8 @@ public class JianceController {
 	@GetMapping(value = "jiance/jiancelist")
 	public String projects(@RequestParam(required=false,value="q") String q,
 			@RequestParam(required=false,value="year") String year,
+			@RequestParam(required=false,value="institution") String institution,
+			@RequestParam(required=false,value="lanmu") String lanmu,
 			@RequestParam(required=false,value="pageSize") Integer pageSize, 
 			@RequestParam(required=false, value="pageIndex") Integer pageIndex, 
 			Model model) {
@@ -140,10 +142,17 @@ public class JianceController {
 
 				BoolQueryBuilder queryBuilder = QueryBuilders.boolQuery().should(QueryBuilders.matchPhraseQuery("title", q)).should(QueryBuilders.matchPhraseQuery("description", q));
 				if(year != null) {
-					String[] years = year.split("-");
+					String[] years = year.split(",");
 					queryBuilder.filter(QueryBuilders.termsQuery("year", years));
 				}
-				
+				if(institution != null) {
+					String[] institutions = institution.split(",");
+					queryBuilder.filter(QueryBuilders.termsQuery("institution", institutions));
+				}
+				if(lanmu != null) {
+					String[] lanmus = lanmu.split(",");
+					queryBuilder.filter(QueryBuilders.termsQuery("lanmu", lanmus));
+				}
 				
 				// 分数，并自动按分排序
 				FunctionScoreQueryBuilder functionScoreQueryBuilder = QueryBuilders.functionScoreQuery(queryBuilder, ScoreFunctionBuilders.weightFactorFunction(1000));
