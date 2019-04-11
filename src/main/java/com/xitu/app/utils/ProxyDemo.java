@@ -5,6 +5,9 @@ import java.net.Authenticator;
 import java.net.InetSocketAddress;
 import java.net.PasswordAuthentication;
 import java.net.Proxy;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -56,8 +59,19 @@ public class ProxyDemo
         // 要访问的目标页面
 //        String targetUrl = "http://test.abuyun.com/proxy.php";
 //        String targetUrl = "http://proxy.abuyun.com/switch-ip";
-        String targetUrl = "http://proxy.abuyun.com/current-ip";
+//        String targetUrl = "http://proxy.abuyun.com/current-ip";
 
-        getUrlProxyContent(targetUrl);
+//        getUrlProxyContent(targetUrl);
+    	System.out.println(getLastMonth(0));
+    }
+    
+    
+    public static String getLastMonth(int month){
+        Calendar curr = Calendar.getInstance(); 
+        curr.set(Calendar.MONTH,curr.get(Calendar.MONTH)-month); //减少一月
+        Date date=curr.getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");  
+        String dateNowStr = sdf.format(date);  
+        return dateNowStr;
     }
 }

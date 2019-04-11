@@ -263,6 +263,38 @@ public class PaperController {
             return R.error();
         }
     }
+    
+    
+//    /**
+//     * 文件解析
+//     * */
+//    @RequestMapping(value="paper/import",method = RequestMethod.POST)
+//    @ResponseBody 
+//    public R fileUpload(MultipartFile file){
+//    	
+//        if(file==null || file.isEmpty()){
+//            return R.error();
+//        }
+//        String fileName = file.getOriginalFilename();
+//        UUID uuid = UUID.randomUUID();
+//        String path = System.getProperty("user.dir") + "/src/main/resources/static/images" ;
+//        File dest = new File(path + File.separator + uuid + "_" + fileName);
+//        if(!dest.getParentFile().exists()){ //判断文件父目录是否存在
+//            dest.getParentFile().mkdir();
+//        }
+//        try {
+//            file.transferTo(dest); //保存文件
+//            return R.ok().put("img", "/images/" + uuid+"_"+fileName);
+//        } catch (IllegalStateException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//            return R.error();
+//        } catch (IOException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//            return R.error();
+//        }
+//    }
 
 	
 	
