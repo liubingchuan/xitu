@@ -82,7 +82,12 @@ public class JianceController {
 							.withPageable(pageable).build();
 					Page<Jiance> projectsPage = paperRepository.search(searchQuery);
 					paperList = projectsPage.getContent();
-					totalPages = Math.round(totalCount/pageSize);
+					if(totalCount % pageSize == 0){
+						totalPages = totalCount/pageSize;
+					}else{
+						totalPages = totalCount/pageSize + 1;
+					}
+					//totalPages = Math.round(totalCount/pageSize);
 					SearchQuery nativeSearchQueryBuilder = new NativeSearchQueryBuilder()
 							//.withQuery(functionScoreQueryBuilderAgg)
 							.withSearchType(SearchType.QUERY_THEN_FETCH)
@@ -200,8 +205,13 @@ public class JianceController {
 					model.addAttribute("aglanmu", journalMap);
 					
 				}
-				totalPages = Math.round(totalCount/pageSize);
-				
+				//totalPages = Math.round(totalCount/pageSize);
+				if(totalCount % pageSize == 0){
+					totalPages = totalCount/pageSize;
+				}else{
+					totalPages = totalCount/pageSize + 1;
+				}
+				//totalPages = Math.round(totalCount/pageSize);
 				
 			}
 		}
@@ -212,7 +222,7 @@ public class JianceController {
 		model.addAttribute("paperList", paperList);
 		model.addAttribute("pageSize", pageSize);
 		model.addAttribute("pageIndex", pageIndex);
-		model.addAttribute("totalPages", totalPages+1);
+		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("query", q);
 			

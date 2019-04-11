@@ -88,6 +88,7 @@
 							目录导航
 						</div>
 						<ul class="rencaiLfUl">
+							<ul class="rencaiLfUl">
 							<li>
 								<a th:href="@{/patent/agmount}">
 									<span>实时价格</span>
@@ -99,20 +100,21 @@
 								</a>
 							</li>
 							<li>
-								<a th:href="@{/patent/agpeople}">
+								<a th:href="@{/report/list(front=0)}">
 									<span>分析报告</span>
 								</a>
 							</li>
 							<li>
-								<a th:href="@{/patent/agclassis}">
+								<a th:href="@{/org/list(front=0)}">
 									<span>重点机构</span>
 								</a>
 							</li>
 							<li>
-								<a th:href="@{/patent/agtype}">
+								<a th:href="@{/expert/list(front=0)}" >
 									<span>行业人才</span>
 								</a>
 							</li>
+						</ul>
 						</ul>
 					</div>
 				    <div class="rencaiRt right">
@@ -918,29 +920,18 @@
                };
 				myChart1.setOption(option);
 			}
+			 
 			 function search(){
-			    	var uri = '';
-			    	/* var entrust = ''
-			    	$.each($('input:checkbox:checked'),function(){
-			    		if($(this).attr("name") == "entrust") {
-			    			if(entrust == '') 
-			    			{
-			    				entrust = $(this).val()
-			    			}
-			    			else
-			    			{
-			    				entrust = entrust + '-' + $(this).val()
-			    			}
-			    		}
-			        });
-			    	if(entrust != '') {
-			    		uri = uri + 'entrust=' + entrust + ''
-			    	} */
-					/* window.location.href="http://47.104.7.73/project/list?q=" + $("#keywords").val() + "&" + uri; */
-					if($("#keywords").val() != "") {
-				    	window.location.href="/patent/list?q=" + $("#keywords").val() + "&" + uri;
-					}
+				    /*  window.location.href="http://127.0.0.1:8088/project/list?q=" + $("#keywords").val(); */
+				     window.location.href="/patent/list?q=" + $("#keywords").val();
+					/* window.location.href="http://47.104.7.73/patent/list?q=" + $("#keywords").val(); */
 				}
+				$("#keywords").keypress(function(e) {
+		            var eCode = e.keyCode ? e.keyCode : e.which ? e.which : e.charCode;
+		             if (eCode == 13){
+		                 search();
+		             }
+		     	});
 		</script>
 	</body>
 </html>
