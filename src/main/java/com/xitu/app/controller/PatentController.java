@@ -1015,8 +1015,8 @@ public class PatentController {
 		List<String> missedList = new ArrayList<String>();
 		Random random = new Random();
 		Map<String, String> map = new HashMap<String, String>();
-		int month = 10;
-		while(month<=410) {
+		int month = 198;
+		while(month<=299) {
 //			if(month==10) {
 //				System.out.println();
 //			}
@@ -1161,6 +1161,7 @@ public class PatentController {
 //						Document singleDoc = singlePageConn.get();
 							System.out.println("成功调用-------------------->" + entry.getKey());
 							System.out.println("******************" + singleDoc.toString());
+							System.out.println("当前的month是--------------->" + month);
 							if(singleDoc.toString().contains("请按图片上的要求依次点击图片上对应的字符")) {
 								java.awt.Toolkit.getDefaultToolkit().beep();
 								System.out.println("已被拦截，当前PatentIndex为"+ (retry==true?patentIndex:(patentIndex-10)) + "手动干预后放开断点，并继续执行");
@@ -1265,7 +1266,8 @@ public class PatentController {
 									Elements tdelements = vipcom.getElementsByTag("td");
 									for(Element td: tdelements) {
 										if(i==1) {
-											patent.setClaim(td.text());
+											String claim = td.text().length()>2000?td.text().substring(0,2000):td.text();
+											patent.setClaim(claim);
 											patentMysql.setClaim(td.text());
 										}else if(i==4) {
 											patent.setPublicnumber(td.text());
@@ -1297,7 +1299,7 @@ public class PatentController {
 							patentMapper.insertPatent(patentMysql);
 							System.out.println("结束插入mysql");
 							System.out.println("开始插入es");
-//						patentRepository.save(patent);
+//							patentRepository.save(patent);
 							System.out.println("结束插入es");
 							patents.add(patent);
 						} catch(Exception e) {
