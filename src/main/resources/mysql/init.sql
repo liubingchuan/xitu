@@ -24,24 +24,20 @@ CREATE TABLE IF NOT EXISTS xitu_item(
 
 CREATE TABLE IF NOT EXISTS xitu_relation (
   ID INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  orderuuid varchar(255) DEFAULT NULL,
-  linkuseruuid varchar(255) DEFAULT NULL,
-  tag INT DEFAULT NULL,
-  constraint xitu_linkuser foreign key(linkuseruuid) references xitu_linkuser(uuid),
-  constraint xitu_order foreign key(orderuuid) references xitu_order(uuid)
+  order_id varchar(255) DEFAULT NULL,
+  linkuser_id varchar(255) DEFAULT NULL,
+  tag INT DEFAULT NULL
 ) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS xitu_linkuser (
   ID INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  uuid varchar(255) DEFAULT NULL,
   name varchar(255) DEFAULT NULL,
   email varchar(255) DEFAULT NULL,
-  telephone varchar(255) DEFAULT NULL,
+  telephone varchar(255) DEFAULT NULL
 ) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS xitu_order (
   ID INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-  uuid varchar(255) DEFAULT NULL,
   ordernumber varchar(255) DEFAULT NULL,
   title varchar(1000) DEFAULT NULL,
   chaxinfanwei varchar(255) DEFAULT NULL,
@@ -52,13 +48,13 @@ CREATE TABLE IF NOT EXISTS xitu_order (
   xueke varchar(255) DEFAULT NULL,
   chanye varchar(255) DEFAULT NULL,
   beizhu text DEFAULT NULL,
-  shenqingfujianID varchar(255) DEFAULT NULL,
+  shenqingfujian_id varchar(255) DEFAULT NULL,
   shenqingshijian varchar(255) DEFAULT NULL,
   chulishijian varchar(255) DEFAULT NULL,
   chulizhuangtai varchar(255) DEFAULT NULL,
   chuliren varchar(255) DEFAULT NULL,
   chuliyijian varchar(255) DEFAULT NULL,
-  chulirenfujianID varchar(255) DEFAULT NULL,
+  chulirenfujian_id varchar(255) DEFAULT NULL
 ) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS xitu_price(
