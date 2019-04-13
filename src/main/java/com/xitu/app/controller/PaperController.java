@@ -1,10 +1,12 @@
 package com.xitu.app.controller;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -43,10 +45,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.alibaba.fastjson.JSONReader;
 import com.xitu.app.common.R;
 import com.xitu.app.common.request.SavePaperRequest;
 import com.xitu.app.mapper.PatentMapper;
 import com.xitu.app.model.Paper;
+import com.xitu.app.model.PaperVO;
 import com.xitu.app.model.Project;
 import com.xitu.app.repository.PaperRepository;
 import com.xitu.app.utils.BeanUtil;
@@ -265,36 +269,123 @@ public class PaperController {
     }
     
     
-//    /**
-//     * 文件解析
-//     * */
-//    @RequestMapping(value="paper/import",method = RequestMethod.POST)
-//    @ResponseBody 
-//    public R fileUpload(MultipartFile file){
-//    	
-//        if(file==null || file.isEmpty()){
-//            return R.error();
-//        }
-//        String fileName = file.getOriginalFilename();
-//        UUID uuid = UUID.randomUUID();
-//        String path = System.getProperty("user.dir") + "/src/main/resources/static/images" ;
-//        File dest = new File(path + File.separator + uuid + "_" + fileName);
-//        if(!dest.getParentFile().exists()){ //判断文件父目录是否存在
-//            dest.getParentFile().mkdir();
-//        }
-//        try {
-//            file.transferTo(dest); //保存文件
-//            return R.ok().put("img", "/images/" + uuid+"_"+fileName);
-//        } catch (IllegalStateException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//            return R.error();
-//        } catch (IOException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//            return R.error();
-//        }
-//    }
+    /**
+     * 文件解析
+     * */
+    @GetMapping(value="paper/import")
+    @ResponseBody 
+    public R importJson(){
+    	try {
+			String filePath = String.format("/Users/liubingchuan/git/bdm/meta/xitu.json");
+			File file = new File(filePath);
+			JSONReader reader=new JSONReader(new FileReader(file));
+			reader.startArray();
+			List<Paper> papers = new LinkedList<Paper>();
+			int i=1;
+			while (reader.hasNext()) {
+				
+				if(papers.size()>=1000){
+					paperRepository.saveAll(papers);
+					papers.clear();
+					System.out.println("成功存入一千条");
+					System.out.println("已经存入" + i + "条");
+				}
+				
+	            PaperVO vo = reader.readObject(PaperVO.class);
+	            Paper paper = new Paper();
+	            paper.setId(vo.get_id());
+	            paper.setNow(System.currentTimeMillis());
+	            List<String> links = new ArrayList<String>();
+	            links.add(vo.getUrl());
+	            paper.setLink(links);
+	            paper.setTitle(vo.getTitle());
+	            paper.setIssue(vo.getOnlineDate());
+	            
+	            String year = "".equals(vo.getOnlineDate())?"预发布":vo.getOnlineDate().substring(0, 4);
+	            paper.setYear(year);
+	            List<String> authors = vo.getAuthor();
+	            List<String> paperAuthors = new ArrayList<String>();
+	            boolean isAuthor = false;
+	            for(String author: authors) {
+	            	if(isAuthor) {
+	            		paperAuthors.add(author);
+	            	}
+	            	if("|".equals(author)){
+	            		isAuthor = true;
+	            	}
+	            }
+	            paper.setAuthor(paperAuthors);
+	            paper.setSubject(vo.getAbc());
+	            List<String> keywords = new ArrayList<String>();
+	            for(String keyword: vo.getKeyWord()) {
+	            	keywords.add(keyword);
+	            }
+	            paper.setKeywords(keywords);
+	            List<String> orgs= new ArrayList<String>();
+	            for(String org : vo.getOrganization()) {
+	            	orgs.add(org);
+	            }
+	            paper.setInstitution(orgs);
+	            paper.setJournal(vo.getJournal());
+	            papers.add(paper);
+	            System.out.println("当前id----》" + i);
+	            i++;
+	        }
+			if(papers.size()>0) {
+				paperRepository.saveAll(papers);
+				System.out.println("已结束");
+			}
+			reader.endArray();
+	        reader.close();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	return R.ok();
+    }
+    
+    /**
+     * 文件解析
+     * */
+    @GetMapping(value="paper/extract")
+    @ResponseBody 
+    public R extract(){
+    	SearchQuery nativeSearchQueryBuilder = new NativeSearchQueryBuilder()
+				.withSearchType(SearchType.QUERY_THEN_FETCH)
+				.withIndices("paper").withTypes("pr")
+				.addAggregation(AggregationBuilders.terms("aginstitution").field("institution").order(Terms.Order.count(false)).size(60))
+//				.addAggregation(AggregationBuilders.terms("agauthor").field("author").order(Terms.Order.count(false)).size(2))
+				.build();
+		Aggregations aggregations = esTemplate.query(nativeSearchQueryBuilder, new ResultsExtractor<Aggregations>() {
+	        @Override
+	        public Aggregations extract(SearchResponse response) {
+	            return response.getAggregations();
+	        }
+	    });
+		
+		if(aggregations != null) {
+			
+			StringTerms institutionTerms = (StringTerms) aggregations.asMap().get("aginstitution");
+			Iterator<Bucket> institutionbit = institutionTerms.getBuckets().iterator();
+			Map<String, Long> institutionMap = new HashMap<String, Long>();
+			while(institutionbit.hasNext()) {
+				Bucket institutionBucket = institutionbit.next();
+				institutionMap.put(institutionBucket.getKey().toString(), Long.valueOf(institutionBucket.getDocCount()));
+			}
+			System.out.println(institutionMap.size());
+			
+			
+//			StringTerms authorTerms = (StringTerms) aggregations.asMap().get("agauthor");
+//			Iterator<Bucket> authorbit = authorTerms.getBuckets().iterator();
+//			Map<String, Long> authorMap = new HashMap<String, Long>();
+//			while(authorbit.hasNext()) {
+//				Bucket authorBucket = authorbit.next();
+//				authorMap.put(authorBucket.getKey().toString(), Long.valueOf(authorBucket.getDocCount()));
+//			}
+			
+		}
+    	return R.ok();
+    }
 
 	
 	

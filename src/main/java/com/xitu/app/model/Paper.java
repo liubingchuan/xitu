@@ -35,7 +35,7 @@ public class Paper implements Serializable{
 	private String issue; // 期
 	
 	@Field(type=FieldType.Keyword)
-	private String page; // 页码
+	private String page; // 页码 //去掉
 	
 	@Field(type=FieldType.Keyword)
 	private String issn; // issn
