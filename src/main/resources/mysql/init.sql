@@ -22,6 +22,45 @@ CREATE TABLE IF NOT EXISTS xitu_item(
   item VARCHAR(255) DEFAULT NULL
 ) DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS xitu_relation (
+  ID INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  orderuuid varchar(255) DEFAULT NULL,
+  linkuseruuid varchar(255) DEFAULT NULL,
+  tag INT DEFAULT NULL,
+  constraint xitu_linkuser foreign key(linkuseruuid) references xitu_linkuser(uuid),
+  constraint xitu_order foreign key(orderuuid) references xitu_order(uuid)
+) DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS xitu_linkuser (
+  ID INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  uuid varchar(255) DEFAULT NULL,
+  name varchar(255) DEFAULT NULL,
+  email varchar(255) DEFAULT NULL,
+  telephone varchar(255) DEFAULT NULL,
+) DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS xitu_order (
+  ID INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  uuid varchar(255) DEFAULT NULL,
+  ordernumber varchar(255) DEFAULT NULL,
+  title varchar(1000) DEFAULT NULL,
+  chaxinfanwei varchar(255) DEFAULT NULL,
+  mudi text DEFAULT NULL,
+  kexueyaodian text DEFAULT NULL,
+  jiansuodian text DEFAULT NULL,
+  jiansuoci varchar(500) DEFAULT NULL,
+  xueke varchar(255) DEFAULT NULL,
+  chanye varchar(255) DEFAULT NULL,
+  beizhu text DEFAULT NULL,
+  shenqingfujianID varchar(255) DEFAULT NULL,
+  shenqingshijian varchar(255) DEFAULT NULL,
+  chulishijian varchar(255) DEFAULT NULL,
+  chulizhuangtai varchar(255) DEFAULT NULL,
+  chuliren varchar(255) DEFAULT NULL,
+  chuliyijian varchar(255) DEFAULT NULL,
+  chulirenfujianID varchar(255) DEFAULT NULL,
+) DEFAULT CHARSET=utf8;
+
 CREATE TABLE IF NOT EXISTS xitu_price(
   ID INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
   name VARCHAR(255) DEFAULT NULL,
@@ -45,17 +84,15 @@ CREATE TABLE IF NOT EXISTS xitu_patent(
   publicyear VARCHAR(255) DEFAULT NULL,
   ptype VARCHAR(255) DEFAULT NULL,
   description TEXT DEFAULT NULL,
-  claim TEXT DEFAULT NULL,
+  claim LONGTEXT DEFAULT NULL,
   publicnumber VARCHAR(255) DEFAULT NULL,
   applynumber VARCHAR(255) DEFAULT NULL,
   ipc VARCHAR(1000) DEFAULT NULL,
   cpc VARCHAR(255) DEFAULT NULL,
-  piroryear VARCHAR(255) DEFAULT NULL,
+  piroryear TEXT DEFAULT NULL,
   country VARCHAR(255) DEFAULT NULL,
   lawstatus VARCHAR(255) DEFAULT NULL,
-  now INT DEFAULT 0
+  now BIGINT DEFAULT 0
 ) DEFAULT CHARSET=utf8;
-
-
 
 

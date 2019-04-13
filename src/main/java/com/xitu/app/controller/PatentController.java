@@ -293,7 +293,12 @@ public class PatentController {
 //		    	for (Project project : content) {
 //		    		pList.add(esBlog.getUsername());
 //				}
-				totalPages = Math.round(totalCount/pageSize);
+				//totalPages = Math.round(totalCount/pageSize);
+				if(totalCount % pageSize == 0){
+					totalPages = totalCount/pageSize;
+				}else{
+					totalPages = totalCount/pageSize + 1;
+				}
 				
 				
 			}
@@ -339,6 +344,11 @@ public class PatentController {
 							.withPageable(pageable).build();
 					Page<Patent> patentsPage = patentRepository.search(searchQuery);
 					patentList = patentsPage.getContent();
+					if(totalCount % pageSize == 0){
+						totalPages = totalCount/pageSize;
+					}else{
+						totalPages = totalCount/pageSize + 1;
+					}
 				}
 			}else {
 				// 分页参数

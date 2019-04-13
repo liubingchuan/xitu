@@ -85,11 +85,11 @@ public class JianceController {
 					Pageable pageable = new PageRequest(pageIndex, pageSize);
 
 					BoolQueryBuilder queryBuilder = new BoolQueryBuilder();
-					if(year != null) {
-						String[] years = year.split(",");
-						queryBuilder.filter(QueryBuilders.termsQuery("year", years));
-					}
-					if(institution != null) {
+//					if(year != null) {
+//						String[] years = year.split(",");
+//						queryBuilder.filter(QueryBuilders.termsQuery("year", years));
+//					}
+					if(institution != null && !institution.equals("")) {
 						try {
 							institution = URLDecoder.decode(institution, "UTF-8");
 						} catch (UnsupportedEncodingException e) {
@@ -129,7 +129,7 @@ public class JianceController {
 							.withQuery(functionScoreQueryBuilder)
 							.withSearchType(SearchType.QUERY_THEN_FETCH)
 							.withIndices("jiance").withTypes("jc")
-							.addAggregation(AggregationBuilders.terms("agpubyear").field("pubyear").order(Terms.Order.count(false)).size(10))
+							//.addAggregation(AggregationBuilders.terms("agpubyear").field("pubyear").order(Terms.Order.count(false)).size(10))
 							.addAggregation(AggregationBuilders.terms("aglanmu").field("lanmu").order(Terms.Order.count(false)).size(10))
 							.addAggregation(AggregationBuilders.terms("aginstitution").field("institution").order(Terms.Order.count(false)).size(10))
 							//.addAggregation(AggregationBuilders.terms("agauthor").field("author").order(Terms.Order.count(false)).size(10))
@@ -142,14 +142,14 @@ public class JianceController {
 				    });
 					
 					if(aggregations != null) {
-						StringTerms yearTerms = (StringTerms) aggregations.asMap().get("agpubyear");
-						Iterator<Bucket> yearbit = yearTerms.getBuckets().iterator();
-						Map<String, Long> yearMap = new HashMap<String, Long>();
-						while(yearbit.hasNext()) {
-							Bucket yearBucket = yearbit.next();
-							yearMap.put(yearBucket.getKey().toString(), Long.valueOf(yearBucket.getDocCount()));
-						}
-						model.addAttribute("agyear", yearMap);
+//						StringTerms yearTerms = (StringTerms) aggregations.asMap().get("agpubyear");
+//						Iterator<Bucket> yearbit = yearTerms.getBuckets().iterator();
+//						Map<String, Long> yearMap = new HashMap<String, Long>();
+//						while(yearbit.hasNext()) {
+//							Bucket yearBucket = yearbit.next();
+//							yearMap.put(yearBucket.getKey().toString(), Long.valueOf(yearBucket.getDocCount()));
+//						}
+//						model.addAttribute("agyear", yearMap);
 						
 						StringTerms institutionTerms = (StringTerms) aggregations.asMap().get("aginstitution");
 						Iterator<Bucket> institutionbit = institutionTerms.getBuckets().iterator();
@@ -176,11 +176,11 @@ public class JianceController {
 				Pageable pageable = new PageRequest(pageIndex, pageSize);
 
 				BoolQueryBuilder queryBuilder = QueryBuilders.boolQuery().should(QueryBuilders.matchPhraseQuery("title", q)).should(QueryBuilders.matchPhraseQuery("description", q));
-				if(year != null) {
-					String[] years = year.split(",");
-					queryBuilder.filter(QueryBuilders.termsQuery("year", years));
-				}
-				if(institution != null) {
+//				if(year != null) {
+//					String[] years = year.split(",");
+//					queryBuilder.filter(QueryBuilders.termsQuery("year", years));
+//				}
+				if(institution != null && !institution.equals("")) {
 					try {
 						institution = URLDecoder.decode(institution, "UTF-8");
 					} catch (UnsupportedEncodingException e) {
@@ -190,7 +190,7 @@ public class JianceController {
 					String[] institutions = institution.split(",");
 					queryBuilder.filter(QueryBuilders.termsQuery("institution", institutions));
 				}
-				if(lanmu != null) {
+				if(lanmu != null && !lanmu.equals("")) {
 					try {
 						lanmu = URLDecoder.decode(lanmu, "UTF-8");
 					} catch (UnsupportedEncodingException e) {
@@ -220,7 +220,7 @@ public class JianceController {
 						.withQuery(functionScoreQueryBuilderAgg)
 						.withSearchType(SearchType.QUERY_THEN_FETCH)
 						.withIndices("jiance").withTypes("jc")
-						.addAggregation(AggregationBuilders.terms("agpubyear").field("pubyear").order(Terms.Order.count(false)).size(10))
+						//.addAggregation(AggregationBuilders.terms("agpubyear").field("pubyear").order(Terms.Order.count(false)).size(10))
 						.addAggregation(AggregationBuilders.terms("aglanmu").field("lanmu").order(Terms.Order.count(false)).size(10))
 						.addAggregation(AggregationBuilders.terms("aginstitution").field("institution").order(Terms.Order.count(false)).size(10))
 						//.addAggregation(AggregationBuilders.terms("agauthor").field("author").order(Terms.Order.count(false)).size(10))
@@ -233,14 +233,14 @@ public class JianceController {
 			    });
 				
 				if(aggregations != null) {
-					StringTerms yearTerms = (StringTerms) aggregations.asMap().get("agpubyear");
-					Iterator<Bucket> yearbit = yearTerms.getBuckets().iterator();
-					Map<String, Long> yearMap = new HashMap<String, Long>();
-					while(yearbit.hasNext()) {
-						Bucket yearBucket = yearbit.next();
-						yearMap.put(yearBucket.getKey().toString(), Long.valueOf(yearBucket.getDocCount()));
-					}
-					model.addAttribute("agyear", yearMap);
+//					StringTerms yearTerms = (StringTerms) aggregations.asMap().get("agpubyear");
+//					Iterator<Bucket> yearbit = yearTerms.getBuckets().iterator();
+//					Map<String, Long> yearMap = new HashMap<String, Long>();
+//					while(yearbit.hasNext()) {
+//						Bucket yearBucket = yearbit.next();
+//						yearMap.put(yearBucket.getKey().toString(), Long.valueOf(yearBucket.getDocCount()));
+//					}
+//					model.addAttribute("agyear", yearMap);
 					
 					StringTerms institutionTerms = (StringTerms) aggregations.asMap().get("aginstitution");
 					Iterator<Bucket> institutionbit = institutionTerms.getBuckets().iterator();
@@ -281,7 +281,7 @@ public class JianceController {
 		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("query", q);
-		model.addAttribute("institution", institution);
+		model.addAttribute("ins", institution);
 		model.addAttribute("lanmu", lanmu);
 			
 		return view;
