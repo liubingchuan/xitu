@@ -293,7 +293,12 @@ public class PatentController {
 //		    	for (Project project : content) {
 //		    		pList.add(esBlog.getUsername());
 //				}
-				totalPages = Math.round(totalCount/pageSize);
+				//totalPages = Math.round(totalCount/pageSize);
+				if(totalCount % pageSize == 0){
+					totalPages = totalCount/pageSize;
+				}else{
+					totalPages = totalCount/pageSize + 1;
+				}
 				
 				
 			}
@@ -339,6 +344,11 @@ public class PatentController {
 							.withPageable(pageable).build();
 					Page<Patent> patentsPage = patentRepository.search(searchQuery);
 					patentList = patentsPage.getContent();
+					if(totalCount % pageSize == 0){
+						totalPages = totalCount/pageSize;
+					}else{
+						totalPages = totalCount/pageSize + 1;
+					}
 				}
 			}else {
 				// 分页参数
@@ -382,7 +392,11 @@ public class PatentController {
 				Page<Patent> searchPageResults = patentRepository.search(searchQuery);
 				patentList = searchPageResults.getContent();
 				totalCount = esTemplate.count(searchQuery, Patent.class);
-				
+				if(totalCount % pageSize == 0){
+					totalPages = totalCount/pageSize;
+				}else{
+					totalPages = totalCount/pageSize + 1;
+				}
 				
 				BoolQueryBuilder queryBuilderAgg = QueryBuilders.boolQuery()
 						.should(QueryBuilders.matchQuery("title", q))
@@ -1015,8 +1029,8 @@ public class PatentController {
 		List<String> missedList = new ArrayList<String>();
 		Random random = new Random();
 		Map<String, String> map = new HashMap<String, String>();
-		int month = 205;
-		while(month<=410) {
+		int month = 103;
+		while(month<=149) {
 //			if(month==10) {
 //				System.out.println();
 //			}
@@ -1318,6 +1332,8 @@ public class PatentController {
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
+					System.out.println("当前month是：" + month);
+					System.out.println("当前pageindex是：" +patentIndex);
 					if(retry) {
 						patentIndex -= 10;
 					}

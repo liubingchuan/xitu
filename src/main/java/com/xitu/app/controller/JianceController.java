@@ -1,5 +1,7 @@
 package com.xitu.app.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -59,6 +61,8 @@ public class JianceController {
 	@GetMapping(value = "jiance/jiancelist")
 	public String projects(@RequestParam(required=false,value="q") String q,
 			@RequestParam(required=false,value="year") String year,
+			@RequestParam(required=false,value="institution") String institution,
+			@RequestParam(required=false,value="lanmu") String lanmu,
 			@RequestParam(required=false,value="pageSize") Integer pageSize, 
 			@RequestParam(required=false, value="pageIndex") Integer pageIndex, 
 			Model model) {
@@ -73,15 +77,47 @@ public class JianceController {
 		List<Jiance> paperList = new ArrayList<Jiance>();
 		String view = "T-jiance";
 		if(esTemplate.indexExists(Jiance.class)) {
-			if(q == null) {
-				totalCount = paperRepository.count();
-				if(totalCount >0) {
-					Sort sort = new Sort(Direction.DESC, "pubtime");
-					Pageable pageable = new PageRequest(pageIndex, pageSize,sort);
+			if(q == null || q.equals("null")) {
+				//totalCount = paperRepository.count();
+				//if(totalCount >0) {
+					//Sort sort = new Sort(Direction.DESC, "pubtime");
+					//Pageable pageable = new PageRequest(pageIndex, pageSize,sort);
+					Pageable pageable = new PageRequest(pageIndex, pageSize);
+
+					BoolQueryBuilder queryBuilder = new BoolQueryBuilder();
+//					if(year != null) {
+//						String[] years = year.split(",");
+//						queryBuilder.filter(QueryBuilders.termsQuery("year", years));
+//					}
+					if(institution != null && !institution.equals("")) {
+						try {
+							institution = URLDecoder.decode(institution, "UTF-8");
+						} catch (UnsupportedEncodingException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						String[] institutions = institution.split(",");
+						queryBuilder.filter(QueryBuilders.termsQuery("institution", institutions));
+					}
+					if(lanmu != null && !lanmu.equals("")) {
+						try {
+							lanmu = URLDecoder.decode(lanmu, "UTF-8");
+						} catch (UnsupportedEncodingException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						String[] lanmus = lanmu.split(",");
+						queryBuilder.filter(QueryBuilders.termsQuery("lanmu", lanmus));
+					}
+					
+					// 分数，并自动按分排序
+					FunctionScoreQueryBuilder functionScoreQueryBuilder = QueryBuilders.functionScoreQuery(queryBuilder, ScoreFunctionBuilders.weightFactorFunction(1000));
 					SearchQuery searchQuery = new NativeSearchQueryBuilder()
-							.withPageable(pageable).build();
+							.withPageable(pageable).withQuery(functionScoreQueryBuilder).build();
 					Page<Jiance> projectsPage = paperRepository.search(searchQuery);
 					paperList = projectsPage.getContent();
+					
+					totalCount = esTemplate.count(searchQuery, Jiance.class);
 					if(totalCount % pageSize == 0){
 						totalPages = totalCount/pageSize;
 					}else{
@@ -90,9 +126,10 @@ public class JianceController {
 					//totalPages = Math.round(totalCount/pageSize);
 					SearchQuery nativeSearchQueryBuilder = new NativeSearchQueryBuilder()
 							//.withQuery(functionScoreQueryBuilderAgg)
+							.withQuery(functionScoreQueryBuilder)
 							.withSearchType(SearchType.QUERY_THEN_FETCH)
 							.withIndices("jiance").withTypes("jc")
-							.addAggregation(AggregationBuilders.terms("agpubyear").field("pubyear").order(Terms.Order.count(false)).size(10))
+							//.addAggregation(AggregationBuilders.terms("agpubyear").field("pubyear").order(Terms.Order.count(false)).size(10))
 							.addAggregation(AggregationBuilders.terms("aglanmu").field("lanmu").order(Terms.Order.count(false)).size(10))
 							.addAggregation(AggregationBuilders.terms("aginstitution").field("institution").order(Terms.Order.count(false)).size(10))
 							//.addAggregation(AggregationBuilders.terms("agauthor").field("author").order(Terms.Order.count(false)).size(10))
@@ -105,14 +142,14 @@ public class JianceController {
 				    });
 					
 					if(aggregations != null) {
-						StringTerms yearTerms = (StringTerms) aggregations.asMap().get("agpubyear");
-						Iterator<Bucket> yearbit = yearTerms.getBuckets().iterator();
-						Map<String, Long> yearMap = new HashMap<String, Long>();
-						while(yearbit.hasNext()) {
-							Bucket yearBucket = yearbit.next();
-							yearMap.put(yearBucket.getKey().toString(), Long.valueOf(yearBucket.getDocCount()));
-						}
-						model.addAttribute("agyear", yearMap);
+//						StringTerms yearTerms = (StringTerms) aggregations.asMap().get("agpubyear");
+//						Iterator<Bucket> yearbit = yearTerms.getBuckets().iterator();
+//						Map<String, Long> yearMap = new HashMap<String, Long>();
+//						while(yearbit.hasNext()) {
+//							Bucket yearBucket = yearbit.next();
+//							yearMap.put(yearBucket.getKey().toString(), Long.valueOf(yearBucket.getDocCount()));
+//						}
+//						model.addAttribute("agyear", yearMap);
 						
 						StringTerms institutionTerms = (StringTerms) aggregations.asMap().get("aginstitution");
 						Iterator<Bucket> institutionbit = institutionTerms.getBuckets().iterator();
@@ -133,17 +170,36 @@ public class JianceController {
 						model.addAttribute("aglanmu", journalMap);
 						
 					}
-				}
+				//}
 			}else {
 				// 分页参数
 				Pageable pageable = new PageRequest(pageIndex, pageSize);
 
 				BoolQueryBuilder queryBuilder = QueryBuilders.boolQuery().should(QueryBuilders.matchPhraseQuery("title", q)).should(QueryBuilders.matchPhraseQuery("description", q));
-				if(year != null) {
-					String[] years = year.split("-");
-					queryBuilder.filter(QueryBuilders.termsQuery("year", years));
+//				if(year != null) {
+//					String[] years = year.split(",");
+//					queryBuilder.filter(QueryBuilders.termsQuery("year", years));
+//				}
+				if(institution != null && !institution.equals("")) {
+					try {
+						institution = URLDecoder.decode(institution, "UTF-8");
+					} catch (UnsupportedEncodingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					String[] institutions = institution.split(",");
+					queryBuilder.filter(QueryBuilders.termsQuery("institution", institutions));
 				}
-				
+				if(lanmu != null && !lanmu.equals("")) {
+					try {
+						lanmu = URLDecoder.decode(lanmu, "UTF-8");
+					} catch (UnsupportedEncodingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					String[] lanmus = lanmu.split(",");
+					queryBuilder.filter(QueryBuilders.termsQuery("lanmu", lanmus));
+				}
 				
 				// 分数，并自动按分排序
 				FunctionScoreQueryBuilder functionScoreQueryBuilder = QueryBuilders.functionScoreQuery(queryBuilder, ScoreFunctionBuilders.weightFactorFunction(1000));
@@ -164,7 +220,7 @@ public class JianceController {
 						.withQuery(functionScoreQueryBuilderAgg)
 						.withSearchType(SearchType.QUERY_THEN_FETCH)
 						.withIndices("jiance").withTypes("jc")
-						.addAggregation(AggregationBuilders.terms("agpubyear").field("pubyear").order(Terms.Order.count(false)).size(10))
+						//.addAggregation(AggregationBuilders.terms("agpubyear").field("pubyear").order(Terms.Order.count(false)).size(10))
 						.addAggregation(AggregationBuilders.terms("aglanmu").field("lanmu").order(Terms.Order.count(false)).size(10))
 						.addAggregation(AggregationBuilders.terms("aginstitution").field("institution").order(Terms.Order.count(false)).size(10))
 						//.addAggregation(AggregationBuilders.terms("agauthor").field("author").order(Terms.Order.count(false)).size(10))
@@ -177,14 +233,14 @@ public class JianceController {
 			    });
 				
 				if(aggregations != null) {
-					StringTerms yearTerms = (StringTerms) aggregations.asMap().get("agpubyear");
-					Iterator<Bucket> yearbit = yearTerms.getBuckets().iterator();
-					Map<String, Long> yearMap = new HashMap<String, Long>();
-					while(yearbit.hasNext()) {
-						Bucket yearBucket = yearbit.next();
-						yearMap.put(yearBucket.getKey().toString(), Long.valueOf(yearBucket.getDocCount()));
-					}
-					model.addAttribute("agyear", yearMap);
+//					StringTerms yearTerms = (StringTerms) aggregations.asMap().get("agpubyear");
+//					Iterator<Bucket> yearbit = yearTerms.getBuckets().iterator();
+//					Map<String, Long> yearMap = new HashMap<String, Long>();
+//					while(yearbit.hasNext()) {
+//						Bucket yearBucket = yearbit.next();
+//						yearMap.put(yearBucket.getKey().toString(), Long.valueOf(yearBucket.getDocCount()));
+//					}
+//					model.addAttribute("agyear", yearMap);
 					
 					StringTerms institutionTerms = (StringTerms) aggregations.asMap().get("aginstitution");
 					Iterator<Bucket> institutionbit = institutionTerms.getBuckets().iterator();
@@ -225,6 +281,8 @@ public class JianceController {
 		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("query", q);
+		model.addAttribute("ins", institution);
+		model.addAttribute("lanmu", lanmu);
 			
 		return view;
 	}
