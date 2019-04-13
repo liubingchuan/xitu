@@ -105,13 +105,23 @@
 		        			<div class="jiancelfgpB">
 		        			<div class="jiansuoLfGpList" th:if=" ${#maps.size(aglanmu) > 5}">
 		        				<div class="jiansuoLfGx" th:each="institution : ${aglanmu}">
-		        					<input type="checkbox" th:id="'institution'+${institution.key}" th:name="lanmu" th:value="${institution.key}" onclick="checkfm('lanmu','lanmu')">
+		        					<span th:if="${#strings.contains(lanmu,'新闻动态')}">
+		        					<input type="checkbox" checked="checked" th:id="'institution'+${institution.key}" th:name="lanmu" th:value="${institution.key}" onclick="checkfm('lanmu','lanmu')">
 		        					<label th:for="'institution'+${institution.key}" th:text="${institution.key} + '(' + ${institution.value} + ')'"></label>
+		        					</span> 
 		        				</div>
 		        			</div>
 		        		    <div class="jiansuoLfGx" th:each="institution : ${aglanmu}" th:if=" ${#maps.size(aglanmu) <= 5}">
-		        					<input type="checkbox" th:id="'institution'+${institution.key}" th:name="lanmu" th:value="${institution.key}" onclick="checkfm('lanmu','lanmu')"/>
+		        		    		<span th:if="${lanmu != null}">
+		        					<span th:if="${#strings.contains(lanmu,institution.key)}">
+		        					<input type="checkbox" checked="checked"  th:id="'institution'+${institution.key}" th:name="lanmu" th:value="${institution.key}" onclick="checkfm('lanmu','lanmu')"/>
 		        					<label th:for="'institution'+${institution.key}" th:text="${institution.key} + '(' + ${institution.value} + ')'"></label>
+		        					</span>
+		        					</span>
+		        					<span th:if="${lanmu == null || lanmu == ''}">
+		        						<input type="checkbox" th:id="'institution'+${institution.key}" th:name="lanmu" th:value="${institution.key}" onclick="checkfm('lanmu','lanmu')"/>
+		        						<label th:for="'institution'+${institution.key}" th:text="${institution.key} + '(' + ${institution.value} + ')'"></label>
+		        					</span>
 		        			</div>
 		        		    <a href="javascript:;" class="jiansuoLfMore" th:if=" ${#maps.size(aglanmu) > 5}">
 		        		    	展开更多
@@ -197,6 +207,9 @@
 		            				</span> -->
 		            				<span>
 		            					<b>来源机构：</b><span th:text="${paper.institution}"></span>
+		            				</span>
+		            				<span>
+		            					<b>栏目分类：</b><span th:text="${paper.lanmu}"></span>
 		            				</span>
 		            			</div>
 		            		</li>
@@ -289,7 +302,12 @@
 		<script type="text/javascript" th:src="@{/js/main.js}" ></script>
 		<script type="text/javascript" th:src="@{/js/huakuai.js}" ></script>
 		<script type="text/javascript" th:inline="javascript">
-			
+		
+		 var institution =  [[${institution}]];
+		 var lanmu =  [[${lanmu}]];
+		 var query =  [[${query}]];
+		
+		
 			function search(){
 			    /*  window.location.href="http://127.0.0.1:8088/project/list?q=" + $("#keywords").val(); */
 			    window.location.href="/jiance/jiancelist?q=" + $("#keywords").val();
@@ -312,20 +330,13 @@
 		        }
 		        ss =  check_val.toString();
 		        if(fmtype == 'lanmu'){
-		        	var url = "<c:url value='/search/searchResult'/>?searchtext="
-		    				+ encodeURI(encodeURIComponent(searchText)) + "&sub=" + encodeURI(encodeURIComponent(ss));
-		        	if (date != "" && date != "null") {
-			        		url+="&date="+date;
-		        	}
-		        	if (jou != "" && jou != "null") {
-		        		url+="&jou="+encodeURI(encodeURIComponent(jou));
+		        	var url = "/jiance/jiancelist?q="+query + "&lanmu=" + encodeURI(encodeURIComponent(ss));
+		        	
+		        	if (institution != "" && institution != null) {
+		        		url+="&institution="+encodeURI(encodeURIComponent(institution));
 		        	} 
-		        	if (lwlx != "" && lwlx != "null") {
-		        		url += "&lwlx=" + encodeURI(encodeURIComponent(lwlx));
-		        	}
-		        	/* url+="&dhtype="+dhtype;
-		        	url+="&username="+username;
-		        	url+="&uesremail="+encodeURI(encodeURIComponent(uesremail)); */
+		        	
+		        	
 		        	window.location.href=url;
 		        }
 		        if(fmtype == 'date'){

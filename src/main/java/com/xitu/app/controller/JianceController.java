@@ -1,5 +1,7 @@
 package com.xitu.app.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -75,15 +77,47 @@ public class JianceController {
 		List<Jiance> paperList = new ArrayList<Jiance>();
 		String view = "T-jiance";
 		if(esTemplate.indexExists(Jiance.class)) {
-			if(q == null) {
-				totalCount = paperRepository.count();
-				if(totalCount >0) {
-					Sort sort = new Sort(Direction.DESC, "pubtime");
-					Pageable pageable = new PageRequest(pageIndex, pageSize,sort);
+			if(q == null || q.equals("null")) {
+				//totalCount = paperRepository.count();
+				//if(totalCount >0) {
+					//Sort sort = new Sort(Direction.DESC, "pubtime");
+					//Pageable pageable = new PageRequest(pageIndex, pageSize,sort);
+					Pageable pageable = new PageRequest(pageIndex, pageSize);
+
+					BoolQueryBuilder queryBuilder = new BoolQueryBuilder();
+					if(year != null) {
+						String[] years = year.split(",");
+						queryBuilder.filter(QueryBuilders.termsQuery("year", years));
+					}
+					if(institution != null) {
+						try {
+							institution = URLDecoder.decode(institution, "UTF-8");
+						} catch (UnsupportedEncodingException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						String[] institutions = institution.split(",");
+						queryBuilder.filter(QueryBuilders.termsQuery("institution", institutions));
+					}
+					if(lanmu != null && !lanmu.equals("")) {
+						try {
+							lanmu = URLDecoder.decode(lanmu, "UTF-8");
+						} catch (UnsupportedEncodingException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						String[] lanmus = lanmu.split(",");
+						queryBuilder.filter(QueryBuilders.termsQuery("lanmu", lanmus));
+					}
+					
+					// 分数，并自动按分排序
+					FunctionScoreQueryBuilder functionScoreQueryBuilder = QueryBuilders.functionScoreQuery(queryBuilder, ScoreFunctionBuilders.weightFactorFunction(1000));
 					SearchQuery searchQuery = new NativeSearchQueryBuilder()
-							.withPageable(pageable).build();
+							.withPageable(pageable).withQuery(functionScoreQueryBuilder).build();
 					Page<Jiance> projectsPage = paperRepository.search(searchQuery);
 					paperList = projectsPage.getContent();
+					
+					totalCount = esTemplate.count(searchQuery, Jiance.class);
 					if(totalCount % pageSize == 0){
 						totalPages = totalCount/pageSize;
 					}else{
@@ -92,6 +126,7 @@ public class JianceController {
 					//totalPages = Math.round(totalCount/pageSize);
 					SearchQuery nativeSearchQueryBuilder = new NativeSearchQueryBuilder()
 							//.withQuery(functionScoreQueryBuilderAgg)
+							.withQuery(functionScoreQueryBuilder)
 							.withSearchType(SearchType.QUERY_THEN_FETCH)
 							.withIndices("jiance").withTypes("jc")
 							.addAggregation(AggregationBuilders.terms("agpubyear").field("pubyear").order(Terms.Order.count(false)).size(10))
@@ -135,7 +170,7 @@ public class JianceController {
 						model.addAttribute("aglanmu", journalMap);
 						
 					}
-				}
+				//}
 			}else {
 				// 分页参数
 				Pageable pageable = new PageRequest(pageIndex, pageSize);
@@ -146,10 +181,22 @@ public class JianceController {
 					queryBuilder.filter(QueryBuilders.termsQuery("year", years));
 				}
 				if(institution != null) {
+					try {
+						institution = URLDecoder.decode(institution, "UTF-8");
+					} catch (UnsupportedEncodingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					String[] institutions = institution.split(",");
 					queryBuilder.filter(QueryBuilders.termsQuery("institution", institutions));
 				}
 				if(lanmu != null) {
+					try {
+						lanmu = URLDecoder.decode(lanmu, "UTF-8");
+					} catch (UnsupportedEncodingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					String[] lanmus = lanmu.split(",");
 					queryBuilder.filter(QueryBuilders.termsQuery("lanmu", lanmus));
 				}
@@ -234,6 +281,8 @@ public class JianceController {
 		model.addAttribute("totalPages", totalPages);
 		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("query", q);
+		model.addAttribute("institution", institution);
+		model.addAttribute("lanmu", lanmu);
 			
 		return view;
 	}

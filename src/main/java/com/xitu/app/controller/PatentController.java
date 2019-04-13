@@ -382,7 +382,11 @@ public class PatentController {
 				Page<Patent> searchPageResults = patentRepository.search(searchQuery);
 				patentList = searchPageResults.getContent();
 				totalCount = esTemplate.count(searchQuery, Patent.class);
-				
+				if(totalCount % pageSize == 0){
+					totalPages = totalCount/pageSize;
+				}else{
+					totalPages = totalCount/pageSize + 1;
+				}
 				
 				BoolQueryBuilder queryBuilderAgg = QueryBuilders.boolQuery()
 						.should(QueryBuilders.matchQuery("title", q))
@@ -1015,8 +1019,8 @@ public class PatentController {
 		List<String> missedList = new ArrayList<String>();
 		Random random = new Random();
 		Map<String, String> map = new HashMap<String, String>();
-		int month = 198;
-		while(month<=299) {
+		int month = 103;
+		while(month<=149) {
 //			if(month==10) {
 //				System.out.println();
 //			}
@@ -1318,6 +1322,8 @@ public class PatentController {
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
+					System.out.println("当前month是：" + month);
+					System.out.println("当前pageindex是：" +patentIndex);
 					if(retry) {
 						patentIndex -= 10;
 					}
