@@ -55,7 +55,7 @@ public class TaskController {
 
 	private static final Logger logger = LoggerFactory.getLogger(TaskController.class);
 	@Autowired
-    private JianceRepository paperRepository;
+    private JianceRepository taskRepository;
 	
 	@Autowired
 	private ElasticsearchTemplate esTemplate;
@@ -66,7 +66,7 @@ public class TaskController {
 	@GetMapping(value = "task/delete")
 	public String deleteProject(@RequestParam(required=false,value="id") String id) {
 		if(id != null) {
-			paperRepository.deleteById(id);
+			taskRepository.deleteById(id);
 		}
 		
 		return "redirect:/task/getTaskList";
@@ -87,7 +87,7 @@ public class TaskController {
 //		list.add("gasdf");
 //		list.add("kkkkkk");
 //		project.setList(list);
-		paperRepository.save(jiance);
+		taskRepository.save(jiance);
 		return "redirect:/task/getTaskList";
 	}
 	
@@ -98,7 +98,7 @@ public class TaskController {
 			Model model) {
 		Jiance jiance = new Jiance();
 		if(id != null) {
-			jiance = paperRepository.findById(id).get();
+			jiance = taskRepository.findById(id).get();
 		}
 		model.addAttribute("jiance", jiance);
 		if(disable !=null) {
@@ -172,7 +172,7 @@ public class TaskController {
 					FunctionScoreQueryBuilder functionScoreQueryBuilder = QueryBuilders.functionScoreQuery(queryBuilder, ScoreFunctionBuilders.weightFactorFunction(1000));
 					SearchQuery searchQuery = new NativeSearchQueryBuilder()
 							.withPageable(pageable).withQuery(functionScoreQueryBuilder).build();
-					Page<Jiance> projectsPage = paperRepository.search(searchQuery);
+					Page<Jiance> projectsPage = taskRepository.search(searchQuery);
 					paperList = projectsPage.getContent();
 					
 					totalCount = esTemplate.count(searchQuery, Jiance.class);
@@ -214,7 +214,7 @@ public class TaskController {
 				SearchQuery searchQuery = new NativeSearchQueryBuilder().withPageable(pageable)
 						.withQuery(functionScoreQueryBuilder).build();
 
-				Page<Jiance> searchPageResults = paperRepository.search(searchQuery);
+				Page<Jiance> searchPageResults = taskRepository.search(searchQuery);
 				paperList = searchPageResults.getContent();
 				totalCount = esTemplate.count(searchQuery, Jiance.class);
 				if(totalCount % pageSize == 0){
