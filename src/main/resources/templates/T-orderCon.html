@@ -86,6 +86,11 @@
 						
 					</div>
 					<div class="dingdanxqB" th:object="${order}">
+					
+		    		<a th:if="${order.chulizhuangtai == '已完成'}" href="#" class="btnblue orderconDown">
+		    					下载报告 
+		    		</a>
+		    		
 						<!-- <a href="#" class="btnblue orderconDown">
 							下载报告
 						</a> -->
@@ -126,14 +131,14 @@
 									张伟
 								</div>
 							</div> -->
-							<!-- <div class="orderconTextGp clearfix">
-								<span class="left orderconTextGpName">
+							<div class="orderconTextGp clearfix">
+								<span class="left orderconTextGpName" >
 									处理意见：
 								</span>
-								<div class="orderconTextGpRt">
-									已经完成，如有问题请联系 张老师，1230983229 
+								<div class="orderconTextGpRt" th:text="*{chuliyijian}">
+									 
 								</div>
-							</div> -->
+							</div>
 						</div>
 					    <div class="orderconTl">
 							订单信息
