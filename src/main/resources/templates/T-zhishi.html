@@ -88,7 +88,7 @@
 			<div class="chaxinBottom">
 				<div class="nycontainer clearfix">
 					<div class="left chaxinLF">
-						<form>
+						<form name="saveForm" th:action="@{/order/save}" th:object="${saveOrderRequest}" th:method="post">
 							<div class="chaxinTwo">
 								<div class="chaxinK chaxinTwoGp">
 									<em class="chaxintwoDel">×</em>
@@ -97,11 +97,11 @@
 									</div>
 									<div class="chaxinTwoB">
 										<div class="clearfix">
-											<div class="left chaxingpLf erro">
+											<div class="left chaxingpLf">
 												<p class="chaxinName">
 													姓名<span class="colorRed">*</span>
 												</p>
-												<input type="text" class="chaxingpInp" />
+												<input type="text" class="chaxingpInp" th:field="*{name}" />
 												<div class="erroText">
 	    				                                                输入错误
 	    			                            </div>
@@ -110,7 +110,7 @@
 												<p class="chaxinName">
 													邮箱<span class="colorRed">*</span>
 												</p>
-												<input type="text" class="chaxingpInp" />
+												<input type="text" class="chaxingpInp" th:field="*{email}" />
 												<div class="erroText">
 	    				                                                输入错误
 	    			                            </div>
@@ -121,7 +121,7 @@
 												<p class="chaxinName">
 												单位 <span class="colorRed">*</span>
 												</p>
-												<input type="text" class="chaxingpInp" />
+												<input type="text" class="chaxingpInp" th:field="*{institution}" />
 												<div class="erroText">
 	    				                                                输入错误
 	    			                            </div>
@@ -130,7 +130,7 @@
 												<p class="chaxinName">
 												手机<span class="colorRed">*</span>
 												</p>
-												<input type="text" class="chaxingpInp" />
+												<input type="text" class="chaxingpInp" th:field="*{telephone}" />
 												<div class="erroText">
 	    				                                                输入错误
 	    			                            </div>
@@ -139,9 +139,9 @@
 									</div>
 								</div>
 							</div>
-							<a href="javascript:;" class="chaxinThree">
+							<!-- <a href="javascript:;" class="chaxinThree">
 								+添加其他联系人
-							</a>
+							</a> -->
 							<div class="chaxinK">
 								<div class="chaxinTwoTl">
 								项目信息
@@ -151,7 +151,7 @@
 										       <p class="chaxinName">
 												项目名称<span class="colorRed">*</span>
 												</p>
-												<input type="text" class="chaxingpInp" />
+												<input type="text" class="chaxingpInp" th:field="*{title}"/>
 												<div class="erroText">
 	    				                                                输入错误
 	    			                            </div>
@@ -161,8 +161,10 @@
 								    		<p class="chaxinName">
 												查新范围<span class="colorRed">*</span>
 												</p>
-												<select class="chaxinselect">
-													<option>请选择查新范围</option>
+												<select class="chaxinselect"  th:field="*{chaxinfanwei}">
+													<option value ="请选择查新范围">请选择查新范围</option>
+													<option value ="国内">国内</option>
+													<option value ="国外">国外</option>
 												</select>
 												<div class="erroText">
 	    				                                                输入错误
@@ -172,8 +174,9 @@
 								    		<p class="chaxinName">
 												项目目的
 												</p>
-												<select class="chaxinselect">
-													<option>请选择查新范围</option>
+												<select class="chaxinselect" th:field="*{mudi}">
+													<option value="请选择项目目的">请选择项目目的</option>
+													<option value="项目评审">项目评审</option>
 												</select>
 												<div class="erroText">
 	    				                                                输入错误
@@ -184,7 +187,7 @@
 										       <p class="chaxinName">
 												项目科学要点
 												</p>
-												<textarea class="chaxintextarea" placeholder="充分反映出查新项目的概貌，简述项目的背景、技术问题、解决技术问题所采用的方案、主要技术特征、技术参数或指标、应用范围等相关技术内容。"></textarea>
+												<textarea class="chaxintextarea" th:field="*{kexueyaodian}" placeholder="充分反映出查新项目的概貌，简述项目的背景、技术问题、解决技术问题所采用的方案、主要技术特征、技术参数或指标、应用范围等相关技术内容。"></textarea>
 												<div class="erroText">
 	    				                                                输入错误
 	    			                            </div>
@@ -195,17 +198,17 @@
 										       <p class="chaxinName">
 												检索点
 												</p>
-												<input type="text" class="chaxingpInp" />
+												<input type="text" class="chaxingpInp" th:field="*{jiansuodian}"/>
 												<div class="erroText">
 	    				                                                输入错误
 	    			                            </div>
 									    </div>
-									    <a href="javascript:;" class="left chaxinbtn chaxinzjADD">
+									    <!-- <a href="javascript:;" class="left chaxinbtn chaxinzjADD">
 									    	<img th:src="@{/ximages/Sketchchaxin_13.png}"/>
 									    </a>
 									    <a href="javascript:;" class="left chaxinbtn chaxinzjdel">
 									    	<img th:src="@{/ximages/Sketchchaxin_15.png}" />
-									    </a>
+									    </a> -->
 								        </div>
 								    </div>
 								    <div class="chaxinzj">
@@ -214,17 +217,17 @@
 										       <p class="chaxinName">
 												参考检索词
 												</p>
-												<input type="text" class="chaxingpInp" />
+												<input type="text" class="chaxingpInp" th:field="*{jiansuoci}"/>
 												<div class="erroText">
 	    				                                                输入错误
 	    			                            </div>
 									    </div>
-									    <a href="javascript:;" class="left chaxinbtn chaxinzjADD">
+									  <!--   <a href="javascript:;" class="left chaxinbtn chaxinzjADD">
 									    	<img th:src="@{/ximages/Sketchchaxin_13.png}"/>
 									    </a>
 									    <a href="javascript:;" class="left chaxinbtn chaxinzjdel">
 									    	<img th:src="@{/ximages/Sketchchaxin_15.png}" />
-									    </a>
+									    </a> -->
 								        </div>
 								    </div>
 								    <div class="clearfix">
@@ -232,8 +235,9 @@
 								    		<p class="chaxinName">
 												学科分类
 												</p>
-												<select class="chaxinselect">
-													<option>学科分类</option>
+												<select class="chaxinselect" th:field="*{xueke}">
+													<option value="请选择学科分类">请选择学科分类</option>
+													<option value="遗传学">遗传学</option>
 												</select>
 												<div class="erroText">
 	    				                                                输入错误
@@ -243,8 +247,9 @@
 								    		<p class="chaxinName">
 												产业分类
 												</p>
-												<select class="chaxinselect">
-													<option>请选择产业分类</option>
+												<select class="chaxinselect" th:field="*{chanye}">
+													<option value="请选择产业分类">请选择产业分类</option>
+													<option value="生物医药">生物医药</option>
 												</select>
 												<div class="erroText">
 	    				                                                输入错误
@@ -307,7 +312,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="huakuai">
+							<!-- <div class="huakuai">
 								<div class="outer" id="outer">
             <input type="hidden" id="CaptchaID" value="0" />
             <div class="filter-box"></div>
@@ -316,8 +321,8 @@
             </span>
             <div class="inner">&gt;&gt;</div>
         </div>
-							</div>
-						    <input type="button" value="提交" class="chaxinSubmit" />
+							</div> -->
+						    <input type="button" value="提交" class="chaxinSubmit"  onClick="uptext();"/>
 						</form>
 					</div>
 				    <div class="right chaxinRt">
@@ -422,44 +427,34 @@
 	    </div>
 		<!--弹窗-->
 		<div class="alertBg"></div>
-		<div class="alertCon alertxuq">
-	    	<img src="images/Icon.png" />
+		<!-- <div class="alertCon alertxuq">
+	    	<img th:src="@{/ximages/Icon.png}"/>
 	    	<div class="alertxuqTEXT">
 	    		您的需求已提交<br />
-	    		请到<a href="#">我的申请</a>中查看最新进展
+	    		请到<a th:href="@{/zhishifuwu/shenqinglist}">我的申请</a>中查看最新进展
 	    	</div>
 	    	<div class="alertxuqa clearfix">
-	    		<a href="index.html">
+	    		<a href="/">
 	    			返回首页
 	    		</a>
-	    		<a href="javascript:;" class="alertxuqaNext">
+	    		<a th:href="@{/zhishifuwu/zhishifuwu}" class="alertxuqaNext">
 	    			继续申请
 	    		</a>
 	    	</div>
-	    </div>
+	    </div> -->
 		<script type="text/javascript" th:src="@{/js/main.js}" ></script>
 		<script type="text/javascript" th:src="@{/js/huakuai.js}" ></script>
 		<script type="text/javascript" th:inline="javascript">
-		    
-			jeDate({
-				dateCell:"#dateinfo",
-				format:"YYYY年MM月DD日",
-				isinitVal:true,
-				isTime:false, //isClear:false,
-			    isClear:true,
-			})
-			jeDate({
-				dateCell:"#dateinfo1",
-				format:"YYYY年MM月DD日",
-				isinitVal:true,
-				isTime:false, //isClear:false,
-			    isClear:true,
-			})
 			
 			function search(){
 			    /*  window.location.href="http://127.0.0.1:8088/project/list?q=" + $("#keywords").val(); */
 			    window.location.href="/patent/list?q=" + $("#keywords").val();
 				/* window.location.href="http://47.104.7.73/patent/list?q=" + $("#keywords").val(); */
+			}
+			function uptext() {
+				
+					$("form[name='saveForm']").submit();
+				
 			}
 				</script>
 		

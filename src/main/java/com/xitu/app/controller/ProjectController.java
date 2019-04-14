@@ -239,6 +239,11 @@ public class ProjectController {
 					}
 					model.addAttribute("agclassis", classisMap);
 				}
+				if(totalCount % pageSize == 0){
+					totalPages = totalCount/pageSize;
+				}else{
+					totalPages = totalCount/pageSize + 1;
+				}
 				view = "result-xm";
 			}
 		}

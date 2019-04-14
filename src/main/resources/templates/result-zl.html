@@ -248,6 +248,7 @@
 		            		</li>
 		            	</ul>
 		            	 <div class="sqPage">
+		            	 <span th:if=" ${totalCount > 0}">
 					    	<span th:text="'共 ' + ${totalCount}+' 条专利信息'">
 					    	</span>
 					    	<a th:style="'display:' + @{((${pageIndex}+1) == 1 ? 'none' : 'inline-block')} + ''"  th:href="@{/patent/list(q=${query},pageIndex=0,pageSize=10)}"><首页</a>
@@ -256,6 +257,7 @@
 							<a th:style="'display:' + @{((${pageIndex}+1) == ${totalPages} ? 'none' : 'inline-block')} + ''" th:href="@{/patent/list(q=${query},pageIndex=(${pageIndex}+1),pageSize=10)}">下一页<em>></em></a>
 							<a th:style="'display:' + @{((${pageIndex}+1) == ${totalPages} ? 'none' : 'inline-block')} + ''" th:href="@{/patent/list(q=${query},pageIndex=(${totalPages}-1),pageSize=10)}">尾页<em>></em></a>
 		            		<span th:text="'页次：' + (${pageIndex}+1) + '/' + ${totalPages}"></span>
+		            	</span>
 		            	</div>
 		            </div>
 		        </div>
@@ -337,7 +339,12 @@
 	    	window.location.href="/patent/list?q=" + $("#keywords").val() + "&" + uri;
 		}
 	}
-   
+	$("#keywords").keypress(function(e) {
+        var eCode = e.keyCode ? e.keyCode : e.which ? e.which : e.charCode;
+         if (eCode == 13){
+             search();
+         }
+ 	});
 </script>
 	</body>
 </html>

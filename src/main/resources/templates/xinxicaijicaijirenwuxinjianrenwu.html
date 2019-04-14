@@ -15,49 +15,50 @@
 		<div class="manageLf">
 			<div class="manageLfM">
 				<div class="manageLfLogo">
-					<img th:src="@{/images/logo.png}" />
+					<img th:src="@{/ximages/logo.png}" />
 				</div>
-				<a href="#" class="manageMenuF">		
+				<a th:href="@{/zhishifuwu/shenqinglist(front=0)}" class="manageMenuF">			
 						订单管理
 				</a>
-				<a href="#" class="manageMenuF">		
+				<a th:href="@{/project/list(pageSize=10,pageIndex=0)}" class="manageMenuF">		
 						项目信息
 				</a>
 				<a href="javascript:;" class="manageMenuF">		
 						信息采集<em></em>
 				</a>
 				<div class="manageMenuS">
-					<a href="#">
+					<!-- <a href="#">
 						采集任务
-					</a>
-					<a href="#">
+					</a> -->
+					<a th:href="@{/task/getTaskList}" >
 						结果列表
 					</a>
-					<a href="#">
+					<!-- <a href="#">
 						采集日志
-					</a>
+					</a> -->
 				</div>
 				<a href="javascript:;" class="manageMenuF">		
 						企业智库<em></em>
 				</a>
 				<div class="manageMenuS">
-					<a href="#">
+					<a th:href="@{/report/list(pageSize=10,pageIndex=0)}">
 						分析报告
 					</a>
-					<a href="#">
+					<a th:href="@{/org/list}">
 						重点机构
 					</a>
-					<a href="#">
+					<a th:href="@{/expert/list(pageSize=10,pageIndex=0)}">
 						行业人才
 					</a>
 				</div>
-				<a href="#" class="manageMenuF">		
+				<a th:href="@{/user/list(pageIndex=0,pageSize=10)}" class="manageMenuF">		
 						用户管理
 				</a>
 				<a th:href="@{/item/config}" class="manageMenuF">		
 						分类设置
 				</a>
 			</div>
+			
 		</div>
 		<div class="managHead clearfix">
 			<div class="right manageTx">

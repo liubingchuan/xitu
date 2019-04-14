@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" th:href="@{/css/xinit.css}" />
+		<link rel="stylesheet" th:href="@{/css/xmain.css}" />
+		<script type="text/javascript" th:src="@{/js/jquery-1.7.2.js}" ></script>
+	</head>
+	<body class="manageBody">
+		<div class="manageLf">
+			<div class="manageLfM">
+				<div class="manageLfLogo">
+					<img th:src="@{/ximages/logo.png}" />
+				</div>
+				<a th:href="@{/zhishifuwu/shenqinglist(front=0)}" class="manageMenuF">			
+						订单管理
+				</a>
+				<a th:href="@{/project/list(pageSize=10,pageIndex=0)}" class="manageMenuF">		
+						项目信息
+				</a>
+				<a href="javascript:;" class="manageMenuF">		
+						信息采集<em></em>
+				</a>
+				<div class="manageMenuS">
+					<!-- <a href="#">
+						采集任务
+					</a> -->
+					<a th:href="@{/task/getTaskList}" >
+						结果列表
+					</a>
+					<!-- <a href="#">
+						采集日志
+					</a> -->
+				</div>
+				<a href="javascript:;" class="manageMenuF">		
+						企业智库<em></em>
+				</a>
+				<div class="manageMenuS">
+					<a th:href="@{/report/list(pageSize=10,pageIndex=0)}">
+						分析报告
+					</a>
+					<a th:href="@{/org/list}">
+						重点机构
+					</a>
+					<a th:href="@{/expert/list(pageSize=10,pageIndex=0)}">
+						行业人才
+					</a>
+				</div>
+				<a th:href="@{/user/list(pageIndex=0,pageSize=10)}" class="manageMenuF">		
+						用户管理
+				</a>
+				<a th:href="@{/item/config}" class="manageMenuF">		
+						分类设置
+				</a>
+			</div>
+		</div>
+		<div class="managHead clearfix">
+			<div class="right manageTx">
+				<div class="clearfix">
+				<img th:src="@{/ximages/tx.jpeg}" class="manageTxImg left" />
+				<span class="left manageTxName">张伟</span>
+				<em class="manageTxIco left"></em>
+				</div>
+			    <div class="loginAfterNo">
+								
+								<div class="loginAfterNoM">
+									<em class="loginAfterNoMSj"></em>
+									<p>
+										<span class="loginName">
+											张伟
+										</span>
+										<span class="vip">
+											超级管理员
+										</span>
+									</p>
+									<p>
+										<a href="#">
+											<img th:src="@{/ximages/tuichu.png}" />
+											退出
+										</a>
+									</p>
+									
+								</div>
+							</div>
+			</div>
+		</div>
+		<div class="manageNr">
+			<div class="usermanageOne">
+				<form>
+					<div class="clearfix">
+						<span class="left usermanageOneTl" th:text="'订单管理（ ' + ${totalCount}+' ）'">
+							
+						</span>
+						<div class="right usermanageOneSS">
+							<input type="text" />
+							<em></em>
+						</div>
+					</div>
+					<div class="clearfix usermanageOneJs">
+						<!-- <div class="right">
+							<select class="left">
+								<option>查看所有类型</option>
+							</select>
+							<input type="button" class="left" value="筛选" />
+						</div> -->
+					</div>
+				</form>
+			</div>
+		    <div class="usermanageTwo">
+		    	<table cellpadding="0" cellspacing="0" width="100%" class="usermanageTable">
+		    		<tr>
+		    			
+		    			<th>
+		    				订单号
+		    			</th>
+		    			<th>
+		    				主题
+		    			</th>
+		    			<th>
+		    				服务类型
+		    			</th>
+		    			<th>
+		    				单位
+		    			</th>
+		    			<th>
+		    				提交时间
+		    			</th>
+		    			<th>
+		    				订单状态
+		    			</th>
+		    			<th>
+		    				操作
+		    			</th>
+		    		</tr>
+		    		<tr th:each="order : ${orderList}">
+		    			
+		    			<td>
+		    				<a th:href="@{/zhishifuwu/xiangqing(uuid=${order.uuid},front=0)}" th:text="${order.uuid}">
+										
+							</a>
+		    			</td>
+		    			
+		    			<td>
+		    				<a th:href="@{/zhishifuwu/xiangqing(uuid=${order.uuid},front=0)}" th:text="${order.title}">
+										
+							</a>
+		    			</td>
+		    			<td>
+		    				知识服务
+		    			</td>
+		    			<td th:text="${order.institution}">
+		    				
+		    			</td>
+		    			<td th:text="${order.shenqingshijian}">
+		    				
+		    			</td>
+		    			<td>
+		    				<span class="colorRed" th:text="${order.chulizhuangtai}"></span>
+		    			</td>
+		    			<td>
+		    			<span th:if="${order.chulizhuangtai == '待处理'}">
+		    				<a th:href="@{/zhishifuwu/jiedan(uuid=${order.uuid},front=0)}" class="colorBlue">
+		    					接单 
+		    				</a>
+		    			</span>
+		    			<span th:if="${order.chulizhuangtai == '处理中' || order.chulizhuangtai =='已完成'}">
+		    				<a th:href="@{/zhishifuwu/xiangqing(uuid=${order.uuid},front=0)}" class="colorBlue">
+		    					查看
+		    				</a>
+		    			</span>
+		    			</td>
+		    		</tr>
+		    	 
+		    	</table>
+		        <div class="sqPage">
+			    	<span th:text="'共 ' + ${totalCount}+' 条申请订单记录'"></span>
+			    	<a th:style="'display:' + @{((${pageIndex}+1) == 1 ? 'none' : 'inline-block')} + ''"  th:href="@{/zhishifuwu/shenqinglist(pageIndex=0,pageSize=10)}"><首页</a>
+						<a th:style="'display:' + @{((${pageIndex}+1) == 1 ? 'none' : 'inline-block')} + ''" th:href="@{/zhishifuwu/shenqinglist(pageIndex=(${pageIndex}-1),pageSize=10)}"><上一页</a>
+						<!-- <a th:href="@{/jiance/jiancelist(pageIndex=(${pageIndex}),pageSize=10)}" th:text="(${pageIndex}+1) + '/' + ${totalPages}" ></a> -->
+					<a th:style="'display:' + @{((${pageIndex}+1) == ${totalPages} ? 'none' : 'inline-block')} + ''" th:href="@{/zhishifuwu/shenqinglist(pageIndex=(${pageIndex}+1),pageSize=10)}">下一页<em>></em></a>
+					<a th:style="'display:' + @{((${pageIndex}+1) == ${totalPages} ? 'none' : 'inline-block')} + ''" th:href="@{/zhishifuwu/shenqinglist(pageIndex=(${totalPages}-1),pageSize=10)}">尾页<em>></em></a>
+			    </div>
+		    </div>
+		</div>
+		<script type="text/javascript" th:src="@{/js/main.js}" ></script>
+	</body>
+</html>

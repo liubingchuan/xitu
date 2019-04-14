@@ -26,6 +26,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.ResultsExtractor;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
@@ -37,7 +39,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.xitu.app.common.request.SaveProjectRequest;
+import com.xitu.app.common.request.SaveTaskRequest;
 import com.xitu.app.mapper.ItemMapper;
 import com.xitu.app.mapper.TaskMapper;
 import com.xitu.app.model.Item;
@@ -73,14 +75,19 @@ public class TaskController {
 	}
 	
 	@PostMapping(value = "task/save")
-	public String saveTask(SaveProjectRequest request,Model model) {
+	public String saveTask(SaveTaskRequest request,Model model) {
 		
 		Jiance jiance = new Jiance();
 		BeanUtil.copyBean(request, jiance);
 		if(jiance.getId() == null || "".equals(jiance.getId())) {
 			jiance.setId(UUID.randomUUID().toString());
 		}
+		jiance.setTitle(request.getTitle());
 		jiance.setDescription(request.getInfo());
+		jiance.setInstitution(request.getInstitution());
+		jiance.setLanmu(request.getLanmu());
+		jiance.setPubtime(request.getPubtime());
+		
 		//jiance.setNow(System.currentTimeMillis());
 //		List<String> list = new ArrayList<String>();
 //		list.add("sdf");
@@ -142,9 +149,9 @@ public class TaskController {
 			if(q == null || q.equals("null") || q.equals("")) {
 				//totalCount = paperRepository.count();
 				//if(totalCount >0) {
-					//Sort sort = new Sort(Direction.DESC, "pubtime");
-					//Pageable pageable = new PageRequest(pageIndex, pageSize,sort);
-					Pageable pageable = new PageRequest(pageIndex, pageSize);
+					Sort sort = new Sort(Direction.DESC, "pubtime");
+					Pageable pageable = new PageRequest(pageIndex, pageSize,sort);
+					//Pageable pageable = new PageRequest(pageIndex, pageSize);
 
 					BoolQueryBuilder queryBuilder = new BoolQueryBuilder();
 					if(institution != null && !institution.equals("")) {
@@ -226,8 +233,11 @@ public class TaskController {
 			}
 		}
 		for(Jiance jc: paperList) {
-			jc.setDescription(jc.getDescription().replace("&lt;", "<"));
-			jc.setDescription(jc.getDescription().replace("&gt;", ">"));
+			if(jc.getDescription() != null){
+				jc.setDescription(jc.getDescription().replace("&lt;", "<"));
+				jc.setDescription(jc.getDescription().replace("&gt;", ">"));
+			}
+			
 		}
 		model.addAttribute("paperList", paperList);
 		model.addAttribute("pageSize", pageSize);

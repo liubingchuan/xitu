@@ -222,7 +222,11 @@ public class PaperController {
 					model.addAttribute("agauthor", authorMap);
 					
 				}
-				totalPages = Math.round(totalCount/pageSize);
+				if(totalCount % pageSize == 0){
+					totalPages = totalCount/pageSize;
+				}else{
+					totalPages = totalCount/pageSize + 1;
+				}
 				
 				
 			}

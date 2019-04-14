@@ -91,361 +91,71 @@
 						</div> -->
 					</div>
 					<div class="shenqingB">
-						<div class="shenqingBTop"></div>
+						
 						<div class="shenqingTable">
 							<table cellpadding="0" cellspacing="0" width="100%">
-							<tr>
-								<td style="text-align: left;">
-									201901010008
-								</td>
-								<td style="text-align: left;">
-									<a href="#">
-										2018年有色金属稀土行业深度分析报告
+							<tr class="shenqingBTop">
+		    			
+		    			<th>
+		    				<font color="white"  size="3">订单编号</font>
+		    			</th>
+		    			<th>
+		    				<font color="white"  size="3">名称</font>
+		    			</th>
+		    			<th>
+		    				<font color="white"  size="3">提交时间</font>
+		    			</th>
+		    			<th>
+		    				<font color="white"  size="3">服务类型</font>
+		    			</th>
+		    			<th>
+		    				<font color="white"  size="3">状态</font>
+		    			</th>
+		    			<th>
+		    				<font color="white"  size="3">操作</font>
+		    			</th>
+		    			
+		    		</tr>
+							<tr th:each="order : ${orderList}">
+								<td style="text-align: left">
+									<a th:href="@{/zhishifuwu/xiangqing(uuid=${order.uuid})}" th:text="${order.uuid}">
+										
 									</a>
 								</td>
-								<td>
-									2017.12.30
+								<td style="text-align: left">
+									<a th:href="@{/zhishifuwu/xiangqing(uuid=${order.uuid})}" th:text="${order.title}">
+										
+									</a>
+								</td>
+								<td th:text="${order.shenqingshijian}">
+									
 								</td>
 								<td>
 									知识服务
 								</td>
 								<td>
-									<span class="colorYellow">
-										处理中
+									<span class="colorYellow" th:text="${order.chulizhuangtai}">
+									
 									</span>
 								</td>
 								<td>
-									<a href="#" class="shenqingDown">
+									<!-- <a href="#" class="shenqingDown">
 										下载
-									</a>
-									<a href="#">
+									</a> -->
+									<a th:href="@{/zhishifuwu/xiangqing(uuid=${order.uuid})}">
 										查看
 									</a>
 								</td>
-							</tr>
-							<tr>
-								<td style="text-align: left;">
-									201901010008
-								</td>
-								<td style="text-align: left;">
-									<a href="#">
-										2018-2024年中国稀土行业投资前景分析报告
-									</a>
-								</td>
-								<td>
-									2017.12.30
-								</td>
-								<td>
-									知识服务
-								</td>
-								<td>
-									<span class="colorYellow">
-										处理中
-									</span>
-								</td>
-								<td>
-									<a href="#" class="shenqingDown">
-										下载
-									</a>
-									<a href="#">
-										查看
-									</a>
-								</td>
-							</tr>
-							<tr>
-								<td style="text-align: left;">
-									201901010008
-								</td>
-								<td style="text-align: left;">
-									<a href="#">
-										五矿稀土股份有限公司2016年度报告
-									</a>
-								</td>
-								<td>
-									2017.12.30
-								</td>
-								<td>
-									知识服务
-								</td>
-								<td>
-									<span class="colorYellow">
-										处理中
-									</span>
-								</td>
-								<td>
-									<a href="#" class="shenqingDown">
-										下载
-									</a>
-									<a href="#">
-										查看
-									</a>
-								</td>
-							</tr>
-							<tr>
-								<td style="text-align: left;">
-									201901010008
-								</td>
-								<td style="text-align: left;">
-									<a href="#">
-										国际稀土矿藏调研报告分析
-									</a>
-								</td>
-								<td>
-									2017.12.30
-								</td>
-								<td>
-									知识服务
-								</td>
-								<td>
-									<span class="colorYellow">
-										处理中
-									</span>
-								</td>
-								<td>
-									<a href="#" class="shenqingDown">
-										下载
-									</a>
-									<a href="#">
-										查看
-									</a>
-								</td>
-							</tr>
-							<tr>
-								<td style="text-align: left;">
-									201901010008
-								</td>
-								<td style="text-align: left;">
-									<a href="#">
-										稀土行业发展前景与投资决策分析报告
-									</a>
-								</td>
-								<td>
-									2017.12.30
-								</td>
-								<td>
-									知识服务
-								</td>
-								<td>
-									<span class="colorYellow">
-										处理中
-									</span>
-								</td>
-								<td>
-									<a href="#" class="shenqingDown">
-										下载
-									</a>
-									<a href="#">
-										查看
-									</a>
-								</td>
-							</tr>
-							<tr>
-								<td style="text-align: left;">
-									201901010008
-								</td>
-								<td style="text-align: left;">
-									<a href="#">
-										近年全球各国稀土消费占比及消费结构分析
-									</a>
-								</td>
-								<td>
-									2017.12.30
-								</td>
-								<td>
-									知识服务
-								</td>
-								<td>
-									<span class="colorYellow">
-										处理中
-									</span>
-								</td>
-								<td>
-									<a href="#" class="shenqingDown">
-										下载
-									</a>
-									<a href="#">
-										查看
-									</a>
-								</td>
-							</tr>
-							<tr>
-								<td style="text-align: left;">
-									201901010008
-								</td>
-								<td style="text-align: left;">
-									<a href="#">
-									2018-2024年中国稀土市场深度评估报告
-									</a>
-								</td>
-								<td>
-									2017.12.30
-								</td>
-								<td>
-									知识服务
-								</td>
-								<td>
-									<span class="colorYellow">
-										处理中
-									</span>
-								</td>
-								<td>
-									<a href="#" class="shenqingDown">
-										下载
-									</a>
-									<a href="#">
-										查看
-									</a>
-								</td>
-							</tr>
-							<tr>
-								<td style="text-align: left;">
-									201901010008
-								</td>
-								<td style="text-align: left;">
-									<a href="#">
-										中国稀土产业链常规报告
-									</a>
-								</td>
-								<td>
-									2017.12.30
-								</td>
-								<td>
-									知识服务
-								</td>
-								<td>
-									<span class="colorYellow">
-										处理中
-									</span>
-								</td>
-								<td>
-									<a href="#" class="shenqingDown">
-										下载
-									</a>
-									<a href="#">
-										查看
-									</a>
-								</td>
-							</tr>
-							<tr>
-								<td style="text-align: left;">
-									201901010008
-								</td>
-								<td style="text-align: left;">
-									<a href="#">
-										稀土科学技术学科发展报告
-									</a>
-								</td>
-								<td>
-									2017.12.30
-								</td>
-								<td>
-									知识服务
-								</td>
-								<td>
-									<span class="colorYellow">
-										处理中
-									</span>
-								</td>
-								<td>
-									<a href="#" class="shenqingDown">
-										下载
-									</a>
-									<a href="#">
-										查看
-									</a>
-								</td>
-							</tr>
-							<tr>
-								<td style="text-align: left;">
-									201901010008
-								</td>
-								<td style="text-align: left;">
-									<a href="#">
-										国家稀土矿藏调研报告分析
-									</a>
-								</td>
-								<td>
-									2017.12.30
-								</td>
-								<td>
-									知识服务
-								</td>
-								<td>
-									<span class="colorYellow">
-										处理中
-									</span>
-								</td>
-								<td>
-									<a href="#" class="shenqingDown">
-										下载
-									</a>
-									<a href="#">
-										查看
-									</a>
-								</td>
-							</tr>
-							<tr>
-								<td style="text-align: left;">
-									201901010008
-								</td>
-								<td style="text-align: left;">
-									<a href="#">
-										稀土行业市场调查分析报告
-									</a>
-								</td>
-								<td>
-									2017.12.30
-								</td>
-								<td>
-									知识服务
-								</td>
-								<td>
-									<span class="colorYellow">
-										处理中
-									</span>
-								</td>
-								<td>
-									<a href="#" class="shenqingDown">
-										下载
-									</a>
-									<a href="#">
-										查看
-									</a>
-								</td>
-							</tr>
-							<tr>
-								<td style="text-align: left;">
-									201901010008
-								</td>
-								<td style="text-align: left;">
-									<a href="#">
-										稀土大数据调研分析报告
-									</a>
-								</td>
-								<td>
-									2017.12.30
-								</td>
-								<td>
-									知识服务
-								</td>
-								<td>
-									<span class="colorYellow">
-										处理中
-									</span>
-								</td>
-								<td>
-									<a href="#" class="shenqingDown">
-										下载
-									</a>
-									<a href="#">
-										查看
-									</a>
-								</td>
-							</tr>
+							</tr>					
 							</table>
 						</div>
 					    <div class="sqPage">
-					    	<span>共 10 条申请订单记录</span><a href="#">首页</a><a href="#">上一页</a><a href="#">下一页</a><a href="#">尾页</a><span>页次：1/20</span>
+					    	<span th:text="'共 ' + ${totalCount}+' 条申请订单记录'"></span>
+					    	<a th:style="'display:' + @{((${pageIndex}+1) == 1 ? 'none' : 'inline-block')} + ''"  th:href="@{/zhishifuwu/shenqinglist(pageIndex=0,pageSize=10)}"><首页</a>
+ 							<a th:style="'display:' + @{((${pageIndex}+1) == 1 ? 'none' : 'inline-block')} + ''" th:href="@{/zhishifuwu/shenqinglist(pageIndex=(${pageIndex}-1),pageSize=10)}"><上一页</a>
+ 							<!-- <a th:href="@{/jiance/jiancelist(pageIndex=(${pageIndex}),pageSize=10)}" th:text="(${pageIndex}+1) + '/' + ${totalPages}" ></a> -->
+							<a th:style="'display:' + @{((${pageIndex}+1) == ${totalPages} ? 'none' : 'inline-block')} + ''" th:href="@{/zhishifuwu/shenqinglist(pageIndex=(${pageIndex}+1),pageSize=10)}">下一页<em>></em></a>
+							<a th:style="'display:' + @{((${pageIndex}+1) == ${totalPages} ? 'none' : 'inline-block')} + ''" th:href="@{/zhishifuwu/shenqinglist(pageIndex=(${totalPages}-1),pageSize=10)}">尾页<em>></em></a>
 					    </div>
 					</div>
 					</form>
