@@ -6,11 +6,11 @@ import org.springframework.cache.annotation.EnableCaching;
 
 @SpringBootApplication
 @EnableCaching
-public class YiyaoApplication {
+public class XituApplication {
 
 	public static void main(String[] args) {
 
-		SpringApplication.run(YiyaoApplication.class, args);
+		SpringApplication.run(XituApplication.class, args);
 	}
 
 }

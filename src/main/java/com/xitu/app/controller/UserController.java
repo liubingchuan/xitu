@@ -49,6 +49,11 @@ public class UserController {
 		return "index";
 	}
 	
+	@RequestMapping("/MP_verify_wf187SJImz1J24F0.txt")
+	public String MP_verify_wf187SJImz1J24F0(){
+		return "MP_verify_wf187SJImz1J24F0";
+	}
+	
 	@ResponseBody
 	@RequestMapping(value = "user/bind", method = RequestMethod.POST,consumes = "application/json")
 	public R bind(@RequestBody RegisterRequest request) {
