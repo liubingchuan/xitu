@@ -77,7 +77,7 @@ public class JianceController {
 		List<Jiance> paperList = new ArrayList<Jiance>();
 		String view = "T-jiance";
 		if(esTemplate.indexExists(Jiance.class)) {
-			if(q == null || q.equals("null")) {
+			if(q == null || q.equals("null") || q.equals("")) {
 				//totalCount = paperRepository.count();
 				//if(totalCount >0) {
 					//Sort sort = new Sort(Direction.DESC, "pubtime");
