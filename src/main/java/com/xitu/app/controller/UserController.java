@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,7 @@ import com.xitu.app.common.request.RegisterRequest;
 import com.xitu.app.common.request.UpdateUserRequest;
 import com.xitu.app.mapper.UserMapper;
 import com.xitu.app.model.User;
+import com.xitu.app.service.Cache;
 import com.xitu.app.utils.BeanUtil;
 import com.xitu.app.utils.JwtUtils;
 
@@ -40,6 +43,8 @@ public class UserController {
 	@Autowired
     private UserMapper userMapper;
 	
+	@Autowired
+    private Cache cache;
 	
 	
 	@RequestMapping("/")
@@ -49,10 +54,10 @@ public class UserController {
 		return "index";
 	}
 	
-	@RequestMapping("/MP_verify_wf187SJImz1J24F0.txt")
-	public String MP_verify_wf187SJImz1J24F0(){
-		return "MP_verify_wf187SJImz1J24F0";
-	}
+//	@RequestMapping("/MP_verify_wf187SJImz1J24F0.txt")
+//	public String MP_verify_wf187SJImz1J24F0(){
+//		return "MP_verify_wf187SJImz1J24F0";
+//	}
 	
 	@ResponseBody
 	@RequestMapping(value = "user/bind", method = RequestMethod.POST,consumes = "application/json")
@@ -71,9 +76,8 @@ public class UserController {
 		user.setEmail(email);
 		user.setStamp(df.format(new Date()));
 		userMapper.insertUser(user);
-		String JWT = JwtUtils.createJWT("1", account, SystemConstant.JWT_TTL);
 		
-		return R.ok().put("token", JWT).put("account", account);
+		return R.ok();
 	}
 	
 	@PostMapping(value = "user/login")
