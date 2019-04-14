@@ -105,7 +105,7 @@
 		        			<div class="jiancelfgpB">
 		        			<div class="jiansuoLfGpList" th:if=" ${#maps.size(aglanmu) > 5}">
 		        				<div class="jiansuoLfGx" th:each="institution : ${aglanmu}">
-		        					<span th:if="${lanmu != null}">
+		        					<span th:if="${lanmu != null && lanmu != ''}">
 		        						<span th:if="${#strings.contains(lanmu,institution.key)}">
 		        							<input type="checkbox" checked="checked"  th:id="'institution'+${institution.key}" th:name="lanmu" th:value="${institution.key}" onclick="checkfm('lanmu','lanmu')"/>
 		        							<label th:for="'institution'+${institution.key}" th:text="${institution.key} + '(' + ${institution.value} + ')'"></label>
@@ -122,7 +122,7 @@
 		        				</div>
 		        			</div>
 		        		    <div class="jiansuoLfGx" th:each="institution : ${aglanmu}" th:if=" ${#maps.size(aglanmu) <= 5}">
-		        		    		<span th:if="${lanmu != null}">
+		        		    		<span th:if="${lanmu != null && lanmu != ''}">
 		        						<span th:if="${#strings.contains(lanmu,institution.key)}">
 		        							<input type="checkbox" checked="checked"  th:id="'institution'+${institution.key}" th:name="lanmu" th:value="${institution.key}" onclick="checkfm('lanmu','lanmu')"/>
 		        							<label th:for="'institution'+${institution.key}" th:text="${institution.key} + '(' + ${institution.value} + ')'"></label>
@@ -149,7 +149,7 @@
 		        			<div class="jiancelfgpB">
 		        			<div class="jiansuoLfGpList" th:if=" ${#maps.size(aginstitution) > 5}">
 		        				<div class="jiansuoLfGx" th:each="institution : ${aginstitution}">
-		        					<span th:if="${ins != null}">
+		        					<span th:if="${ins != null && ins != ''}">
 		        						<span th:if="${#strings.contains(ins,institution.key)}">
 		        							<input type="checkbox" checked="checked"  th:id="'institution'+${institution.key}" th:name="institution" th:value="${institution.key}" onclick="checkfm('institution','institution')"/>
 		        							<label th:for="'institution'+${institution.key}" th:text="${institution.key} + '(' + ${institution.value} + ')'"></label>
@@ -166,7 +166,7 @@
 		        				</div>
 		        			</div>
 		        		    <div class="jiansuoLfGx" th:each="institution : ${aginstitution}" th:if=" ${#maps.size(aginstitution) <= 5}">
-		        					<span th:if="${ins != null}">
+		        					<span th:if="${ins != null && ins != ''}">
 		        						<span th:if="${#strings.contains(ins,institution.key)}">
 		        							<input type="checkbox" checked="checked"  th:id="'institution'+${institution.key}" th:name="institution" th:value="${institution.key}" onclick="checkfm('institution','institution')"/>
 		        							<label th:for="'institution'+${institution.key}" th:text="${institution.key} + '(' + ${institution.value} + ')'"></label>

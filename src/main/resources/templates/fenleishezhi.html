@@ -11,7 +11,7 @@
 		<div class="manageLf">
 			<div class="manageLfM">
 				<div class="manageLfLogo">
-					<img th:src="@{/images/logo.png}" />
+					<img th:src="@{/ximages/logo.png}" />
 				</div>
 				<a href="#" class="manageMenuF">		
 						订单管理
@@ -26,12 +26,12 @@
 					<!-- <a href="#">
 						采集任务
 					</a> -->
-					<a href="#">
+					<a th:href="@{/task/getTaskList}" >
 						结果列表
 					</a>
-					<a href="#">
+					<!-- <a href="#">
 						采集日志
-					</a>
+					</a> -->
 				</div>
 				<a href="javascript:;" class="manageMenuF">		
 						企业智库<em></em>

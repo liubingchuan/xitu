@@ -80,9 +80,9 @@ public class JianceController {
 			if(q == null || q.equals("null") || q.equals("")) {
 				//totalCount = paperRepository.count();
 				//if(totalCount >0) {
-					//Sort sort = new Sort(Direction.DESC, "pubtime");
-					//Pageable pageable = new PageRequest(pageIndex, pageSize,sort);
-					Pageable pageable = new PageRequest(pageIndex, pageSize);
+					Sort sort = new Sort(Direction.DESC, "pubtime");
+					Pageable pageable = new PageRequest(pageIndex, pageSize,sort);
+					//Pageable pageable = new PageRequest(pageIndex, pageSize);
 
 					BoolQueryBuilder queryBuilder = new BoolQueryBuilder();
 //					if(year != null) {
@@ -173,8 +173,9 @@ public class JianceController {
 				//}
 			}else {
 				// 分页参数
-				Pageable pageable = new PageRequest(pageIndex, pageSize);
-
+				//Pageable pageable = new PageRequest(pageIndex, pageSize);
+				Sort sort = new Sort(Direction.DESC, "pubtime");
+				Pageable pageable = new PageRequest(pageIndex, pageSize,sort);
 				BoolQueryBuilder queryBuilder = QueryBuilders.boolQuery().should(QueryBuilders.matchPhraseQuery("title", q)).should(QueryBuilders.matchPhraseQuery("description", q));
 //				if(year != null) {
 //					String[] years = year.split(",");
@@ -213,7 +214,7 @@ public class JianceController {
 				totalCount = esTemplate.count(searchQuery, Jiance.class);
 				
 				
-				BoolQueryBuilder queryBuilderAgg = QueryBuilders.boolQuery().filter(QueryBuilders.matchQuery("title", q));
+				BoolQueryBuilder queryBuilderAgg = QueryBuilders.boolQuery().filter(QueryBuilders.matchPhraseQuery("title", q)).should(QueryBuilders.matchPhraseQuery("description", q));
 				FunctionScoreQueryBuilder functionScoreQueryBuilderAgg = QueryBuilders.functionScoreQuery(queryBuilderAgg, ScoreFunctionBuilders.weightFactorFunction(1000));
 				List<String> pList=new ArrayList<>();
 				SearchQuery nativeSearchQueryBuilder = new NativeSearchQueryBuilder()

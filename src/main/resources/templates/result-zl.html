@@ -337,7 +337,12 @@
 	    	window.location.href="/patent/list?q=" + $("#keywords").val() + "&" + uri;
 		}
 	}
-   
+	$("#keywords").keypress(function(e) {
+        var eCode = e.keyCode ? e.keyCode : e.which ? e.which : e.charCode;
+         if (eCode == 13){
+             search();
+         }
+ 	});
 </script>
 	</body>
 </html>
