@@ -1,8 +1,12 @@
 package com.xitu.app.controller;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,11 +30,17 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONReader;
+import com.xitu.app.common.R;
 import com.xitu.app.common.request.SaveExpertRequest;
 import com.xitu.app.mapper.ItemMapper;
 import com.xitu.app.model.Expert;
+import com.xitu.app.model.ExpertVO;
 import com.xitu.app.model.Item;
+import com.xitu.app.model.Org;
+import com.xitu.app.model.OrgVO;
 import com.xitu.app.repository.ExpertRepository;
 import com.xitu.app.utils.BeanUtil;
 
@@ -198,7 +208,49 @@ public class ExpertController {
 		return view;
 	}
 	
-	
+	/**
+     * 文件解析
+     * */
+    @GetMapping(value="expert/import")
+    @ResponseBody 
+    public R importJson(){
+    	try {
+			String filePath = String.format("/Users/liubingchuan/git/xitu/src/main/resources/xyz.json");
+			File file = new File(filePath);
+			JSONReader reader=new JSONReader(new FileReader(file));
+			reader.startArray();
+			List<Expert> experts = new LinkedList<Expert>();
+			int i=1;
+			while (reader.hasNext()) {
+				if(i==1148){
+					System.out.println();
+				}
+				if(experts.size()>=1000) {
+					expertRepository.saveAll(experts);
+					experts.clear();
+				}
+				ExpertVO vo = new ExpertVO();
+				try{
+					vo = reader.readObject(ExpertVO.class);
+				}catch(Exception e) {
+					continue;
+				}
+				Expert expert = new Expert();
+				expert.setId(UUID.randomUUID().toString());
+				expert.setName(vo.getKey());
+				expert.setNow(System.currentTimeMillis());
+				experts.add(expert);
+				i++;
+				System.out.println("当前id---------》" + i);
+			}
+			reader.endArray();
+	        reader.close();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	return R.ok();
+    }
 	
 	
 }

@@ -135,14 +135,19 @@ jump:
     }
 	
 	@Async
-    @Scheduled(cron = "0 0 12 * * ?")
+    @Scheduled(cron = "0 0 13 * * ?")
+//	@Scheduled(cron = "*/30 * * * * ?")  //间隔十五秒
 	public void jiance(){
     	List<Jiance> objs = new LinkedList<Jiance>();
     	try {
     		Map<String, String> map = new HashMap<String, String>();
     		map.put("http://35.201.235.191:3000/users/1/web_requests/15/xituzixun.xml", "新闻动态");
     		map.put("http://35.201.235.191:3000/users/1/web_requests/18/xituguojiazhengce.xml", "国家政策");
+    		map.put("http://35.201.235.191:3000/users/1/web_requests/37/xituzaixian.xml", "新闻动态");
+    		map.put("http://35.201.235.191:3000/users/1/web_requests/40/ruidaoxitu.xml", "新闻动态");
+    		map.put("http://35.201.235.191:3000/users/1/web_requests/42/SCI.xml", "科研进展");
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			int i=1;
 			for(Map.Entry<String, String> kv: map.entrySet()) {
 				try (XmlReader reader = new XmlReader(new URL(kv.getKey()))) {
 					SyndFeed feed = new SyndFeedInput().build(reader);
@@ -155,12 +160,21 @@ jump:
 						jiance.setDescription(entry.getDescription().getValue());
 						jiance.setPubtime(sdf.format(entry.getPublishedDate()));
 						jiance.setLanmu(kv.getValue());
-						jiance.setInstitution("中国稀土网");
+						if(i==3){
+							jiance.setInstitution("稀土在线");
+						}else if(i==4) {
+							jiance.setInstitution("瑞道稀土");
+						}else if(i==5) {
+							jiance.setInstitution("科睿唯安");
+						}else {
+							jiance.setInstitution("中国稀土网");
+						}
 						objs.add(jiance);
 						System.out.println("***********************************");
 					}
 					System.out.println("Done");
 				}
+				i++;
 			}
 			jianceRepository.saveAll(objs);
 			

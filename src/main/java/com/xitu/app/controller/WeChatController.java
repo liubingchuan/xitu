@@ -123,7 +123,7 @@ public class WeChatController {
 						String openId = map.get("FromUserName");
 						if (eventKeyValue.contains("_")) {
 							String[] ek = eventKeyValue.split("_");
-							cache.save(ek[1], openId + "-unbind");
+							cache.save(ek[1], openId + "%unbind");
 						}
 					} else if (event.equals(Constant.Event.CLICK)) { // 自定义菜单点击事件
 						String eventKey = map.get("EventKey");
@@ -133,7 +133,7 @@ public class WeChatController {
 					} else if (event.equals(Constant.Event.SCAN)) { // 扫码事件
 						String eventKey = map.get("EventKey");
 						String openId = map.get("FromUserName");
-						cache.save(eventKey, openId + "-binded");
+						cache.save(eventKey, openId + "%binded");
 						result = msgService.returnText(map, "扫描临时二维码");
 						// if (eventKey.equals("temp_qrcode_test")) { //临时二维码
 						// result = msgService.returnText(map, "扫描临时二维码");
@@ -201,7 +201,7 @@ public class WeChatController {
 		}
 		String openId = "";
 		String bind = "true";
-		openId = openIdInfo.split("-")[0];
+		openId = openIdInfo.split("%")[0];
 		if (openIdInfo.contains("unbind")) {
 			bind = "false";
 		} else {

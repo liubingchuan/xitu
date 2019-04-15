@@ -34,21 +34,20 @@
 					<div class="loginAfter">
 						<div class="loginAfterM">
 							<a href="#" class="loginAfterTx">
-								<img th:src="@{/ximages/tx.jpeg}" />
+								<img id="headImg" th:src="@{/ximages/jiazai.png}" />
 							</a>
 							<div class="loginAfterNo">
 								
 								<div class="loginAfterNoM">
 									<em class="loginAfterNoMSj"></em>
 									<p>
-										<span class="loginName">
-											张伟
-										</span>
-										<span class="vip">
-											超级管理员
+										<!-- <span class="loginName" th:text="${user.account}"></span> -->
+										<span class="loginName" id="logoinName"></span>
+										<span class="vip" >
 										</span>
 									</p>
 									<p>
+										<!-- <a th:each="cookie :${#httpServletRequest.getCookies()}" th:if="${cookie.getName().equals('token')}"  th:href="@{/user/list(token=${cookie.getValue()},pageIndex=0,pageSize=10)}"> -->
 										<a th:href="@{/user/list(pageIndex=0,pageSize=10)}">
 											<img th:src="@{/ximages/houtai.png}" />
 											进入管理后台
@@ -66,7 +65,7 @@
 											退出
 										</a>
 									</p>
-									
+
 								</div>
 							</div>
 						</div>
@@ -274,6 +273,11 @@
 		<script type="text/javascript" th:src="@{/js/main.js}" ></script>
 		<script type="text/javascript" th:inline="javascript">
 		    
+			$(document).ready(function () {
+				$("#logoinName").html($.cookie("nickName"));
+			    $("#headImg").attr("src", $.cookie("headImg"));
+			});
+		
 			function search(){
 		    	var uri = '';
 		    	/* var entrust = ''

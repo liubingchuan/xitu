@@ -327,7 +327,13 @@ public class PaperController {
 	            paper.setKeywords(keywords);
 	            List<String> orgs= new ArrayList<String>();
 	            for(String org : vo.getOrganization()) {
-	            	orgs.add(org);
+	            	if(org.contains("!")) {
+	            		orgs.add(org.split("!")[0]);
+	            	}else if(org.contains(",")){
+	            		orgs.add(org.split(",")[0]);
+	            	}else {
+	            		orgs.add(org);
+	            	}
 	            }
 	            paper.setInstitution(orgs);
 	            paper.setJournal(vo.getJournal());

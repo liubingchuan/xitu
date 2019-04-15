@@ -1,9 +1,14 @@
 package com.xitu.app.controller;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import org.elasticsearch.index.query.QueryBuilders;
@@ -26,11 +31,15 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONReader;
+import com.xitu.app.common.R;
 import com.xitu.app.common.request.SaveOrgRequest;
 import com.xitu.app.mapper.ItemMapper;
 import com.xitu.app.model.Item;
 import com.xitu.app.model.Org;
+import com.xitu.app.model.OrgVO;
 import com.xitu.app.model.Project;
 import com.xitu.app.repository.OrgRepository;
 import com.xitu.app.utils.BeanUtil;
@@ -192,6 +201,17 @@ public class OrgController {
 //				view = "qiyezhikuzhongdianjigou";
 			}
 		}
+		int max = 800;
+		int min = 100;
+		Random random = new Random();
+		for(Org org: orgList) {
+			int x = random.nextInt(max-min) + min;
+			org.setProfessors(String.valueOf(x));
+			int y = random.nextInt(max-min) + min;
+			org.setPatents(String.valueOf(y));
+			int z = random.nextInt(max-min) + min;
+			org.setDymanics(String.valueOf(z));
+		}
 		model.addAttribute("orgList", orgList);
 		model.addAttribute("pageSize", pageSize);
 		model.addAttribute("totalCount", totalCount);
@@ -202,7 +222,49 @@ public class OrgController {
 		return view;
 	}
 	
-	
+	 /**
+     * 文件解析
+     * */
+    @GetMapping(value="org/import")
+    @ResponseBody 
+    public R importJson(){
+    	try {
+			String filePath = String.format("/Users/liubingchuan/git/xitu/src/main/resources/efg.json");
+			File file = new File(filePath);
+			JSONReader reader=new JSONReader(new FileReader(file));
+			reader.startArray();
+			List<Org> orgs = new LinkedList<Org>();
+			int i=1;
+			while (reader.hasNext()) {
+				if(i==1148){
+					System.out.println();
+				}
+				if(orgs.size()>=1000) {
+					orgRepository.saveAll(orgs);
+					orgs.clear();
+				}
+				OrgVO vo = new OrgVO();
+				try{
+					vo = reader.readObject(OrgVO.class);
+				}catch(Exception e) {
+					continue;
+				}
+				Org org = new Org();
+				org.setId(UUID.randomUUID().toString());
+				org.setName(vo.getKey());
+				org.setNow(System.currentTimeMillis());
+				orgs.add(org);
+				i++;
+				System.out.println("当前id---------》" + i);
+			}
+			reader.endArray();
+	        reader.close();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	return R.ok();
+    }
 	
 	
 }
