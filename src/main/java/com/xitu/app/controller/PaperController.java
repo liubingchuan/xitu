@@ -58,6 +58,7 @@ import com.alibaba.fastjson.JSONReader;
 import com.xitu.app.common.R;
 import com.xitu.app.common.request.SavePaperRequest;
 import com.xitu.app.mapper.PatentMapper;
+import com.xitu.app.model.AggVO;
 import com.xitu.app.model.Paper;
 import com.xitu.app.model.PaperVO;
 import com.xitu.app.model.Project;
@@ -853,6 +854,76 @@ public class PaperController {
 //    	} catch (IOException e) {
 //    		e.printStackTrace();
 //    	}
+    	return R.ok();
+    }
+    
+    /**
+     * 机构合并
+     * */
+    @GetMapping(value="org/merge")
+    @ResponseBody 
+    public R orgMerge(){
+//    	try {
+    	JSONReader reader = null;
+    	try {
+    		StringBuffer buffer = new StringBuffer();
+    		/** CSV文件列分隔符 */
+    		String CSV_COLUMN_SEPARATOR = ",";
+    		
+    		/** CSV文件列分隔符 */
+    		String CSV_RN = "\r\n";
+    		buffer.append("org").append(CSV_RN);
+    		
+    		String filePath = String.format("/Users/liubingchuan/git/xitu/organization.csv");
+    		List<String> scanList= readFile(filePath);
+    		
+    		String filePath2 = String.format("/Users/liubingchuan/git/xitu/patent_applyer.json");
+    		File file = new File(filePath2);
+    		reader=new JSONReader(new FileReader(file));
+    		reader.startArray();
+    		int i=1;
+    		while (reader.hasNext()) {
+    			System.out.println(i);
+//    			if (i==19652){
+//    				System.out.println();
+//    			}
+    			AggVO vo = reader.readObject(AggVO.class);
+    			System.out.println(vo.getKey());
+    			System.out.println(vo.getDoc_count());
+    			if(!scanList.contains(vo.getKey())){
+    				scanList.add(vo.getKey());
+    			}
+    			i++;
+    		}
+    		for(String s: scanList) {
+    			buffer.append(s).append(CSV_RN);
+    		}
+    		String orgData = buffer.toString();
+    		
+    		File orgFile =new File("/Users/liubingchuan/git/xitu/total_organization.csv");
+    		
+    		//if file doesnt exists, then create it
+    		if(!orgFile.exists()){
+    			orgFile.createNewFile();
+    		}
+    		
+    		//true = append file
+    		FileWriter orgFileWritter = new FileWriter(orgFile.getName(),true);
+    		orgFileWritter.write(orgData);
+    		orgFileWritter.close();
+    		if(reader != null) {
+    			reader.endArray();
+    			reader.close();
+    		}
+    		
+    	} catch (IOException e) {
+    		// TODO Auto-generated catch block
+    		e.printStackTrace();
+    		if(reader != null) {
+    			reader.endArray();
+    			reader.close();
+    		}
+    	}
     	return R.ok();
     }
     
