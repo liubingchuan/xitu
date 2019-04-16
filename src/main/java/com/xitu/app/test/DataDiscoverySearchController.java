@@ -139,6 +139,13 @@ private static final Logger logger = LoggerFactory.getLogger(JianceController.cl
 			@RequestParam(required=false, value="pageIndex") Integer pageIndex, 
 			Model model) {
 		
+		if(pageSize == null) {
+			pageSize = 10;
+		}
+		if(pageIndex == null) {
+			pageIndex = 0;
+		}
+		
 		DataDiscoveryServiceImpl dataDiscoveryService = new DataDiscoveryServiceImpl();
 		String json_send= dataDiscoveryService.jiance(q,year,institution,lanmu,pageIndex).toString();
 		

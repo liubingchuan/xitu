@@ -136,7 +136,7 @@ public class DataDiscoveryServiceImpl {
 		List<String> plist = new ArrayList();
 		
 			
-		conES = ESHttpClient.conES(ESHttpClient.jcreateQqueryJsonPage(q, plist, year, institution, lanmu, pageIndex));
+		conES = ESHttpClient.conES(ESHttpClient.jcreateQqueryJsonPage(q, year, institution, lanmu, pageIndex));
 //			if (conES != null) {
 //				JSONObject hits = (JSONObject) conES.get("hits");
 //				JSONObject aggregations = (JSONObject) conES.get("aggregations");

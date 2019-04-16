@@ -352,7 +352,7 @@ public class ESHttpClient implements Serializable {
     }
     public static JSONObject conES(String conn){
 //    	ESHttpClient indexer = new ESHttpClient("10.3.11.23:9201", "t_ods_las_nstl_value_journalarticle_v5","t_ods_las_nstl_value");
-    	ESHttpClient indexer = new ESHttpClient("10.3.11.6:9201", "t_ods_las_nstl_value_journalarticle_v4","t_ods_las_nstl_value");
+    	ESHttpClient indexer = new ESHttpClient("45.77.86.209:9300", "jiance","jc");
     	//ESHttpClient indexer = new ESHttpClient("10.3.11.6:9201", "t_ods_las_nstl_value","t_ods_las_nstl_value");
         ESHttpClient.debug = true;
         JSONObject json = indexer.execute(conn);
@@ -450,12 +450,6 @@ public class ESHttpClient implements Serializable {
         return json;
     }
     
-    public static JSONObject conESTerm(String conn){
-		ESHttpClient indexer = new ESHttpClient("10.0.11.239:9200", "triples","doc");
-	    ESHttpClient.debug = true;
-	    JSONObject json = indexer.execute(conn);
-	    return json;
-	}
     public static String createQqueryByUuid(String value){
     	JSONObject query = new JSONObject();
     	JSONObject term = new JSONObject();
@@ -5692,7 +5686,7 @@ public static String createQueryJsonImplProject(String value,String year,int pag
     	
     }
     	//q, plist, year, institution, lanmu, pageIndex
-    	public static String jcreateQqueryJsonPage(String q,List<String> plist,String year,String institution,String lanmu,Integer pageIndex){
+    	public static String jcreateQqueryJsonPage(String q,String year,String institution,String lanmu,Integer pageIndex){
         	
         	int pageSize = 10;
         	
@@ -5711,21 +5705,21 @@ public static String createQueryJsonImplProject(String value,String year,int pag
     			JSONObject bool4 = new JSONObject();
     	    	JSONObject bool3 = new JSONObject();
     	    	JSONArray should = new JSONArray();
-    	    	for(String str:plist){
+    	    	
     	    		JSONObject param = new JSONObject();
     	    		JSONObject multi_match = new JSONObject();
     		    	String[] arr = null;
     		    	arr = new String[]{
     		    			"title",
     						"description"};
-    		    	param.put("query", str);
+    		    	param.put("query", q);
     		    	param.put("operator", "and");
     		    	param.put("type", "cross_fields");
     		    	param.put("fields", arr);
     		    	//param.put("type", "best_fields");
     		    	multi_match.put("multi_match", param);
     		    	should.add(multi_match);
-    	    	}
+    	    	
     	    	bool4.put("should", should);
     		    bool3.put("bool", bool4);
     		    must1.add(bool3);
@@ -5735,7 +5729,7 @@ public static String createQueryJsonImplProject(String value,String year,int pag
     	    	must1.add(match_all);
     		}
         	
-        	if (!lanmu.equals("") && lanmu != null && !lanmu.equals("null")) {
+        	if (lanmu != null && !lanmu.equals("") && !lanmu.equals("null")) {
     			JSONObject match = new JSONObject();
     			JSONObject uuid = new JSONObject();
     			uuid.put("lanmu", lanmu);
@@ -5743,7 +5737,7 @@ public static String createQueryJsonImplProject(String value,String year,int pag
     			must1.add(match);
     		}
     		
-    		if (!institution.equals("") && institution != null && !institution.equals("null")) {
+    		if (institution != null  && !institution.equals("") && !institution.equals("null")) {
     	    	if(institution.contains(",")){
     				String[] split = institution.split(",");
     				for(String s : split){
@@ -5780,22 +5774,22 @@ public static String createQueryJsonImplProject(String value,String year,int pag
         	t1.put("field", "institution");
         	t1.put("size", 10);
         	p1.put("terms", t1);
-        	args.put("institution-type", p1);
+        	args.put("institution", p1);
         	
         	query.put("aggs",args);
         	
-        	JSONArray sort = new JSONArray();
-        	JSONObject _score = new JSONObject();
-        	JSONObject order = new JSONObject();
-        	order.put("order", "desc");//method=desc
-        	_score.put("_score",order);//orderby=_score
-        	sort.add(_score);
-        	JSONObject uuids = new JSONObject();
-        	JSONObject order1s = new JSONObject();
-        	order1s.put("order", "desc");
-        	uuids.put("article_year",order1s);
-        	sort.add(uuids);
-        	query.put("sort",sort);
+//        	JSONArray sort = new JSONArray();
+//        	JSONObject _score = new JSONObject();
+//        	JSONObject order = new JSONObject();
+//        	order.put("order", "desc");//method=desc
+//        	_score.put("_score",order);//orderby=_score
+//        	sort.add(_score);
+//        	JSONObject uuids = new JSONObject();
+//        	JSONObject order1s = new JSONObject();
+//        	order1s.put("order", "desc");
+//        	uuids.put("title",order1s);
+//        	sort.add(uuids);
+//        	query.put("sort",sort);
         	
         	query.put("from",pageIndex);
         	query.put("size", pageSize);
