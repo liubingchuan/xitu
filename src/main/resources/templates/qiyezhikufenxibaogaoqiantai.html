@@ -158,6 +158,18 @@
 				       		</div>
 				       	</li>
 				       </ul>
+				       <div class="sqPage">
+		            	 <span th:if=" ${totalCount > 0}">
+					    	<span th:text="'共 ' + ${totalCount}+' 条报告信息'">
+					    	</span>
+					    	<a th:style="'display:' + @{((${pageIndex}+1) == 1 ? 'none' : 'inline-block')} + ''"  th:href="@{/report/list(q=${query},front=0,pageIndex=0,pageSize=10)}"><首页</a>
+ 							<a th:style="'display:' + @{((${pageIndex}+1) == 1 ? 'none' : 'inline-block')} + ''" th:href="@{/report/list(q=${query},front=0,pageIndex=(${pageIndex}-1),pageSize=10)}"><上一页</a>
+ 							<!-- <a th:href="@{/jiance/jiancelist(pageIndex=(${pageIndex}),pageSize=10)}" th:text="(${pageIndex}+1) + '/' + ${totalPages}" ></a> -->
+							<a th:style="'display:' + @{((${pageIndex}+1) == ${totalPages} ? 'none' : 'inline-block')} + ''" th:href="@{/report/list(q=${query},front=0,pageIndex=(${pageIndex}+1),pageSize=10)}">下一页<em>></em></a>
+							<a th:style="'display:' + @{((${pageIndex}+1) == ${totalPages} ? 'none' : 'inline-block')} + ''" th:href="@{/report/list(q=${query},front=0,pageIndex=(${totalPages}-1),pageSize=10)}">尾页<em>></em></a>
+		            		<span th:text="'页次：' + (${pageIndex}+1) + '/' + ${totalPages}"></span>
+		            	</span>
+		            	</div>
 				    </div>
 				</div>
 			</div>

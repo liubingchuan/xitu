@@ -90,9 +90,9 @@
 						<span class="left usermanageOneTl" th:text="结果列表（+${totalCount}+）">
 							
 						</span>
-						<!-- <a href="#" class="left manageproAddA">
+						<a th:href="@{/task/get(disable='0')}" class="left manageproAddA">
 							新增文章
-						</a> -->
+						</a>
 						<div class="right usermanageOneSS">
 							<input type="text" id="keywords" />
 							<em onClick="search();"></em>

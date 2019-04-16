@@ -169,7 +169,7 @@ public class ExpertController {
 			view = "qiyezhikuhangyerencaiqiantai";
 		}
 		if(esTemplate.indexExists(Expert.class)) {
-			if(q == null) {
+			if(q == null || q.equals("")) {
 				totalCount = expertRepository.count();
 				if(totalCount > 0) {
 					Sort sort = new Sort(Direction.DESC, "now");
@@ -178,6 +178,11 @@ public class ExpertController {
 							.withPageable(pageable).build();
 					Page<Expert> expertPage = expertRepository.search(searchQuery);
 					expertList = expertPage.getContent();
+					if(totalCount % pageSize == 0){
+						totalPages = totalCount/pageSize;
+					}else{
+						totalPages = totalCount/pageSize + 1;
+					}
 				}
 			}else {
 				// 分页参数
@@ -193,7 +198,11 @@ public class ExpertController {
 				Page<Expert> searchPageResults = expertRepository.search(searchQuery);
 				expertList = searchPageResults.getContent();
 				totalCount = esTemplate.count(searchQuery, Expert.class);
-				totalPages = Math.round(totalCount/pageSize);
+				if(totalCount % pageSize == 0){
+					totalPages = totalCount/pageSize;
+				}else{
+					totalPages = totalCount/pageSize + 1;
+				}
 //				if (front != null) {
 //					view = "qiyezhikuhangyerencaiqiantai";
 //				}

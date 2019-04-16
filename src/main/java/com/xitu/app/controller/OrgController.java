@@ -173,7 +173,7 @@ public class OrgController {
 			view = "qiyezhikuzhongdianjigou";
 		}
 		if(esTemplate.indexExists(Project.class)) {
-			if(q == null) {
+			if(q == null || q.equals("")) {
 				totalCount = orgRepository.count();
 				if(totalCount > 0) {
 					Sort sort = new Sort(Direction.DESC, "now");
@@ -182,6 +182,11 @@ public class OrgController {
 							.withPageable(pageable).build();
 					Page<Org> orgPage = orgRepository.search(searchQuery);
 					orgList = orgPage.getContent();
+					if(totalCount % pageSize == 0){
+						totalPages = totalCount/pageSize;
+					}else{
+						totalPages = totalCount/pageSize + 1;
+					}
 				}
 			}else {
 				// 分页参数
@@ -197,7 +202,12 @@ public class OrgController {
 				Page<Org> searchPageResults = orgRepository.search(searchQuery);
 				orgList = searchPageResults.getContent();
 				totalCount = esTemplate.count(searchQuery, Org.class);
-				totalPages = Math.round(totalCount/pageSize);
+				//totalPages = Math.round(totalCount/pageSize);
+				if(totalCount % pageSize == 0){
+					totalPages = totalCount/pageSize;
+				}else{
+					totalPages = totalCount/pageSize + 1;
+				}
 //				view = "qiyezhikuzhongdianjigou";
 			}
 		}

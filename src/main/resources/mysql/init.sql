@@ -31,13 +31,16 @@ CREATE TABLE IF NOT EXISTS xitu_relation (
 
 CREATE TABLE IF NOT EXISTS xitu_linkuser (
   ID INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  uuid varchar(255) DEFAULT NULL,
   name varchar(255) DEFAULT NULL,
   email varchar(255) DEFAULT NULL,
-  telephone varchar(255) DEFAULT NULL
+  telephone varchar(255) DEFAULT NULL,
+  institution varchar(255) DEFAULT NULL
 ) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS xitu_order (
   ID INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  uuid varchar(255) DEFAULT NULL,
   ordernumber varchar(255) DEFAULT NULL,
   title varchar(1000) DEFAULT NULL,
   chaxinfanwei varchar(255) DEFAULT NULL,
@@ -54,7 +57,9 @@ CREATE TABLE IF NOT EXISTS xitu_order (
   chulizhuangtai varchar(255) DEFAULT NULL,
   chuliren varchar(255) DEFAULT NULL,
   chuliyijian varchar(255) DEFAULT NULL,
-  chulirenfujian_id varchar(255) DEFAULT NULL
+  chulirenfujian_id varchar(255) DEFAULT NULL,
+  user_id INT UNSIGNED DEFAULT NULL,
+  institution varchar(255) DEFAULT NULL
 ) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS xitu_price(

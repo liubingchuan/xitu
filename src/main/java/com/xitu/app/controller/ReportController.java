@@ -168,7 +168,7 @@ public class ReportController {
 		List<Report> reportList = new ArrayList<Report>();
 		String view = "qiyezhikufenxibaogaoliebiao";
 		if(esTemplate.indexExists(Report.class)) {
-			if(q == null) {
+			if(q == null || q.equals("")) {
 				totalCount = reportRepository.count();
 				if(totalCount >0) {
 					Sort sort = new Sort(Direction.DESC, "now");
@@ -179,6 +179,11 @@ public class ReportController {
 					reportList = reportsPage.getContent();
 					if (front != null) {
 						view = "qiyezhikufenxibaogaoqiantai";
+					}
+					if(totalCount % pageSize == 0){
+						totalPages = totalCount/pageSize;
+					}else{
+						totalPages = totalCount/pageSize + 1;
 					}
 				}
 			}else {
@@ -202,10 +207,15 @@ public class ReportController {
 				Page<Report> searchPageResults = reportRepository.search(searchQuery);
 				reportList = searchPageResults.getContent();
 				totalCount = esTemplate.count(searchQuery, Report.class);
+				if(totalCount % pageSize == 0){
+					totalPages = totalCount/pageSize;
+				}else{
+					totalPages = totalCount/pageSize + 1;
+				}
 				
 			}
 		}
-		totalPages = Double.valueOf(Math.ceil(Double.valueOf(totalCount)/Double.valueOf(pageSize))).intValue();
+		//totalPages = Double.valueOf(Math.ceil(Double.valueOf(totalCount)/Double.valueOf(pageSize))).intValue();
 		model.addAttribute("reportList", reportList);
 		model.addAttribute("pageSize", pageSize);
 		model.addAttribute("pageIndex", pageIndex);
