@@ -1,9 +1,12 @@
 package com.xitu.app.controller;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -11,7 +14,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.index.query.BoolQueryBuilder;
@@ -439,7 +447,13 @@ public class PaperController {
 	            List<String> authors = vo.getAuthor();
 	            List<String> paperAuthors = new ArrayList<String>();
 	            boolean isAuthor = false;
+	            if(i==42){
+	            	System.out.println();
+	            }
 	            for(String author: authors) {
+	            	if(author.contains("谭培功")){
+	            		System.out.println();
+	            	}
 	            	if(isAuthor) {
 	            		paperAuthors.add(author);
 	            	}
@@ -457,24 +471,50 @@ public class PaperController {
 	            List<String> orgs= new ArrayList<String>();
     			
     			for(String org : vo.getOrganization()) {
+    				org = org.trim();
     				if(org.contains(",")) {
     					String[] orgArray = org.split(",");
-    					for(String newOrg : orgArray) {
-    						if(newOrg.contains("!")) {
-    							String orgName = newOrg.split("!")[0];
+    					//trim一下
+    					String[] newArray = new String[orgArray.length];
+    					for(int n=0;n<orgArray.length;n++) {
+    						newArray[n] = orgArray[n].trim();
+    					}
+    					// 只保留子串
+    					newArray = subString(newArray);
+    					
+    					for(String newOrg : newArray) {
+    						String s = filter(newOrg);
+    						if(s.length()==0){
+    							continue;
+    						}
+    						if(s.contains("!")) {
+    							String orgName = s.split("!")[0];
     							orgName = orgName.replaceAll(";", "");
     							if(!orgs.contains(orgName)){
     								orgs.add(orgName);
     							}
     						}else {
-    							newOrg = newOrg.replaceAll(";", "");
-    							if(!orgs.contains(newOrg)){
-    								orgs.add(newOrg);
+    							s = s.replaceAll(";", "");
+    							if(!orgs.contains(s)){
+    								orgs.add(s);
     							}
+    						}
+    						if(s.split(" ").length>1) {
+    							s = s.split(" ")[0];
+    						}
+    						if(s.contains("教授")){
+    							s = "";
     						}
     					}
     				}else {
     					org = org.replaceAll(";", "");
+    					if(org.split(" ").length>1) {
+    						org = org.split(" ")[0];
+    					}
+    					if(org.contains("教授")){
+    						org = "";
+    						continue;
+    					}
     					if(!orgs.contains(org)) {
     						orgs.add(org);
     					}
@@ -550,6 +590,370 @@ public class PaperController {
     	}
     	return R.ok();
     }
+    
+    
+    /**
+     * 文件合并
+     * */
+    @GetMapping(value="paper/merge")
+    @ResponseBody 
+    public R merge(){
+//    	try {
+    		
+    		try {
+    			StringBuffer buffer = new StringBuffer();
+    			/** CSV文件列分隔符 */
+        		String CSV_COLUMN_SEPARATOR = ",";
+        		
+        		/** CSV文件列分隔符 */
+        		String CSV_RN = "\r\n";
+        		buffer.append("author").append(CSV_COLUMN_SEPARATOR).append("org").append(CSV_RN);
+    			
+    			String filePath = String.format("/Users/liubingchuan/git/xitu/ao.csv");
+				List<String> scanList= readFile(filePath);
+				Map<String,String> paperMap = new HashMap<String,String>();
+				for(int i=1;i<scanList.size();i++) {
+					String content = scanList.get(i);
+					if(content.contains(",")){
+						String[] ao = content.split(",");
+						paperMap.put(ao[0], ao[1]);
+					}
+				}
+				
+				SAXReader reader = new SAXReader();
+		        File file = new File("/Users/liubingchuan/git/xitu/xitu_patent.xml");
+		        Document document = reader.read(file);
+		        Element root = document.getRootElement();
+		        List<Element> childElements = root.elements();
+		        for (Element child : childElements) {
+		            //未知属性名情况下
+		            /*List<Attribute> attributeList = child.attributes();
+		            for (Attribute attr : attributeList) {
+		                System.out.println(attr.getName() + ": " + attr.getValue());
+		            }*/
+		              
+		            //已知属性名情况下
+//		            System.out.println("person: " + child.attributeValue("person"));
+		              
+		            //未知子元素名情况下
+		            /*List<Element> elementList = child.elements();
+		            for (Element ele : elementList) {
+		                System.out.println(ele.getName() + ": " + ele.getText());
+		            }
+		            System.out.println();*/
+		              
+		            //已知子元素名的情况下
+//		            System.out.println("person" + child.elementText("person"));
+//		            System.out.println("creator" + child.elementText("creator"));
+		            
+		            String creator = child.elementText("creator");
+		            String person = child.elementText("person");
+		            String[] authors = creator.split(";");
+		            String[] orgs = person.split(";");
+		            for(String author: authors) {
+		            	String exsitOrg = paperMap.get(author);
+		            	boolean crossing = false;
+		            	for(String org:orgs) {
+		            		if(paperMap.containsKey(author)) {
+		            			if(exsitOrg.contains(org)) {
+		            				crossing = true;
+		            				break;
+		            			}
+		            		}
+		            	}
+		            	if(!crossing) {
+		            		buffer.append(author).append(CSV_COLUMN_SEPARATOR).append(person).append(CSV_RN);
+		            	}
+		            }
+		            //这行是为了格式化美观而存在
+		            System.out.println();
+		        }
+		        
+		        String orgData = buffer.toString();
+    			
+    			File orgFile =new File("/Users/liubingchuan/git/xitu/patent_organization.csv");
+    			
+    			//if file doesnt exists, then create it
+    			if(!orgFile.exists()){
+    				orgFile.createNewFile();
+    			}
+    			
+    			//true = append file
+    			FileWriter orgFileWritter = new FileWriter(orgFile.getName(),true);
+    			orgFileWritter.write(orgData);
+    			orgFileWritter.close();
+				
+			} catch (IOException | DocumentException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+//    		File file = new File(filePath);
+//    		JSONReader reader=new JSONReader(new FileReader(file));
+//    		reader.startArray();
+//    		List<Paper> papers = new LinkedList<Paper>();
+//    		int i=1;
+////    		String[] titles = new String[]{"author","org"};
+////    		List<String> orgs= new ArrayList<String>();
+//    		List<String> totalOrgs = new LinkedList<String>();
+//    		while (reader.hasNext()) {
+//    			
+//    			PaperVO vo = reader.readObject(PaperVO.class);
+////	            Paper paper = new Paper();
+////	            paper.setId(vo.get_id());
+////	            paper.setNow(System.currentTimeMillis());
+////	            List<String> links = new ArrayList<String>();
+////	            links.add(vo.getUrl());
+////	            paper.setLink(links);
+////	            paper.setTitle(vo.getTitle());
+////	            paper.setIssue(vo.getOnlineDate());
+//    			
+////	            String year = "".equals(vo.getOnlineDate())?"预发布":vo.getOnlineDate().substring(0, 4);
+////	            paper.setYear(year);
+//    			List<String> authors = vo.getAuthor();
+//    			List<String> paperAuthors = new ArrayList<String>();
+//    			boolean isAuthor = false;
+//    			if(i==42){
+//    				System.out.println();
+//    			}
+//    			for(String author: authors) {
+//    				if(author.contains("谭培功")){
+//    					System.out.println();
+//    				}
+//    				if(isAuthor) {
+//    					paperAuthors.add(author);
+//    				}
+//    				if("|".equals(author)){
+//    					isAuthor = true;
+//    				}
+//    			}
+////	            paper.setAuthor(paperAuthors);
+////	            paper.setSubject(vo.getAbc());
+////	            List<String> keywords = new ArrayList<String>();
+////	            for(String keyword: vo.getKeyWord()) {
+////	            	keywords.add(keyword);
+////	            }
+////	            paper.setKeywords(keywords);
+//    			List<String> orgs= new ArrayList<String>();
+//    			
+//    			for(String org : vo.getOrganization()) {
+//    				org = org.trim();
+//    				if(org.contains(",")) {
+//    					String[] orgArray = org.split(",");
+//    					//trim一下
+//    					String[] newArray = new String[orgArray.length];
+//    					for(int n=0;n<orgArray.length;n++) {
+//    						newArray[n] = orgArray[n].trim();
+//    					}
+//    					// 只保留子串
+//    					newArray = subString(newArray);
+//    					
+//    					for(String newOrg : newArray) {
+//    						String s = filter(newOrg);
+//    						if(s.length()==0){
+//    							continue;
+//    						}
+//    						if(s.contains("!")) {
+//    							String orgName = s.split("!")[0];
+//    							orgName = orgName.replaceAll(";", "");
+//    							if(!orgs.contains(orgName)){
+//    								orgs.add(orgName);
+//    							}
+//    						}else {
+//    							s = s.replaceAll(";", "");
+//    							if(!orgs.contains(s)){
+//    								orgs.add(s);
+//    							}
+//    						}
+//    						if(s.split(" ").length>1) {
+//    							s = s.split(" ")[0];
+//    						}
+//    						if(s.contains("教授")){
+//    							s = "";
+//    						}
+//    					}
+//    				}else {
+//    					org = org.replaceAll(";", "");
+//    					if(org.split(" ").length>1) {
+//    						org = org.split(" ")[0];
+//    					}
+//    					if(org.contains("教授")){
+//    						org = "";
+//    						continue;
+//    					}
+//    					if(!orgs.contains(org)) {
+//    						orgs.add(org);
+//    					}
+//    				}
+//    			}
+//    			
+//    			for(String auth: paperAuthors) {
+//    				buffer.append(auth).append(CSV_COLUMN_SEPARATOR);
+//    				for(String org :orgs) {
+//    					buffer.append(org).append(";");
+//    				}
+//    				buffer.deleteCharAt(buffer.length()-1);
+//    				buffer.append(CSV_RN);
+//    			}
+////	            paper.setInstitution(orgs);
+////	            paper.setJournal(vo.getJournal());
+////	            papers.add(paper);
+//    			System.out.println("当前id----》" + i);
+//    			i++;
+//    			for(String org: orgs) {
+//    				if(!totalOrgs.contains(org)) {
+//    					totalOrgs.add(org);
+//    				}
+//    			}
+//    		}
+//    		
+//    		try{
+////    			for(String s : orgs) {
+////    				buffer.append(s).append(CSV_RN);
+////    			}
+//    			String data = buffer.toString();
+//    			
+//    			File aoFile =new File("/Users/liubingchuan/git/xitu/ao.csv");
+//    			
+//    			//if file doesnt exists, then create it
+//    			if(!aoFile.exists()){
+//    				aoFile.createNewFile();
+//    			}
+//    			
+//    			//true = append file
+//    			FileWriter fileWritter = new FileWriter(aoFile.getName(),true);
+//    			fileWritter.write(data);
+//    			fileWritter.close();
+//    			
+//    			StringBuffer sb = new StringBuffer();
+//    			for(String s: totalOrgs) {
+//    				sb.append(s).append(CSV_RN);
+//    			}
+//    			String orgData = sb.toString();
+//    			
+//    			File orgFile =new File("/Users/liubingchuan/git/xitu/organization.csv");
+//    			
+//    			//if file doesnt exists, then create it
+//    			if(!orgFile.exists()){
+//    				orgFile.createNewFile();
+//    			}
+//    			
+//    			//true = append file
+//    			FileWriter orgFileWritter = new FileWriter(orgFile.getName(),true);
+//    			orgFileWritter.write(orgData);
+//    			orgFileWritter.close();
+//    			
+//    			System.out.println("Done");
+//    			
+//    		}catch(IOException e){
+//    			e.printStackTrace();
+//    		}
+//    		reader.endArray();
+//    		reader.close();
+//    		
+//    	} catch (IOException e) {
+//    		e.printStackTrace();
+//    	}
+    	return R.ok();
+    }
+    
+    public List<String> readFile(String path) throws IOException {
+        // 使用一个字符串集合来存储文本中的路径 ，也可用String []数组
+        List<String> list = new LinkedList<String>();
+        FileInputStream fis = new FileInputStream(path);
+        // 防止路径乱码   如果utf-8 乱码  改GBK     eclipse里创建的txt  用UTF-8，在电脑上自己创建的txt  用GBK
+        InputStreamReader isr = new InputStreamReader(fis, "UTF-8");
+        BufferedReader br = new BufferedReader(isr);
+        String line = "";
+        while ((line = br.readLine()) != null) {
+            // 如果 t x t文件里的路径 不包含---字符串       这里是对里面的内容进行一个筛选
+            if (line.lastIndexOf("---") < 0) {
+                list.add(line);
+            }
+        }
+        br.close();
+        isr.close();
+        fis.close();
+        return list;
+    }
+    
+    //只保留子串
+    public String[] subString(String[] s) {
+    	int m = 0;
+    	List<Integer> k = new ArrayList<Integer>(s.length);
+    	for(int i=0;i<s.length;i++) {
+    		if(s[i].length()<=3) {
+    			k.add(i);
+    			continue;
+    		}
+    		if(k.contains(i)) {
+    			continue;
+    		}
+    		for(int j=0;j<s.length;j++) {
+    			if(i==j || k.contains(i)) {
+    				continue;
+    			}
+    			if(s[j].contains(s[i])) {
+    				if(!k.contains(j)){
+    					k.add(j);
+    					m++;
+    				}
+    			}
+    		}
+    	}
+    	if(m>0) {
+    		List<String> newList = new LinkedList<String>();
+    		for(int i=0;i<s.length;i++) {
+    			if(!k.contains(i)) {
+    				newList.add(s[i]);
+    			}
+    		}
+    		String[] array = new String[s.length-m];
+    		return newList.toArray(array);
+    	}
+    	return s;
+    }
+    
+    //6位数字连续的，独立串、前方连带其他字符的串、前方有空格的串，去除该子串以后，判断前半部分是否含有空格，如果含有空格则用空格分开，取第一部分，备选名字要大于等于三个字
+    public String filter(String s) {
+    	if(s==null) {
+    		s="";
+    	}
+    	if(s.length()>=6) {
+    		int start = s.length()-6;
+    		Pattern pattern = Pattern.compile("\\d{6}");
+    		boolean matches = false;
+    		while(start>=0 && (!matches)){
+    			matches = pattern.matcher(s.substring(start, start+6)).matches();
+    			if(!matches) {
+    				start--;
+    			}else {
+    				while(start != 0 && (' ' != s.charAt(start-1))) {
+    					start--;
+    					if(start>=1 && '!' == s.charAt(start-1)){
+    						break;
+    					}
+    				}
+    			}
+    		}
+    		
+    		if(matches) {
+    			if(start<=0) {
+    				s = "";
+    			}else {
+    				s = s.substring(0,start);
+    				s = s.split(" ")[0];
+    			}
+    			
+    		}
+    		
+    	}
+    	
+    	if(s.contains("研究生") || s.contains("博士生") || s.length()<=3) {
+    		s = "";
+    	}
+    	return s;
+    }
+    
     
     /**
      * 文件解析
