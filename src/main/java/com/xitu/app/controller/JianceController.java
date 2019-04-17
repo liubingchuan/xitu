@@ -16,6 +16,7 @@ import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
 import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders;
 import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.Aggregations;
+import org.elasticsearch.search.aggregations.LeafBucketCollector;
 import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.aggregations.bucket.terms.StringTerms.Bucket;
@@ -37,12 +38,14 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.alibaba.fastjson.JSONObject;
 import com.xitu.app.mapper.TaskMapper;
 import com.xitu.app.model.Jiance;
 import com.xitu.app.model.Paper;
 import com.xitu.app.model.Task;
 import com.xitu.app.repository.JianceRepository;
 import com.xitu.app.repository.PaperRepository;
+import com.xitu.app.test.DataDiscoveryServiceImpl;
 
 
 
@@ -57,6 +60,250 @@ public class JianceController {
 	
 	@Autowired
 	private ElasticsearchTemplate esTemplate;
+	
+//	@GetMapping(value = "jiance/jiancelist")
+//	public String projects(@RequestParam(required=false,value="q") String q,
+//			@RequestParam(required=false,value="year") String year,
+//			@RequestParam(required=false,value="institution") String institution,
+//			@RequestParam(required=false,value="lanmu") String lanmu,
+//			@RequestParam(required=false,value="pageSize") Integer pageSize, 
+//			@RequestParam(required=false, value="pageIndex") Integer pageIndex, 
+//			Model model) {
+//		if(pageSize == null) {
+//			pageSize = 10;
+//		}
+//		if(pageIndex == null) {
+//			pageIndex = 0;
+//		}
+//		
+//		long lb = System.currentTimeMillis();
+//		//long lc = lb-la;
+//		//System.out.println("查询后时间 ====  "+lc );
+//		long totalCount = 0L;
+//		long totalPages = 0L;
+//		List<Jiance> paperList = new ArrayList<Jiance>();
+//		String view = "T-jiance";
+//		if(esTemplate.indexExists(Jiance.class)) {
+//			if(q == null || q.equals("null") || q.equals("")) {
+//				//totalCount = paperRepository.count();
+//				//if(totalCount >0) {
+//					Sort sort = new Sort(Direction.DESC, "pubtime");
+//					Pageable pageable = new PageRequest(pageIndex, pageSize,sort);
+//					//Pageable pageable = new PageRequest(pageIndex, pageSize);
+//
+//					BoolQueryBuilder queryBuilder = new BoolQueryBuilder();
+////					if(year != null) {
+////						String[] years = year.split(",");
+////						queryBuilder.filter(QueryBuilders.termsQuery("year", years));
+////					}
+//					if(institution != null && !institution.equals("")) {
+//						try {
+//							institution = URLDecoder.decode(institution, "UTF-8");
+//						} catch (UnsupportedEncodingException e) {
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						}
+//						String[] institutions = institution.split(",");
+//						queryBuilder.filter(QueryBuilders.termsQuery("institution", institutions));
+//					}
+//					if(lanmu != null && !lanmu.equals("")) {
+//						try {
+//							lanmu = URLDecoder.decode(lanmu, "UTF-8");
+//						} catch (UnsupportedEncodingException e) {
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						}
+//						String[] lanmus = lanmu.split(",");
+//						queryBuilder.filter(QueryBuilders.termsQuery("lanmu", lanmus));
+//					}
+//					
+//					// 分数，并自动按分排序
+//					FunctionScoreQueryBuilder functionScoreQueryBuilder = QueryBuilders.functionScoreQuery(queryBuilder, ScoreFunctionBuilders.weightFactorFunction(1000));
+//					SearchQuery searchQuery = new NativeSearchQueryBuilder()
+//							.withPageable(pageable).withQuery(functionScoreQueryBuilder).build();
+//					Page<Jiance> projectsPage = paperRepository.search(searchQuery);
+//					paperList = projectsPage.getContent();
+//					
+//					totalCount = esTemplate.count(searchQuery, Jiance.class);
+//					if(totalCount % pageSize == 0){
+//						totalPages = totalCount/pageSize;
+//					}else{
+//						totalPages = totalCount/pageSize + 1;
+//					}
+//					//totalPages = Math.round(totalCount/pageSize);
+//					SearchQuery nativeSearchQueryBuilder = new NativeSearchQueryBuilder()
+//							//.withQuery(functionScoreQueryBuilderAgg)
+//							.withQuery(functionScoreQueryBuilder)
+//							.withSearchType(SearchType.QUERY_THEN_FETCH)
+//							.withIndices("jiance").withTypes("jc")
+//							//.addAggregation(AggregationBuilders.terms("agpubyear").field("pubyear").order(Terms.Order.count(false)).size(10))
+//							.addAggregation(AggregationBuilders.terms("aglanmu").field("lanmu").order(Terms.Order.count(false)).size(10))
+//							.addAggregation(AggregationBuilders.terms("aginstitution").field("institution").order(Terms.Order.count(false)).size(10))
+//							//.addAggregation(AggregationBuilders.terms("agauthor").field("author").order(Terms.Order.count(false)).size(10))
+//							.build();
+//					Aggregations aggregations = esTemplate.query(nativeSearchQueryBuilder, new ResultsExtractor<Aggregations>() {
+//				        @Override
+//				        public Aggregations extract(SearchResponse response) {
+//				            return response.getAggregations();
+//				        }
+//				    });
+//					long ld=System.currentTimeMillis();
+//					long le = ld-lb;
+//					System.out.println("查询后时间2 ====  "+le );
+//					
+//					if(aggregations != null) {
+////						StringTerms yearTerms = (StringTerms) aggregations.asMap().get("agpubyear");
+////						Iterator<Bucket> yearbit = yearTerms.getBuckets().iterator();
+////						Map<String, Long> yearMap = new HashMap<String, Long>();
+////						while(yearbit.hasNext()) {
+////							Bucket yearBucket = yearbit.next();
+////							yearMap.put(yearBucket.getKey().toString(), Long.valueOf(yearBucket.getDocCount()));
+////						}
+////						model.addAttribute("agyear", yearMap);
+//						
+//						StringTerms institutionTerms = (StringTerms) aggregations.asMap().get("aginstitution");
+//						Iterator<Bucket> institutionbit = institutionTerms.getBuckets().iterator();
+//						Map<String, Long> institutionMap = new HashMap<String, Long>();
+//						while(institutionbit.hasNext()) {
+//							Bucket institutionBucket = institutionbit.next();
+//							institutionMap.put(institutionBucket.getKey().toString(), Long.valueOf(institutionBucket.getDocCount()));
+//						}
+//						model.addAttribute("aginstitution", institutionMap);
+//						
+//						StringTerms journalTerms = (StringTerms) aggregations.asMap().get("aglanmu");
+//						Iterator<Bucket> journalbit = journalTerms.getBuckets().iterator();
+//						Map<String, Long> journalMap = new HashMap<String, Long>();
+//						while(journalbit.hasNext()) {
+//							Bucket journalBucket = journalbit.next();
+//							journalMap.put(journalBucket.getKey().toString(), Long.valueOf(journalBucket.getDocCount()));
+//						}
+//						model.addAttribute("aglanmu", journalMap);
+//						
+//					}
+//				//}
+//			}else {
+//				// 分页参数
+//				//Pageable pageable = new PageRequest(pageIndex, pageSize);
+//				Sort sort = new Sort(Direction.DESC, "pubtime");
+//				Pageable pageable = new PageRequest(pageIndex, pageSize,sort);
+//				BoolQueryBuilder queryBuilder = QueryBuilders.boolQuery().should(QueryBuilders.matchPhraseQuery("title", q)).should(QueryBuilders.matchPhraseQuery("description", q));
+////				if(year != null) {
+////					String[] years = year.split(",");
+////					queryBuilder.filter(QueryBuilders.termsQuery("year", years));
+////				}
+//				if(institution != null && !institution.equals("")) {
+//					try {
+//						institution = URLDecoder.decode(institution, "UTF-8");
+//					} catch (UnsupportedEncodingException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//					String[] institutions = institution.split(",");
+//					queryBuilder.filter(QueryBuilders.termsQuery("institution", institutions));
+//				}
+//				if(lanmu != null && !lanmu.equals("")) {
+//					try {
+//						lanmu = URLDecoder.decode(lanmu, "UTF-8");
+//					} catch (UnsupportedEncodingException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//					String[] lanmus = lanmu.split(",");
+//					queryBuilder.filter(QueryBuilders.termsQuery("lanmu", lanmus));
+//				}
+//				
+//				// 分数，并自动按分排序
+//				FunctionScoreQueryBuilder functionScoreQueryBuilder = QueryBuilders.functionScoreQuery(queryBuilder, ScoreFunctionBuilders.weightFactorFunction(1000));
+//
+//				// 分数、分页
+//				SearchQuery searchQuery = new NativeSearchQueryBuilder().withPageable(pageable)
+//						.withQuery(functionScoreQueryBuilder).build();
+//
+//				Page<Jiance> searchPageResults = paperRepository.search(searchQuery);
+//				paperList = searchPageResults.getContent();
+//				totalCount = esTemplate.count(searchQuery, Jiance.class);
+//				
+//				
+//				BoolQueryBuilder queryBuilderAgg = QueryBuilders.boolQuery().filter(QueryBuilders.matchPhraseQuery("title", q)).should(QueryBuilders.matchPhraseQuery("description", q));
+//				FunctionScoreQueryBuilder functionScoreQueryBuilderAgg = QueryBuilders.functionScoreQuery(queryBuilderAgg, ScoreFunctionBuilders.weightFactorFunction(1000));
+//				List<String> pList=new ArrayList<>();
+//				SearchQuery nativeSearchQueryBuilder = new NativeSearchQueryBuilder()
+//						.withQuery(functionScoreQueryBuilderAgg)
+//						.withSearchType(SearchType.QUERY_THEN_FETCH)
+//						.withIndices("jiance").withTypes("jc")
+//						//.addAggregation(AggregationBuilders.terms("agpubyear").field("pubyear").order(Terms.Order.count(false)).size(10))
+//						.addAggregation(AggregationBuilders.terms("aglanmu").field("lanmu").order(Terms.Order.count(false)).size(10))
+//						.addAggregation(AggregationBuilders.terms("aginstitution").field("institution").order(Terms.Order.count(false)).size(10))
+//						//.addAggregation(AggregationBuilders.terms("agauthor").field("author").order(Terms.Order.count(false)).size(10))
+//						.build();
+//				Aggregations aggregations = esTemplate.query(nativeSearchQueryBuilder, new ResultsExtractor<Aggregations>() {
+//			        @Override
+//			        public Aggregations extract(SearchResponse response) {
+//			            return response.getAggregations();
+//			        }
+//			    });
+//				long ld=System.currentTimeMillis();
+//				long le = ld-lb;
+//				System.out.println("查询后时间3 ====  "+le );
+//				if(aggregations != null) {
+////					StringTerms yearTerms = (StringTerms) aggregations.asMap().get("agpubyear");
+////					Iterator<Bucket> yearbit = yearTerms.getBuckets().iterator();
+////					Map<String, Long> yearMap = new HashMap<String, Long>();
+////					while(yearbit.hasNext()) {
+////						Bucket yearBucket = yearbit.next();
+////						yearMap.put(yearBucket.getKey().toString(), Long.valueOf(yearBucket.getDocCount()));
+////					}
+////					model.addAttribute("agyear", yearMap);
+//					
+//					StringTerms institutionTerms = (StringTerms) aggregations.asMap().get("aginstitution");
+//					Iterator<Bucket> institutionbit = institutionTerms.getBuckets().iterator();
+//					Map<String, Long> institutionMap = new HashMap<String, Long>();
+//					while(institutionbit.hasNext()) {
+//						Bucket institutionBucket = institutionbit.next();
+//						institutionMap.put(institutionBucket.getKey().toString(), Long.valueOf(institutionBucket.getDocCount()));
+//					}
+//					model.addAttribute("aginstitution", institutionMap);
+//					
+//					StringTerms journalTerms = (StringTerms) aggregations.asMap().get("aglanmu");
+//					Iterator<Bucket> journalbit = journalTerms.getBuckets().iterator();
+//					Map<String, Long> journalMap = new HashMap<String, Long>();
+//					while(journalbit.hasNext()) {
+//						Bucket journalBucket = journalbit.next();
+//						journalMap.put(journalBucket.getKey().toString(), Long.valueOf(journalBucket.getDocCount()));
+//					}
+//					model.addAttribute("aglanmu", journalMap);
+//					
+//				}
+//				//totalPages = Math.round(totalCount/pageSize);
+//				if(totalCount % pageSize == 0){
+//					totalPages = totalCount/pageSize;
+//				}else{
+//					totalPages = totalCount/pageSize + 1;
+//				}
+//				//totalPages = Math.round(totalCount/pageSize);
+//				
+//			}
+//		}
+//		for(Jiance jc: paperList) {
+//			jc.setDescription(jc.getDescription().replace("&lt;", "<"));
+//			jc.setDescription(jc.getDescription().replace("&gt;", ">"));
+//		}
+//		long la = System.currentTimeMillis();
+//		//System.out.println("查询前时间 ====  "+la );
+//		DataDiscoveryServiceImpl dataDiscoveryService = new DataDiscoveryServiceImpl();
+//		JSONObject json_send= dataDiscoveryService.jiance(q,year,institution,lanmu,pageIndex);
+//		System.out.println("我的  " + (System.currentTimeMillis() - la));
+//		model.addAttribute("paperList", paperList);
+//		model.addAttribute("pageSize", pageSize);
+//		model.addAttribute("pageIndex", pageIndex);
+//		model.addAttribute("totalPages", totalPages);
+//		model.addAttribute("totalCount", totalCount);
+//		model.addAttribute("query", q);
+//		model.addAttribute("ins", institution);
+//		model.addAttribute("lanmu", lanmu);
+//			
+//		return view;
+//	}
 	
 	@GetMapping(value = "jiance/jiancelist")
 	public String projects(@RequestParam(required=false,value="q") String q,
@@ -75,216 +322,15 @@ public class JianceController {
 		long totalCount = 0L;
 		long totalPages = 0L;
 		List<Jiance> paperList = new ArrayList<Jiance>();
+		
+		DataDiscoveryServiceImpl dataDiscoveryService = new DataDiscoveryServiceImpl();
+		JSONObject json_send= dataDiscoveryService.jiance(q,year,institution,lanmu,pageIndex);
+		String total = json_send.getString("total");
+		JSONObject js = json_send.getJSONObject("hits");
+		
+
+		model.addAttribute("json_send", json_send);
 		String view = "T-jiance";
-		if(esTemplate.indexExists(Jiance.class)) {
-			if(q == null || q.equals("null") || q.equals("")) {
-				//totalCount = paperRepository.count();
-				//if(totalCount >0) {
-					Sort sort = new Sort(Direction.DESC, "pubtime");
-					Pageable pageable = new PageRequest(pageIndex, pageSize,sort);
-					//Pageable pageable = new PageRequest(pageIndex, pageSize);
-
-					BoolQueryBuilder queryBuilder = new BoolQueryBuilder();
-//					if(year != null) {
-//						String[] years = year.split(",");
-//						queryBuilder.filter(QueryBuilders.termsQuery("year", years));
-//					}
-					if(institution != null && !institution.equals("")) {
-						try {
-							institution = URLDecoder.decode(institution, "UTF-8");
-						} catch (UnsupportedEncodingException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						String[] institutions = institution.split(",");
-						queryBuilder.filter(QueryBuilders.termsQuery("institution", institutions));
-					}
-					if(lanmu != null && !lanmu.equals("")) {
-						try {
-							lanmu = URLDecoder.decode(lanmu, "UTF-8");
-						} catch (UnsupportedEncodingException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						String[] lanmus = lanmu.split(",");
-						queryBuilder.filter(QueryBuilders.termsQuery("lanmu", lanmus));
-					}
-					
-					// 分数，并自动按分排序
-					FunctionScoreQueryBuilder functionScoreQueryBuilder = QueryBuilders.functionScoreQuery(queryBuilder, ScoreFunctionBuilders.weightFactorFunction(1000));
-					SearchQuery searchQuery = new NativeSearchQueryBuilder()
-							.withPageable(pageable).withQuery(functionScoreQueryBuilder).build();
-					Page<Jiance> projectsPage = paperRepository.search(searchQuery);
-					paperList = projectsPage.getContent();
-					
-					totalCount = esTemplate.count(searchQuery, Jiance.class);
-					if(totalCount % pageSize == 0){
-						totalPages = totalCount/pageSize;
-					}else{
-						totalPages = totalCount/pageSize + 1;
-					}
-					//totalPages = Math.round(totalCount/pageSize);
-					SearchQuery nativeSearchQueryBuilder = new NativeSearchQueryBuilder()
-							//.withQuery(functionScoreQueryBuilderAgg)
-							.withQuery(functionScoreQueryBuilder)
-							.withSearchType(SearchType.QUERY_THEN_FETCH)
-							.withIndices("jiance").withTypes("jc")
-							//.addAggregation(AggregationBuilders.terms("agpubyear").field("pubyear").order(Terms.Order.count(false)).size(10))
-							.addAggregation(AggregationBuilders.terms("aglanmu").field("lanmu").order(Terms.Order.count(false)).size(10))
-							.addAggregation(AggregationBuilders.terms("aginstitution").field("institution").order(Terms.Order.count(false)).size(10))
-							//.addAggregation(AggregationBuilders.terms("agauthor").field("author").order(Terms.Order.count(false)).size(10))
-							.build();
-					Aggregations aggregations = esTemplate.query(nativeSearchQueryBuilder, new ResultsExtractor<Aggregations>() {
-				        @Override
-				        public Aggregations extract(SearchResponse response) {
-				            return response.getAggregations();
-				        }
-				    });
-					
-					if(aggregations != null) {
-//						StringTerms yearTerms = (StringTerms) aggregations.asMap().get("agpubyear");
-//						Iterator<Bucket> yearbit = yearTerms.getBuckets().iterator();
-//						Map<String, Long> yearMap = new HashMap<String, Long>();
-//						while(yearbit.hasNext()) {
-//							Bucket yearBucket = yearbit.next();
-//							yearMap.put(yearBucket.getKey().toString(), Long.valueOf(yearBucket.getDocCount()));
-//						}
-//						model.addAttribute("agyear", yearMap);
-						
-						StringTerms institutionTerms = (StringTerms) aggregations.asMap().get("aginstitution");
-						Iterator<Bucket> institutionbit = institutionTerms.getBuckets().iterator();
-						Map<String, Long> institutionMap = new HashMap<String, Long>();
-						while(institutionbit.hasNext()) {
-							Bucket institutionBucket = institutionbit.next();
-							institutionMap.put(institutionBucket.getKey().toString(), Long.valueOf(institutionBucket.getDocCount()));
-						}
-						model.addAttribute("aginstitution", institutionMap);
-						
-						StringTerms journalTerms = (StringTerms) aggregations.asMap().get("aglanmu");
-						Iterator<Bucket> journalbit = journalTerms.getBuckets().iterator();
-						Map<String, Long> journalMap = new HashMap<String, Long>();
-						while(journalbit.hasNext()) {
-							Bucket journalBucket = journalbit.next();
-							journalMap.put(journalBucket.getKey().toString(), Long.valueOf(journalBucket.getDocCount()));
-						}
-						model.addAttribute("aglanmu", journalMap);
-						
-					}
-				//}
-			}else {
-				// 分页参数
-				//Pageable pageable = new PageRequest(pageIndex, pageSize);
-				Sort sort = new Sort(Direction.DESC, "pubtime");
-				Pageable pageable = new PageRequest(pageIndex, pageSize,sort);
-				BoolQueryBuilder queryBuilder = QueryBuilders.boolQuery().should(QueryBuilders.matchPhraseQuery("title", q)).should(QueryBuilders.matchPhraseQuery("description", q));
-//				if(year != null) {
-//					String[] years = year.split(",");
-//					queryBuilder.filter(QueryBuilders.termsQuery("year", years));
-//				}
-				if(institution != null && !institution.equals("")) {
-					try {
-						institution = URLDecoder.decode(institution, "UTF-8");
-					} catch (UnsupportedEncodingException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					String[] institutions = institution.split(",");
-					queryBuilder.filter(QueryBuilders.termsQuery("institution", institutions));
-				}
-				if(lanmu != null && !lanmu.equals("")) {
-					try {
-						lanmu = URLDecoder.decode(lanmu, "UTF-8");
-					} catch (UnsupportedEncodingException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					String[] lanmus = lanmu.split(",");
-					queryBuilder.filter(QueryBuilders.termsQuery("lanmu", lanmus));
-				}
-				
-				// 分数，并自动按分排序
-				FunctionScoreQueryBuilder functionScoreQueryBuilder = QueryBuilders.functionScoreQuery(queryBuilder, ScoreFunctionBuilders.weightFactorFunction(1000));
-
-				// 分数、分页
-				SearchQuery searchQuery = new NativeSearchQueryBuilder().withPageable(pageable)
-						.withQuery(functionScoreQueryBuilder).build();
-
-				Page<Jiance> searchPageResults = paperRepository.search(searchQuery);
-				paperList = searchPageResults.getContent();
-				totalCount = esTemplate.count(searchQuery, Jiance.class);
-				
-				
-				BoolQueryBuilder queryBuilderAgg = QueryBuilders.boolQuery().filter(QueryBuilders.matchPhraseQuery("title", q)).should(QueryBuilders.matchPhraseQuery("description", q));
-				FunctionScoreQueryBuilder functionScoreQueryBuilderAgg = QueryBuilders.functionScoreQuery(queryBuilderAgg, ScoreFunctionBuilders.weightFactorFunction(1000));
-				List<String> pList=new ArrayList<>();
-				SearchQuery nativeSearchQueryBuilder = new NativeSearchQueryBuilder()
-						.withQuery(functionScoreQueryBuilderAgg)
-						.withSearchType(SearchType.QUERY_THEN_FETCH)
-						.withIndices("jiance").withTypes("jc")
-						//.addAggregation(AggregationBuilders.terms("agpubyear").field("pubyear").order(Terms.Order.count(false)).size(10))
-						.addAggregation(AggregationBuilders.terms("aglanmu").field("lanmu").order(Terms.Order.count(false)).size(10))
-						.addAggregation(AggregationBuilders.terms("aginstitution").field("institution").order(Terms.Order.count(false)).size(10))
-						//.addAggregation(AggregationBuilders.terms("agauthor").field("author").order(Terms.Order.count(false)).size(10))
-						.build();
-				Aggregations aggregations = esTemplate.query(nativeSearchQueryBuilder, new ResultsExtractor<Aggregations>() {
-			        @Override
-			        public Aggregations extract(SearchResponse response) {
-			            return response.getAggregations();
-			        }
-			    });
-				
-				if(aggregations != null) {
-//					StringTerms yearTerms = (StringTerms) aggregations.asMap().get("agpubyear");
-//					Iterator<Bucket> yearbit = yearTerms.getBuckets().iterator();
-//					Map<String, Long> yearMap = new HashMap<String, Long>();
-//					while(yearbit.hasNext()) {
-//						Bucket yearBucket = yearbit.next();
-//						yearMap.put(yearBucket.getKey().toString(), Long.valueOf(yearBucket.getDocCount()));
-//					}
-//					model.addAttribute("agyear", yearMap);
-					
-					StringTerms institutionTerms = (StringTerms) aggregations.asMap().get("aginstitution");
-					Iterator<Bucket> institutionbit = institutionTerms.getBuckets().iterator();
-					Map<String, Long> institutionMap = new HashMap<String, Long>();
-					while(institutionbit.hasNext()) {
-						Bucket institutionBucket = institutionbit.next();
-						institutionMap.put(institutionBucket.getKey().toString(), Long.valueOf(institutionBucket.getDocCount()));
-					}
-					model.addAttribute("aginstitution", institutionMap);
-					
-					StringTerms journalTerms = (StringTerms) aggregations.asMap().get("aglanmu");
-					Iterator<Bucket> journalbit = journalTerms.getBuckets().iterator();
-					Map<String, Long> journalMap = new HashMap<String, Long>();
-					while(journalbit.hasNext()) {
-						Bucket journalBucket = journalbit.next();
-						journalMap.put(journalBucket.getKey().toString(), Long.valueOf(journalBucket.getDocCount()));
-					}
-					model.addAttribute("aglanmu", journalMap);
-					
-				}
-				//totalPages = Math.round(totalCount/pageSize);
-				if(totalCount % pageSize == 0){
-					totalPages = totalCount/pageSize;
-				}else{
-					totalPages = totalCount/pageSize + 1;
-				}
-				//totalPages = Math.round(totalCount/pageSize);
-				
-			}
-		}
-		for(Jiance jc: paperList) {
-			jc.setDescription(jc.getDescription().replace("&lt;", "<"));
-			jc.setDescription(jc.getDescription().replace("&gt;", ">"));
-		}
-		model.addAttribute("paperList", paperList);
-		model.addAttribute("pageSize", pageSize);
-		model.addAttribute("pageIndex", pageIndex);
-		model.addAttribute("totalPages", totalPages);
-		model.addAttribute("totalCount", totalCount);
-		model.addAttribute("query", q);
-		model.addAttribute("ins", institution);
-		model.addAttribute("lanmu", lanmu);
-			
 		return view;
 	}
 	
