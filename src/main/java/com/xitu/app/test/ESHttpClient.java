@@ -450,6 +450,12 @@ public class ESHttpClient implements Serializable {
         return json;
     }
     
+    public static JSONObject conESTerm(String conn){
+		ESHttpClient indexer = new ESHttpClient("10.0.11.239:9200", "triples","doc");
+	    ESHttpClient.debug = true;
+	    JSONObject json = indexer.execute(conn);
+	    return json;
+	}
     public static String createQqueryByUuid(String value){
     	JSONObject query = new JSONObject();
     	JSONObject term = new JSONObject();
@@ -5787,7 +5793,7 @@ public static String createQueryJsonImplProject(String value,String year,int pag
 //        	JSONObject uuids = new JSONObject();
 //        	JSONObject order1s = new JSONObject();
 //        	order1s.put("order", "desc");
-//        	uuids.put("title",order1s);
+//        	uuids.put("",order1s);
 //        	sort.add(uuids);
 //        	query.put("sort",sort);
         	
