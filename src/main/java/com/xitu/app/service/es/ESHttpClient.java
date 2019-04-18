@@ -1,19 +1,15 @@
-package com.xitu.app.test;
+package com.xitu.app.service.es;
 
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.xitu.app.test.http.Request;
@@ -5702,37 +5698,33 @@ public static String createQueryJsonImplProject(String value,String year,int pag
         	
         	JSONObject bool1 = new JSONObject();
         	JSONObject bool2 = new JSONObject();
+        	JSONObject bool4 = new JSONObject();
+        	JSONObject bool3 = new JSONObject();
+        	JSONArray should = new JSONArray();
+        	JSONObject multi_match = new JSONObject();
         	
         	
-        	JSONArray must1 = new JSONArray();
+        	JSONArray must = new JSONArray();
         	
+        	JSONObject param = new JSONObject();
+        	String[] arr =  new String[]{"title","description"};
         	
     		if (q != null && !q.equals("") && !q.equals("null")) {
-    			JSONObject bool4 = new JSONObject();
-    	    	JSONObject bool3 = new JSONObject();
-    	    	JSONArray should = new JSONArray();
     	    	
-    	    		JSONObject param = new JSONObject();
-    	    		JSONObject multi_match = new JSONObject();
-    		    	String[] arr = null;
-    		    	arr = new String[]{
-    		    			"title",
-    						"description"};
-    		    	param.put("query", q);
-    		    	param.put("operator", "and");
-    		    	param.put("type", "cross_fields");
-    		    	param.put("fields", arr);
-    		    	//param.put("type", "best_fields");
-    		    	multi_match.put("multi_match", param);
-    		    	should.add(multi_match);
+		    	param.put("query", q);
+		    	param.put("operator", "and");
+		    	param.put("type", "cross_fields");
+		    	param.put("fields", arr);
+		    	//param.put("type", "best_fields");
+		    	multi_match.put("multi_match", param);
+		    	should.add(multi_match);
     	    	
     	    	bool4.put("should", should);
     		    bool3.put("bool", bool4);
-    		    must1.add(bool3);
+    		    must.add(bool3);
     		}else{
-    			JSONObject param = new JSONObject();
     			match_all.put("match_all", param);
-    	    	must1.add(match_all);
+    	    	must.add(match_all);
     		}
         	
         	if (lanmu != null && !lanmu.equals("") && !lanmu.equals("null")) {
@@ -5740,7 +5732,7 @@ public static String createQueryJsonImplProject(String value,String year,int pag
     			JSONObject uuid = new JSONObject();
     			uuid.put("lanmu", lanmu);
     			match.put("match", uuid);
-    			must1.add(match);
+    			must.add(match);
     		}
     		
     		if (institution != null  && !institution.equals("") && !institution.equals("null")) {
@@ -5751,19 +5743,19 @@ public static String createQueryJsonImplProject(String value,String year,int pag
     					JSONObject jous = new JSONObject();
     					jous.put("institution", s);
     					match.put("match", jous);
-    					must1.add(match);
+    					must.add(match);
     				}
     	    	}else{
     	    		JSONObject match = new JSONObject();
     	    		JSONObject jous = new JSONObject();
     	    		jous.put("institution", institution);
     	    		match.put("match", jous);
-    	    		must1.add(match);
+    	    		must.add(match);
     	    	}
     			
     		}
     		
-        	bool2.put("must",must1);
+        	bool2.put("must",must);
         	
         	bool1.put("bool", bool2);
         	query.put("query", bool1);

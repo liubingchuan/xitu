@@ -2,9 +2,9 @@ package com.xitu.app.annotation;
 
 import java.lang.annotation.*;
 
-
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface DontMapping {
+public @interface AggQuery {
+    int size() default 15;
 }

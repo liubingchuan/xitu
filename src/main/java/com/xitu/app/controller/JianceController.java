@@ -45,7 +45,9 @@ import com.xitu.app.model.Paper;
 import com.xitu.app.model.Task;
 import com.xitu.app.repository.JianceRepository;
 import com.xitu.app.repository.PaperRepository;
+import com.xitu.app.service.es.JianceService;
 import com.xitu.app.test.DataDiscoveryServiceImpl;
+import com.xitu.app.utils.ThreadLocalUtil;
 
 
 
@@ -60,6 +62,11 @@ public class JianceController {
 	
 	@Autowired
 	private ElasticsearchTemplate esTemplate;
+	
+	@Autowired
+	private JianceService jianceService;
+	
+	
 	
 //	@GetMapping(value = "jiance/jiancelist")
 //	public String projects(@RequestParam(required=false,value="q") String q,
@@ -319,17 +326,17 @@ public class JianceController {
 		if(pageIndex == null) {
 			pageIndex = 0;
 		}
-		long totalCount = 0L;
-		long totalPages = 0L;
-		List<Jiance> paperList = new ArrayList<Jiance>();
+		model.addAttribute("pageIndex", pageIndex);
+		model.addAttribute("pageSize", pageSize);
+		ThreadLocalUtil.set(model);
+//		DataDiscoveryServiceImpl dataDiscoveryService = new DataDiscoveryServiceImpl();
+//		JSONObject json_send= dataDiscoveryService.jiance(q,year,institution,lanmu,pageIndex);
+//		String total = json_send.getString("total");
+//		JSONObject js = json_send.getJSONObject("hits");
 		
-		DataDiscoveryServiceImpl dataDiscoveryService = new DataDiscoveryServiceImpl();
-		JSONObject json_send= dataDiscoveryService.jiance(q,year,institution,lanmu,pageIndex);
-		String total = json_send.getString("total");
-		JSONObject js = json_send.getJSONObject("hits");
-		
-
-		model.addAttribute("json_send", json_send);
+		jianceService.execute(pageIndex, pageSize, q);
+//		System.out.println(response.toString());
+//		model.addAttribute("json_send", response);
 		String view = "T-jiance";
 		return view;
 	}

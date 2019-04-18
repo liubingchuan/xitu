@@ -1,9 +1,7 @@
 package com.xitu.app.test;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -32,7 +30,7 @@ import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.xitu.app.test.ESHttpClient;
+import com.xitu.app.service.es.ESHttpClient;
 
 
 public class DataDiscoveryServiceImpl {

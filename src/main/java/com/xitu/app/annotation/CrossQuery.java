@@ -2,9 +2,8 @@ package com.xitu.app.annotation;
 
 import java.lang.annotation.*;
 
-
-@Target({ElementType.FIELD})
+@Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface DontMapping {
+public @interface CrossQuery {
 }

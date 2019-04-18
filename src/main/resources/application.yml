@@ -32,3 +32,6 @@ mybatis:
     
 files:
   path: /root/files
+
+es:
+  endpoint: 45.77.86.209:9200
