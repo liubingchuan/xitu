@@ -328,13 +328,15 @@ public class JianceController {
 		}
 		model.addAttribute("pageIndex", pageIndex);
 		model.addAttribute("pageSize", pageSize);
+		// TODO 静态变量未环绕需调整
 		ThreadLocalUtil.set(model);
+		jianceService.execute(pageIndex, pageSize, q);
+		ThreadLocalUtil.remove();
 //		DataDiscoveryServiceImpl dataDiscoveryService = new DataDiscoveryServiceImpl();
 //		JSONObject json_send= dataDiscoveryService.jiance(q,year,institution,lanmu,pageIndex);
 //		String total = json_send.getString("total");
 //		JSONObject js = json_send.getJSONObject("hits");
 		
-		jianceService.execute(pageIndex, pageSize, q);
 //		System.out.println(response.toString());
 //		model.addAttribute("json_send", response);
 		String view = "T-jiance";
