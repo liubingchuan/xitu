@@ -335,7 +335,7 @@ public class JianceController {
 		jianceService.execute(pageIndex, pageSize, q,institutions,lanmus);
 		ThreadLocalUtil.remove();
 //		DataDiscoveryServiceImpl dataDiscoveryService = new DataDiscoveryServiceImpl();
-//		JSONObject json_send= dataDiscoveryService.jiance(q,year,institution,lanmu,pageIndex);
+//		JSONObject json_send= dataDiscoveryService.jiance(q,year,institutions,lanmus,pageIndex);
 //		String total = json_send.getString("total");
 //		JSONObject js = json_send.getJSONObject("hits");
 		

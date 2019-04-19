@@ -6,6 +6,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -101,10 +102,10 @@ public abstract class AbstractESHttpService implements ESHttpService {
     	JSONObject bool2 = new JSONObject();
 		JSONObject bool4 = new JSONObject();
     	JSONObject bool3 = new JSONObject();
-		if (args == null || args.length==0) {
+		if (args == null || args.length==0 || args[0] == null) {
 		    match_all.put("match_all", param);
 		    must.add(match_all);
-		}else if(args.length == 1){
+		}else {
 			param.put("query", args[0]);
 			param.put("operator", "and");
 			param.put("type", "cross_fields");
@@ -115,7 +116,6 @@ public abstract class AbstractESHttpService implements ESHttpService {
 			bool4.put("should", should);
 			bool3.put("bool", bool4);
 			must.add(bool3);
-		}else {
 			for(int i=1;i<args.length;i++) {
 				if(isNotBlank(args[i])) {
 					if(args[i].contains(",")){
@@ -171,8 +171,14 @@ public abstract class AbstractESHttpService implements ESHttpService {
 		JSONObject hits = response.getJSONObject("hits");
 		Integer totalCount = hits.getInteger("total"); 
 		JSONArray list = hits.getJSONArray("hits");
+		List sources = new LinkedList();
+		for(int i=0;i<list.size();i++) {
+			JSONObject obj = list.getJSONObject(i);
+			JSONObject source = (JSONObject) obj.get("_source");
+			sources.add(source);
+		}
 		Model model = ThreadLocalUtil.get();
-		model.addAttribute("list", list.toJavaList(getEntityClass()));
+		model.addAttribute("list", sources);
 		model.addAttribute("totalCount", totalCount);
 		long totalPages = 0L;
 		if (totalCount > 0) {
