@@ -19,6 +19,7 @@ import com.xitu.app.annotation.AggQuery;
 import com.xitu.app.annotation.CrossQuery;
 import com.xitu.app.annotation.DontMapping;
 import com.xitu.app.annotation.SingleQuery;
+import com.xitu.app.model.Jiance;
 import com.xitu.app.utils.ThreadLocalUtil;
 
 public abstract class AbstractESHttpService implements ESHttpService {
@@ -144,6 +145,7 @@ public abstract class AbstractESHttpService implements ESHttpService {
     	query.put("query", bool1);
     	query.put("from",pageIndex);
     	query.put("size", pageSize);
+    	System.out.println("query ---  " + query.toString());
     	return query.toString();
 	}
 
@@ -172,6 +174,15 @@ public abstract class AbstractESHttpService implements ESHttpService {
 		Model model = ThreadLocalUtil.get();
 		model.addAttribute("list", list.toJavaList(getEntityClass()));
 		model.addAttribute("totalCount", totalCount);
+		long totalPages = 0L;
+		if (totalCount > 0) {
+			if(totalCount % 10 == 0){
+				totalPages = totalCount/10;
+			}else{
+				totalPages = totalCount/10 + 1;
+			}
+		}
+		model.addAttribute("totalPages", totalPages);
 		JSONObject aggregations = response.getJSONObject("aggregations");
 		Set<String> keys = aggregations.keySet();
 		for(String key : keys) {

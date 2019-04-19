@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.xitu.app.annotation.AggQuery;
 import com.xitu.app.annotation.CrossQuery;
+import com.xitu.app.annotation.SingleQuery;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -22,9 +23,11 @@ public class Jiance implements Serializable{
 	@CrossQuery
 	private String description; //正文
 	@AggQuery
+	@SingleQuery
 	@Field(type=FieldType.Keyword)
 	private String institution;//来源机构
 	@AggQuery
+	@SingleQuery
 	@Field(type=FieldType.Keyword)
 	private String lanmu;//栏目
 	@Field(type=FieldType.Keyword)
