@@ -104,7 +104,7 @@ public abstract class AbstractESHttpService implements ESHttpService {
     	JSONObject bool2 = new JSONObject();
 		JSONObject bool4 = new JSONObject();
     	JSONObject bool3 = new JSONObject();
-		if (args == null || args.length==0 || args[0] == null) {
+		if (args == null || args.length==0 || args[0] == null || "".equals(args[0])) {
 		    match_all.put("match_all", param);
 		    must.add(match_all);
 		}else {
@@ -118,26 +118,25 @@ public abstract class AbstractESHttpService implements ESHttpService {
 			bool4.put("should", should);
 			bool3.put("bool", bool4);
 			must.add(bool3);
-			for(int i=1;i<args.length;i++) {
-				if(isNotBlank(args[i])) {
-					if(args[i].contains(",")){
-						String[] split = args[i].split(",");
-						for(String s : split){
-							JSONObject match = new JSONObject();
-							JSONObject field = new JSONObject();
-							field.put(singleFields.get(i-1), s);
-							match.put("match", field);
-							must.add(match);
-						}
-					}else{
+		}
+		for(int i=1;i<args.length;i++) {
+			if(isNotBlank(args[i])) {
+				if(args[i].contains(",")){
+					String[] split = args[i].split(",");
+					for(String s : split){
 						JSONObject match = new JSONObject();
 						JSONObject field = new JSONObject();
-						field.put(singleFields.get(i-1), args[i]);
+						field.put(singleFields.get(i-1), s);
 						match.put("match", field);
 						must.add(match);
 					}
+				}else{
+					JSONObject match = new JSONObject();
+					JSONObject field = new JSONObject();
+					field.put(singleFields.get(i-1), args[i]);
+					match.put("match", field);
+					must.add(match);
 				}
-				
 			}
 			
 		}

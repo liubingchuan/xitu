@@ -25,6 +25,7 @@ public class User {
 	private String wechat;
 	private String stamp;
 	private String role;
+	private String openId;
 	
 	
 	public String getRole() {
@@ -110,6 +111,12 @@ public class User {
 	}
 	public void setStamp(String stamp) {
 		this.stamp = stamp;
+	}
+	public String getOpenId() {
+		return openId;
+	}
+	public void setOpenId(String openId) {
+		this.openId = openId;
 	}
 
 }

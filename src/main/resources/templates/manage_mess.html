@@ -90,63 +90,11 @@
 				</div>
 				<div class="M_messTwoTl clearfix">
 					<a href="javascript:;" class="ahover">
-						权限分配
-					</a>
-					<a href="javascript:;">
 						基本信息
 					</a>
 				</div>
 			    <div class="M_messTwoB">
-			    	<div class="M_messTwoBm active">
-			    		<form>
-			    		<div class="M_messGp clearfix">
-			    			<span class="left M_messGpName">
-			    				用户身份
-			    			</span>
-			    			<div class="M_messGpRt">
-			    				<select>
-			    					<option>
-			    						操作员
-			    					</option>
-			    				</select>
-			    			</div>
-			    		</div>
-			    		<div class="M_messGp clearfix">
-			    			<span class="left M_messGpName">
-			    				权限分配
-			    			</span>
-			    			<div class="M_messGpRt">
-			    				<div class="M_messQX">
-			    					<p class="M_messQXTl">
-			    						所属机构
-			    					</p>
-			    					<div class="M_messJG">
-			    						<input type="checkbox" id="1" />
-			    						<label for="1">东软医疗</label>
-			    					</div>
-			    					<div class="M_messJG">
-			    						<input type="checkbox" id="2" />
-			    						<label for="2">何氏-生物医药</label>
-			    					</div>
-			    					<div class="M_messJG">
-			    						<input type="checkbox" id="3" />
-			    						<label for="3">辽宁成大生物</label>
-			    					</div>
-			    					<div class="M_messJG">
-			    						<input type="checkbox" id="4" />
-			    						<label for="4">辽宁成大生物</label>
-			    					</div>
-			    					<div class="M_messJG">
-			    						<input type="checkbox" id="5" />
-			    						<label for="5">辽宁</label>
-			    					</div>
-			    				</div>
-			    			</div>
-			    		</div>
-			    		<input type="button" value="保存修改" class="M_messSub" />
-			    		</form>
-			    	</div>
-			        <div class="M_messTwoBm">
+			        <div class="M_messTwoBm active">
 			    		<form th:action="@{/user/update}" th:object="${user}" method="post" th:method="post">
 			    		<div class="M_messGp clearfix">
 			    			<span class="left M_messGpName">
@@ -159,6 +107,17 @@
 	    			             </div> -->
 			    			</div>
 			    		</div>
+						<div class="M_messGp clearfix">
+							<span class="left M_messGpName">
+								用户身份：
+							</span>
+							<div class="M_messGpRt">
+								<select th:field="*{role}"  th:value="*{role}" name="classis">
+									<option value="">请选择用户身份</option>
+									<option th:each="item : ${yhsfitems}" th:value="${item}" th:text="${item}"></option>
+								</select>
+							</div>
+						</div>
 			    		<div class="M_messGp clearfix">
 			    			<span class="left M_messGpName">
 			    				密码
@@ -236,8 +195,7 @@
 			    				微信名
 			    			</span>
 			    			<div class="M_messGpRt">
-			    				<span class="M_messGpText" th:field="*{wechat}">
-			    					大伟
+			    				<span class="M_messGpText" th:text="*{wechat}">
 			    				</span>
 			    			</div>
 			    		</div>

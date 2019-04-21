@@ -11,6 +11,10 @@ public class RegisterRequest extends BaseRequest{
 	private String password;
 
 	private String nickName;
+	
+	private String openId;
+	
+	
 
 	public String getAccount() {
 		return account;
@@ -22,6 +26,14 @@ public class RegisterRequest extends BaseRequest{
 
 	public String getEmail() {
 		return email;
+	}
+
+	public String getOpenId() {
+		return openId;
+	}
+
+	public void setOpenId(String openId) {
+		this.openId = openId;
 	}
 
 	public void setEmail(String email) {

@@ -2,6 +2,8 @@ package com.xitu.app.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,6 +26,7 @@ import com.xitu.app.constant.Constant;
 import com.xitu.app.mapper.UserMapper;
 import com.xitu.app.model.Message;
 import com.xitu.app.model.QrCodeParam;
+import com.xitu.app.model.User;
 import com.xitu.app.model.WeChatUserInfo;
 import com.xitu.app.service.Cache;
 import com.xitu.app.service.IMsgService;
@@ -124,6 +127,18 @@ public class WeChatController {
 						if (eventKeyValue.contains("_")) {
 							String[] ek = eventKeyValue.split("_");
 							cache.save(ek[1], openId + "%unbind");
+							String getUserInfoUrl = GETUSERINFOURL.replace("{ACCESS_TOKEN}", Constant.ACCESS_TOKEN).replace("{OPENID}", openId);
+							String userInfoStr = HttpRequest.get(getUserInfoUrl, null, false);
+					        WeChatUserInfo weChatUserInfo = GsonUtil.fromJson(userInfoStr, WeChatUserInfo.class);
+					        String nickName = weChatUserInfo.getNickName();
+					        User user = new User();
+					        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					        user.setWechat(nickName);
+					        user.setOpenId(openId);
+					        user.setStamp(df.format(new Date()));
+					        userMapper.insertUser(user);
+					        System.out.println("插入新的用户，wechat 名字为 " + nickName);
+					        System.out.println("插入新的用户，openId 为 " + openId);
 						}
 					} else if (event.equals(Constant.Event.CLICK)) { // 自定义菜单点击事件
 						String eventKey = map.get("EventKey");

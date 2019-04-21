@@ -527,7 +527,7 @@
 // 	                        var resObj = JSON.parse(res);
 	                        if (resObj.code == 200) {
 	                            window.clearInterval(time);
-		        				$.cookie("account",resObj.openId);
+		        				$.cookie("openId",resObj.openId);
 		        				$.cookie("nickName",resObj.nickName);
 		        				$.cookie("headImg",resObj.headUrl);
 
@@ -547,10 +547,10 @@
 	            }
 	    	
 			 $(document).ready(function () {
-				console.log($.cookie("account"))
+				console.log($.cookie("openId"))
 				
 				$("#alertbd").css('display','none');
-				if($.cookie("account")!=null) {
+				if($.cookie("openId")!=null) {
 					$("#loginBefore").css('display','none'); 
 					$("#loginAfter").css('display','block');
 					$("#logoinName").html($.cookie("nickName"));
@@ -587,7 +587,7 @@
 				
 				
 				$("#quit").click(function(){
-					$.cookie("account", "", {expires: -1});
+					$.cookie("openId", "", {expires: -1});
 					$.cookie("nickName", "", {expires: -1});
 					$.cookie("headImg", "", {expires: -1});
 					window.location.href = "/";

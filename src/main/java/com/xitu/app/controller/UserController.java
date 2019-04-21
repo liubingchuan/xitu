@@ -1,11 +1,14 @@
 package com.xitu.app.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.xitu.app.mapper.ItemMapper;
+import com.xitu.app.model.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +45,9 @@ public class UserController {
 	
 	@Autowired
     private UserMapper userMapper;
+
+	@Autowired
+	private ItemMapper itemMapper;
 	
 	@Autowired
     private Cache cache;
@@ -63,28 +69,26 @@ public class UserController {
 	@RequestMapping(value = "user/bind", method = RequestMethod.POST,consumes = "application/json")
 	public R bind(@RequestBody RegisterRequest request) {
 		System.out.println("entering binding");
+		String openId = request.getOpenId();
 		String account = request.getAccount();
-		System.out.println("account is " + account);
+		System.out.println("openId is " + openId);
 		String password = request.getPassword();
 		System.out.println("password is " + password);
 		String email = request.getEmail();
 		System.out.println("email is " + email);
 		String nickName = request.getNickName();
 		System.out.println("nickName is " + nickName);
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
 		User user = userMapper.getUserByAccount(account);
 		if(user != null) {
-			System.out.println("user is not null");
+			System.out.println("the account has been registered early");
 			return R.error().put("token", "0");
 		}
 		user = new User();
 		user.setAccount(account);
 		user.setPassword(password);
 		user.setEmail(email);
-		user.setWechat(nickName);
-		user.setStamp(df.format(new Date()));
-		userMapper.insertUser(user);
-		System.out.println("成功插入数据");
+		userMapper.updateByOpenId(user);
 		System.out.println("binding successfully");
 		
 		return R.ok();
@@ -169,6 +173,14 @@ public class UserController {
 	public String getUser(@RequestParam("account") String account, Model model) {
 		User user = userMapper.getUserByAccount(account);
 		model.addAttribute("user", user);
+
+		Item yhsfitem = itemMapper.selectItemByService("yhsf");
+		List<String> yhsfitemitems = new ArrayList<String>();
+		for(String s: yhsfitem.getItem().split(";")) {
+			yhsfitemitems.add(s);
+		}
+		model.addAttribute("yhsfitems", yhsfitemitems);
+
 		return "manage_mess";
 	}
 	

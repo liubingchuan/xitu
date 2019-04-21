@@ -20,6 +20,7 @@ public class SaveItemRequest extends BaseRequest{
 	private List<String> cplx;
 	private List<String> zw;
 	private List<String> zc;
+	private List<String> yhsf;
 	public List<String> getXxcjlm() {
 		return xxcjlm;
 	}
@@ -104,6 +105,12 @@ public class SaveItemRequest extends BaseRequest{
 	public void setZc(List<String> zc) {
 		this.zc = zc;
 	}
-	
-	
+
+	public List<String> getYhsf() {
+		return yhsf;
+	}
+
+	public void setYhsf(List<String> yhsf) {
+		this.yhsf = yhsf;
+	}
 }

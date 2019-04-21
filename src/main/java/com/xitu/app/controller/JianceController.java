@@ -340,13 +340,13 @@ public class JianceController {
 		model.addAttribute("institutions", institutions);
 		model.addAttribute("lanmus", lanmus);
 		// TODO 静态变量未环绕需调整
-//		ThreadLocalUtil.set(model);
-//		jianceService.execute(pageIndex, pageSize, q,institutions,lanmus);
-//		ThreadLocalUtil.remove();
-		DataDiscoveryServiceImpl dataDiscoveryService = new DataDiscoveryServiceImpl();
-		JSONObject json_send= dataDiscoveryService.jiance(q,year,institutions,lanmus,pageIndex);
-		String total = json_send.getString("total");
-		JSONObject js = json_send.getJSONObject("hits");
+		ThreadLocalUtil.set(model);
+		jianceService.execute(pageIndex, pageSize, q,institutions,lanmus);
+		ThreadLocalUtil.remove();
+//		DataDiscoveryServiceImpl dataDiscoveryService = new DataDiscoveryServiceImpl();
+//		JSONObject json_send= dataDiscoveryService.jiance(q,year,institutions,lanmus,pageIndex);
+//		String total = json_send.getString("total");
+//		JSONObject js = json_send.getJSONObject("hits");
 		
 //		System.out.println(response.toString());
 //		model.addAttribute("json_send", response);
