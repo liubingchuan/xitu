@@ -344,8 +344,8 @@ public class JianceController {
 		
 		model.addAttribute("pageIndex", pageIndex);
 		model.addAttribute("pageSize", pageSize);
-		model.addAttribute("institutions", institutions);
-		model.addAttribute("lanmus", lanmus);
+//		model.addAttribute("institutions", institutions);
+//		model.addAttribute("lanmus", lanmus);
 		// TODO 静态变量未环绕需调整
 		ThreadLocalUtil.set(model);
 		jianceService.execute(pageIndex, pageSize, q,institutions,lanmus);
