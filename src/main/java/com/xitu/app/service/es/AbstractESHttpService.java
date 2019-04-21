@@ -144,6 +144,8 @@ public abstract class AbstractESHttpService implements ESHttpService {
 					match.put("match", field);
 					must.add(match);
 				}
+				Model model = ThreadLocalUtil.get();
+				model.addAttribute(singleFields.get(i-1) + "s", args[i]);
 			}
 			
 		}
