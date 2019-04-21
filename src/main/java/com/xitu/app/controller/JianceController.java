@@ -326,21 +326,21 @@ public class JianceController {
 		if(pageIndex == null) {
 			pageIndex = 0;
 		}
-//		if (institutions != null) {
-//			try {
-//				institutions = URLDecoder.decode(institutions, "UTF-8");
-//			} catch (UnsupportedEncodingException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
-//		if (lanmus != null) {
-//			try {
-//				lanmus = URLDecoder.decode(lanmus, "UTF-8");
-//			} catch (UnsupportedEncodingException e) {
-//				e.printStackTrace();
-//			}
-//		}
+		if (institutions != null) {
+			try {
+				institutions = URLDecoder.decode(institutions, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		if (lanmus != null) {
+			try {
+				lanmus = URLDecoder.decode(lanmus, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		}
 		
 		model.addAttribute("pageIndex", pageIndex);
 		model.addAttribute("pageSize", pageSize);
