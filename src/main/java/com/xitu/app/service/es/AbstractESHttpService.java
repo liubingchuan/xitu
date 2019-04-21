@@ -106,7 +106,7 @@ public abstract class AbstractESHttpService implements ESHttpService {
     	JSONObject bool2 = new JSONObject();
 		JSONObject bool4 = new JSONObject();
     	JSONObject bool3 = new JSONObject();
-		if (args == null || args.length==0 || args[0] == null || "".equals(args[0])) {
+		if (args == null || args.length==0 || args[0] == null || "".equals(args[0]) || "null".equals(args[0])) {
 		    match_all.put("match_all", param);
 		    must.add(match_all);
 		}else {
@@ -122,7 +122,7 @@ public abstract class AbstractESHttpService implements ESHttpService {
 			must.add(bool3);
 		}
 		for(int i=1;i<args.length;i++) {
-			if(isNotBlank(args[i])) {
+			if(isNotBlank(args[i]) && !"null".equals(args[i])) {
 				try {
 					args[i] = URLDecoder.decode(args[i], "UTF-8");
 				} catch (UnsupportedEncodingException e) {
