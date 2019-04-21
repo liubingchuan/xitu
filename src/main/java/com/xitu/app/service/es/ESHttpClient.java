@@ -5791,7 +5791,7 @@ public static String createQueryJsonImplProject(String value,String year,int pag
         	
         	query.put("from",pageIndex);
         	query.put("size", pageSize);
-        	//System.out.println(query.toString());
+        	System.out.println("-- " + query.toString());
         	return query.toString();
         	
         }

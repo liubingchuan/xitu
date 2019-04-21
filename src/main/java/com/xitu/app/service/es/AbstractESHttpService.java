@@ -86,9 +86,11 @@ public abstract class AbstractESHttpService implements ESHttpService {
 				fz.put("size", size);
 				terms.put("terms", fz);
 				aggs.put(fieldName, terms);
-			} else if (crossQuery != null) {
+			} 
+			if (crossQuery != null) {
 				crossedFields.add(fieldName);
-			} else if(singleQuery != null) {
+			} 
+			if(singleQuery != null) {
 				singleFields.add(fieldName);
 			}
 		}

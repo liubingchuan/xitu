@@ -326,18 +326,27 @@ public class JianceController {
 		if(pageIndex == null) {
 			pageIndex = 0;
 		}
+		if (institutions != null) {
+			try {
+				institutions = URLDecoder.decode(institutions, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 		model.addAttribute("pageIndex", pageIndex);
 		model.addAttribute("pageSize", pageSize);
 		model.addAttribute("institutions", institutions);
 		model.addAttribute("lanmus", lanmus);
 		// TODO 静态变量未环绕需调整
-		ThreadLocalUtil.set(model);
-		jianceService.execute(pageIndex, pageSize, q,institutions,lanmus);
-		ThreadLocalUtil.remove();
-//		DataDiscoveryServiceImpl dataDiscoveryService = new DataDiscoveryServiceImpl();
-//		JSONObject json_send= dataDiscoveryService.jiance(q,year,institutions,lanmus,pageIndex);
-//		String total = json_send.getString("total");
-//		JSONObject js = json_send.getJSONObject("hits");
+//		ThreadLocalUtil.set(model);
+//		jianceService.execute(pageIndex, pageSize, q,institutions,lanmus);
+//		ThreadLocalUtil.remove();
+		DataDiscoveryServiceImpl dataDiscoveryService = new DataDiscoveryServiceImpl();
+		JSONObject json_send= dataDiscoveryService.jiance(q,year,institutions,lanmus,pageIndex);
+		String total = json_send.getString("total");
+		JSONObject js = json_send.getJSONObject("hits");
 		
 //		System.out.println(response.toString());
 //		model.addAttribute("json_send", response);
