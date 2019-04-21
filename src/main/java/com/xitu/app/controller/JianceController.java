@@ -334,6 +334,13 @@ public class JianceController {
 				e.printStackTrace();
 			}
 		}
+		if (lanmus != null) {
+			try {
+				lanmus = URLDecoder.decode(lanmus, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		}
 		
 		model.addAttribute("pageIndex", pageIndex);
 		model.addAttribute("pageSize", pageSize);
