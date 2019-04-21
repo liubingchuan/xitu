@@ -382,7 +382,7 @@
 	   <!--弹窗-->
 	    <div class="alertBg"></div>
 	    <!--登录二维码弹窗-->
-	    <div class="alertCon alertErw">
+	    <div class="alertCon alertErw" id="showcode">
 	    	<img id="showqrcode" th:src="@{/ximages/jiazai.png}" />
 	    	<p class="alertErwText">
 	    		<span>微信</span>扫描直接注册登陆
@@ -530,12 +530,17 @@
 		        				$.cookie("account",resObj.openId);
 		        				$.cookie("nickName",resObj.nickName);
 		        				$.cookie("headImg",resObj.headUrl);
-		                        // window.location.href = "/";
+
 	                            if(resObj.bind==="false") {
-									$("#alertbd").css('display','blocked');
-	                            }
+									$("#showcode").css('display','none');
+									// $("#showqrcode").css('display','none');
+	                            	$("#alertbd").css('display','block');
+	                            }else {
+									window.location.href = "/";
+								}
 	                        } else if (resObj.code == 1) {
 	                            window.clearInterval(time);
+	                            console.log("获取微信用户信息失败")
 	                        }
 	                    }
 	                });
@@ -544,17 +549,18 @@
 			 $(document).ready(function () {
 				console.log($.cookie("account"))
 				
-				$("#alertbd").css('display','none'); 
+				$("#alertbd").css('display','none');
 				if($.cookie("account")!=null) {
 					$("#loginBefore").css('display','none'); 
-					$("#loginAfter").css('display','block'); 
+					$("#loginAfter").css('display','block');
+					$("#logoinName").html($.cookie("nickName"));
+					$("#headImg").attr("src", $.cookie("headImg"));
 				}else {
 					$("#loginBefore").css('display','block'); 
 					$("#loginAfter").css('display','none'); 
 				}
 				
-			    $("#logoinName").html($.cookie("nickName"));
-			    $("#headImg").attr("src", $.cookie("headImg"));
+
 				
 				$("#loginBefore").click(function(){
 					getQcode();
@@ -580,10 +586,11 @@
 // 				}
 				
 				
-				$("#id").click(function(){
+				$("#quit").click(function(){
 					$.cookie("account", "", {expires: -1});
 					$.cookie("nickName", "", {expires: -1});
 					$.cookie("headImg", "", {expires: -1});
+					window.location.href = "/";
 				});
 				
 				 $("#bindButtion").click(function(){
@@ -619,6 +626,7 @@
 			        $.each(formArray,function(i,item){
 			            formObject[item.name] = item.value;
 			        });
+			        formObject["nickName"] = $.cookie("nickName")
 			        $.ajax({
 			            url:"user/bind",
 			            type:"post",
@@ -629,13 +637,15 @@
 			            	$("#alertbd").css('display','none'); 
 			                if(data.code == "200")
 			                {
-			                	$("#logoinName").html($.cookie("nickName"));
-			    			    $("#headImg").attr("src", $.cookie("headImg"));
-			    			    $("#loginAfter").css('display','block'); 
+			                	// $("#logoinName").html($.cookie("nickName"));
+			    			    // $("#headImg").attr("src", $.cookie("headImg"));
+								// $("#loginBefore").css('display','none');
+			    			    // $("#loginAfter").css('display','block');
+								window.location.href = "/";
 			                }
 			                else
 			                {
-			                	console.log(data)
+			                	console.log("binding error" + data)
 			                }
 			            },
 			            error:function(e){

@@ -62,20 +62,30 @@ public class UserController {
 	@ResponseBody
 	@RequestMapping(value = "user/bind", method = RequestMethod.POST,consumes = "application/json")
 	public R bind(@RequestBody RegisterRequest request) {
+		System.out.println("entering binding");
 		String account = request.getAccount();
+		System.out.println("account is " + account);
 		String password = request.getPassword();
+		System.out.println("password is " + password);
 		String email = request.getEmail();
+		System.out.println("email is " + email);
+		String nickName = request.getNickName();
+		System.out.println("nickName is " + nickName);
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		User user = userMapper.getUserByAccount(account);
 		if(user != null) {
+			System.out.println("user is not null");
 			return R.error().put("token", "0");
 		}
 		user = new User();
 		user.setAccount(account);
 		user.setPassword(password);
 		user.setEmail(email);
+		user.setWechat(nickName);
 		user.setStamp(df.format(new Date()));
 		userMapper.insertUser(user);
+		System.out.println("成功插入数据");
+		System.out.println("binding successfully");
 		
 		return R.ok();
 	}
