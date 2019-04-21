@@ -2,9 +2,11 @@ package com.xitu.app.service.es;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -121,6 +123,11 @@ public abstract class AbstractESHttpService implements ESHttpService {
 		}
 		for(int i=1;i<args.length;i++) {
 			if(isNotBlank(args[i])) {
+				try {
+					args[i] = URLDecoder.decode(args[i], "UTF-8");
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				}
 				if(args[i].contains(",")){
 					String[] split = args[i].split(",");
 					for(String s : split){
