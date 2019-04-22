@@ -55,7 +55,7 @@
 									</p>
 									<p>
 										<!-- <a th:each="cookie :${#httpServletRequest.getCookies()}" th:if="${cookie.getName().equals('token')}"  th:href="@{/user/list(token=${cookie.getValue()},pageIndex=0,pageSize=10)}"> -->
-										<a th:href="@{/user/list(pageIndex=0,pageSize=10)}">
+										<a id="backgroud" th:href="@{/user/list(pageIndex=0,pageSize=10)}">
 											<img th:src="@{/ximages/houtai.png}" />
 											进入管理后台
 										</a>
@@ -530,6 +530,8 @@
 		        				$.cookie("openId",resObj.openId);
 		        				$.cookie("nickName",resObj.nickName);
 		        				$.cookie("headImg",resObj.headUrl);
+		        				$.cookie("role",resObj.role);
+		        				console.log("openId inserted into cookie " + resObj.openId)
 
 	                            if(resObj.bind==="false") {
 									$("#showcode").css('display','none');
@@ -552,6 +554,9 @@
 				$("#alertbd").css('display','none');
 				if($.cookie("openId")!=null) {
 					$("#loginBefore").css('display','none'); 
+					if($.cookie("role")!=null && $.cookie("role")==="普通用户"){
+						$("#backgroud").css('display','none'); 
+					}
 					$("#loginAfter").css('display','block');
 					$("#logoinName").html($.cookie("nickName"));
 					$("#headImg").attr("src", $.cookie("headImg"));
@@ -590,6 +595,7 @@
 					$.cookie("openId", "", {expires: -1});
 					$.cookie("nickName", "", {expires: -1});
 					$.cookie("headImg", "", {expires: -1});
+					$.cookie("role", "", {expires: -1});
 					window.location.href = "/";
 				});
 				
@@ -627,6 +633,7 @@
 			            formObject[item.name] = item.value;
 			        });
 			        formObject["nickName"] = $.cookie("nickName")
+			        formObject["openId"] = $.cookie("openId")
 			        $.ajax({
 			            url:"user/bind",
 			            type:"post",
