@@ -314,7 +314,7 @@ public class JianceController {
 	
 	@GetMapping(value = "jiance/jiancelist")
 	public String projects(@RequestParam(required=false,value="q") String q,
-			@RequestParam(required=false,value="year") String year,
+			@RequestParam(required=false,value="pubtime") String pubtime,
 			@RequestParam(required=false,value="institution") String institutions,
 			@RequestParam(required=false,value="lanmu") String lanmus,
 			@RequestParam(required=false,value="pageSize") Integer pageSize, 
@@ -326,29 +326,12 @@ public class JianceController {
 		if(pageIndex == null) {
 			pageIndex = 0;
 		}
-		if (institutions != null) {
-			try {
-				institutions = URLDecoder.decode(institutions, "UTF-8");
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		if (lanmus != null) {
-			try {
-				lanmus = URLDecoder.decode(lanmus, "UTF-8");
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
-		}
 		
 		model.addAttribute("pageIndex", pageIndex);
 		model.addAttribute("pageSize", pageSize);
-//		model.addAttribute("institutions", institutions);
-//		model.addAttribute("lanmus", lanmus);
 		// TODO 静态变量未环绕需调整
 		ThreadLocalUtil.set(model);
-		jianceService.execute(pageIndex, pageSize, q,institutions,lanmus);
+		jianceService.execute(pageIndex, pageSize, q,institutions,lanmus,pubtime);
 		ThreadLocalUtil.remove();
 //		DataDiscoveryServiceImpl dataDiscoveryService = new DataDiscoveryServiceImpl();
 //		JSONObject json_send= dataDiscoveryService.jiance(q,year,institutions,lanmus,pageIndex);

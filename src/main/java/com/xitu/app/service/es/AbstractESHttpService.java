@@ -7,7 +7,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URLDecoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -69,7 +71,7 @@ public abstract class AbstractESHttpService implements ESHttpService {
 		return client;
 	}
 
-	public String composeDSL(int pageIndex, int pageSize, String...args) {
+	public String composeDSL(int pageIndex, int pageSize,String...args) {
 		List<Field> fields = getFields(getEntityClass());
 		List<String> crossedFields = new ArrayList<String>();
 		List<String> singleFields = new ArrayList<String>();
@@ -97,6 +99,18 @@ public abstract class AbstractESHttpService implements ESHttpService {
 			}
 		}
 		query.put("aggs",aggs);
+    	JSONArray sort = new JSONArray();
+    	JSONObject _score = new JSONObject();
+    	JSONObject order = new JSONObject();
+    	order.put("order", "desc");//method=desc
+    	_score.put("_score",order);//orderby=_score
+    	sort.add(_score);
+    	JSONObject pubtimes = new JSONObject();
+    	JSONObject order1s = new JSONObject();
+    	order1s.put("order", "desc");
+    	pubtimes.put("pubtime",order1s);
+    	sort.add(pubtimes);
+    	query.put("sort",sort);
 		JSONObject param = new JSONObject();
 		JSONArray should = new JSONArray();
 		JSONObject multi_match = new JSONObject();
@@ -106,11 +120,13 @@ public abstract class AbstractESHttpService implements ESHttpService {
     	JSONObject bool2 = new JSONObject();
 		JSONObject bool4 = new JSONObject();
     	JSONObject bool3 = new JSONObject();
+    	Model model = ThreadLocalUtil.get();
 		if (args == null || args.length==0 || args[0] == null || "".equals(args[0]) || "null".equals(args[0])) {
 		    match_all.put("match_all", param);
 		    must.add(match_all);
 		}else {
 			param.put("query", args[0]);
+			model.addAttribute("query", args[0]);
 			param.put("operator", "and");
 			param.put("type", "cross_fields");
 			param.put("fields", crossedFields.toArray());
@@ -128,24 +144,81 @@ public abstract class AbstractESHttpService implements ESHttpService {
 				} catch (UnsupportedEncodingException e) {
 					e.printStackTrace();
 				}
-				if(args[i].contains(",")){
-					String[] split = args[i].split(",");
-					for(String s : split){
+				if (!args[i].equals("近一天") && !args[i].equals("近三天") && !args[i].equals("近一周") && !args[i].equals("近三周") && !args[i].equals("近一个月")) {
+					if(args[i].contains(",")){
+						String[] split = args[i].split(",");
+						for(String s : split){
+							JSONObject match = new JSONObject();
+							JSONObject field = new JSONObject();
+							field.put(singleFields.get(i-1), s);
+							match.put("match", field);
+							must.add(match);
+						}
+					}else{
 						JSONObject match = new JSONObject();
 						JSONObject field = new JSONObject();
-						field.put(singleFields.get(i-1), s);
+						field.put(singleFields.get(i-1), args[i]);
 						match.put("match", field);
 						must.add(match);
 					}
+					model.addAttribute(singleFields.get(i-1) + "s", args[i]);
 				}else{
-					JSONObject match = new JSONObject();
-					JSONObject field = new JSONObject();
-					field.put(singleFields.get(i-1), args[i]);
-					match.put("match", field);
-					must.add(match);
+					SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+					 String pubtime = df.format(new Date());
+					if (args[i].equals("近一天")) {
+				        JSONObject match = new JSONObject();
+						JSONObject field = new JSONObject();
+						field.put("pubtime", "2019-04-07");
+						match.put("match", field);
+						must.add(match);
+					}
+					if (args[i].equals("近三天")) {
+				        JSONObject range = new JSONObject();
+						JSONObject field = new JSONObject();
+						JSONObject pub = new JSONObject();
+						pub.put("gte", "2019-04-20");
+						pub.put("lte", "2019-04-21");
+						//pub.put("format", "yyyy-MM-dd");
+						field.put("pubtime",pub);
+						range.put("range", field);
+						must.add(range);
+					}
+					if (args[i].equals("近一周")) {
+				        JSONObject range = new JSONObject();
+						JSONObject field = new JSONObject();
+						JSONObject pub = new JSONObject();
+						pub.put("gte", "2019-04-13");
+						pub.put("lte", "2019-04-14");
+						//pub.put("format", "yyyy-MM-dd");
+						field.put("pubtime",pub);
+						range.put("range", field);
+						must.add(range);
+					}
+					if (args[i].equals("近三周")) {
+				        JSONObject range = new JSONObject();
+						JSONObject field = new JSONObject();
+						JSONObject pub = new JSONObject();
+						pub.put("gte", "2019-04-18");
+						pub.put("lte", "2019-04-19");
+						//pub.put("format", "yyyy-MM-dd");
+						field.put("pubtime",pub);
+						range.put("range", field);
+						must.add(range);
+					}
+					if (args[i].equals("近一个月")) {
+				        JSONObject range = new JSONObject();
+						JSONObject field = new JSONObject();
+						JSONObject pub = new JSONObject();
+						pub.put("gte", "2019-04-15");
+						pub.put("lte", "2019-04-16");
+						//pub.put("format", "yyyy-MM-dd");
+						field.put("pubtime",pub);
+						range.put("range", field);
+						must.add(range);
+					}
+					model.addAttribute("pubtimes", args[i]);
 				}
-				Model model = ThreadLocalUtil.get();
-				model.addAttribute(singleFields.get(i-1) + "s", args[i]);
+				
 			}
 			
 		}
@@ -153,7 +226,7 @@ public abstract class AbstractESHttpService implements ESHttpService {
     	bool2.put("must",must);
     	bool1.put("bool", bool2);
     	query.put("query", bool1);
-    	query.put("from",pageIndex);
+    	query.put("from",pageIndex*pageSize);
     	query.put("size", pageSize);
     	System.out.println("query ---  " + query.toString());
     	return query.toString();
@@ -205,6 +278,9 @@ public abstract class AbstractESHttpService implements ESHttpService {
 			model.addAttribute(key, aggregations.get(key));
 		}
 	}
-	
+	public static void main(String[] args) { 
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
+        System.out.println(df.format(new Date()));// new Date()为获取当前系统时间
+	}
 
 }
