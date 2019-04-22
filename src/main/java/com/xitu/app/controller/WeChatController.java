@@ -131,14 +131,21 @@ public class WeChatController {
 							String userInfoStr = HttpRequest.get(getUserInfoUrl, null, false);
 					        WeChatUserInfo weChatUserInfo = GsonUtil.fromJson(userInfoStr, WeChatUserInfo.class);
 					        String nickName = weChatUserInfo.getNickName();
-					        User user = new User();
-					        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-					        user.setWechat(nickName);
-					        user.setOpenId(openId);
-					        user.setStamp(df.format(new Date()));
-					        userMapper.insertUser(user);
-					        System.out.println("插入新的用户，wechat 名字为 " + nickName);
-					        System.out.println("插入新的用户，openId 为 " + openId);
+					        User user = userMapper.getUserByOpenId(openId);
+					        if(user == null) {
+					        	user = new User();
+					        	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					        	user.setWechat(nickName);
+					        	user.setOpenId(openId);
+					        	user.setRole("普通用户");
+					        	user.setStamp(df.format(new Date()));
+					        	userMapper.insertUser(user);
+					        	System.out.println("插入新的用户，wechat 名字为 " + nickName);
+					        	System.out.println("插入新的用户，openId 为 " + openId);
+					        }else {
+					        	System.out.println("已有用户无需新插入该openId" + openId);
+					        }
+					        
 						}
 					} else if (event.equals(Constant.Event.CLICK)) { // 自定义菜单点击事件
 						String eventKey = map.get("EventKey");
@@ -227,9 +234,13 @@ public class WeChatController {
         WeChatUserInfo weChatUserInfo = GsonUtil.fromJson(userInfoStr, WeChatUserInfo.class);
         String nickName = weChatUserInfo.getNickName();
         String headUrl = weChatUserInfo.getHeadImgUrl();
+        User user = userMapper.getUserByOpenId(openId);
+        String role = user==null?"普通用户":user.getRole();
         System.out.println("nickName--"+ nickName);
         System.out.println("headUrl---" + headUrl);
-		return R.ok().put("openId", openId).put("bind", bind).put("nickName", nickName).put("headUrl", headUrl);
+        System.out.println("openId---" + openId);
+        System.out.println("role---" + role);
+		return R.ok().put("openId", openId).put("bind", bind).put("nickName", nickName).put("headUrl", headUrl).put("role", role);
 
 	}
 

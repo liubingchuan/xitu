@@ -47,7 +47,7 @@
 									</p>
 									<p>
 										<!-- <a th:each="cookie :${#httpServletRequest.getCookies()}" th:if="${cookie.getName().equals('token')}"  th:href="@{/user/list(token=${cookie.getValue()},pageIndex=0,pageSize=10)}"> -->
-										<a th:href="@{/user/list(pageIndex=0,pageSize=10)}">
+										<a id="backgroud" th:href="@{/user/list(pageIndex=0,pageSize=10)}">
 											<img th:src="@{/ximages/houtai.png}" />
 											进入管理后台
 										</a>

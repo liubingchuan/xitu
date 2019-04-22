@@ -88,6 +88,7 @@ public class UserController {
 		user.setAccount(account);
 		user.setPassword(password);
 		user.setEmail(email);
+		user.setOpenId(openId);
 		userMapper.updateByOpenId(user);
 		System.out.println("binding successfully");
 		
