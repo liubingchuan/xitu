@@ -354,104 +354,7 @@ public class ESHttpClient implements Serializable {
         JSONObject json = indexer.execute(conn);
         return json;
     }
-    public static JSONObject conESReport(String conn){
-    	//ESHttpClient indexer = new ESHttpClient("10.3.11.6:9201", "t_ods_las_nstl_value","t_ods_las_nstl_value");
-    	ESHttpClient indexer = new ESHttpClient("10.3.11.6:9201", "t_ods_las_nstl_value_report_v4","t_ods_las_nstl_value");
-    	ESHttpClient.debug = true;
-        JSONObject json = indexer.execute(conn);
-        return json;
-    }
-    public static JSONObject conESStandard(String conn){
-    	//ESHttpClient indexer = new ESHttpClient("10.3.11.6:9201", "t_ods_las_nstl_value","t_ods_las_nstl_value");
-    	ESHttpClient indexer = new ESHttpClient("10.3.11.6:9201", "t_ods_las_nstl_value_standard_v4","t_ods_las_nstl_value");
-    	ESHttpClient.debug = true;
-        JSONObject json = indexer.execute(conn);
-        return json;
-    }
-    public static JSONObject conESRePaper(String conn){
-    	ESHttpClient indexer = new ESHttpClient("10.3.11.6:9201", "t_ods_las_nstl_value","t_ods_las_nstl_value");
-        ESHttpClient.debug = true;
-        JSONObject json = indexer.execute(conn);
-        return json;
-    }
-    public static JSONObject conESIns(String conn){
-    	ESHttpClient indexer = new ESHttpClient("10.3.11.6:9201", "t_dm_las_nstl_institution","t_dm_las_nstl_institution");
-//    	ESHttpClient indexer = new ESHttpClient("10.3.11.6:9201", "t_dm_las_nstl_institution_v4","t_dm_las_nstl_institution");
-    	ESHttpClient.debug = true;
-        JSONObject json = indexer.execute(conn);
-        return json;
-    }
-    public static JSONObject conESJou(String conn){
-//    	ESHttpClient indexer = new ESHttpClient("10.3.11.6:9201", "t_dm_las_nstl_collection_v4","t_dm_las_nstl_collection");
-    	ESHttpClient indexer = new ESHttpClient("10.3.11.6:9201", "t_dm_las_nstl_collection","t_dm_las_nstl_collection");
-    	ESHttpClient.debug = true;
-        JSONObject json = indexer.execute(conn);
-        return json;
-    }
-    public static JSONObject conESPatent(String conn){
-    	//ESHttpClient indexer = new ESHttpClient("10.3.11.6:9201", "t_ods_las_nstl_value_patent_v4","t_ods_las_nstl_value");
-    	ESHttpClient indexer = new ESHttpClient("10.3.11.6:9201", "t_ods_las_nstl_value_patten","t_ods_las_nstl_value");
-    	ESHttpClient.debug = true;
-        JSONObject json = indexer.execute(conn);
-        return json;
-    }
-    public static JSONObject conESExpert(String conn){
-    	ESHttpClient indexer = new ESHttpClient("10.3.11.6:9201", "t_dm_las_nstl_researcher_v4","t_dm_las_nstl_researcher");
-    	//ESHttpClient indexer = new ESHttpClient("10.3.11.6:9201", "t_dm_las_nstl_researcher","t_dm_las_nstl_researcher");
-    	ESHttpClient.debug = true;
-        JSONObject json = indexer.execute(conn);
-        return json;
-    }
-    public static JSONObject conESJiJin(String conn){
-//    	ESHttpClient indexer = new ESHttpClient("10.3.11.6:9201", "t_dm_las_nstl_project_v4","t_dm_las_nstl_project");
-    	ESHttpClient indexer = new ESHttpClient("10.3.11.6:9201", "t_dm_las_nstl_project","t_dm_las_nstl_project");
-    	ESHttpClient.debug = true;
-        JSONObject json = indexer.execute(conn);
-        return json;
-    }
-    
-    public static JSONObject conESSubject(String conn){
-//    	ESHttpClient indexer = new ESHttpClient("10.3.11.6:9201", "t_dm_las_nstl_subject_v4","t_dm_las_nstl_subject");
-    	ESHttpClient indexer = new ESHttpClient("10.3.11.6:9201", "t_dm_las_nstl_subject","t_dm_las_nstl_subject");
-    	ESHttpClient.debug = true;
-        JSONObject json = indexer.execute(conn);
-        return json;
-    }
-    
-    public static JSONObject conESZiXun(String conn){
-//    	ESHttpClient indexer = new ESHttpClient("10.3.11.6:9201", "t_ods_nstlstmstis","t_ods_nstl_nstl,t_ods_stm_nstl,t_ods_stis_nstl,t_ods_sci_nstl");
-    	ESHttpClient indexer = new ESHttpClient("10.3.11.6:9201", "t_ods_crawl_data","t_ods_data");
-    	ESHttpClient.debug = true;
-        JSONObject json = indexer.execute(conn);
-        return json;
-    }
-    public static JSONObject conESConference(String conn){
-    	ESHttpClient indexer = new ESHttpClient("10.3.11.6:9201", "t_dm_las_nstl_conference","t_dm_las_nstl_conference");
-//    	ESHttpClient indexer = new ESHttpClient("10.3.11.6:9201", "t_dm_las_nstl_conference_v4","t_dm_las_nstl_conference");
-    	ESHttpClient.debug = true;
-        JSONObject json = indexer.execute(conn);
-        return json;
-    }
-    public static JSONObject conESRelations(String conn){
-    	ESHttpClient indexer = new ESHttpClient("10.3.11.6:9201", "t_dm_las_nstl_relations","t_dm_las_nstl_relations");
-//    	ESHttpClient indexer = new ESHttpClient("10.3.11.6:9201", "t_dm_las_nstl_relations_v4","t_dm_las_nstl_relations");
-        ESHttpClient.debug = true;
-        JSONObject json = indexer.execute(conn);
-        return json;
-    }
-    public static JSONObject conESExFAr(String conn){
-    	ESHttpClient indexer = new ESHttpClient("10.3.11.6:9201", "t_dm_las_nstl_article_2017-10-20","t_dm_las_nstl_article");
-        ESHttpClient.debug = true;
-        JSONObject json = indexer.execute(conn);
-        return json;
-    }
-    
-    public static JSONObject conESTerm(String conn){
-		ESHttpClient indexer = new ESHttpClient("10.0.11.239:9200", "triples","doc");
-	    ESHttpClient.debug = true;
-	    JSONObject json = indexer.execute(conn);
-	    return json;
-	}
+
     public static String createQqueryByUuid(String value){
     	JSONObject query = new JSONObject();
     	JSONObject term = new JSONObject();
@@ -476,39 +379,7 @@ public class ESHttpClient implements Serializable {
     	return query.toString();
     	
     }
-    public static String createQqueryImageByEmail(String value){
-    	JSONObject query = new JSONObject();
-    	JSONObject term = new JSONObject();
-    	JSONObject param = new JSONObject();
-//    	value="8bc8ad0d53d5b8499ec64a4a88c1ad08";
-    	param.put("contrib_email", value);
-    	term.put("match", param);
-    	query.put("query", term);
-    	//System.out.println(query.toString());
-    	return query.toString();
-    	
-    }
-    public static String createQqueryByPatentID(String patent_id){
-    	JSONObject query = new JSONObject();
-    	JSONObject term = new JSONObject();
-    	JSONObject param = new JSONObject();
-//    	value="8bc8ad0d53d5b8499ec64a4a88c1ad08";
-    	param.put("article_patent-id-in", patent_id);
-    	term.put("match", param);
-    	query.put("query", term);
-    	
-    	JSONObject _source = new JSONObject();
-    	JSONArray includes = new JSONArray();
-    	JSONArray excludes = new JSONArray();
-    	includes.add("article_issue-date_bg");
-    	
-    	_source.put("includes",includes);
-    	_source.put("excludes",excludes);
-    	query.put("_source", _source);
-    	//System.out.println(query.toString());
-    	return query.toString();
-    	
-    }
+ 
     public static String createQqueryByUuid(List<String> list,String type){
     	JSONObject query = new JSONObject();
     	JSONObject bool1 = new JSONObject();

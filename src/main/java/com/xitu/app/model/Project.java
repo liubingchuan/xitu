@@ -8,6 +8,10 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
+import com.xitu.app.annotation.AggQuery;
+import com.xitu.app.annotation.CrossQuery;
+import com.xitu.app.annotation.SingleQuery;
+
 @Document(indexName = "project", type = "pt")
 public class Project implements Serializable{
 	
@@ -15,14 +19,24 @@ public class Project implements Serializable{
 
 	@Id
 	private String id;
+	@CrossQuery
 	private String name;
+	@AggQuery
+	@SingleQuery
 	@Field(type=FieldType.Keyword)
 	private String classis; // 分类
+	
+	@CrossQuery
 	private String description; // 介绍
+	
+	@AggQuery
+	@SingleQuery
 	@Field(type=FieldType.Keyword)
 	private String budget; 
 	private String start;   //开始日期
 	private String end;    // 截止日期
+	@AggQuery
+	@SingleQuery
 	@Field(type=FieldType.Keyword)
 	private String entrust; // 委托
 	private String contacts;

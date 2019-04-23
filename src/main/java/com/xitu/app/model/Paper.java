@@ -8,23 +8,36 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
+import com.xitu.app.annotation.AggQuery;
+import com.xitu.app.annotation.CrossQuery;
+import com.xitu.app.annotation.SingleQuery;
+
 @Document(indexName = "paper", type = "pr")
 public class Paper implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	private String id;
+	@CrossQuery
 	private String title;  //标题
+	@CrossQuery
 	private String subject; //摘要
+	
+	@AggQuery
+	@SingleQuery
 	@Field(type=FieldType.Keyword)
 	private List<String> author;   // 作者
 	
+	@AggQuery
+	@SingleQuery
 	@Field(type=FieldType.Keyword)
 	private List<String> institution; // 机构
 	
 	@Field(type=FieldType.Keyword)
 	private List<String> keywords; // 关键词
 	
+	@AggQuery
+	@SingleQuery
 	@Field(type=FieldType.Keyword)
 	private String journal; // 期刊（出处）
 	
@@ -40,6 +53,8 @@ public class Paper implements Serializable{
 	@Field(type=FieldType.Keyword)
 	private String issn; // issn
 	
+	@AggQuery
+	@SingleQuery
 	@Field(type=FieldType.Keyword)
 	private String year; // 年
 	

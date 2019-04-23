@@ -120,7 +120,7 @@
 		    			</th>
 		    			
 		    		</tr>
-		    		<tr th:each="project : ${projectList}">
+		    		<tr th:each="project : ${list}">
 		    			<td >
 		    				<a th:href="@{/project/get(id=${project.id},disable='0')}" class="manageProTl" th:text="${project.name}">
 		    				</a>

@@ -68,6 +68,9 @@ import com.xitu.app.model.Patent;
 import com.xitu.app.model.PatentMysql;
 import com.xitu.app.model.Price;
 import com.xitu.app.repository.PatentRepository;
+import com.xitu.app.service.es.JianceService;
+import com.xitu.app.service.es.PatentService;
+import com.xitu.app.utils.ThreadLocalUtil;
 
 
 
@@ -88,6 +91,9 @@ public class PatentController {
 	
 	@Autowired
 	private PatentMapper patentMapper;
+	
+	@Autowired
+	private PatentService patentService;
 	
 	// 代理隧道验证信息
     final static String ProxyUser = "H677S6B336VV189D";
@@ -112,15 +118,214 @@ public class PatentController {
 		return "result-zlCon";
 	}
 	
+//	@RequestMapping(value = "patent/list")
+//	public String patents(@RequestParam(required=false,value="q") String q,
+//			@RequestParam(required=false,value="year") String year,
+//			@RequestParam(required=false,value="ipc") String ipc,
+//			@RequestParam(required=false,value="cpc") String cpc,
+//			@RequestParam(required=false,value="person") String person,
+//			@RequestParam(required=false,value="creator") String creator,
+//			@RequestParam(required=false,value="lawstatus") String lawstatus,
+//			@RequestParam(required=false,value="country") String country,
+//			@RequestParam(required=false,value="pageSize") Integer pageSize, 
+//			@RequestParam(required=false, value="pageIndex") Integer pageIndex, 
+//			Model model) {
+//		if(pageSize == null) {
+//			pageSize = 10;
+//		}
+//		if(pageIndex == null) {
+//			pageIndex = 0;
+//		}
+//		long totalCount = 0L;
+//		long totalPages = 0L;
+//		List<Patent> patentList = new ArrayList<Patent>();
+//		String view = "result-zl";
+//		if(esTemplate.indexExists(Patent.class)) {
+//			if(q == null) {
+//				totalCount = patentRepository.count();
+//				if(totalCount >0) {
+//					Sort sort = new Sort(Direction.DESC, "now");
+//					Pageable pageable = new PageRequest(pageIndex, pageSize,sort);
+//					SearchQuery searchQuery = new NativeSearchQueryBuilder()
+//							.withPageable(pageable).build();
+//					Page<Patent> patentsPage = patentRepository.search(searchQuery);
+//					patentList = patentsPage.getContent();
+//				}
+//			}else {
+//				// 分页参数
+//				Pageable pageable = new PageRequest(pageIndex, pageSize);
+//
+//				BoolQueryBuilder queryBuilder = QueryBuilders.boolQuery()
+//						.should(QueryBuilders.matchPhraseQuery("title", q))
+//						.should(QueryBuilders.matchPhraseQuery("subject", q));
+//				if(year != null) {
+//					String[] years = year.split("-");
+//					queryBuilder.filter(QueryBuilders.termsQuery("year", years));
+//				}
+//				if(ipc != null) {
+//					String[] ipcs = ipc.split("-");
+//					queryBuilder.filter(QueryBuilders.termsQuery("ipc", ipcs));
+//				}
+//				if(cpc != null) {
+//					String[] cpcs = cpc.split("-");
+//					queryBuilder.filter(QueryBuilders.termsQuery("cpc", cpcs));
+//				}
+//				if(person != null) {
+//					String[] persons = person.split("-");
+//					queryBuilder.filter(QueryBuilders.termsQuery("person", persons));
+//				}
+//				if(lawstatus != null) {
+//					String[] lawstatuses = lawstatus.split("%");
+//					queryBuilder.filter(QueryBuilders.termsQuery("lawstatus", lawstatuses));
+//				}
+//				if(creator != null) {
+//					String[] creators = creator.split("-");
+//					queryBuilder.filter(QueryBuilders.termsQuery("creator", creators));
+//				}
+//				if(country != null) {
+//					String[] countries = country.split("-");
+//					queryBuilder.filter(QueryBuilders.termsQuery("country", countries));
+//				}
+//				
+//				// 分数，并自动按分排序
+//				FunctionScoreQueryBuilder functionScoreQueryBuilder = QueryBuilders.functionScoreQuery(queryBuilder, ScoreFunctionBuilders.weightFactorFunction(1000));
+//
+//				// 分数、分页
+//				SearchQuery searchQuery = new NativeSearchQueryBuilder().withPageable(pageable)
+//						.withQuery(functionScoreQueryBuilder).build();
+//
+//				Page<Patent> searchPageResults = patentRepository.search(searchQuery);
+//				patentList = searchPageResults.getContent();
+//				totalCount = esTemplate.count(searchQuery, Patent.class);
+//				
+//				
+//				BoolQueryBuilder queryBuilderAgg = QueryBuilders.boolQuery()
+//						.should(QueryBuilders.matchQuery("title", q))
+//						.should(QueryBuilders.matchQuery("subject", q));
+//				FunctionScoreQueryBuilder functionScoreQueryBuilderAgg = QueryBuilders.functionScoreQuery(queryBuilderAgg, ScoreFunctionBuilders.weightFactorFunction(1000));
+//				List<String> pList=new ArrayList<>();
+//				SearchQuery nativeSearchQueryBuilder = new NativeSearchQueryBuilder()
+//						.withQuery(functionScoreQueryBuilderAgg)
+//						.withSearchType(SearchType.QUERY_THEN_FETCH)
+//						.withIndices("patent").withTypes("pt")
+//						.addAggregation(AggregationBuilders.terms("agyear").field("publicyear").order(Terms.Order.count(false)).size(10))
+//						.addAggregation(AggregationBuilders.terms("agipc").field("ipc").order(Terms.Order.count(false)).size(10))
+//						.addAggregation(AggregationBuilders.terms("agcpc").field("cpc").order(Terms.Order.count(false)).size(10))
+//						.addAggregation(AggregationBuilders.terms("agperson").field("person").order(Terms.Order.count(false)).size(10))
+//						.addAggregation(AggregationBuilders.terms("agcreator").field("creator").order(Terms.Order.count(false)).size(10))
+//						.addAggregation(AggregationBuilders.terms("agcountry").field("country").order(Terms.Order.count(false)).size(10))
+//						.addAggregation(AggregationBuilders.terms("aglawstatus").field("lawstatus").order(Terms.Order.count(false)).size(10))
+//						.build();
+//				Aggregations aggregations = esTemplate.query(nativeSearchQueryBuilder, new ResultsExtractor<Aggregations>() {
+//			        @Override
+//			        public Aggregations extract(SearchResponse response) {
+//			            return response.getAggregations();
+//			        }
+//			    });
+//				
+//				if(aggregations != null) {
+//					StringTerms yearTerms = (StringTerms) aggregations.asMap().get("agyear");
+//					Iterator<Bucket> yearbit = yearTerms.getBuckets().iterator();
+//					Map<String, Long> yearMap = new HashMap<String, Long>();
+//					while(yearbit.hasNext()) {
+//						Bucket yearBucket = yearbit.next();
+//						yearMap.put(yearBucket.getKey().toString(), Long.valueOf(yearBucket.getDocCount()));
+//					}
+//					model.addAttribute("agyear", yearMap);
+//					
+//					StringTerms ipcTerms = (StringTerms) aggregations.asMap().get("agipc");
+//					Iterator<Bucket> ipcbit = ipcTerms.getBuckets().iterator();
+//					Map<String, Long> ipcMap = new HashMap<String, Long>();
+//					while(ipcbit.hasNext()) {
+//						Bucket ipcBucket = ipcbit.next();
+//						ipcMap.put(ipcBucket.getKey().toString(), Long.valueOf(ipcBucket.getDocCount()));
+//					}
+//					model.addAttribute("agipc", ipcMap);
+//					
+//					StringTerms lawstatusTerms = (StringTerms) aggregations.asMap().get("aglawstatus");
+//					Iterator<Bucket> lawstatusbit = lawstatusTerms.getBuckets().iterator();
+//					Map<String, Long> lawstatusMap = new HashMap<String, Long>();
+//					while(lawstatusbit.hasNext()) {
+//						Bucket lawstatusBucket = lawstatusbit.next();
+//						lawstatusMap.put(lawstatusBucket.getKey().toString(), Long.valueOf(lawstatusBucket.getDocCount()));
+//					}
+//					model.addAttribute("aglawstatus", lawstatusMap);
+//					
+//					StringTerms cpcTerms = (StringTerms) aggregations.asMap().get("agcpc");
+//					Iterator<Bucket> cpcbit = cpcTerms.getBuckets().iterator();
+//					Map<String, Long> cpcMap = new HashMap<String, Long>();
+//					while(cpcbit.hasNext()) {
+//						Bucket cpcBucket = cpcbit.next();
+//						cpcMap.put(cpcBucket.getKey().toString(), Long.valueOf(cpcBucket.getDocCount()));
+//					}
+//					
+//					model.addAttribute("agcpc", cpcMap);
+//					
+//					StringTerms personTerms = (StringTerms) aggregations.asMap().get("agperson");
+//					Iterator<Bucket> personbit = personTerms.getBuckets().iterator();
+//					Map<String, Long> personMap = new HashMap<String, Long>();
+//					while(personbit.hasNext()) {
+//						Bucket personBucket = personbit.next();
+//						personMap.put(personBucket.getKey().toString(), Long.valueOf(personBucket.getDocCount()));
+//					}
+//					model.addAttribute("agperson", personMap);
+//					
+//					StringTerms creatorTerms = (StringTerms) aggregations.asMap().get("agcreator");
+//					Iterator<Bucket> creatorbit = creatorTerms.getBuckets().iterator();
+//					Map<String, Long> creatorMap = new HashMap<String, Long>();
+//					while(creatorbit.hasNext()) {
+//						Bucket creatorBucket = creatorbit.next();
+//						creatorMap.put(creatorBucket.getKey().toString(), Long.valueOf(creatorBucket.getDocCount()));
+//					}
+//					model.addAttribute("agcreator", creatorMap);
+//					
+//					StringTerms countryTerms = (StringTerms) aggregations.asMap().get("agcountry");
+//					Iterator<Bucket> countrybit = countryTerms.getBuckets().iterator();
+//					Map<String, Long> countryMap = new HashMap<String, Long>();
+//					while(countrybit.hasNext()) {
+//						Bucket countryBucket = countrybit.next();
+//						countryMap.put(countryBucket.getKey().toString(), Long.valueOf(countryBucket.getDocCount()));
+//					}
+//					model.addAttribute("agcountry", countryMap);
+//					
+//				}
+////				nativeSearchQueryBuilder.withQuery(functionScoreQueryBuilder);
+////				nativeSearchQueryBuilder.withSearchType(SearchType.QUERY_THEN_FETCH);
+////				TermsAggregationBuilder termsAggregation = AggregationBuilders.terms("aglist").field("list").order(Terms.Order.count(false)).size(10);
+////				nativeSearchQueryBuilder.addAggregation(termsAggregation);
+////		    	NativeSearchQuery nativeSearchQuery = nativeSearchQueryBuilder.build();
+////		    	Page<Project> search = projectRepository.search(nativeSearchQuery);
+////		    	List<Project> content = search.getContent();
+////		    	for (Project project : content) {
+////		    		pList.add(esBlog.getUsername());
+////				}
+//				//totalPages = Math.round(totalCount/pageSize);
+//				if(totalCount % pageSize == 0){
+//					totalPages = totalCount/pageSize;
+//				}else{
+//					totalPages = totalCount/pageSize + 1;
+//				}
+//				
+//				
+//			}
+//		}
+//		model.addAttribute("patentList", patentList);
+//		model.addAttribute("pageSize", pageSize);
+//		model.addAttribute("pageIndex", pageIndex);
+//		model.addAttribute("totalPages", totalPages);
+//		model.addAttribute("totalCount", totalCount);
+//		model.addAttribute("query", q);
+//			
+//		return view;
+//	}
 	@RequestMapping(value = "patent/list")
 	public String patents(@RequestParam(required=false,value="q") String q,
-			@RequestParam(required=false,value="year") String year,
-			@RequestParam(required=false,value="ipc") String ipc,
-			@RequestParam(required=false,value="cpc") String cpc,
 			@RequestParam(required=false,value="person") String person,
 			@RequestParam(required=false,value="creator") String creator,
-			@RequestParam(required=false,value="lawstatus") String lawstatus,
+			@RequestParam(required=false,value="publicyear") String publicyear,
+			@RequestParam(required=false,value="ipc") String ipc,
 			@RequestParam(required=false,value="country") String country,
+			@RequestParam(required=false,value="lawstatus") String lawstatus,
 			@RequestParam(required=false,value="pageSize") Integer pageSize, 
 			@RequestParam(required=false, value="pageIndex") Integer pageIndex, 
 			Model model) {
@@ -130,186 +335,14 @@ public class PatentController {
 		if(pageIndex == null) {
 			pageIndex = 0;
 		}
-		long totalCount = 0L;
-		long totalPages = 0L;
-		List<Patent> patentList = new ArrayList<Patent>();
-		String view = "result-zl";
-		if(esTemplate.indexExists(Patent.class)) {
-			if(q == null) {
-				totalCount = patentRepository.count();
-				if(totalCount >0) {
-					Sort sort = new Sort(Direction.DESC, "now");
-					Pageable pageable = new PageRequest(pageIndex, pageSize,sort);
-					SearchQuery searchQuery = new NativeSearchQueryBuilder()
-							.withPageable(pageable).build();
-					Page<Patent> patentsPage = patentRepository.search(searchQuery);
-					patentList = patentsPage.getContent();
-				}
-			}else {
-				// 分页参数
-				Pageable pageable = new PageRequest(pageIndex, pageSize);
-
-				BoolQueryBuilder queryBuilder = QueryBuilders.boolQuery()
-						.should(QueryBuilders.matchPhraseQuery("title", q))
-						.should(QueryBuilders.matchPhraseQuery("subject", q));
-				if(year != null) {
-					String[] years = year.split("-");
-					queryBuilder.filter(QueryBuilders.termsQuery("year", years));
-				}
-				if(ipc != null) {
-					String[] ipcs = ipc.split("-");
-					queryBuilder.filter(QueryBuilders.termsQuery("ipc", ipcs));
-				}
-				if(cpc != null) {
-					String[] cpcs = cpc.split("-");
-					queryBuilder.filter(QueryBuilders.termsQuery("cpc", cpcs));
-				}
-				if(person != null) {
-					String[] persons = person.split("-");
-					queryBuilder.filter(QueryBuilders.termsQuery("person", persons));
-				}
-				if(lawstatus != null) {
-					String[] lawstatuses = lawstatus.split("%");
-					queryBuilder.filter(QueryBuilders.termsQuery("lawstatus", lawstatuses));
-				}
-				if(creator != null) {
-					String[] creators = creator.split("-");
-					queryBuilder.filter(QueryBuilders.termsQuery("creator", creators));
-				}
-				if(country != null) {
-					String[] countries = country.split("-");
-					queryBuilder.filter(QueryBuilders.termsQuery("country", countries));
-				}
-				
-				// 分数，并自动按分排序
-				FunctionScoreQueryBuilder functionScoreQueryBuilder = QueryBuilders.functionScoreQuery(queryBuilder, ScoreFunctionBuilders.weightFactorFunction(1000));
-
-				// 分数、分页
-				SearchQuery searchQuery = new NativeSearchQueryBuilder().withPageable(pageable)
-						.withQuery(functionScoreQueryBuilder).build();
-
-				Page<Patent> searchPageResults = patentRepository.search(searchQuery);
-				patentList = searchPageResults.getContent();
-				totalCount = esTemplate.count(searchQuery, Patent.class);
-				
-				
-				BoolQueryBuilder queryBuilderAgg = QueryBuilders.boolQuery()
-						.should(QueryBuilders.matchQuery("title", q))
-						.should(QueryBuilders.matchQuery("subject", q));
-				FunctionScoreQueryBuilder functionScoreQueryBuilderAgg = QueryBuilders.functionScoreQuery(queryBuilderAgg, ScoreFunctionBuilders.weightFactorFunction(1000));
-				List<String> pList=new ArrayList<>();
-				SearchQuery nativeSearchQueryBuilder = new NativeSearchQueryBuilder()
-						.withQuery(functionScoreQueryBuilderAgg)
-						.withSearchType(SearchType.QUERY_THEN_FETCH)
-						.withIndices("patent").withTypes("pt")
-						.addAggregation(AggregationBuilders.terms("agyear").field("publicyear").order(Terms.Order.count(false)).size(10))
-						.addAggregation(AggregationBuilders.terms("agipc").field("ipc").order(Terms.Order.count(false)).size(10))
-						.addAggregation(AggregationBuilders.terms("agcpc").field("cpc").order(Terms.Order.count(false)).size(10))
-						.addAggregation(AggregationBuilders.terms("agperson").field("person").order(Terms.Order.count(false)).size(10))
-						.addAggregation(AggregationBuilders.terms("agcreator").field("creator").order(Terms.Order.count(false)).size(10))
-						.addAggregation(AggregationBuilders.terms("agcountry").field("country").order(Terms.Order.count(false)).size(10))
-						.addAggregation(AggregationBuilders.terms("aglawstatus").field("lawstatus").order(Terms.Order.count(false)).size(10))
-						.build();
-				Aggregations aggregations = esTemplate.query(nativeSearchQueryBuilder, new ResultsExtractor<Aggregations>() {
-			        @Override
-			        public Aggregations extract(SearchResponse response) {
-			            return response.getAggregations();
-			        }
-			    });
-				
-				if(aggregations != null) {
-					StringTerms yearTerms = (StringTerms) aggregations.asMap().get("agyear");
-					Iterator<Bucket> yearbit = yearTerms.getBuckets().iterator();
-					Map<String, Long> yearMap = new HashMap<String, Long>();
-					while(yearbit.hasNext()) {
-						Bucket yearBucket = yearbit.next();
-						yearMap.put(yearBucket.getKey().toString(), Long.valueOf(yearBucket.getDocCount()));
-					}
-					model.addAttribute("agyear", yearMap);
-					
-					StringTerms ipcTerms = (StringTerms) aggregations.asMap().get("agipc");
-					Iterator<Bucket> ipcbit = ipcTerms.getBuckets().iterator();
-					Map<String, Long> ipcMap = new HashMap<String, Long>();
-					while(ipcbit.hasNext()) {
-						Bucket ipcBucket = ipcbit.next();
-						ipcMap.put(ipcBucket.getKey().toString(), Long.valueOf(ipcBucket.getDocCount()));
-					}
-					model.addAttribute("agipc", ipcMap);
-					
-					StringTerms lawstatusTerms = (StringTerms) aggregations.asMap().get("aglawstatus");
-					Iterator<Bucket> lawstatusbit = lawstatusTerms.getBuckets().iterator();
-					Map<String, Long> lawstatusMap = new HashMap<String, Long>();
-					while(lawstatusbit.hasNext()) {
-						Bucket lawstatusBucket = lawstatusbit.next();
-						lawstatusMap.put(lawstatusBucket.getKey().toString(), Long.valueOf(lawstatusBucket.getDocCount()));
-					}
-					model.addAttribute("aglawstatus", lawstatusMap);
-					
-					StringTerms cpcTerms = (StringTerms) aggregations.asMap().get("agcpc");
-					Iterator<Bucket> cpcbit = cpcTerms.getBuckets().iterator();
-					Map<String, Long> cpcMap = new HashMap<String, Long>();
-					while(cpcbit.hasNext()) {
-						Bucket cpcBucket = cpcbit.next();
-						cpcMap.put(cpcBucket.getKey().toString(), Long.valueOf(cpcBucket.getDocCount()));
-					}
-					
-					model.addAttribute("agcpc", cpcMap);
-					
-					StringTerms personTerms = (StringTerms) aggregations.asMap().get("agperson");
-					Iterator<Bucket> personbit = personTerms.getBuckets().iterator();
-					Map<String, Long> personMap = new HashMap<String, Long>();
-					while(personbit.hasNext()) {
-						Bucket personBucket = personbit.next();
-						personMap.put(personBucket.getKey().toString(), Long.valueOf(personBucket.getDocCount()));
-					}
-					model.addAttribute("agperson", personMap);
-					
-					StringTerms creatorTerms = (StringTerms) aggregations.asMap().get("agcreator");
-					Iterator<Bucket> creatorbit = creatorTerms.getBuckets().iterator();
-					Map<String, Long> creatorMap = new HashMap<String, Long>();
-					while(creatorbit.hasNext()) {
-						Bucket creatorBucket = creatorbit.next();
-						creatorMap.put(creatorBucket.getKey().toString(), Long.valueOf(creatorBucket.getDocCount()));
-					}
-					model.addAttribute("agcreator", creatorMap);
-					
-					StringTerms countryTerms = (StringTerms) aggregations.asMap().get("agcountry");
-					Iterator<Bucket> countrybit = countryTerms.getBuckets().iterator();
-					Map<String, Long> countryMap = new HashMap<String, Long>();
-					while(countrybit.hasNext()) {
-						Bucket countryBucket = countrybit.next();
-						countryMap.put(countryBucket.getKey().toString(), Long.valueOf(countryBucket.getDocCount()));
-					}
-					model.addAttribute("agcountry", countryMap);
-					
-				}
-//				nativeSearchQueryBuilder.withQuery(functionScoreQueryBuilder);
-//				nativeSearchQueryBuilder.withSearchType(SearchType.QUERY_THEN_FETCH);
-//				TermsAggregationBuilder termsAggregation = AggregationBuilders.terms("aglist").field("list").order(Terms.Order.count(false)).size(10);
-//				nativeSearchQueryBuilder.addAggregation(termsAggregation);
-//		    	NativeSearchQuery nativeSearchQuery = nativeSearchQueryBuilder.build();
-//		    	Page<Project> search = projectRepository.search(nativeSearchQuery);
-//		    	List<Project> content = search.getContent();
-//		    	for (Project project : content) {
-//		    		pList.add(esBlog.getUsername());
-//				}
-				//totalPages = Math.round(totalCount/pageSize);
-				if(totalCount % pageSize == 0){
-					totalPages = totalCount/pageSize;
-				}else{
-					totalPages = totalCount/pageSize + 1;
-				}
-				
-				
-			}
-		}
-		model.addAttribute("patentList", patentList);
-		model.addAttribute("pageSize", pageSize);
 		model.addAttribute("pageIndex", pageIndex);
-		model.addAttribute("totalPages", totalPages);
-		model.addAttribute("totalCount", totalCount);
-		model.addAttribute("query", q);
-			
+		model.addAttribute("pageSize", pageSize);
+		int i = 0;//0代表专利；1代表论文；2代表项目；3代表监测
+		// TODO 静态变量未环绕需调整
+		ThreadLocalUtil.set(model);
+		patentService.execute(pageIndex, pageSize, i,q,person,creator,publicyear,ipc,country,lawstatus);
+		ThreadLocalUtil.remove();
+		String view = "result-zl";
 		return view;
 	}
 	

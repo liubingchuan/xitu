@@ -8,24 +8,38 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
+import com.xitu.app.annotation.AggQuery;
+import com.xitu.app.annotation.CrossQuery;
+import com.xitu.app.annotation.SingleQuery;
+
 @Document(indexName = "patent", type = "pt")
 public class Patent implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	private String id;
+	@CrossQuery
 	private String title;  //标题 （天地锁）
+	@CrossQuery
 	private String subject; //摘要 
+	@AggQuery
+	@SingleQuery
 	@Field(type=FieldType.Keyword)
 	private List<String> person;   // 专利权人（申请人）
+	@AggQuery
+	@SingleQuery
 	@Field(type=FieldType.Keyword)
 	private List<String> creator;
+	
 	@Field(type=FieldType.Keyword)
 	private String applytime; // 申请日
 	@Field(type=FieldType.Keyword)
 	private String publictime; // 公开（公告）日
 	@Field(type=FieldType.Keyword)
 	private String applyyear; // 申请年
+	
+	@AggQuery
+	@SingleQuery
 	@Field(type=FieldType.Keyword)
 	private String publicyear; // 公开年
 	@Field(type=FieldType.Keyword)
@@ -37,14 +51,23 @@ public class Patent implements Serializable{
 	private String publicnumber; //公开号
 	@Field(type=FieldType.Keyword)
 	private String applynumber; //申请号
+	@AggQuery
+	@SingleQuery
 	@Field(type=FieldType.Keyword)
 	private List<String> ipc; // ipc (分类号)
+	
 	@Field(type=FieldType.Keyword)
 	private List<String> cpc; // cpc
 	@Field(type=FieldType.Keyword)
 	private String piroryear; //优先权年
+	
+	@AggQuery
+	@SingleQuery
 	@Field(type=FieldType.Keyword)
 	private String country; //国家
+	
+	@AggQuery
+	@SingleQuery
 	@Field(type=FieldType.Keyword)
 	private String lawstatus; // 法律状态
 	private Long now;

@@ -14,12 +14,6 @@ import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
 import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders;
-import org.elasticsearch.search.aggregations.AggregationBuilders;
-import org.elasticsearch.search.aggregations.Aggregations;
-import org.elasticsearch.search.aggregations.LeafBucketCollector;
-import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
-import org.elasticsearch.search.aggregations.bucket.terms.Terms;
-import org.elasticsearch.search.aggregations.bucket.terms.StringTerms.Bucket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -331,7 +325,7 @@ public class JianceController {
 		model.addAttribute("pageSize", pageSize);
 		// TODO 静态变量未环绕需调整
 		ThreadLocalUtil.set(model);
-		jianceService.execute(pageIndex, pageSize, q,institutions,lanmus,pubtime);
+		jianceService.execute(pageIndex, pageSize, 3,q,institutions,lanmus,pubtime);
 		ThreadLocalUtil.remove();
 //		DataDiscoveryServiceImpl dataDiscoveryService = new DataDiscoveryServiceImpl();
 //		JSONObject json_send= dataDiscoveryService.jiance(q,year,institutions,lanmus,pageIndex);

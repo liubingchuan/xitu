@@ -35,8 +35,8 @@ public abstract class AbstractESHttpService implements ESHttpService {
 	protected abstract Class<?> getEntityClass();
 
 	@Override
-	public void execute(int pageIndex, int pageSize, String...args) {
-		convert(getHttpClient().execute(composeDSL(pageIndex, pageSize, args)));
+	public void execute(int pageIndex, int pageSize, int type,String...args) {
+		convert(getHttpClient().execute(composeDSL(pageIndex, pageSize, type,args)));
 	}
 
 	public ESHttpClient getHttpClient() {
@@ -71,7 +71,7 @@ public abstract class AbstractESHttpService implements ESHttpService {
 		return client;
 	}
 
-	public String composeDSL(int pageIndex, int pageSize,String...args) {
+	public String composeDSL(int pageIndex, int pageSize,int type,String...args) {
 		List<Field> fields = getFields(getEntityClass());
 		List<String> crossedFields = new ArrayList<String>();
 		List<String> singleFields = new ArrayList<String>();
@@ -106,9 +106,22 @@ public abstract class AbstractESHttpService implements ESHttpService {
     	_score.put("_score",order);//orderby=_score
     	sort.add(_score);
     	JSONObject pubtimes = new JSONObject();
+    	String sortfield ="";
+    	if (type == 3) {
+    		sortfield = "pubtime";
+		}
+    	if (type == 0) {
+    		sortfield = "publictime";
+		}
+    	if (type == 1) {
+    		sortfield = "year";
+		}
+    	if (type == 2) {
+    		sortfield = "now";
+		}
     	JSONObject order1s = new JSONObject();
     	order1s.put("order", "desc");
-    	pubtimes.put("pubtime",order1s);
+    	pubtimes.put(sortfield,order1s);
     	sort.add(pubtimes);
     	query.put("sort",sort);
 		JSONObject param = new JSONObject();
@@ -275,7 +288,8 @@ public abstract class AbstractESHttpService implements ESHttpService {
 		JSONObject aggregations = response.getJSONObject("aggregations");
 		Set<String> keys = aggregations.keySet();
 		for(String key : keys) {
-			model.addAttribute(key, aggregations.get(key));
+			JSONObject agg = (JSONObject) aggregations.get(key);
+			model.addAttribute(key, agg.get("buckets"));
 		}
 	}
 	public static void main(String[] args) { 

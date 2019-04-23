@@ -63,7 +63,9 @@ import com.xitu.app.model.Paper;
 import com.xitu.app.model.PaperVO;
 import com.xitu.app.model.Project;
 import com.xitu.app.repository.PaperRepository;
+import com.xitu.app.service.es.PaperService;
 import com.xitu.app.utils.BeanUtil;
+import com.xitu.app.utils.ThreadLocalUtil;
 
 
 
@@ -78,6 +80,9 @@ public class PaperController {
 	
 	@Autowired
 	private ElasticsearchTemplate esTemplate;
+	
+	@Autowired
+	private PaperService paperService;
 	
 	
 	@GetMapping(value = "paper/get")
@@ -125,8 +130,136 @@ public class PaperController {
 		return "result-wxCon";
 	}
 	
+//	@GetMapping(value = "paper/list")
+//	public String projects(@RequestParam(required=false,value="q") String q,
+//			@RequestParam(required=false,value="year") String year,
+//			@RequestParam(required=false,value="pageSize") Integer pageSize, 
+//			@RequestParam(required=false, value="pageIndex") Integer pageIndex, 
+//			Model model) {
+//		if(pageSize == null) {
+//			pageSize = 10;
+//		}
+//		if(pageIndex == null) {
+//			pageIndex = 0;
+//		}
+//		long totalCount = 0L;
+//		long totalPages = 0L;
+//		List<Paper> paperList = new ArrayList<Paper>();
+//		String view = "result-wx";
+//		if(esTemplate.indexExists(Paper.class)) {
+//			if(q == null) {
+//				totalCount = paperRepository.count();
+//				if(totalCount >0) {
+//					Sort sort = new Sort(Direction.DESC, "now");
+//					Pageable pageable = new PageRequest(pageIndex, pageSize,sort);
+//					SearchQuery searchQuery = new NativeSearchQueryBuilder()
+//							.withPageable(pageable).build();
+//					Page<Paper> projectsPage = paperRepository.search(searchQuery);
+//					paperList = projectsPage.getContent();
+//				}
+//			}else {
+//				// 分页参数
+//				Pageable pageable = new PageRequest(pageIndex, pageSize);
+//
+//				BoolQueryBuilder queryBuilder = QueryBuilders.boolQuery().should(QueryBuilders.matchPhraseQuery("title", q)).should(QueryBuilders.matchPhraseQuery("subject", q));
+//				if(year != null) {
+//					String[] years = year.split("-");
+//					queryBuilder.filter(QueryBuilders.termsQuery("year", years));
+//				}
+//				
+//				
+//				// 分数，并自动按分排序
+//				FunctionScoreQueryBuilder functionScoreQueryBuilder = QueryBuilders.functionScoreQuery(queryBuilder, ScoreFunctionBuilders.weightFactorFunction(1000));
+//
+//				// 分数、分页
+//				SearchQuery searchQuery = new NativeSearchQueryBuilder().withPageable(pageable)
+//						.withQuery(functionScoreQueryBuilder).build();
+//
+//				Page<Paper> searchPageResults = paperRepository.search(searchQuery);
+//				paperList = searchPageResults.getContent();
+//				totalCount = esTemplate.count(searchQuery, Paper.class);
+//				
+//				
+//				BoolQueryBuilder queryBuilderAgg = QueryBuilders.boolQuery().filter(QueryBuilders.matchQuery("title", q));
+//				FunctionScoreQueryBuilder functionScoreQueryBuilderAgg = QueryBuilders.functionScoreQuery(queryBuilderAgg, ScoreFunctionBuilders.weightFactorFunction(1000));
+//				List<String> pList=new ArrayList<>();
+//				SearchQuery nativeSearchQueryBuilder = new NativeSearchQueryBuilder()
+//						.withQuery(functionScoreQueryBuilderAgg)
+//						.withSearchType(SearchType.QUERY_THEN_FETCH)
+//						.withIndices("paper").withTypes("pr")
+//						.addAggregation(AggregationBuilders.terms("agyear").field("year").order(Terms.Order.count(false)).size(10))
+//						.addAggregation(AggregationBuilders.terms("aginstitution").field("institution").order(Terms.Order.count(false)).size(10))
+//						.addAggregation(AggregationBuilders.terms("agjournal").field("journal").order(Terms.Order.count(false)).size(10))
+//						.addAggregation(AggregationBuilders.terms("agauthor").field("author").order(Terms.Order.count(false)).size(10))
+//						.build();
+//				Aggregations aggregations = esTemplate.query(nativeSearchQueryBuilder, new ResultsExtractor<Aggregations>() {
+//			        @Override
+//			        public Aggregations extract(SearchResponse response) {
+//			            return response.getAggregations();
+//			        }
+//			    });
+//				
+//				if(aggregations != null) {
+//					StringTerms yearTerms = (StringTerms) aggregations.asMap().get("agyear");
+//					Iterator<Bucket> yearbit = yearTerms.getBuckets().iterator();
+//					Map<String, Long> yearMap = new HashMap<String, Long>();
+//					while(yearbit.hasNext()) {
+//						Bucket yearBucket = yearbit.next();
+//						yearMap.put(yearBucket.getKey().toString(), Long.valueOf(yearBucket.getDocCount()));
+//					}
+//					model.addAttribute("agyear", yearMap);
+//					
+//					StringTerms institutionTerms = (StringTerms) aggregations.asMap().get("aginstitution");
+//					Iterator<Bucket> institutionbit = institutionTerms.getBuckets().iterator();
+//					Map<String, Long> institutionMap = new HashMap<String, Long>();
+//					while(institutionbit.hasNext()) {
+//						Bucket institutionBucket = institutionbit.next();
+//						institutionMap.put(institutionBucket.getKey().toString(), Long.valueOf(institutionBucket.getDocCount()));
+//					}
+//					model.addAttribute("aginstitution", institutionMap);
+//					
+//					StringTerms journalTerms = (StringTerms) aggregations.asMap().get("agjournal");
+//					Iterator<Bucket> journalbit = journalTerms.getBuckets().iterator();
+//					Map<String, Long> journalMap = new HashMap<String, Long>();
+//					while(journalbit.hasNext()) {
+//						Bucket journalBucket = journalbit.next();
+//						journalMap.put(journalBucket.getKey().toString(), Long.valueOf(journalBucket.getDocCount()));
+//					}
+//					model.addAttribute("agjournal", journalMap);
+//					
+//					StringTerms authorTerms = (StringTerms) aggregations.asMap().get("agauthor");
+//					Iterator<Bucket> authorbit = authorTerms.getBuckets().iterator();
+//					Map<String, Long> authorMap = new HashMap<String, Long>();
+//					while(authorbit.hasNext()) {
+//						Bucket authorBucket = authorbit.next();
+//						authorMap.put(authorBucket.getKey().toString(), Long.valueOf(authorBucket.getDocCount()));
+//					}
+//					model.addAttribute("agauthor", authorMap);
+//					
+//				}
+//				if(totalCount % pageSize == 0){
+//					totalPages = totalCount/pageSize;
+//				}else{
+//					totalPages = totalCount/pageSize + 1;
+//				}
+//				
+//				
+//			}
+//		}
+//		model.addAttribute("paperList", paperList);
+//		model.addAttribute("pageSize", pageSize);
+//		model.addAttribute("pageIndex", pageIndex);
+//		model.addAttribute("totalPages", totalPages);
+//		model.addAttribute("totalCount", totalCount);
+//		model.addAttribute("query", q);
+//			
+//		return view;
+//	}
 	@GetMapping(value = "paper/list")
 	public String projects(@RequestParam(required=false,value="q") String q,
+			@RequestParam(required=false,value="author") String author,
+			@RequestParam(required=false,value="institution") String institution,
+			@RequestParam(required=false,value="journal") String journal,
 			@RequestParam(required=false,value="year") String year,
 			@RequestParam(required=false,value="pageSize") Integer pageSize, 
 			@RequestParam(required=false, value="pageIndex") Integer pageIndex, 
@@ -137,120 +270,16 @@ public class PaperController {
 		if(pageIndex == null) {
 			pageIndex = 0;
 		}
-		long totalCount = 0L;
-		long totalPages = 0L;
-		List<Paper> paperList = new ArrayList<Paper>();
-		String view = "result-wx";
-		if(esTemplate.indexExists(Paper.class)) {
-			if(q == null) {
-				totalCount = paperRepository.count();
-				if(totalCount >0) {
-					Sort sort = new Sort(Direction.DESC, "now");
-					Pageable pageable = new PageRequest(pageIndex, pageSize,sort);
-					SearchQuery searchQuery = new NativeSearchQueryBuilder()
-							.withPageable(pageable).build();
-					Page<Paper> projectsPage = paperRepository.search(searchQuery);
-					paperList = projectsPage.getContent();
-				}
-			}else {
-				// 分页参数
-				Pageable pageable = new PageRequest(pageIndex, pageSize);
-
-				BoolQueryBuilder queryBuilder = QueryBuilders.boolQuery().should(QueryBuilders.matchPhraseQuery("title", q)).should(QueryBuilders.matchPhraseQuery("subject", q));
-				if(year != null) {
-					String[] years = year.split("-");
-					queryBuilder.filter(QueryBuilders.termsQuery("year", years));
-				}
-				
-				
-				// 分数，并自动按分排序
-				FunctionScoreQueryBuilder functionScoreQueryBuilder = QueryBuilders.functionScoreQuery(queryBuilder, ScoreFunctionBuilders.weightFactorFunction(1000));
-
-				// 分数、分页
-				SearchQuery searchQuery = new NativeSearchQueryBuilder().withPageable(pageable)
-						.withQuery(functionScoreQueryBuilder).build();
-
-				Page<Paper> searchPageResults = paperRepository.search(searchQuery);
-				paperList = searchPageResults.getContent();
-				totalCount = esTemplate.count(searchQuery, Paper.class);
-				
-				
-				BoolQueryBuilder queryBuilderAgg = QueryBuilders.boolQuery().filter(QueryBuilders.matchQuery("title", q));
-				FunctionScoreQueryBuilder functionScoreQueryBuilderAgg = QueryBuilders.functionScoreQuery(queryBuilderAgg, ScoreFunctionBuilders.weightFactorFunction(1000));
-				List<String> pList=new ArrayList<>();
-				SearchQuery nativeSearchQueryBuilder = new NativeSearchQueryBuilder()
-						.withQuery(functionScoreQueryBuilderAgg)
-						.withSearchType(SearchType.QUERY_THEN_FETCH)
-						.withIndices("paper").withTypes("pr")
-						.addAggregation(AggregationBuilders.terms("agyear").field("year").order(Terms.Order.count(false)).size(10))
-						.addAggregation(AggregationBuilders.terms("aginstitution").field("institution").order(Terms.Order.count(false)).size(10))
-						.addAggregation(AggregationBuilders.terms("agjournal").field("journal").order(Terms.Order.count(false)).size(10))
-						.addAggregation(AggregationBuilders.terms("agauthor").field("author").order(Terms.Order.count(false)).size(10))
-						.build();
-				Aggregations aggregations = esTemplate.query(nativeSearchQueryBuilder, new ResultsExtractor<Aggregations>() {
-			        @Override
-			        public Aggregations extract(SearchResponse response) {
-			            return response.getAggregations();
-			        }
-			    });
-				
-				if(aggregations != null) {
-					StringTerms yearTerms = (StringTerms) aggregations.asMap().get("agyear");
-					Iterator<Bucket> yearbit = yearTerms.getBuckets().iterator();
-					Map<String, Long> yearMap = new HashMap<String, Long>();
-					while(yearbit.hasNext()) {
-						Bucket yearBucket = yearbit.next();
-						yearMap.put(yearBucket.getKey().toString(), Long.valueOf(yearBucket.getDocCount()));
-					}
-					model.addAttribute("agyear", yearMap);
-					
-					StringTerms institutionTerms = (StringTerms) aggregations.asMap().get("aginstitution");
-					Iterator<Bucket> institutionbit = institutionTerms.getBuckets().iterator();
-					Map<String, Long> institutionMap = new HashMap<String, Long>();
-					while(institutionbit.hasNext()) {
-						Bucket institutionBucket = institutionbit.next();
-						institutionMap.put(institutionBucket.getKey().toString(), Long.valueOf(institutionBucket.getDocCount()));
-					}
-					model.addAttribute("aginstitution", institutionMap);
-					
-					StringTerms journalTerms = (StringTerms) aggregations.asMap().get("agjournal");
-					Iterator<Bucket> journalbit = journalTerms.getBuckets().iterator();
-					Map<String, Long> journalMap = new HashMap<String, Long>();
-					while(journalbit.hasNext()) {
-						Bucket journalBucket = journalbit.next();
-						journalMap.put(journalBucket.getKey().toString(), Long.valueOf(journalBucket.getDocCount()));
-					}
-					model.addAttribute("agjournal", journalMap);
-					
-					StringTerms authorTerms = (StringTerms) aggregations.asMap().get("agauthor");
-					Iterator<Bucket> authorbit = authorTerms.getBuckets().iterator();
-					Map<String, Long> authorMap = new HashMap<String, Long>();
-					while(authorbit.hasNext()) {
-						Bucket authorBucket = authorbit.next();
-						authorMap.put(authorBucket.getKey().toString(), Long.valueOf(authorBucket.getDocCount()));
-					}
-					model.addAttribute("agauthor", authorMap);
-					
-				}
-				if(totalCount % pageSize == 0){
-					totalPages = totalCount/pageSize;
-				}else{
-					totalPages = totalCount/pageSize + 1;
-				}
-				
-				
-			}
-		}
-		model.addAttribute("paperList", paperList);
-		model.addAttribute("pageSize", pageSize);
 		model.addAttribute("pageIndex", pageIndex);
-		model.addAttribute("totalPages", totalPages);
-		model.addAttribute("totalCount", totalCount);
-		model.addAttribute("query", q);
-			
+		model.addAttribute("pageSize", pageSize);
+		int i = 1;//0代表专利；1代表论文；2代表项目；3代表监测
+		// TODO 静态变量未环绕需调整
+		ThreadLocalUtil.set(model);
+		paperService.execute(pageIndex, pageSize, i,q,author,institution,journal,year);
+		ThreadLocalUtil.remove();
+		String view = "result-wx";	
 		return view;
 	}
-	
 	 /**
      * 实现文件上传
      * */

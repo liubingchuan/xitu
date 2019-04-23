@@ -98,13 +98,13 @@
 					<div class="clearfix">
 						<div class="left jiansuoLf jianceLf">
 							
-		        		<div class="jiansuoLfGp" th:if=" ${not #maps.isEmpty(lanmu.buckets)}">
+		        		<div class="jiansuoLfGp" th:if=" ${not #arrays.isEmpty(lanmu)}">
 		        			<h3 class="jiansuoLfGpTl">
 		        				栏目
 		        			</h3>
 		        			<div class="jiancelfgpB">
-		        			<div class="jiansuoLfGpList" th:if=" ${#maps.size(lanmu.buckets) > 5}">
-		        				<div class="jiansuoLfGx" th:each="l : ${lanmu.buckets}">
+		        			<div class="jiansuoLfGpList" th:if=" ${#arrays.length(lanmu) > 5}">
+		        				<div class="jiansuoLfGx" th:each="l : ${lanmu}">
 		        					<span th:if="${lanmus != null && lanmus != ''}">
 		        						<span th:if="${#strings.contains(lanmus,l.key)}">
 		        							<input type="checkbox" checked="checked"  th:id="'l'+${l.key}" th:name="lanmu" th:value="${l.key}" onclick="checkfm('lanmu','lanmu')"/>
@@ -121,7 +121,7 @@
 		        					</span>
 		        				</div>
 		        			</div>
-		        		    <div class="jiansuoLfGx" th:each="l : ${lanmu.buckets}" th:if=" ${#maps.size(lanmu.buckets) <= 5}">
+		        		    <div class="jiansuoLfGx" th:each="l : ${lanmu}" th:if=" ${#arrays.length(lanmu) <= 5}">
 		        					<span th:if="${lanmus != null && lanmus != ''}">
 		        						<span th:if="${#strings.contains(lanmus,l.key)}">
 		        							<input type="checkbox" checked="checked"  th:id="'l'+${l.key}" th:name="lanmu" th:value="${l.key}" onclick="checkfm('lanmu','lanmu')"/>
@@ -137,18 +137,18 @@
 		        						<label th:for="'l'+${l.key}" th:text="${l.key} + '(' + ${l.doc_count} + ')'"></label>
 		        					</span>
 		        				</div>
-		        		    <a href="javascript:;" class="jiansuoLfMore" th:if=" ${#maps.size(lanmu.buckets) > 5}">
+		        		    <a href="javascript:;" class="jiansuoLfMore" th:if=" ${#arrays.length(lanmu) > 5}">
 		        		    	展开更多
 		        		    </a>
 		        		    </div>
 		        		</div>
-						    <div class="jiansuoLfGp" th:if=" ${not #maps.isEmpty(institution.buckets)}">
+						    <div class="jiansuoLfGp" th:if=" ${not #arrays.isEmpty(institution)}">
 		        			<h3 class="jiansuoLfGpTl">
 		        				来源机构
 		        			</h3>
 		        			<div class="jiancelfgpB">
-		        			<div class="jiansuoLfGpList" th:if=" ${#maps.size(institution.buckets) > 5}">
-		        				<div class="jiansuoLfGx" th:each="i : ${institution.buckets}">
+		        			<div class="jiansuoLfGpList" th:if=" ${#arrays.length(institution) > 5}">
+		        				<div class="jiansuoLfGx" th:each="i : ${institution}">
 		        					<span th:if="${institutions != null && institutions != ''}">
 		        						<span th:if="${#strings.contains(institutions,i.key)}">
 		        							<input type="checkbox" checked="checked"  th:id="'i'+${i.key}" th:name="institution" th:value="${i.key}" onclick="checkfm('institution','institution')"/>
@@ -165,7 +165,7 @@
 		        					</span>
 		        				</div>
 		        			</div>
-		        			<div class="jiansuoLfGx" th:each="i : ${institution.buckets}" th:if=" ${#maps.size(institution.buckets) <= 5}">
+		        			<div class="jiansuoLfGx" th:each="i : ${institution}" th:if=" ${#arrays.length(institution) <= 5}">
 		        					<span th:if="${institutions != null && institutions != ''}">
 		        						<span th:if="${#strings.contains(institutions,i.key)}">
 		        							<input type="checkbox" checked="checked"  th:id="'i'+${i.key}" th:name="institution" th:value="${i.key}" onclick="checkfm('institution','institution')"/>
@@ -181,7 +181,7 @@
 		        						<label th:for="'i'+${i.key}" th:text="${i.key} + '(' + ${i.doc_count} + ')'"></label>
 		        					</span>
 		        				</div>
-		        		    <a href="javascript:;" class="jiansuoLfMore" th:if=" ${#maps.size(institution.buckets) > 5}">
+		        		    <a href="javascript:;" class="jiansuoLfMore" th:if=" ${#arrays.length(institution) > 5}">
 		        		    	展开更多
 		        		    </a>
 		        		    </div>

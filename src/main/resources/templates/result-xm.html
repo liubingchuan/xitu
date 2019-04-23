@@ -100,66 +100,148 @@
 		        			<a href="/">首页</a>><span>项目</span>
 		        		</div>
 		        	
-		        		<div class="jiansuoLfGp" th:if=" ${not #maps.isEmpty(agentrust)}">
+		        		<div class="jiansuoLfGp" th:if=" ${not #arrays.isEmpty(entrust)}">
 		        			<h3 class="jiansuoLfGpTl">
 		        				委托单位
 		        			</h3>
-		        			<div class="jiansuoLfGpList" th:if=" ${#maps.size(agentrust) > 5}">
-		        				<div class="jiansuoLfGx"  th:each="entrust : ${agentrust}" >
-		        					<input type="checkbox" th:id="'en'+${entrust.key}" onclick="checkboxOnclick(this)" th:name="entrust" th:value="${entrust.key}"/>
-		        					<label th:for="'en'+${entrust.key}" th:text="${entrust.key} + '(' + ${entrust.value} + ')'"></label>
+		        			<div class="jiancelfgpB">
+		        			<div class="jiansuoLfGpList" th:if=" ${#arrays.length(entrust) > 5}">
+		        				<div class="jiansuoLfGx" th:each="l : ${entrust}">
+		        					<span th:if="${entrusts != null && entrusts != ''}">
+		        						<span th:if="${#strings.contains(entrusts,l.key)}">
+		        							<input type="checkbox" checked="checked"  th:id="'l'+${l.key}" th:name="entrust" th:value="${l.key}" onclick="checkfm('entrust','entrust')"/>
+		        							<label th:for="'l'+${l.key}" th:text="${l.key} + '(' + ${l.doc_count} + ')'"></label>
+		        						</span>
+		        						<span th:if="${!#strings.contains(entrusts,l.key)}">
+		        							<input type="checkbox" th:id="'l'+${l.key}" th:name="entrust" th:value="${l.key}" onclick="checkfm('entrust','entrust')"/>
+		        							<label th:for="'l'+${l.key}" th:text="${l.key} + '(' + ${l.doc_count} + ')'"></label>
+		        						</span>
+		        					</span>
+		        					<span th:if="${entrusts == null || entrusts == ''}">
+		        						<input type="checkbox" th:id="'l'+${l.key}" th:name="entrust" th:value="${l.key}" onclick="checkfm('entrust','entrust')"/>
+		        						<label th:for="'l'+${l.key}" th:text="${l.key} + '(' + ${l.doc_count} + ')'"></label>
+		        					</span>
 		        				</div>
 		        			</div>
-		        			<div class="jiansuoLfGx"  th:each="entrust : ${agentrust}" th:if=" ${#maps.size(agentrust) <= 5}">
-		        					<input type="checkbox" th:id="'en'+${entrust.key}" onclick="checkboxOnclick(this)" th:name="entrust" th:value="${entrust.key}"/>
-		        					<label th:for="'en'+${entrust.key}" th:text="${entrust.key} + '(' + ${entrust.value} + ')'"></label>
-		        			</div>
-		        		    <a href="javascript:;" class="jiansuoLfMore" th:if=" ${#maps.size(agentrust) > 5}">
+		        			<div class="jiansuoLfGx" th:each="l : ${entrust}" th:if=" ${#arrays.length(entrust) <= 5}">
+		        					<span th:if="${entrusts != null && entrusts != ''}">
+		        						<span th:if="${#strings.contains(entrusts,l.key)}">
+		        							<input type="checkbox" checked="checked"  th:id="'l'+${l.key}" th:name="entrust" th:value="${l.key}" onclick="checkfm('entrust','entrust')"/>
+		        							<label th:for="'l'+${l.key}" th:text="${l.key} + '(' + ${l.doc_count} + ')'"></label>
+		        						</span>
+		        						<span th:if="${!#strings.contains(entrusts,l.key)}">
+		        							<input type="checkbox" th:id="'l'+${l.key}" th:name="entrust" th:value="${l.key}" onclick="checkfm('entrust','entrust')"/>
+		        							<label th:for="'l'+${l.key}" th:text="${l.key} + '(' + ${l.doc_count} + ')'"></label>
+		        						</span>
+		        					</span>
+		        					<span th:if="${entrusts == null || entrusts == ''}">
+		        						<input type="checkbox" th:id="'l'+${l.key}" th:name="entrust" th:value="${l.key}" onclick="checkfm('entrust','entrust')"/>
+		        						<label th:for="'l'+${l.key}" th:text="${l.key} + '(' + ${l.doc_count} + ')'"></label>
+		        					</span>
+		        				</div>
+		        		    
+		        		    <a href="javascript:;" class="jiansuoLfMore" th:if=" ${#arrays.length(entrust) > 5}">
 		        		    	展开更多
 		        		    </a>
+		        		    </div>
 		        		</div>
 		        		
-		        	    <div class="jiansuoLfGp" th:if=" ${not #maps.isEmpty(agclassis)}">
+		        		<div class="jiansuoLfGp" th:if=" ${not #arrays.isEmpty(entrust)}">
 		        			<h3 class="jiansuoLfGpTl">
 		        				项目分类
 		        			</h3>
-		        			<div class="jiansuoLfGpList" th:if=" ${#maps.size(agclassis) > 5}">
-		        				<div class="jiansuoLfGx" th:each="cls : ${agclassis}">
-		        					<input type="checkbox" th:id="'cl'+${cls.key}" onclick="checkboxOnclick(this)" th:name="cls" th:value="${cls.key}"/>
-		        					<label th:for="'cl'+${cls.key}" th:text="${cls.key} + '(' + ${cls.value} + ')'"></label>
+		        			<div class="jiancelfgpB">
+		        			<div class="jiansuoLfGpList" th:if=" ${#arrays.length(classis) > 5}">
+		        				<div class="jiansuoLfGx" th:each="l : ${classis}">
+		        					<span th:if="${classiss != null && classiss != ''}">
+		        						<span th:if="${#strings.contains(classiss,l.key)}">
+		        							<input type="checkbox" checked="checked"  th:id="'l'+${l.key}" th:name="classis" th:value="${l.key}" onclick="checkfm('classis','classis')"/>
+		        							<label th:for="'l'+${l.key}" th:text="${l.key} + '(' + ${l.doc_count} + ')'"></label>
+		        						</span>
+		        						<span th:if="${!#strings.contains(classiss,l.key)}">
+		        							<input type="checkbox" th:id="'l'+${l.key}" th:name="classis" th:value="${l.key}" onclick="checkfm('classis','classis')"/>
+		        							<label th:for="'l'+${l.key}" th:text="${l.key} + '(' + ${l.doc_count} + ')'"></label>
+		        						</span>
+		        					</span>
+		        					<span th:if="${classiss == null || classiss == ''}">
+		        						<input type="checkbox" th:id="'l'+${l.key}" th:name="classis" th:value="${l.key}" onclick="checkfm('classis','classis')"/>
+		        						<label th:for="'l'+${l.key}" th:text="${l.key} + '(' + ${l.doc_count} + ')'"></label>
+		        					</span>
 		        				</div>
 		        			</div>
-		        			<div class="jiansuoLfGx" th:each="cls : ${agclassis}" th:if=" ${#maps.size(agclassis) <= 5}">
-		        					<input type="checkbox" th:id="'cl'+${cls.key}" onclick="checkboxOnclick(this)" th:name="cls" th:value="${cls.key}"/>
-		        					<label th:for="'cl'+${cls.key}" th:text="${cls.key} + '(' + ${cls.value} + ')'"></label>
+		        			<div class="jiansuoLfGx" th:each="l : ${classis}" th:if=" ${#arrays.length(classis) <= 5}">
+		        					<span th:if="${classiss != null && classiss != ''}">
+		        						<span th:if="${#strings.contains(classiss,l.key)}">
+		        							<input type="checkbox" checked="checked"  th:id="'l'+${l.key}" th:name="classis" th:value="${l.key}" onclick="checkfm('classis','classis')"/>
+		        							<label th:for="'l'+${l.key}" th:text="${l.key} + '(' + ${l.doc_count} + ')'"></label>
+		        						</span>
+		        						<span th:if="${!#strings.contains(classiss,l.key)}">
+		        							<input type="checkbox" th:id="'l'+${l.key}" th:name="classis" th:value="${l.key}" onclick="checkfm('classis','classis')"/>
+		        							<label th:for="'l'+${l.key}" th:text="${l.key} + '(' + ${l.doc_count} + ')'"></label>
+		        						</span>
+		        					</span>
+		        					<span th:if="${classiss == null || classiss == ''}">
+		        						<input type="checkbox" th:id="'l'+${l.key}" th:name="classis" th:value="${l.key}" onclick="checkfm('classis','classis')"/>
+		        						<label th:for="'l'+${l.key}" th:text="${l.key} + '(' + ${l.doc_count} + ')'"></label>
+		        					</span>
 		        				</div>
-		        		    <a href="javascript:;" class="jiansuoLfMore" th:if=" ${#maps.size(agclassis) > 5}">
+		        		    
+		        		    <a href="javascript:;" class="jiansuoLfMore" th:if=" ${#arrays.length(classis) > 5}">
 		        		    	展开更多
 		        		    </a>
+		        		    </div>
 		        		</div>
-		        	   
-		        	    <div class="jiansuoLfGp" th:if=" ${not #maps.isEmpty(agbudget)}">
+		        		
+		        	    <div class="jiansuoLfGp" th:if=" ${not #arrays.isEmpty(budget)}">
 		        			<h3 class="jiansuoLfGpTl">
 		        				项目预算
 		        			</h3>
-		        			<div class="jiansuoLfGpList" th:if=" ${#maps.size(agbudget) > 5}">
-		        				<div class="jiansuoLfGx" th:each="budget : ${agbudget}">
-		        					<input type="checkbox" th:id="'bu'+${budget.key}" onclick="checkboxOnclick(this)" th:name="budget" th:value="${budget.key}"/>
-		        					<label th:for="'bu'+${budget.key}" th:text="${budget.key} + '(' + ${budget.value} + ')'"></label>
+		        			<div class="jiancelfgpB">
+		        			<div class="jiansuoLfGpList" th:if=" ${#arrays.length(budget) > 5}">
+		        				<div class="jiansuoLfGx" th:each="l : ${budget}">
+		        					<span th:if="${budgets != null && budgets != ''}">
+		        						<span th:if="${#strings.contains(budgets,l.key)}">
+		        							<input type="checkbox" checked="checked"  th:id="'l'+${l.key}" th:name="budget" th:value="${l.key}" onclick="checkfm('budget','budget')"/>
+		        							<label th:for="'l'+${l.key}" th:text="${l.key} + '(' + ${l.doc_count} + ')'"></label>
+		        						</span>
+		        						<span th:if="${!#strings.contains(budgets,l.key)}">
+		        							<input type="checkbox" th:id="'l'+${l.key}" th:name="budget" th:value="${l.key}" onclick="checkfm('budget','budget')"/>
+		        							<label th:for="'l'+${l.key}" th:text="${l.key} + '(' + ${l.doc_count} + ')'"></label>
+		        						</span>
+		        					</span>
+		        					<span th:if="${budgets == null || budgets == ''}">
+		        						<input type="checkbox" th:id="'l'+${l.key}" th:name="budget" th:value="${l.key}" onclick="checkfm('budget','budget')"/>
+		        						<label th:for="'l'+${l.key}" th:text="${l.key} + '(' + ${l.doc_count} + ')'"></label>
+		        					</span>
 		        				</div>
 		        			</div>
-		        			<div class="jiansuoLfGx" th:each="budget : ${agbudget}" th:if=" ${#maps.size(agbudget) <= 5}">
-		        					<input type="checkbox" th:id="'bu'+${budget.key}" onclick="checkboxOnclick(this)" th:name="budget" th:value="${budget.key}"/>
-		        					<label th:for="'bu'+${budget.key}" th:text="${budget.key} + '(' + ${budget.value} + ')'"></label>
+		        			<div class="jiansuoLfGx" th:each="l : ${budget}" th:if=" ${#arrays.length(budget) <= 5}">
+		        					<span th:if="${budgets != null && budgets != ''}">
+		        						<span th:if="${#strings.contains(budgets,l.key)}">
+		        							<input type="checkbox" checked="checked"  th:id="'l'+${l.key}" th:name="budget" th:value="${l.key}" onclick="checkfm('budget','budget')"/>
+		        							<label th:for="'l'+${l.key}" th:text="${l.key} + '(' + ${l.doc_count} + ')'"></label>
+		        						</span>
+		        						<span th:if="${!#strings.contains(budgets,l.key)}">
+		        							<input type="checkbox" th:id="'l'+${l.key}" th:name="budget" th:value="${l.key}" onclick="checkfm('budget','budget')"/>
+		        							<label th:for="'l'+${l.key}" th:text="${l.key} + '(' + ${l.doc_count} + ')'"></label>
+		        						</span>
+		        					</span>
+		        					<span th:if="${budgets == null || budgets == ''}">
+		        						<input type="checkbox" th:id="'l'+${l.key}" th:name="budget" th:value="${l.key}" onclick="checkfm('budget','budget')"/>
+		        						<label th:for="'l'+${l.key}" th:text="${l.key} + '(' + ${l.doc_count} + ')'"></label>
+		        					</span>
 		        				</div>
-		        		    <a href="javascript:;" class="jiansuoLfMore" th:if=" ${#maps.size(agbudget) > 5}">
+		        		    
+		        		    <a href="javascript:;" class="jiansuoLfMore" th:if=" ${#arrays.length(budget) > 5}">
 		        		    	展开更多
 		        		    </a>
+		        		    </div>
 		        		</div>
+		        	   
 		        	</div>
 		            <div class="right jiansuoRt">
 		            	<ul class="jiansuoUl">
-		            		<li th:each="project: ${projectList}">
+		            		<li th:each="project: ${list}">
 		            			<div class="jiansuoLiTL">
 		            				<a th:href="@{/project/get(id=${project.id},front=0)}" th:text="${project.name}">
 		            				</a>
@@ -182,11 +264,11 @@
 		            	<span th:if=" ${totalCount > 0}">
 					    	<span th:text="'共 ' + ${totalCount}+' 条项目信息'">
 					    	</span>
-					    	<a th:style="'display:' + @{((${pageIndex}+1) == 1 ? 'none' : 'inline-block')} + ''"  th:href="@{/project/list(q=${query},pageIndex=0,pageSize=10)}"><首页</a>
- 							<a th:style="'display:' + @{((${pageIndex}+1) == 1 ? 'none' : 'inline-block')} + ''" th:href="@{/project/list(q=${query},pageIndex=(${pageIndex}-1),pageSize=10)}"><上一页</a>
+					    	<a th:style="'display:' + @{((${pageIndex}+1) == 1 ? 'none' : 'inline-block')} + ''"  th:href="@{/project/list(q=${query},pageIndex=0,pageSize=10,classis=${classis},budget=${budget},entrust=${entrust})}"><首页</a>
+ 							<a th:style="'display:' + @{((${pageIndex}+1) == 1 ? 'none' : 'inline-block')} + ''" th:href="@{/project/list(q=${query},pageIndex=(${pageIndex}-1),pageSize=10,classis=${classis},budget=${budget},entrust=${entrust})}"><上一页</a>
  							<!-- <a th:href="@{/jiance/jiancelist(pageIndex=(${pageIndex}),pageSize=10)}" th:text="(${pageIndex}+1) + '/' + ${totalPages}" ></a> -->
-							<a th:style="'display:' + @{((${pageIndex}+1) == ${totalPages} ? 'none' : 'inline-block')} + ''" th:href="@{/project/list(q=${query},pageIndex=(${pageIndex}+1),pageSize=10)}">下一页<em>></em></a>
-							<a th:style="'display:' + @{((${pageIndex}+1) == ${totalPages} ? 'none' : 'inline-block')} + ''" th:href="@{/project/list(q=${query},pageIndex=(${totalPages}-1),pageSize=10)}">尾页<em>></em></a>
+							<a th:style="'display:' + @{((${pageIndex}+1) == ${totalPages} ? 'none' : 'inline-block')} + ''" th:href="@{/project/list(q=${query},pageIndex=(${pageIndex}+1),pageSize=10,classis=${classis},budget=${budget},entrust=${entrust})}">下一页<em>></em></a>
+							<a th:style="'display:' + @{((${pageIndex}+1) == ${totalPages} ? 'none' : 'inline-block')} + ''" th:href="@{/project/list(q=${query},pageIndex=(${totalPages}-1),pageSize=10,classis=${classis},budget=${budget},entrust=${entrust})}">尾页<em>></em></a>
 		            		<span th:text="'页次：' + (${pageIndex}+1) + '/' + ${totalPages}"></span>
 		            	</span>
 		            	</div>
@@ -264,10 +346,10 @@
 		<script type="text/javascript" th:src="@{/js/main.js}" ></script>
 		<script type="text/javascript" th:inline="javascript">
     
-		$(document).ready(function () {
-			$("#logoinName").html($.cookie("nickName"));
-		    $("#headImg").attr("src", $.cookie("headImg"));
-		});
+		//$(document).ready(function () {
+			//$("#logoinName").html($.cookie("nickName"));
+		   // $("#headImg").attr("src", $.cookie("headImg"));
+		//});
 		
     /* jeDate({
 		dateCell:"#dateinfo",
@@ -285,28 +367,80 @@
 	}) */
 	
 	function search(){
-    	var uri = '';
-    	var entrust = ''
-    	$.each($('input:checkbox:checked'),function(){
-    		if($(this).attr("name") == "entrust") {
-    			if(entrust == '') 
-    			{
-    				entrust = $(this).val()
-    			}
-    			else
-    			{
-    				entrust = entrust + '-' + $(this).val()
-    			}
-    		}
-        });
-    	if(entrust != '') {
-    		uri = uri + 'entrust=' + entrust + ''
-    	}
+    	//var uri = '';
+    	//var entrust = ''
+    	//$.each($('input:checkbox:checked'),function(){
+    		//if($(this).attr("name") == "entrust") {
+    			//if(entrust == '') 
+    			//{
+    				//entrust = $(this).val()
+    			//}
+    			//else
+    			//{
+    				//entrust = entrust + '-' + $(this).val()
+    			//}
+    		//}
+       // });
+    	//if(entrust != '') {
+    		//uri = uri + 'entrust=' + entrust + ''
+    	//}
 		/* window.location.href="http://47.104.7.73/project/list?q=" + $("#keywords").val() + "&" + uri; */
 		if($("#keywords").val() != "") {
-	    	window.location.href="/project/list?q=" + $("#keywords").val() + "&" + uri;
+	    	window.location.href="/project/list?q=" + $("#keywords").val();
 		}
 	}
+    
+	var classis =  [[${classiss}]];
+	var budget =  [[${budgets}]];
+	var entrust =  [[${entrusts}]];
+    var query =  [[${query}]];
+    function checkfm(name,fmtype){
+        obj = document.getElementsByName(name);
+        check_val = [];
+        for(var i=0;i<obj.length;i++){ 
+        	if(obj[i].checked){ 
+        		 check_val.push(obj[i].value);
+        	} 
+        }
+        ss =  check_val.toString();
+        
+        if(fmtype == 'classis'){
+        	var url = "/project/list?q="+query + "&classis=" + encodeURI(encodeURIComponent(ss));
+        	
+        	if (budget != "" && budget != null) {
+        		url+="&budget="+encodeURI(encodeURIComponent(budget));
+        	} 
+        	if (entrust != "" && entrust != null) {
+        		url+="&entrust="+encodeURI(encodeURIComponent(entrust));
+        	}
+        	window.location.href=url;
+        }
+        if(fmtype == 'budget'){
+        	var url = "/project/list?q="+query + "&budget=" + encodeURI(encodeURIComponent(ss));
+        	
+        	if (classis != "" && classis != null) {
+        		url+="&classis="+encodeURI(encodeURIComponent(classis));
+        	} 
+        	if (entrust != "" && entrust != null) {
+        		url+="&entrust="+encodeURI(encodeURIComponent(entrust));
+        	}
+        	window.location.href=url;
+        }
+        if(fmtype == 'entrust'){
+        	var url = "/project/list?q="+query + "&entrust=" + encodeURI(encodeURIComponent(ss));
+        	
+        	if (budget != "" && budget != null) {
+        		url+="&classis="+encodeURI(encodeURIComponent(classis));
+        	} 
+        	if (budget != "" && budget != null) {
+        		url+="&budget="+encodeURI(encodeURIComponent(budget));
+        	}
+        	window.location.href=url;
+        }
+        
+        
+        
+    }
     
 		</script>
 	</body>
