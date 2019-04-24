@@ -6,6 +6,7 @@
 		<link rel="stylesheet" th:href="@{/css/init.css}" />
 		<link rel="stylesheet" th:href="@{/css/main.css}" />
 		<script type="text/javascript" th:src="@{/js/jquery-1.7.2.js}" ></script>
+		<script type="text/javascript" th:src="@{/js/jquery.cookie.js}" ></script>
 	</head>
 	<body class="manageBody">
 		<div class="manageLf">
@@ -301,6 +302,13 @@
 		</div>
 		<script type="text/javascript" th:src="@{/js/main.js}" ></script>
 		<script type="text/javascript" th:inline="javascript">
+		$(document).ready(function () {
+		    if($.cookie("role")!=null && $.cookie("role")==="普通用户"){
+				$("#backgroud").css('display','none'); 
+			}
+			$("#logoinName").html($.cookie("nickName"));
+		    $("#headImg").attr("src", $.cookie("headImg"));
+		});
 			function displayorder() {
 			
 				document.getElementById("lianxirencontent").style="display:none";

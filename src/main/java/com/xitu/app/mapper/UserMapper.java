@@ -37,7 +37,7 @@ public interface UserMapper {
 		        + "WHERE id = #{user.id}")
 	void updateById(@Param("user") User user);
 	
-	@Update("UPDATE xitu_user SET account = #{user.account}, password = #{user.password}, email = #{user.email}, "
+	@Update("UPDATE xitu_user SET account = #{user.account}, password = #{user.password}, email = #{user.email} "
 			+ "WHERE open_id = #{user.openId}")
 	void updateByOpenId(@Param("user") User user);
 	

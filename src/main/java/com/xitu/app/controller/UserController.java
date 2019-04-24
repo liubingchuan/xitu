@@ -1,14 +1,8 @@
 package com.xitu.app.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
-import com.xitu.app.mapper.ItemMapper;
-import com.xitu.app.model.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +23,9 @@ import com.xitu.app.common.SystemConstant;
 import com.xitu.app.common.request.LoginRequest;
 import com.xitu.app.common.request.RegisterRequest;
 import com.xitu.app.common.request.UpdateUserRequest;
+import com.xitu.app.mapper.ItemMapper;
 import com.xitu.app.mapper.UserMapper;
+import com.xitu.app.model.Item;
 import com.xitu.app.model.User;
 import com.xitu.app.service.Cache;
 import com.xitu.app.utils.BeanUtil;
@@ -60,11 +56,6 @@ public class UserController {
 		return "index";
 	}
 	
-//	@RequestMapping("/MP_verify_wf187SJImz1J24F0.txt")
-//	public String MP_verify_wf187SJImz1J24F0(){
-//		return "MP_verify_wf187SJImz1J24F0";
-//	}
-	
 	@ResponseBody
 	@RequestMapping(value = "user/bind", method = RequestMethod.POST,consumes = "application/json")
 	public R bind(@RequestBody RegisterRequest request) {
@@ -80,17 +71,21 @@ public class UserController {
 		System.out.println("nickName is " + nickName);
 		
 		User user = userMapper.getUserByAccount(account);
-		if(user != null) {
-			System.out.println("the account has been registered early");
+		if(user != null && user.getId() != null) {
 			return R.error().put("token", "0");
 		}
-		user = new User();
+		
+		user = userMapper.getUserByOpenId(openId);
 		user.setAccount(account);
 		user.setPassword(password);
 		user.setEmail(email);
-		user.setOpenId(openId);
-		userMapper.updateByOpenId(user);
-		System.out.println("binding successfully");
+		if(user != null && user.getId() != null) {
+			userMapper.updateByOpenId(user);
+			System.out.println("binding successfully");
+		}else {
+			logger.info("微信注册绑定失败，没有找到相应openId的人");
+			return R.error();
+		}
 		
 		return R.ok();
 	}
