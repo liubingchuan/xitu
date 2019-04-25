@@ -2,6 +2,7 @@ package com.xitu.app.task;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -103,24 +104,26 @@ jump:
             	Elements tdes = tdelement.select("td");
             	Price price = new Price();
             	price.setUpdateTime(formatter.format(date));
-            	for(int i = 0; i < tdes.size(); i++){
-            		if(i==0) {
-            			price.setName(tdes.get(i).text());
-            		}else if(i==1) {
-            			price.setDescription(tdes.get(i).text());
-            		}else if(i==6) {
-            			price.setUnit(tdes.get(i).text());
-            		}else if(i==3) {
-            			price.setPrice(tdes.get(i).text());
-            		}else if(i==4) {
-            			price.setAvg(tdes.get(i).text());
-            			Price yesterday = priceMapper.getLatestPrice(price.getName());
-            			int before = Integer.valueOf(yesterday.getAvg());
-            			int now = Integer.valueOf(tdes.get(i).text());
-            			
-            			price.setFloating(tdes.get(i).text());
-            		}
-				}
+        		price.setName(tdes.get(0).text());
+        		price.setDescription(tdes.get(1).text());
+        		price.setUnit(tdes.get(6).text());
+        		price.setPrice(tdes.get(3).text());
+        		price.setAvg(tdes.get(4).text());
+        		Price yesterday = priceMapper.getLatestPrice(price.getName());
+        		if(yesterday == null) {
+        			price.setFloating("100%");
+        		}else {
+        			float before = Float.valueOf(yesterday.getAvg());
+        			float now = Float.valueOf(tdes.get(4).text());
+        			float delta = now - before;
+        			if(delta != 0) {
+        				System.out.println();
+        			}
+        			NumberFormat numberFormat = NumberFormat.getInstance();
+        			numberFormat.setMaximumFractionDigits(2);
+        			String result = numberFormat.format(delta / before * 100);
+        			price.setFloating(result + "%");
+        		}
             	priceMapper.insertPrice(price);
             }
               //  String title = clearfixli.getElementsByTag("a").text();
