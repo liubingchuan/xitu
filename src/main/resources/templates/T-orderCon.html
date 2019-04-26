@@ -87,7 +87,7 @@
 					</div>
 					<div class="dingdanxqB" th:object="${order}">
 					
-		    		<a th:if="${order.chulizhuangtai == '已完成'}" href="#" class="btnblue orderconDown">
+		    		<a th:if="${order.chulizhuangtai == '已完成' && order.chulirenfujianId != null && order.chulirenfujianId !='' }" th:href="@{/file/fileDownload(filename=${chufujianId})}" class="btnblue orderconDown">
 		    					下载报告 
 		    		</a>
 		    		
@@ -217,27 +217,26 @@
 									
 								</div>
 							</div>
-							<!-- <div class="orderconTextGp clearfix">
+							<div class="orderconTextGp clearfix">
 								<span class="left orderconTextGpName">
 									备注：
 								</span>
-								<div class="orderconTextGpRt">
-									植物表观遗传学是当前植物学研究领域的一个热点，在国家杰出青年科学基金和“九七三”等项目的资助下，中国农业大学巩志忠教授领导的研究小组在该方面取得了重要进展．巩志忠教授及其研究小组利用基因沉默抑制因子ROS1突变后导致35S启动子-新霉素磷酸转移酶（Pro35S：NPTⅡ）基因沉默做为筛选标记，筛选并获得解除Pro35S：NPTⅡ基因沉默的了两个等位突变体rorl-1和rorl-2（rosl突变的抑制因子）,图位克隆显示ROR1编码一个与DNA复制蛋白A2（RPA2A）相似的31-kD的蛋白。
+								<div class="orderconTextGpRt" th:text="*{beizhu}">
+									
 								</div>
-							</div> -->
-							<!-- <div class="orderconTextGp clearfix">
+							</div>
+							<div class="orderconTextGp clearfix">
 								<span class="left orderconTextGpName">
 									附件： 
 								</span>
-								<div class="orderconTextGpRt">
+								<div class="orderconTextGpRt" th:each="s : ${ids}" th:if=" ${not #lists.isEmpty(ids)}">
 									<p>
-										项目进度报告.zip <a href="#" class="colorBlue">下载</a>
-									</p>
-									<p>
-										 项目计划书.doc <a href="#" class="colorBlue">下载</a>
+										<span th:text="${#strings.substringAfter(s,'_')} "></span>
+										<a th:href="@{/file/fileDownload(filename=${s})}" class="colorBlue">下载</a>
+										
 									</p>
 								</div>
-							</div> -->
+							</div>
 						</div>
 					    <div class="orderconTl">
 							主要联系人
@@ -278,45 +277,45 @@
 							</div>
 							
 						</div>
-					    <!-- <div class="orderconTl">
+					    <div class="orderconTl" th:if="${fulinkuser != null && fulinkuser!=''}">
 							其他联系人
 						</div>
-						<div class="orderconText">
+						<div class="orderconText" th:object="${fulinkuser}" th:if="${fulinkuser != null}">
 							
 							<div class="orderconTextGp clearfix">
 								<span class="left orderconTextGpName">
 									姓名:
 								</span>
-								<div class="orderconTextGpRt">
-									张伟
+								<div class="orderconTextGpRt" th:text="*{name}">
+									
 								</div>
 							</div>
 							<div class="orderconTextGp clearfix">
 								<span class="left orderconTextGpName">
 									单位:
 								</span>
-								<div class="orderconTextGpRt">
-									中国科学院
+								<div class="orderconTextGpRt" th:text="*{institution}">
+									
 								</div>
 							</div>
 							<div class="orderconTextGp clearfix">
 								<span class="left orderconTextGpName">
 									手机:
 								</span>
-								<div class="orderconTextGpRt">
-								15270577876
+								<div class="orderconTextGpRt" th:text="*{telephone}">
+								
 								</div>
 							</div>
 							<div class="orderconTextGp clearfix">
 								<span class="left orderconTextGpName">
 									 邮箱:
 								</span>
-								<div class="orderconTextGpRt">
-									asuidh@sohu.com
+								<div class="orderconTextGpRt" th:text="*{email}">
+									
 								</div>
 							</div>
 							
-						</div> -->
+						</div>
 					</div>
 					</div>
 
@@ -406,6 +405,7 @@
 			    window.location.href="/patent/list?q=" + $("#keywords").val();
 				/* window.location.href="http://47.104.7.73/patent/list?q=" + $("#keywords").val(); */
 			}
+			var fulinkuser =  [[${fulinkuser}]];
 				</script>
 	</body>
 </html>

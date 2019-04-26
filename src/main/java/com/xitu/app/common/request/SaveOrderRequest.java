@@ -31,6 +31,11 @@ public class SaveOrderRequest extends BaseRequest{
 	private String telephone;
 	private String institution;
 	
+	private String funa;
+	private String fuema;
+	private String futele;
+	private String fuins;
+	
 	public String getToken() {
 		return token;
 	}
@@ -169,5 +174,30 @@ public class SaveOrderRequest extends BaseRequest{
 	public void setInstitution(String institution) {
 		this.institution = institution;
 	}
+	public String getFuna() {
+		return funa;
+	}
+	public void setFuna(String funa) {
+		this.funa = funa;
+	}
+	public String getFuema() {
+		return fuema;
+	}
+	public void setFuema(String fuema) {
+		this.fuema = fuema;
+	}
+	public String getFutele() {
+		return futele;
+	}
+	public void setFutele(String futele) {
+		this.futele = futele;
+	}
+	public String getFuins() {
+		return fuins;
+	}
+	public void setFuins(String fuins) {
+		this.fuins = fuins;
+	}
+
 	
 }

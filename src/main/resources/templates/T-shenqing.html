@@ -151,11 +151,12 @@
 						</div>
 					    <div class="sqPage">
 					    	<span th:text="'共 ' + ${totalCount}+' 条申请订单记录'"></span>
-					    	<a th:style="'display:' + @{((${pageIndex}+1) == 1 ? 'none' : 'inline-block')} + ''"  th:href="@{/zhishifuwu/shenqinglist(pageIndex=0,pageSize=10)}"><首页</a>
- 							<a th:style="'display:' + @{((${pageIndex}+1) == 1 ? 'none' : 'inline-block')} + ''" th:href="@{/zhishifuwu/shenqinglist(pageIndex=(${pageIndex}-1),pageSize=10)}"><上一页</a>
+					    	<!-- 刘冰川 -->
+					    	<a th:style="'display:' + @{((${pageIndex}+1) == 1 ? 'none' : 'inline-block')} + ''"  th:href="@{/zhishifuwu/shenqinglist(userid=1,pageIndex=0,pageSize=10)}"><首页</a>
+ 							<a th:style="'display:' + @{((${pageIndex}+1) == 1 ? 'none' : 'inline-block')} + ''" th:href="@{/zhishifuwu/shenqinglist(userid=1,pageIndex=(${pageIndex}-1),pageSize=10)}"><上一页</a>
  							<!-- <a th:href="@{/jiance/jiancelist(pageIndex=(${pageIndex}),pageSize=10)}" th:text="(${pageIndex}+1) + '/' + ${totalPages}" ></a> -->
-							<a th:style="'display:' + @{((${pageIndex}+1) == ${totalPages} ? 'none' : 'inline-block')} + ''" th:href="@{/zhishifuwu/shenqinglist(pageIndex=(${pageIndex}+1),pageSize=10)}">下一页<em>></em></a>
-							<a th:style="'display:' + @{((${pageIndex}+1) == ${totalPages} ? 'none' : 'inline-block')} + ''" th:href="@{/zhishifuwu/shenqinglist(pageIndex=(${totalPages}-1),pageSize=10)}">尾页<em>></em></a>
+							<a th:style="'display:' + @{((${pageIndex}+1) == ${totalPages} ? 'none' : 'inline-block')} + ''" th:href="@{/zhishifuwu/shenqinglist(userid=1,pageIndex=(${pageIndex}+1),pageSize=10)}">下一页<em>></em></a>
+							<a th:style="'display:' + @{((${pageIndex}+1) == ${totalPages} ? 'none' : 'inline-block')} + ''" th:href="@{/zhishifuwu/shenqinglist(userid=1,pageIndex=(${totalPages}-1),pageSize=10)}">尾页<em>></em></a>
 					    </div>
 					</div>
 					</form>

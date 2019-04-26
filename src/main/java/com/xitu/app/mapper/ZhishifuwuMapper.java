@@ -19,8 +19,8 @@ public interface ZhishifuwuMapper {
 	@Select("select count(*) from xitu_order")
     int getOrderCount();
 	
-	@Select("select * from xitu_order limit #{pageIndex}, #{pageSize}")
-    List<Order> getOrders(@Param("pageIndex") int pageIndex, @Param("pageSize") int pageSize);
+	@Select("select * from xitu_order where user_id = #{userid} limit #{pageIndex}, #{pageSize}")
+    List<Order> getOrders(@Param("userid") int userid,@Param("pageIndex") int pageIndex, @Param("pageSize") int pageSize);
 	
 	@InsertProvider(type = BasedProvider.class, method = BasedProvider.INSERT)
 	int insertOrder(Order order);
@@ -34,14 +34,14 @@ public interface ZhishifuwuMapper {
 	@Select("SELECT * FROM xitu_order where uuid = #{uuid} limit 1")
 	Order getOrderByUUID(@Param("uuid") String uuid);
 	
-	@Select("SELECT linkuser_id FROM xitu_relation where order_id = #{uuid} limit 1")
-	String getRelationByUUID(@Param("uuid") String uuid);
+	@Select("SELECT * FROM xitu_relation where order_id = #{uuid}")
+	List<Relation> getRelationByUUID(@Param("uuid") String uuid);
 	
 	@Select("SELECT * FROM xitu_linkuser where uuid = #{uuid} limit 1")
 	Linkuser getLinkuserByUUID(@Param("uuid") String uuid);
 	
-	@Update("UPDATE xitu_order SET chulizhuangtai = #{chulizhuangtai}, chulishijian = #{chulishijian}, chuliyijian= #{chuliyijian} WHERE uuid = #{uuid} limit 1")
-	void updateChulizhuangtaiByUUID(@Param("uuid") String uuid,@Param("chulizhuangtai") String chulizhuangtai,@Param("chulishijian") String chulishijian,@Param("chuliyijian") String chuliyijian);
+	@Update("UPDATE xitu_order SET chulizhuangtai = #{chulizhuangtai}, chulishijian = #{chulishijian}, chuliyijian= #{chuliyijian},chuliren = #{chuliren},chulirenfujian_id = #{chulirenfujianId}  WHERE uuid = #{uuid} limit 1")
+	void updateChulizhuangtaiByUUID(@Param("uuid") String uuid,@Param("chulizhuangtai") String chulizhuangtai,@Param("chulishijian") String chulishijian,@Param("chuliyijian") String chuliyijian,@Param("chuliren") String chuliren,@Param("chulirenfujianId") String chulirenfujianId);
 	
 	@Update("UPDATE xitu_order SET chulizhuangtai = #{user.account}, password = #{user.password}, name = #{user.name}, "
 		    + "identity = #{user.identity}, unit = #{user.unit}, job = #{user.job}, "
