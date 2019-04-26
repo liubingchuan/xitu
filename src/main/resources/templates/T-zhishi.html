@@ -7,7 +7,11 @@
 		<link rel="stylesheet" th:href="@{/css/xmain.css}" />
 		<link rel="stylesheet" th:href="@{/css/verify.css}" />
 		<script type="text/javascript" th:src="@{/js/jquery-1.7.2.js}" ></script>
+<<<<<<< HEAD
 		<script type="text/javascript" th:src="@{/js/verify.js}" ></script>
+=======
+		<script type="text/javascript" th:src="@{/js/jquery.cookie.js}" ></script>
+>>>>>>> 1bf02add3190df0f4ad2ace7c81107b6dc58f0e3
 	</head>
 	<body class="whitebg">
 		<div class="nyMain">
@@ -34,21 +38,20 @@
 					<div class="loginAfter">
 						<div class="loginAfterM">
 							<a href="#" class="loginAfterTx">
-								<img th:src="@{/ximages/tx.jpeg}" />
+								<img id="headImg" th:src="@{/ximages/jiazai.png}" />
 							</a>
 							<div class="loginAfterNo">
 								
 								<div class="loginAfterNoM">
 									<em class="loginAfterNoMSj"></em>
 									<p>
-										<span class="loginName">
-											张伟
-										</span>
+										<!-- <span class="loginName" th:text="${user.account}"></span> -->
+										<span class="loginName" id="logoinName"></span>
 										<span class="vip">
-											超级管理员
 										</span>
 									</p>
-									<p>
+									<p id="backgroud">
+										<!-- <a th:each="cookie :${#httpServletRequest.getCookies()}" th:if="${cookie.getName().equals('token')}"  th:href="@{/user/list(token=${cookie.getValue()},pageIndex=0,pageSize=10)}"> -->
 										<a th:href="@{/user/list(pageIndex=0,pageSize=10)}">
 											<img th:src="@{/ximages/houtai.png}" />
 											进入管理后台
@@ -61,12 +64,12 @@
 										</a>
 									</p>
 									<p>
-										<a href="#">
+										<a id="quit" href="/">
 											<img th:src="@{/ximages/tuichu.png}" />
 											退出
 										</a>
 									</p>
-									
+
 								</div>
 							</div>
 						</div>
@@ -523,9 +526,15 @@
 			document.getElementById(uuid).style.display='none';
 			shenqingfujianId = shenqingfujianId.replace(uuid+';','');
 			$("#shenqingfujianId").val(shenqingfujianId);
-			
 		 }
 		var display =  [[${display}]];
+			$(document).ready(function () {
+			    if($.cookie("role")!=null && $.cookie("role")==="普通用户"){
+					$("#backgroud").css('display','none'); 
+				}
+				$("#logoinName").html($.cookie("nickName"));
+			    $("#headImg").attr("src", $.cookie("headImg"));
+			});
 			function search(){
 			    /*  window.location.href="http://127.0.0.1:8088/project/list?q=" + $("#keywords").val(); */
 			    window.location.href="/patent/list?q=" + $("#keywords").val();

@@ -6,6 +6,7 @@
 		<link rel="stylesheet" th:href="@{/css/init.css}" />
 		<link rel="stylesheet" th:href="@{/css/main.css}" />
 		<script type="text/javascript" th:src="@{/js/jquery-1.7.2.js}" ></script>
+		<script type="text/javascript" th:src="@{/js/jquery.cookie.js}" ></script>
 	</head>
 	<body class="manageBody">
 		<div class="manageLf">
@@ -364,6 +365,11 @@
 				  $("#shangchuanfujian").show();
 				  $("#showfujian").hide();
 			  }
+			  if($.cookie("role")!=null && $.cookie("role")==="普通用户"){
+					$("#backgroud").css('display','none'); 
+				}
+				$("#logoinName").html($.cookie("nickName"));
+			    $("#headImg").attr("src", $.cookie("headImg"));
 		});
 		var frontendId = null;
 		var chulirenfujianId = '';
@@ -426,7 +432,6 @@
 			$("#shangchuanfujian").show();
 			
 		 }
-		
 			function displayorder() {
 			
 				document.getElementById("lianxirencontent").style="display:none";

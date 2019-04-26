@@ -8,6 +8,7 @@
 		<link rel="stylesheet" th:href="@{/css/xmain.css}" />
 		<script type="text/javascript" th:src="@{/js/jquery-1.7.2.js}" ></script>
 		<script type="text/javascript" th:src="@{/js/swiper.min.js}" ></script>
+		<script type="text/javascript" th:src="@{/js/jquery.cookie.js}" ></script>
 	</head>
 	<body>
 		<div class="nyMain">
@@ -43,10 +44,10 @@
 									<p>
 										<!-- <span class="loginName" th:text="${user.account}"></span> -->
 										<span class="loginName" id="logoinName"></span>
-										<span class="vip" >
+										<span class="vip">
 										</span>
 									</p>
-									<p>
+									<p id="backgroud">
 										<!-- <a th:each="cookie :${#httpServletRequest.getCookies()}" th:if="${cookie.getName().equals('token')}"  th:href="@{/user/list(token=${cookie.getValue()},pageIndex=0,pageSize=10)}"> -->
 										<a th:href="@{/user/list(pageIndex=0,pageSize=10)}">
 											<img th:src="@{/ximages/houtai.png}" />
@@ -60,7 +61,7 @@
 										</a>
 									</p>
 									<p>
-										<a href="#">
+										<a id="quit" href="/">
 											<img th:src="@{/ximages/tuichu.png}" />
 											退出
 										</a>
@@ -475,6 +476,9 @@
 			var frontendId =  [[${frontendId}]];
 			$(document).ready(function () {
 				$("#frontendImg").attr('src','/file/fileDownload?filename='+frontendId);
+			    if($.cookie("role")!=null && $.cookie("role")==="普通用户"){
+					$("#backgroud").css('display','none'); 
+				}
 				$("#logoinName").html($.cookie("nickName"));
 			    $("#headImg").attr("src", $.cookie("headImg"));
 			});

@@ -5,6 +5,7 @@ import java.net.Authenticator;
 import java.net.InetSocketAddress;
 import java.net.PasswordAuthentication;
 import java.net.Proxy;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -15,6 +16,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -654,7 +658,9 @@ public class PatentController {
 	
 	@GetMapping(value = "price")
 	public String price() {
-		for(int i=1;i<5;i++) {
+		
+
+		for(int i=4;i>0;i--) {
 			String url="http://nm.sci99.com/news/?page=" + i + "&sid=8784&siteid=10" ;
 			String base = "http://nm.sci99.com";
 			try {
@@ -673,7 +679,7 @@ public class PatentController {
 
 	            Elements lis = moduleDoc.getElementsByTag("li");  //选择器的形式
 
-	            Map<String,String> urls = new HashMap<String,String>();
+	            Map< String, String> urls= new TreeMap<String, String>();
 	            for (Element li : lis){
 	                Document liDoc = Jsoup.parse(li.toString());
 	                Elements hrefs = liDoc.select("a[href]");
@@ -704,22 +710,28 @@ public class PatentController {
 	            		Elements tdes = tdelement.select("td");
 	            		Price price = new Price();
 	            		price.setUpdateTime(entry.getValue());
-	            		for(int j = 0; j < tdes.size(); j++){
-	            			if(j==0) {
-	            				price.setName(tdes.get(j).text());
-	            			}else if(j==1) {
-	            				price.setDescription(tdes.get(j).text());
-	            			}else if(j==6) {
-	            				price.setUnit(tdes.get(j).text());
-	            			}else if(j==3) {
-	            				price.setPrice(tdes.get(j).text());
-	            			}else if(j==4){
-	            				price.setAvg(tdes.get(j).text());
-	            			}else if(j==5) {
-	            				price.setFloating(tdes.get(j).text());
+	            		price.setName(tdes.get(0).text());
+	            		price.setDescription(tdes.get(1).text());
+	            		price.setUnit(tdes.get(6).text());
+	            		price.setPrice(tdes.get(3).text());
+	            		price.setAvg(tdes.get(4).text());
+	            		Price yesterday = priceMapper.getLatestPrice(price.getName());
+	            		if(yesterday == null) {
+	            			price.setFloating("100%");
+	            		}else {
+	            			float before = Float.valueOf(yesterday.getAvg());
+	            			float now = Float.valueOf(tdes.get(4).text());
+	            			float delta = now - before;
+	            			if(delta != 0) {
+	            				System.out.println();
 	            			}
+	            			NumberFormat numberFormat = NumberFormat.getInstance();
+	            			numberFormat.setMaximumFractionDigits(2);
+	            			String result = numberFormat.format(delta / before * 100);
+	            			price.setFloating(result + "%");
 	            		}
-	            	priceMapper.insertPrice(price);
+	            		priceMapper.insertPrice(price);
+	            		System.out.println("插入成功" + price.getName());
 	            	}
 	            	//  String title = clearfixli.getElementsByTag("a").text();
 	            	System.out.println("fasdf");
@@ -1420,37 +1432,5 @@ public class PatentController {
 		}
 		return list;
 	}
-
 	
-//	private List<String> getIPList() throws IOException {
-//        Document doc = null;
-//        try {
-//            // doc = Jsoup.connect("http://www.baidu.com")
-//            doc = Jsoup.connect("http://www.xicidaili.com/nt")
-//            // .data("query", "Java")
-//                    .userAgent("Mozilla")
-//                    // .cookie("auth", "token")
-//                    // .timeout(3000)
-//                    .get();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        List<String> list = new ArrayList<String>();
-//        Elements elements = doc.select("tr.odd");
-//        int len = elements.size();
-//        Element element = null;
-//        for (int i = 0; i < len; i++) {
-//            element = elements.get(i);
-//            StringBuilder sBuilder = new StringBuilder(20);
-//            sBuilder.append(element.child(1).text());
-//            sBuilder.append(":");
-//            sBuilder.append(element.child(2).text());
-//            list.add(sBuilder.toString());
-//        }
-//        // System.out.println(doc.html());
-//        doc = null;
-//        elements.clear();
-//        elements = null;
-//        return list;
-//    }
 }

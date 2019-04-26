@@ -234,6 +234,26 @@ public class WeChatController {
         WeChatUserInfo weChatUserInfo = GsonUtil.fromJson(userInfoStr, WeChatUserInfo.class);
         String nickName = weChatUserInfo.getNickName();
         String headUrl = weChatUserInfo.getHeadImgUrl();
+        int retry = 3;
+        if(nickName == null || headUrl == null) {
+        	while(retry != 0) {
+        		userInfoStr = HttpRequest.get(getUserInfoUrl, null, false);
+        		weChatUserInfo = GsonUtil.fromJson(userInfoStr, WeChatUserInfo.class);
+        		nickName = weChatUserInfo.getNickName();
+        		headUrl = weChatUserInfo.getHeadImgUrl();
+        		if(nickName == null || headUrl == null) {
+        			retry--;
+        			System.out.println("获取用户信息失败，重试1次");
+        			try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+        		}else {
+        			break;
+        		}
+        	}
+        }
         User user = userMapper.getUserByOpenId(openId);
         String role = user==null?"普通用户":user.getRole();
         System.out.println("nickName--"+ nickName);

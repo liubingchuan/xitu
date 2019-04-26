@@ -50,12 +50,12 @@
 									<p>
 										<!-- <span class="loginName" th:text="${user.account}"></span> -->
 										<span class="loginName" id="logoinName"></span>
-										<span class="vip" th:text="${user.role}">
+										<span class="vip">
 										</span>
 									</p>
-									<p>
+									<p id="backgroud">
 										<!-- <a th:each="cookie :${#httpServletRequest.getCookies()}" th:if="${cookie.getName().equals('token')}"  th:href="@{/user/list(token=${cookie.getValue()},pageIndex=0,pageSize=10)}"> -->
-										<a id="backgroud" th:href="@{/user/list(pageIndex=0,pageSize=10)}">
+										<a th:href="@{/user/list(pageIndex=0,pageSize=10)}">
 											<img th:src="@{/ximages/houtai.png}" />
 											进入管理后台
 										</a>
@@ -511,7 +511,7 @@
 	                async: true,
 	                success: function (res) {
 	                    $("#showqrcode").attr("src", res.img);
-	                    time = window.setInterval(isLogin, 5000);
+	                    time = window.setInterval(isLogin, 3000);
 	                }
 	            });
 	    	}
@@ -549,17 +549,18 @@
 	            }
 	    	
 			 $(document).ready(function () {
-				console.log($.cookie("openId"))
+// 				console.log($.cookie("openId"))
 				
 				$("#alertbd").css('display','none');
 				if($.cookie("openId")!=null) {
 					$("#loginBefore").css('display','none'); 
+					$("#headImg").attr("src", $.cookie("headImg"));
+					$("#loginAfter").css('display','block');
 					if($.cookie("role")!=null && $.cookie("role")==="普通用户"){
+						$(".vip").html("普通用户"); 
 						$("#backgroud").css('display','none'); 
 					}
-					$("#loginAfter").css('display','block');
 					$("#logoinName").html($.cookie("nickName"));
-					$("#headImg").attr("src", $.cookie("headImg"));
 				}else {
 					$("#loginBefore").css('display','block'); 
 					$("#loginAfter").css('display','none'); 
@@ -652,11 +653,14 @@
 			                }
 			                else
 			                {
-			                	console.log("binding error" + data)
+			                	console.log("binding error" + data);
+			                	 $("#quit").click();
+			                	
 			                }
 			            },
 			            error:function(e){
 			                alert("错误！！");
+			                $("#quit").click();
 			            }
 			        });
 	
