@@ -13,10 +13,10 @@ $('.alertZHbtn').click(function(){
 		$(".alertZh").fadeIn();
 		$(".alertErw").fadeOut();
 	});
-$('.chaxinSubmit').click(function(){
-		$(".alertBg").fadeIn();
-		$(".alertxuq").fadeIn();
-	});
+//$('.chaxinSubmit').click(function(){
+		//$(".alertBg").fadeIn();
+		//$(".alertxuq").fadeIn();
+	//});
 $('.alertxuqaNext').click(function(){
 		$(".alertBg").fadeOut();
 		$(".alertxuq").fadeOut();
@@ -72,11 +72,13 @@ $('.zhuanliConTwo a').click(function(){
 //第二批
 //添加主要联系人
 $('.chaxinThree').live("click",function(){
-		var ochaxin = $(".chaxinTwoB").html()
+		var ochaxin = $(".chaxinTwoB1").html()
 		$(".chaxinTwo").append("<div class='chaxinK chaxinTwoGp chaxinTwoqt'>"+"<em class='chaxintwoDel'>×</em>"+"<div class='chaxinTwoTl'>"+"其他联系人"+"</div>"+"<div class='chaxinTwoB'>"+ochaxin+"</div>"+"</div>");
-	});
+		document.getElementById('add').style.display='none';
+});
 $('.chaxintwoDel').live("click",function(){
 		$(this).parents(".chaxinTwoGp").remove();
+		document.getElementById('add').style.display='block';
 	});
 $('.chaxinzjADD').live("click",function(){
 		var ochaxinzj = $(this).parents(".chaxinzjGp").html()

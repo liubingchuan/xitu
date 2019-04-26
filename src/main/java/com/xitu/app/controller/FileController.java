@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,6 +50,7 @@ public class FileController {
         String fileName = file.getOriginalFilename();
         UUID uuid = UUID.randomUUID();
         String path = this.fileRootPath ;
+        //path = "C:\\Users";
         File dest = new File(path + File.separator + uuid + "_" + fileName);
         System.out.println("ssssssss" + path + File.separator + uuid + "_" + fileName);
         if(!dest.getParentFile().exists()){ //判断文件父目录是否存在
@@ -63,7 +66,8 @@ public class FileController {
             	tbdFile.delete();
             	System.out.println("老文件删除成功");
             }
-            return R.ok().put("img", "/file/fileDownload?filename="+uuid + "_" + fileName).put("size", Math.round(file.getSize()/1000)).put("filename", fileName).put("uuid", uuid);
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+            return R.ok().put("img", "/file/fileDownload?filename="+uuid + "_" + fileName).put("size", Math.round(file.getSize()/1000)).put("filename", fileName).put("uuid", uuid).put("uploadtime", df.format(new Date()));
         } catch (IllegalStateException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -74,6 +78,19 @@ public class FileController {
             return R.error();
         }
     }
+    /**
+     * 实现文件删除
+     * */
+    public boolean deleteFile(String sPath) {  
+    	boolean flag = false;  
+    	File file = new File(sPath);  
+    	// 路径为文件且不为空则进行删除  
+    	if (file.isFile() && file.exists()) {  
+    		file.delete();  
+    		flag = true;  
+    	}  
+    	return flag;  
+   } 
     
     /**
      * 实现文件下载
@@ -87,6 +104,8 @@ public class FileController {
         try {  
         	System.out.println(filename);
             fis = new FileInputStream(this.fileRootPath + File.separator + filename);  
+        	//String path = "C:\\Users\\";
+        	//fis = new FileInputStream(path + filename); 
             os = response.getOutputStream();  
             int count = 0;  
             byte[] buffer = new byte[1024 * 8];  

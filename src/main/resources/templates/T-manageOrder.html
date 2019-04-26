@@ -136,13 +136,13 @@
 		    		<tr th:each="order : ${orderList}">
 		    			
 		    			<td>
-		    				<a th:href="@{/zhishifuwu/xiangqing(uuid=${order.uuid},front=0)}" th:text="${order.uuid}">
+		    				<a th:href="@{/zhishifuwu/xiangqing(uuid=${order.uuid},front=0,pageIndex=${pageIndex},pageSize=${pageSize})}" th:text="${order.uuid}">
 										
 							</a>
 		    			</td>
 		    			
 		    			<td>
-		    				<a th:href="@{/zhishifuwu/xiangqing(uuid=${order.uuid},front=0)}" th:text="${order.title}">
+		    				<a th:href="@{/zhishifuwu/xiangqing(uuid=${order.uuid},front=0,pageIndex=${pageIndex},pageSize=${pageSize})}" th:text="${order.title}">
 										
 							</a>
 		    			</td>
@@ -160,12 +160,12 @@
 		    			</td>
 		    			<td>
 		    			<span th:if="${order.chulizhuangtai == '待处理'}">
-		    				<a th:href="@{/zhishifuwu/jiedan(uuid=${order.uuid},front=0)}" class="colorBlue">
+		    				<a th:href="@{/zhishifuwu/jiedan(uuid=${order.uuid},front=0,pageIndex=${pageIndex},pageSize=${pageSize})}" class="colorBlue">
 		    					接单 
 		    				</a>
 		    			</span>
-		    			<span th:if="${order.chulizhuangtai == '处理中' || order.chulizhuangtai =='已完成'}">
-		    				<a th:href="@{/zhishifuwu/xiangqing(uuid=${order.uuid},front=0)}" class="colorBlue">
+		    			<span th:if="${order.chulizhuangtai == '处理中' || order.chulizhuangtai =='已完成' || order.chulizhuangtai =='无法满足'}">
+		    				<a th:href="@{/zhishifuwu/xiangqing(uuid=${order.uuid},front=0,pageIndex=${pageIndex},pageSize=${pageSize})}" class="colorBlue">
 		    					查看
 		    				</a>
 		    			</span>
@@ -175,11 +175,11 @@
 		    	</table>
 		        <div class="sqPage">
 			    	<span th:text="'共 ' + ${totalCount}+' 条申请订单记录'"></span>
-			    	<a th:style="'display:' + @{((${pageIndex}+1) == 1 ? 'none' : 'inline-block')} + ''"  th:href="@{/zhishifuwu/shenqinglist(pageIndex=0,pageSize=10)}"><首页</a>
-						<a th:style="'display:' + @{((${pageIndex}+1) == 1 ? 'none' : 'inline-block')} + ''" th:href="@{/zhishifuwu/shenqinglist(pageIndex=(${pageIndex}-1),pageSize=10)}"><上一页</a>
+			    	<a th:style="'display:' + @{((${pageIndex}+1) == 1 ? 'none' : 'inline-block')} + ''"  th:href="@{/zhishifuwu/shenqinglist(front=0,pageIndex=0,pageSize=10)}"><首页</a>
+						<a th:style="'display:' + @{((${pageIndex}+1) == 1 ? 'none' : 'inline-block')} + ''" th:href="@{/zhishifuwu/shenqinglist(front=0,pageIndex=(${pageIndex}-1),pageSize=10)}"><上一页</a>
 						<!-- <a th:href="@{/jiance/jiancelist(pageIndex=(${pageIndex}),pageSize=10)}" th:text="(${pageIndex}+1) + '/' + ${totalPages}" ></a> -->
-					<a th:style="'display:' + @{((${pageIndex}+1) == ${totalPages} ? 'none' : 'inline-block')} + ''" th:href="@{/zhishifuwu/shenqinglist(pageIndex=(${pageIndex}+1),pageSize=10)}">下一页<em>></em></a>
-					<a th:style="'display:' + @{((${pageIndex}+1) == ${totalPages} ? 'none' : 'inline-block')} + ''" th:href="@{/zhishifuwu/shenqinglist(pageIndex=(${totalPages}-1),pageSize=10)}">尾页<em>></em></a>
+					<a th:style="'display:' + @{((${pageIndex}+1) == ${totalPages} ? 'none' : 'inline-block')} + ''" th:href="@{/zhishifuwu/shenqinglist(front=0,pageIndex=(${pageIndex}+1),pageSize=10)}">下一页<em>></em></a>
+					<a th:style="'display:' + @{((${pageIndex}+1) == ${totalPages} ? 'none' : 'inline-block')} + ''" th:href="@{/zhishifuwu/shenqinglist(front=0,pageIndex=(${totalPages}-1),pageSize=10)}">尾页<em>></em></a>
 			    </div>
 		    </div>
 		</div>
