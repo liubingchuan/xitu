@@ -115,12 +115,21 @@
 			    				<input type="text" class="M_messInp" th:field="*{alias}" />
 			    			</div>
 			    		</div>
+			    		<input type="hidden" id="lingyu" name="area" th:field="*{area}"/>
+			    		<div class="M_messGp clearfix" >
+			    			<span class="left M_messGpName" id="showchoose" style="display:none">
+			    				已选择：
+			    			</span>
+			    			<div class="M_messGpRt" id="choose">
+			    				
+			    			</div>
+			    		</div>
 			    		<div class="M_messGp clearfix">
 			    			<span class="left M_messGpName">
 			    				研究领域：
 			    			</span>
 			    			<div class="M_messGpRt">
-			    				<select th:field="*{area}"  th:value="*{area}" name="area">
+			    				<select id="areaselect" th:value="请选择研究领域" onchange="func()">
                             		<option value="">请选择研究领域</option>
                             		<option th:each="item : ${yjlyitems}" th:value="${item}" th:text="${item}"></option>
                         		</select>
@@ -185,13 +194,22 @@
                         		</select>
 			    			</div>
 			    		</div>
+			    		<input type="hidden" id="leixing" name="classic" th:field="*{classic}"/>
+			    		<div class="M_messGp clearfix" >
+			    			<span class="left M_messGpName" id="showchooseclassic" style="display:none">
+			    				已选择：
+			    			</span>
+			    			<div class="M_messGpRt" id="chooseclassic">
+			    				
+			    			</div>
+			    		</div>
 			    		<div class="M_messGp clearfix">
 			    			<span class="left M_messGpName">
 			    				产品类型：
 			    			</span>
 			    			<div class="M_messGpRt">
 			    				<div class="clearfix" >
-			    				<select th:field="*{classic}"  th:value="*{classic}" name="classic">
+			    				<select id="classicselect" th:value="请选择产品类型" onchange="funcclassic()">
                             		<option value="">请选择产品类型</option>
                             		<option th:each="item : ${cplxitems}" th:value="${item}" th:text="${item}"></option>
                         		</select>
@@ -281,7 +299,10 @@
 			var frontendId =  [[${frontendId}]];
 			var frontendFileName =  [[${frontendFileName}]];
 			var frontendSize =  [[${frontendSize}]];
-			
+			var area =  [[${area}]];
+			var classic =  [[${classic}]];
+			var lingyu='';
+			var leixing='';
 			$(document).ready(function () {
 				
 				if(frontendId == null){
@@ -293,6 +314,46 @@
 					$("#frontendShow").show();
 					$("#frontendUpload").hide();
 				}
+				
+				if(area != null && area != ''){
+					var docu = document.getElementById("choose").innerHTML;
+					 for(var i = 0;i<area.length;i++){
+						lingyu += area[i]+',';
+						
+						docu += "<div class=\"console-tag-label inline-block\" id='"+"area_"+area[i]+"'>";
+						docu += "<span class=\"M_messGpName\" style=\"display:inline;\">";
+						docu += area[i];								
+						docu += "</span>";
+						docu += "<span style=\"padding-left:5px;\"><a href=\"javascript:removetag('"+"area_"+area[i]+"');\"><img src=\"/ximages/timg.jpg\"/></a></span>";
+						docu += "</div>";
+						
+						
+					}
+					$("#lingyu").val(lingyu);
+					document.getElementById("choose").innerHTML =docu;
+					document.getElementById("showchoose").style.display='block';
+				}
+				
+				if(classic != null && classic != ''){
+					var docu = document.getElementById("chooseclassic").innerHTML;
+					 for(var i = 0;i<classic.length;i++){
+						leixing += classic[i]+',';
+						
+						docu += "<div class=\"console-tag-label inline-block\" id='"+"classic_"+classic[i]+"'>";
+						docu += "<span class=\"M_messGpName\" style=\"display:inline;\">";
+						docu += classic[i];								
+						docu += "</span>";
+						docu += "<span style=\"padding-left:5px;\"><a href=\"javascript:removetagclassic('"+"classic_"+classic[i]+"');\"><img src=\"/ximages/timg.jpg\"/></a></span>";
+						docu += "</div>";
+						
+						
+					}
+					$("#leixing").val(leixing);
+					document.getElementById("chooseclassic").innerHTML =docu;
+					document.getElementById("showchooseclassic").style.display='block';
+				}
+				
+				
 			});
 			
 			$("#frontendFile").live('change',function() {
@@ -320,6 +381,77 @@
 				});
 				
 			});
+			function func(){
+				var vs = $('#areaselect  option:selected').val();
+				if(lingyu != ''){
+					var array = lingyu.split(",");
+					for (i=0;i<array.length ;i++ ) 
+					{
+						if(vs == array[i]){
+							alert('该领域已添加');
+							return;
+						}
+					}
+				}
+				var docu = document.getElementById("choose").innerHTML;
+				docu += "<div class=\"console-tag-label inline-block\" id='"+"area_"+vs+"'>";
+				docu += "<span class=\"M_messGpName\" style=\"display:inline;\">";
+				docu += vs;								
+				docu += "</span>";
+				docu += "<span style=\"padding-left:5px;\"><a href=\"javascript:removetag('"+"area_"+vs+"');\"><img src=\"/ximages/timg.jpg\"/></a></span>";
+				docu += "</div>";
+				document.getElementById("choose").innerHTML =docu;
+				//$("#choose").append(docu);
+				document.getElementById("showchoose").style.display='block';
+				lingyu += vs+',';
+				$("#lingyu").val(lingyu);
+			}
+			
+			function removetag(content){
+				lingyu = lingyu.replace(content.split('_')[1]+',','');
+				$("#lingyu").val(lingyu);
+				document.getElementById(content).style.display='none';
+				$("#"+ content).removeClass("inline-block");
+				if(lingyu == ''){
+					document.getElementById("showchoose").style.display='none';
+				}
+			}
+			
+			function funcclassic(){
+				var vs = $('#classicselect option:selected').val();
+				if(leixing != ''){
+					var array = leixing.split(",");
+					for (i=0;i<array.length ;i++ ) 
+					{
+						if(vs == array[i]){
+							alert('该类型已添加');
+							return;
+						}
+					}
+				}
+				var docu = document.getElementById("chooseclassic").innerHTML;
+				docu += "<div class=\"console-tag-label inline-block\" id='"+"classic_"+vs+"'>";
+				docu += "<span class=\"M_messGpName\" style=\"display:inline;\">";
+				docu += vs;								
+				docu += "</span>";
+				docu += "<span style=\"padding-left:5px;\"><a href=\"javascript:removetagclassic('"+"classic_"+vs+"');\"><img src=\"/ximages/timg.jpg\"/></a></span>";
+				docu += "</div>";
+				document.getElementById("chooseclassic").innerHTML =docu;
+				//$("#choose").append(docu);
+				document.getElementById("showchooseclassic").style.display='block';
+				leixing += vs+',';
+				$("#leixing").val(leixing);
+			}
+			
+			function removetagclassic(content){
+				leixing = leixing.replace(content.split('_')[1]+',','');
+				$("#leixnig").val(leixing);
+				document.getElementById(content).style.display='none';
+				$("#"+ content).removeClass("inline-block");
+				if(leixing == ''){
+					document.getElementById("showchooseclassic").style.display='none';
+				}
+			}
 		</script>
 	</body>
 </html>

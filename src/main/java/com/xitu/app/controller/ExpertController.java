@@ -73,7 +73,6 @@ public class ExpertController {
 		List<String> dutyList =new ArrayList<String>();
 		List<String> titleList =new ArrayList<String>();
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		System.out.println(request.getArea());
 		if (request.getArea() != null && !request.getArea().equals("")) {
 			String[] s = request.getArea().split(",");
 			for(String id:s){
