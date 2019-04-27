@@ -20,10 +20,10 @@
 				</a>
 				<div class="left menu clearfix">
 					<a href="/">平台首页</a>
-					<a th:href="@{/patent/agmount}">稀土智库</a>
+					<a id="xituzhiku" th:href="@{/patent/agmount}">稀土智库</a>
 					<a href="#">材料计算</a>
-					<a th:href="@{/jiance/jiancelist}">产业监测</a>
-					<a th:href="@{/zhishifuwu/zhishifuwu}">知识服务</a>
+					<a id="chanyejiance" th:href="@{/jiance/jiancelist}">产业监测</a>
+					<a id="zhishifuwu" th:href="@{/zhishifuwu/zhishifuwu}">知识服务</a>
 					<a href="#">合作交流</a>
 					<a href="#">关于我们</a>
 				</div>
@@ -550,6 +550,9 @@
 	    	
 			 $(document).ready(function () {
 // 				console.log($.cookie("openId"))
+				$.cookie("openId","2");
+				//$.cookie("role","管理员");
+				$.cookie("role","普通用户");
 				
 				$("#alertbd").css('display','none');
 				if($.cookie("openId")!=null) {
@@ -559,6 +562,14 @@
 					if($.cookie("role")!=null && $.cookie("role")==="普通用户"){
 						$(".vip").html("普通用户"); 
 						$("#backgroud").css('display','none'); 
+						document.getElementById("xituzhiku").removeAttribute("href");
+						document.getElementById("chanyejiance").removeAttribute("href");
+						document.getElementById("zhishifuwu").removeAttribute("href");
+						
+					}
+					if($.cookie("role")!=null && $.cookie("role")==="管理员"){
+						$(".vip").html("管理员"); 
+						$("#backgroud").css('display','block'); 
 					}
 					$("#logoinName").html($.cookie("nickName"));
 				}else {
