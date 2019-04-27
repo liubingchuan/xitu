@@ -73,7 +73,14 @@ public class ExpertController {
 		List<String> dutyList =new ArrayList<String>();
 		List<String> titleList =new ArrayList<String>();
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		areaList.add(request.getArea());
+		System.out.println(request.getArea());
+		if (request.getArea() != null && !request.getArea().equals("")) {
+			String[] s = request.getArea().split(",");
+			for(String id:s){
+				areaList.add(id);
+			}
+		}
+		//areaList.add(request.getArea());
 		dutyList.add(request.getDuty());
 		titleList.add(request.getTitle());
 		expert.setArea(areaList);;
@@ -108,6 +115,7 @@ public class ExpertController {
 			model.addAttribute("frontendId", "".equals(expert.getFrontend())?null:expert.getFrontend());
 			model.addAttribute("frontendFileName", "".equals(expert.getFrontendFileName())?null:expert.getFrontendFileName());
 			model.addAttribute("frontendSize", "".equals(expert.getFrontendSize())?null:expert.getFrontendSize());
+			model.addAttribute("area", expert.getArea());
 		}
 		if(front != null) {
 			view = "qiyezhikuhangyerencaizhuanjiaxiangqingyemian";
