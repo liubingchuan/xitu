@@ -565,3 +565,18 @@ i{font-style: normal;}
 .zhuanlThree{margin-top: 12px;}
 .zhuanlFive{line-height: 28px;margin-bottom: 30px;color: #4A4A4A;font-size: 14px;}
 .zhuanlFive a{display: inline-block;padding: 0px 12px;}
+
+.console-tag-label {
+    padding: 4px 8px 4px 8px;
+    border-radius: 20px;
+	background: #f1f1f1;
+    position: relative;
+}
+
+.inline-block {
+    display: inline-block;
+    vertical-align: middle;
+    vertical-align: auto;
+    zoom: 1;
+    display: inline;
+}

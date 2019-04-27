@@ -72,9 +72,21 @@ public class OrgController {
 		List<String> area = new ArrayList<String>();
 		List<String> classic = new ArrayList<String>();
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		area.add(request.getArea());
-		classic.add(request.getClassic());
+		//area.add(request.getArea());
+		//classic.add(request.getClassic());
+		if (request.getArea() != null && !request.getArea().equals("")) {
+			String[] s = request.getArea().split(",");
+			for(String id:s){
+				area.add(id);
+			}
+		}
 		org.setArea(area);
+		if (request.getClassic() != null && !request.getClassic().equals("")) {
+			String[] s = request.getClassic().split(",");
+			for(String id:s){
+				classic.add(id);
+			}
+		}
 		org.setClassic(classic);
 		org.setDescription(request.getInfo());
 		org.setNow(System.currentTimeMillis());
@@ -94,6 +106,8 @@ public class OrgController {
 			model.addAttribute("frontendId", "".equals(org.getFrontend())?null:org.getFrontend());
 			model.addAttribute("frontendFileName", "".equals(org.getFrontendFileName())?null:org.getFrontendFileName());
 			model.addAttribute("frontendSize", "".equals(org.getFrontendSize())?null:org.getFrontendSize());
+			model.addAttribute("area", org.getArea());
+			model.addAttribute("classic", org.getClassic());
 		}
 		if(front != null) {
 			view = "qiyezhikujigouxiangqing";
