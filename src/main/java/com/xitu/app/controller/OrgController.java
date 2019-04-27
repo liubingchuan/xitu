@@ -121,36 +121,46 @@ public class OrgController {
 		
 		Item yjlyitem = itemMapper.selectItemByService("yjly");
 		List<String> yjlyitemitems = new ArrayList<String>();
-		for(String s: yjlyitem.getItem().split(";")) {
-			yjlyitemitems.add(s);
+		if(yjlyitem != null && yjlyitem.getItem() != null) {
+			for(String s: yjlyitem.getItem().split(";")) {
+				yjlyitemitems.add(s);
+			}
 		}
 		model.addAttribute("yjlyitems", yjlyitemitems);
 		
 		Item jglxitems = itemMapper.selectItemByService("jglx");
 		List<String> jglxitemitems = new ArrayList<String>();
-		for(String s: jglxitems.getItem().split(";")) {
-			jglxitemitems.add(s);
+		if(jglxitems != null && jglxitems.getItem() != null) {
+			for(String s: jglxitems.getItem().split(";")) {
+				jglxitemitems.add(s);
+			}
 		}
 		model.addAttribute("jglxitems", jglxitemitems);
 		
 		Item gjitems = itemMapper.selectItemByService("gj");
 		List<String> gjitemitems = new ArrayList<String>();
-		for(String s: gjitems.getItem().split(";")) {
-			gjitemitems.add(s);
+		if(gjitems != null && gjitems.getItem() != null) {
+			for(String s: gjitems.getItem().split(";")) {
+				gjitemitems.add(s);
+			}
 		}
 		model.addAttribute("gjitems", gjitemitems);
 		
 		Item cylitems = itemMapper.selectItemByService("cyl");
 		List<String> cylitemitems = new ArrayList<String>();
-		for(String s: cylitems.getItem().split(";")) {
-			cylitemitems.add(s);
+		if(cylitems != null && cylitems.getItem() != null) {
+			for(String s: cylitems.getItem().split(";")) {
+				cylitemitems.add(s);
+			}
 		}
 		model.addAttribute("cylitems", cylitemitems);
 		
 		Item cplxitems = itemMapper.selectItemByService("cplx");
 		List<String> cplxitemitems = new ArrayList<String>();
-		for(String s: cplxitems.getItem().split(";")) {
-			cplxitemitems.add(s);
+		if(cplxitems != null && cplxitems.getItem() != null) {
+			for(String s: cplxitems.getItem().split(";")) {
+				cplxitemitems.add(s);
+			}
 		}
 		model.addAttribute("cplxitems", cplxitemitems);
 		

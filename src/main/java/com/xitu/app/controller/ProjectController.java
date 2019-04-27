@@ -102,8 +102,10 @@ public class ProjectController {
 		}
 		Item item = itemMapper.selectItemByService("xmfl");
 		List<String> items = new ArrayList<String>();
-		for(String s: item.getItem().split(";")) {
-			items.add(s);
+		if(item != null && item.getItem() != null) {
+			for(String s: item.getItem().split(";")) {
+				items.add(s);
+			}
 		}
 		model.addAttribute("items", items);
 		Integer pageIndex = 0;
