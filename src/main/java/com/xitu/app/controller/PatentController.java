@@ -766,6 +766,11 @@ public class PatentController {
 				String start = date.substring(0, 6) + "00";
 				String end = date.substring(0,6) + "32";
 				String avg = priceMapper.getAvgPricesGroupByName(start, end , name);
+				if(avg == null) {
+					avg = "0";
+				}else if(avg.contains(".")) {
+					avg = avg.split("\\.")[0];
+				}
 				map.put(date.substring(4, 6), avg);
 				
 			}
