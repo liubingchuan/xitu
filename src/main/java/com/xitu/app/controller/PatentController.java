@@ -66,6 +66,7 @@ import com.xitu.app.common.R;
 import com.xitu.app.common.request.AgPersonRequest;
 import com.xitu.app.common.request.AgTypeRequest;
 import com.xitu.app.common.request.PatentPageListRequest;
+import com.xitu.app.common.request.PriceAvgRequest;
 import com.xitu.app.mapper.PatentMapper;
 import com.xitu.app.mapper.PriceMapper;
 import com.xitu.app.model.Patent;
@@ -626,6 +627,8 @@ public class PatentController {
 		}else {
 			model.addAttribute("prices", new ArrayList<String>());
 		}
+		List<String> items = priceMapper.getPricesGroupByName();
+		model.addAttribute("items", items);
 		return "zhuanlifenxizhuanlishenqingliang";
 	}
 	@GetMapping(value = "patent/agcountry")
@@ -743,6 +746,36 @@ public class PatentController {
 	        }
 		}
 		return "T-rencaiCon";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "price/avg", method = RequestMethod.POST,consumes = "application/json")
+	public R priceAvg(@RequestBody PriceAvgRequest request) {
+		String time = request.getTime();
+		String name = request.getName();
+		Map<String, String> map = new HashMap<String, String>();
+		String date = "";
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+		if("3".equals(time)) {
+			for(int i=0;i<3;i++) {
+				Calendar c = Calendar.getInstance();
+				c.setTime(new Date());
+				c.add(Calendar.MONTH, -i);
+				Date lastmonth = c.getTime();
+				date = formatter.format(lastmonth);
+				String start = date.substring(0, 6) + "00";
+				String end = date.substring(0,6) + "32";
+				String avg = priceMapper.getAvgPricesGroupByName(start, end , name);
+				if(avg == null) {
+					avg = "0";
+				}else if(avg.contains(".")) {
+					avg = avg.split("\\.")[0];
+				}
+				map.put(date.substring(4, 6), avg);
+				
+			}
+		}
+		return R.ok().put("avg", map);
 	}
 	
 	@ResponseBody
