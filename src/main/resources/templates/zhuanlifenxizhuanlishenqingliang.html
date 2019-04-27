@@ -137,6 +137,10 @@
 				    					全部元素类型
 				    				</option>
 				    			</select>
+			    				<select id="yuansu">
+                            		<option value="">请选择元素</option>
+                            		<option th:each="item : ${items}" th:value="${item}" th:text="${item}"></option>
+                        		</select>
 				    			<input type="button" class="left shaixuanbtn" value="筛选">
 				    			</div>
 				    		</div>
@@ -259,6 +263,10 @@
 		<script type="text/javascript" th:src="@{/js/main.js}" ></script>
 		<script type="text/javascript">
 			
+			var myChart = echarts.init(document.getElementById('leixing'));
+			var name = "氧化钆";
+			var time = "3";
+			var conditions = {"time":"3", "name":name}
 			$(document).ready(function() {
 
 				showleixing('jinsanyue');
@@ -268,134 +276,81 @@
 				$("#logoinName").html($.cookie("nickName"));
 			    $("#headImg").attr("src", $.cookie("headImg"));
 			});
+		    
 			function showleixing(type) {
 				if(type == 'jinwunian'){
-					var hengzhoushuju = ['1996','1997','1998','1999','2000'];
-					var faming = [120, 132, 101, 134, 90];
-					var waiguan = [220, 182, 191, 234, 290];
-					var shiyongxinxing = [150, 232, 201, 154, 190];
-					var myChart = echarts.init(document.getElementById('leixing'));
-					option = {
-						
-						tooltip: {
-							trigger: 'axis'
-						},
-						grid: {
-							left: '3%',
-							right: '4%',
-							bottom: '3%',
-							containLabel: true
-						},
-						toolbox: {
-							feature: {
-								saveAsImage: {}
-							}
-						},
-						xAxis: {
-							type: 'category',
-							
-							data: hengzhoushuju
-						},
-						yAxis: {
-							type: 'value'
-						},
-						series: [
-							{
-								type:'line',
-								stack: '总量',
-								data: faming,
-								itemStyle : { normal: {label : {show: true}}}
-							}
-						]
-					};
-
-				   myChart.setOption(option);
 				}
 				if(type == 'jinyinian'){
-					var hengzhoushuju = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
-					var faming = [420, 232, 601, 134, 490,345,420, 232, 601, 134, 490,345];
-					var waiguan = [220, 182, 191, 234, 290,123,220, 182, 191, 234, 290,123];
-					var shiyongxinxing = [150, 232, 201, 154, 190,567,150, 232, 201, 154, 190,567];
-					var myChart = echarts.init(document.getElementById('leixing'));
-					option = {
-						
-						tooltip: {
-							trigger: 'axis'
-						},
-						grid: {
-							left: '3%',
-							right: '4%',
-							bottom: '3%',
-							containLabel: true
-						},
-						toolbox: {
-							feature: {
-								saveAsImage: {}
-							}
-						},
-						xAxis: {
-							type: 'category',
-							
-							data: hengzhoushuju
-						},
-						yAxis: {
-							type: 'value'
-						},
-						series: [
-							{
-								type:'line',
-								stack: '总量',
-								data: faming,
-								itemStyle : { normal: {label : {show: true}}}
-							}
-						]
-					};
-
-				   myChart.setOption(option);
 				}
 				if(type == 'jinsanyue'){
-					var hengzhoushuju = ['1月','2月','3月'];
-					var faming = [420, 232, 601];
-					var waiguan = [220, 182, 191];
-					var shiyongxinxing = [150, 232, 201];
-					var myChart = echarts.init(document.getElementById('leixing'));
-					option = {
-						
-						tooltip: {
-							trigger: 'axis'
-						},
-						grid: {
-							left: '3%',
-							right: '4%',
-							bottom: '3%',
-							containLabel: true
-						},
-						toolbox: {
-							feature: {
-								saveAsImage: {}
-							}
-						},
-						xAxis: {
-							type: 'category',
-							
-							data: hengzhoushuju
-						},
-						yAxis: {
-							type: 'value'
-						},
-						series: [
-							{
-								type:'line',
-								stack: '总量',
-								data: faming,
-								itemStyle : { normal: {label : {show: true}}}
-							}
-						]
-					};
-
-				   myChart.setOption(option);
+					conditions = {"time":time, "name":name}
 				}
+				getGraph();
 			}
+			
+			function getGraph() {
+				$.ajax({
+		            url:"/price/avg",
+		            type:"post",
+		            contentType: "application/json; charset=utf-8",
+		            data: JSON.stringify(conditions),
+		            dataType: "json",
+		            success:function(data){
+		            	
+		                let x = [];
+		    			let y = [];
+		    			let avg = data.avg;
+		    			$.each(avg, function(i) {
+		    			   x.push(i);
+		    			   y.push(avg[i]);
+		    			});
+		    			
+						option = {
+							
+							tooltip: {
+								trigger: 'axis'
+							},
+							grid: {
+								left: '3%',
+								right: '4%',
+								bottom: '3%',
+								containLabel: true
+							},
+							toolbox: {
+								feature: {
+									saveAsImage: {}
+								}
+							},
+							xAxis: {
+								type: 'category',
+								data: x
+							},
+							yAxis: {
+								type: 'value'
+							},
+							series: [
+								{
+									type:'line',
+									stack: '总量',
+									data: y,
+									itemStyle : { normal: {label : {show: true}}}
+								}
+							]
+						};
+
+					   myChart.setOption(option);
+		            },
+		            error:function(e){
+		                alert("获取报价失败！！");
+		            }
+		        });
+			}
+			
+			$("#yuansu").change(function(){
+				alert($("#yuansu").val());
+			});
+			
+			
 			function search(){
 			    /*  window.location.href="http://127.0.0.1:8088/project/list?q=" + $("#keywords").val(); */
 			     window.location.href="/patent/list?q=" + $("#keywords").val();

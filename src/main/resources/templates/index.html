@@ -645,10 +645,10 @@
 			            	$("#alertbd").css('display','none'); 
 			                if(data.code == "200")
 			                {
-			                	// $("#logoinName").html($.cookie("nickName"));
-			    			    // $("#headImg").attr("src", $.cookie("headImg"));
-								// $("#loginBefore").css('display','none');
-			    			    // $("#loginAfter").css('display','block');
+			                	$("#logoinName").html($.cookie("nickName"));
+			    			    $("#headImg").attr("src", $.cookie("headImg"));
+								$("#loginBefore").css('display','none');
+			    			    $("#loginAfter").css('display','block');
 								window.location.href = "/";
 			                }
 			                else
