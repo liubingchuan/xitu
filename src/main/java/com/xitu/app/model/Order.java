@@ -30,7 +30,7 @@ public class Order {
 	private String chuliyijian;
 	private String institution;
 	private String chulirenfujianId;
-	private Integer userId;
+	private String userId;
 	private String uuid;
 	public Integer getId() {
 		return id;
@@ -140,10 +140,10 @@ public class Order {
 	public void setChulirenfujianId(String chulirenfujianId) {
 		this.chulirenfujianId = chulirenfujianId;
 	}
-	public Integer getUserId() {
+	public String getUserId() {
 		return userId;
 	}
-	public void setUserId(Integer userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 	public String getUuid() {

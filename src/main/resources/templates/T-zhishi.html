@@ -82,8 +82,7 @@
 		    	<div class="chaxinOneText">
 		    		调研国内外领域/研究方向的科技政策，综合分析国家/机构中长期发展计划、科技前沿动态、行业报告与咨询报告，追踪研判国际年度重点农业政策，并进行解读解析，为我国机构、科研团队、科技政策制定部门、资金资助部门和贸易合作决策部门等提供支撑服务
 		    	</div>
-		    	<!-- 刘冰川 传userid-->
-		    	<a th:href="@{/zhishifuwu/shenqinglist?userid=1}">
+		    	<a id="shenqinglist">
 		    		查看我的申请>>
 		    	</a>
 		    </div>
@@ -92,6 +91,7 @@
 				<div class="nycontainer clearfix">
 					<div class="left chaxinLF">
 						<form name="saveForm" th:action="@{/order/save}" th:object="${saveOrderRequest}" th:method="post">
+							<input id="userId" type="hidden" th:field="*{userId}" />
 							<div class="chaxinTwo">
 								<div class="chaxinK chaxinTwoGp">
 									<em class="chaxintwoDel">×</em>
@@ -456,7 +456,7 @@
 	    	<img th:src="@{/ximages/Icon.png}"/>
 	    	<div class="alertxuqTEXT">
 	    		您的需求已提交<br />
-	    		请到<a th:href="@{/zhishifuwu/shenqinglist}">我的申请</a>中查看最新进展
+	    		请到<a id="shenqinglist2">我的申请</a>中查看最新进展
 	    	</div>
 	    	<div class="alertxuqa clearfix">
 	    		<a href="/">
@@ -472,6 +472,29 @@
 		<script type="text/javascript" th:inline="javascript">
 		var frontendId = null;
 		var shenqingfujianId = '';
+		var display =  [[${display}]];
+		$(document).ready(function () {
+			$.cookie("openId","1");
+			//$.cookie("role","管理员");
+			$.cookie("role","普通用户");
+			
+		    if($.cookie("role")!=null && $.cookie("role")==="普通用户"){
+				$("#backgroud").css('display','none'); 
+			}
+		    if($.cookie("role")!=null && $.cookie("role")==="管理员"){
+				//$(".vip").html("管理员"); 
+				$("#backgroud").css('display','block'); 
+			}
+			$("#logoinName").html($.cookie("nickName"));
+		    $("#headImg").attr("src", $.cookie("headImg"));
+		    document.getElementById("shenqinglist").href="/zhishifuwu/shenqinglist?userid="+$.cookie("openId");
+		    if(display != null && display == 1){
+		    	 document.getElementById("shenqinglist2").href="/zhishifuwu/shenqinglist?userid="+$.cookie("openId");
+		    }
+		    $("#userId").attr("value",$.cookie("openId"));
+
+		    //document.getElementById("userid").value=$.cookie("openId");
+		});
 		 $("#frontendFile").live('change',function() {
 				var formData = new FormData();
 				formData.append('file', $('#frontendFile')[0].files[0]);
@@ -484,14 +507,6 @@
 					processData : false,
 					contentType : false
 				}).done(function(res) {
-					//$("#frontendImg").attr('src',res.img);
-					//$('#frontendPid').replaceWith('<p id="frontendPid">' + res.filename + '&nbsp;' + res.size + 'kb&nbsp;<a id="frontendDel" href="javascript:delFrontend()" class="colorRed">删除</a></p>');
-					//$("#frontendShow").show();
-					//$("#frontendUpload").hide();uploadtime
-					//$("#frontendFileHidden").val(res.uuid + '_' + res.filename)
-					//$("#frontendFileNameHidden").val(res.filename)
-					//$("#frontendSizeHidden").val(res.size)
-					//frontendId = res.uuid + '_' + res.filename;
 					if(shenqingfujianId == ''){
 						shenqingfujianId = res.uuid + '_' + res.filename+';';
 					}else{
@@ -524,14 +539,6 @@
 			shenqingfujianId = shenqingfujianId.replace(uuid+';','');
 			$("#shenqingfujianId").val(shenqingfujianId);
 		 }
-		var display =  [[${display}]];
-			$(document).ready(function () {
-			    if($.cookie("role")!=null && $.cookie("role")==="普通用户"){
-					$("#backgroud").css('display','none'); 
-				}
-				$("#logoinName").html($.cookie("nickName"));
-			    $("#headImg").attr("src", $.cookie("headImg"));
-			});
 			function search(){
 			    /*  window.location.href="http://127.0.0.1:8088/project/list?q=" + $("#keywords").val(); */
 			    window.location.href="/patent/list?q=" + $("#keywords").val();

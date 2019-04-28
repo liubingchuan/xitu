@@ -16,11 +16,18 @@ import java.util.List;
 @Component
 public interface ZhishifuwuMapper {
 	
+	@Select("select count(*) from xitu_order where user_id = #{userid}")
+    int getOrderCount(@Param("userid") int userid);
+	
 	@Select("select count(*) from xitu_order")
-    int getOrderCount();
+    int getTotalOrderCount();
 	
 	@Select("select * from xitu_order where user_id = #{userid} limit #{pageIndex}, #{pageSize}")
     List<Order> getOrders(@Param("userid") int userid,@Param("pageIndex") int pageIndex, @Param("pageSize") int pageSize);
+	
+	@Select("select * from xitu_order limit #{pageIndex}, #{pageSize}")
+    List<Order> getTotalOrders(@Param("pageIndex") int pageIndex, @Param("pageSize") int pageSize);
+	
 	
 	@InsertProvider(type = BasedProvider.class, method = BasedProvider.INSERT)
 	int insertOrder(Order order);

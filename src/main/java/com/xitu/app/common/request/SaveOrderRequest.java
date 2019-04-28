@@ -25,6 +25,7 @@ public class SaveOrderRequest extends BaseRequest{
 	private String chuliyijian;
 	private String chulirenfujianId;
 	private String token;
+	private String userId;
 	
 	private String name;
 	private String email;
@@ -36,6 +37,13 @@ public class SaveOrderRequest extends BaseRequest{
 	private String futele;
 	private String fuins;
 	
+	
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
 	public String getToken() {
 		return token;
 	}
