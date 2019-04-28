@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS xitu_order (
   chuliren varchar(255) DEFAULT NULL,
   chuliyijian varchar(255) DEFAULT NULL,
   chulirenfujian_id varchar(255) DEFAULT NULL,
-  user_id INT UNSIGNED DEFAULT NULL,
+  user_id varchar(255) DEFAULT NULL,
   institution varchar(255) DEFAULT NULL
 ) DEFAULT CHARSET=utf8;
 

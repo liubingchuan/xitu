@@ -6,6 +6,7 @@
 		<link rel="stylesheet" th:href="@{/css/xinit.css}" />
 		<link rel="stylesheet" th:href="@{/css/xmain.css}" />
 		<script type="text/javascript" th:src="@{/js/jquery-1.7.2.js}" ></script>
+		<script type="text/javascript" th:src="@{/js/jquery.cookie.js}" ></script>
 	</head>
 	<body class="manageBody">
 		<div class="manageLf">
@@ -13,20 +14,20 @@
 				<div class="manageLfLogo">
 					<img th:src="@{/ximages/logo.png}" />
 				</div>
-				<a th:href="@{/zhishifuwu/shenqinglist(front=0)}" class="manageMenuF">			
+				<a id="dingdanguanli" th:href="@{/zhishifuwu/shenqinglist(front=0)}" class="manageMenuF">			
 						订单管理
 				</a>
-				<a th:href="@{/project/list(pageSize=10,pageIndex=0)}" class="manageMenuF">		
+				<a id="xiangmuxinxi" th:href="@{/project/list(pageSize=10,pageIndex=0)}" class="manageMenuF">		
 						项目信息
 				</a>
-				<a href="javascript:;" class="manageMenuF">		
+				<a id="xinxicaiji" href="javascript:;" class="manageMenuF">		
 						信息采集<em></em>
 				</a>
 				<div class="manageMenuS">
 					<!-- <a href="#">
 						采集任务
 					</a> -->
-					<a th:href="@{/task/getTaskList}" >
+					<a id="jieguoliebiao" th:href="@{/task/getTaskList}" >
 						结果列表
 					</a>
 					<!-- <a href="#">
@@ -37,20 +38,20 @@
 						企业智库<em></em>
 				</a>
 				<div class="manageMenuS">
-					<a th:href="@{/report/list(pageSize=10,pageIndex=0)}">
+					<a id="fenxibaogao" th:href="@{/report/list(pageSize=10,pageIndex=0)}">
 						分析报告
 					</a>
-					<a th:href="@{/org/list}">
+					<a id="zhogndianjigou" th:href="@{/org/list}">
 						重点机构
 					</a>
-					<a th:href="@{/expert/list(pageSize=10,pageIndex=0)}">
+					<a id="hangyerencai" th:href="@{/expert/list(pageSize=10,pageIndex=0)}">
 						行业人才
 					</a>
 				</div>
-				<a th:href="@{/user/list(pageIndex=0,pageSize=10)}" class="manageMenuF">		
+				<a id="yonghuguanli" th:href="@{/user/list(pageIndex=0,pageSize=10)}" class="manageMenuF">		
 						用户管理
 				</a>
-				<a th:href="@{/item/config}" class="manageMenuF">		
+				<a id="fenleishezhi" th:href="@{/item/config}" class="manageMenuF">		
 						分类设置
 				</a>
 			</div>
@@ -184,5 +185,23 @@
 		    </div>
 		</div>
 		<script type="text/javascript" th:src="@{/js/main.js}" ></script>
+		<script type="text/javascript" th:inline="javascript">
+		 $(document).ready(function () {
+				$.cookie("openId","2");
+				//$.cookie("role","管理员");
+				$.cookie("role","操作员");
+				if($.cookie("role")!=null && $.cookie("role")==="操作员"){
+					//$(".vip").html("普通用户"); 
+					//$("#backgroud").css('display','none'); 
+					document.getElementById("fenleishezhi").removeAttribute("href");
+					document.getElementById("hangyerencai").removeAttribute("href");
+					document.getElementById("zhogndianjigou").removeAttribute("href");
+					document.getElementById("fenxibaogao").removeAttribute("href");
+					document.getElementById("jieguoliebiao").removeAttribute("href");
+					document.getElementById("xiangmuxinxi").removeAttribute("href");
+					
+				}
+		 });
+		 </script>
 	</body>
 </html>

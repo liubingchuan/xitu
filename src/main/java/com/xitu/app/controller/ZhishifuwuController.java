@@ -64,7 +64,9 @@ public class ZhishifuwuController {
 		if (request.getTitle() != null) {
 			order.setTitle(request.getTitle());
 		}
-		
+		if (request.getUserId() != null) {
+			order.setUserId(request.getUserId());
+		}
 		if (request.getChaxinfanwei() != null && !request.getChaxinfanwei().equals("请选择查新范围")) {
 			order.setChaxinfanwei(request.getChaxinfanwei());
 		}
@@ -99,7 +101,7 @@ public class ZhishifuwuController {
 		if (request.getInstitution()!= null) {
 			order.setInstitution(request.getInstitution());
 		}
-		order.setUserId(1);
+		//order.setUserId(1);
 		order.setChulizhuangtai("待处理");
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
 		//System.out.println(df.format(new Date()));// new Date()为获取当前系统时间
@@ -143,16 +145,16 @@ public class ZhishifuwuController {
 		Linkuser fulinkuser = new Linkuser();
 		if (request.getFuna()!= null && !request.getFuna().equals("")) {
 			if (request.getFuna()!= null) {
-				fulinkuser.setName(request.getFuna());
+				fulinkuser.setName(request.getFuna().substring(1, request.getFuna().length()));
 			}
 			if (request.getFuema()!= null) {
-				fulinkuser.setEmail(request.getFuema());
+				fulinkuser.setEmail(request.getFuema().substring(1, request.getFuema().length()));
 			}
 			if (request.getFuins()!= null) {
-				fulinkuser.setInstitution(request.getFuins());
+				fulinkuser.setInstitution(request.getFuins().substring(1, request.getFuins().length()));
 			}
 			if (request.getFutele()!= null) {
-				fulinkuser.setTelephone(request.getFutele());
+				fulinkuser.setTelephone(request.getFutele().substring(1, request.getFutele().length()));
 			}
 			String linkuseruuid1 = UUID.randomUUID().toString();
 			fulinkuser.setUuid(linkuseruuid1);
@@ -246,14 +248,18 @@ public class ZhishifuwuController {
 		
 	@GetMapping(value = "zhishifuwu/shenqinglist")
 	public String ShenqingList(@RequestParam(required=false, value="token") String token, 
-			@RequestParam(required=false,value="userid") Integer userid, 
+			@RequestParam(required=false,value="userid") String userid, 
 			@RequestParam(required=false,value="pageSize") Integer pageSize, 
 			@RequestParam(required=false, value="pageIndex") Integer pageIndex, 
 			@RequestParam(required=false,value="front") Integer front,
 			Model model) {
 		String view="T-shenqing";
+		int totalCount = 0;
 		if (front!= null && front == 0) {
 			view ="T-manageOrder";
+			totalCount = zhishifuwuMapper.getTotalOrderCount();
+		}else{
+			totalCount = zhishifuwuMapper.getOrderCount(userid);
 		}
 		if(pageSize == null) {
 			pageSize = 10;
@@ -266,9 +272,8 @@ public class ZhishifuwuController {
 		}
 		//刘冰川 *
 		//获取当前登录用户的userid
-		userid = 1;
+		//userid = 1;
 		int start = Integer.valueOf(pageIndex) * Integer.valueOf(pageSize);
-		int totalCount = zhishifuwuMapper.getOrderCount();
 		int end = totalCount-1;
 		int totalPages = totalCount/Integer.valueOf(pageSize) + 1;
 		if(pageIndex.equals(String.valueOf(totalPages))) {
@@ -276,7 +281,13 @@ public class ZhishifuwuController {
 		}else {
 			end = pageSize * (pageIndex+1);
 		}
-		List<Order> orderList = zhishifuwuMapper.getOrders(userid,start, end);
+		List<Order> orderList = null;
+		if (front!= null && front == 0) {
+			orderList = zhishifuwuMapper.getTotalOrders(start, end);
+		}else{
+			orderList = zhishifuwuMapper.getOrders(userid,start, end);
+		}
+		
 		model.addAttribute("orderList", orderList);
 		model.addAttribute("pageSize", pageSize);
 		model.addAttribute("pageIndex", pageIndex);
