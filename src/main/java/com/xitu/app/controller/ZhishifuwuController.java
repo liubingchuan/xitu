@@ -45,6 +45,9 @@ import com.xitu.app.utils.JwtUtils;
 public class ZhishifuwuController {
 
 	private static final Logger logger = LoggerFactory.getLogger(ZhishifuwuController.class);
+	
+	private static final String MESSAGE_URL = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token={TOKEN}";
+	
 	@Autowired
     private ZhishifuwuMapper zhishifuwuMapper;
 	
