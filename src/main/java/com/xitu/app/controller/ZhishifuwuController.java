@@ -245,7 +245,7 @@ public class ZhishifuwuController {
 		
 	@GetMapping(value = "zhishifuwu/shenqinglist")
 	public String ShenqingList(@RequestParam(required=false, value="token") String token, 
-			@RequestParam(required=false,value="userid") Integer userid, 
+			@RequestParam(required=false,value="userid") String userid, 
 			@RequestParam(required=false,value="pageSize") Integer pageSize, 
 			@RequestParam(required=false, value="pageIndex") Integer pageIndex, 
 			@RequestParam(required=false,value="front") Integer front,
