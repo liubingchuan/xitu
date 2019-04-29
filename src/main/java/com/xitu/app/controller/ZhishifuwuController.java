@@ -341,7 +341,7 @@ public class ZhishifuwuController {
 		
 		String chuliren = null;
 		if (zhishifuwuMapper.getUserByID(order.getChuliren()) != null) {
-			chuliren = zhishifuwuMapper.getUserByID(order.getChuliren()).getName();
+			chuliren = zhishifuwuMapper.getUserByID(order.getChuliren()).getWechat();
 			model.addAttribute("chuliren", chuliren);
 		}
 		String view="T-orderCon";

@@ -7,10 +7,10 @@ $("#quit").click(function(){
 });
 
 function showLoginInfo(){
-	$.cookie("openId","2");
-	$.cookie("role","管理员");
+	//$.cookie("openId","2");
+	//$.cookie("role","管理员");
 	//$.cookie("role","操作员");
-	$.cookie("nickName","测试人");
+	//$.cookie("nickName","测试人");
 	if($.cookie("openId")!=null) {
 		$("#headImg").attr("src", $.cookie("headImg"));
 		$("#logoinName").html($.cookie("nickName"));
