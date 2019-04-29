@@ -339,7 +339,11 @@ public class ZhishifuwuController {
 			}
 		}
 		
-		
+		String chuliren = null;
+		if (zhishifuwuMapper.getUserByID(order.getChuliren()) != null) {
+			chuliren = zhishifuwuMapper.getUserByID(order.getChuliren()).getName();
+			model.addAttribute("chuliren", chuliren);
+		}
 		String view="T-orderCon";
 		if (front!= null && front == 0) {
 			view ="T-manageordercon";
@@ -352,14 +356,15 @@ public class ZhishifuwuController {
 	}
 	
 	@GetMapping(value = "zhishifuwu/jiedan")
-	public String jiedan(@RequestParam(required=false, value="token") String token, 
+	public String jiedan(@RequestParam(required=false, value="token") String token,
+			@RequestParam(required=false,value="chuliren") String chuliren, 
 			@RequestParam(required=false,value="uuid") String uuid,
 			@RequestParam(required=false,value="pageSize") Integer pageSize, 
 			@RequestParam(required=false, value="pageIndex") Integer pageIndex, 
 			Model model) {
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
 		String chulishijian = df.format(new Date());
-		zhishifuwuMapper.updateChulizhuangtaiByUUID(uuid,"处理中",chulishijian,null,null,null);
+		zhishifuwuMapper.updateJieDanChulizhuangtaiByUUID(uuid,"处理中",chulishijian,null,chuliren,null);
 		//刘冰川
 		//获取当前操作员=chuliren
 		return "redirect:/zhishifuwu/shenqinglist?front=0&pageIndex="+pageIndex+"&pageSize="+pageSize;
@@ -378,7 +383,7 @@ public class ZhishifuwuController {
 		String chulishijian = df.format(new Date());
 		//刘冰川
 	    //获取当前操作员=chuliren
-		zhishifuwuMapper.updateChulizhuangtaiByUUID(uuid,"已完成",chulishijian,chuliyijian,"",chulirenfujianId);
+		zhishifuwuMapper.updateChulizhuangtaiByUUID(uuid,"已完成",chulishijian,chuliyijian,chulirenfujianId);
 		
 		//刘冰川
 		//状态：已完成，微信发送通知给用户
@@ -400,7 +405,7 @@ public class ZhishifuwuController {
 		
 		//刘冰川
 	    //获取当前操作员=chuliren
-		zhishifuwuMapper.updateChulizhuangtaiByUUID(uuid,"无法满足",chulishijian,chuliyijian,null,chulirenfujianId);
+		zhishifuwuMapper.updateChulizhuangtaiByUUID(uuid,"无法满足",chulishijian,chuliyijian,chulirenfujianId);
 		
 		//刘冰川
 		//状态：无法满足，微信发送通知给用户

@@ -41,14 +41,20 @@ public interface ZhishifuwuMapper {
 	@Select("SELECT * FROM xitu_order where uuid = #{uuid} limit 1")
 	Order getOrderByUUID(@Param("uuid") String uuid);
 	
+	@Select("SELECT * FROM xitu_user where open_id = #{open_id} limit 1")
+	User getUserByID(@Param("open_id") String open_id);
+	
 	@Select("SELECT * FROM xitu_relation where order_id = #{uuid}")
 	List<Relation> getRelationByUUID(@Param("uuid") String uuid);
 	
 	@Select("SELECT * FROM xitu_linkuser where uuid = #{uuid} limit 1")
 	Linkuser getLinkuserByUUID(@Param("uuid") String uuid);
 	
+	@Update("UPDATE xitu_order SET chulizhuangtai = #{chulizhuangtai}, chulishijian = #{chulishijian}, chuliyijian= #{chuliyijian},chulirenfujian_id = #{chulirenfujianId}  WHERE uuid = #{uuid} limit 1")
+	void updateChulizhuangtaiByUUID(@Param("uuid") String uuid,@Param("chulizhuangtai") String chulizhuangtai,@Param("chulishijian") String chulishijian,@Param("chuliyijian") String chuliyijian,@Param("chulirenfujianId") String chulirenfujianId);
+	
 	@Update("UPDATE xitu_order SET chulizhuangtai = #{chulizhuangtai}, chulishijian = #{chulishijian}, chuliyijian= #{chuliyijian},chuliren = #{chuliren},chulirenfujian_id = #{chulirenfujianId}  WHERE uuid = #{uuid} limit 1")
-	void updateChulizhuangtaiByUUID(@Param("uuid") String uuid,@Param("chulizhuangtai") String chulizhuangtai,@Param("chulishijian") String chulishijian,@Param("chuliyijian") String chuliyijian,@Param("chuliren") String chuliren,@Param("chulirenfujianId") String chulirenfujianId);
+	void updateJieDanChulizhuangtaiByUUID(@Param("uuid") String uuid,@Param("chulizhuangtai") String chulizhuangtai,@Param("chulishijian") String chulishijian,@Param("chuliyijian") String chuliyijian,@Param("chuliren") String chuliren,@Param("chulirenfujianId") String chulirenfujianId);
 	
 	@Update("UPDATE xitu_order SET chulizhuangtai = #{user.account}, password = #{user.password}, name = #{user.name}, "
 		    + "identity = #{user.identity}, unit = #{user.unit}, job = #{user.job}, "
