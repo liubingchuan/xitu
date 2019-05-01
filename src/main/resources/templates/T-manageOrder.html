@@ -1,91 +1,11 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<title></title>
-		<link rel="stylesheet" th:href="@{/css/xinit.css}" />
-		<link rel="stylesheet" th:href="@{/css/xmain.css}" />
-		<script type="text/javascript" th:src="@{/js/jquery-1.7.2.js}" ></script>
-		<script type="text/javascript" th:src="@{/js/jquery.cookie.js}" ></script>
+	
+	<head th:replace="~{head :: common-head}">
 	</head>
 	<body class="manageBody">
-		<div class="manageLf">
-			<div class="manageLfM">
-				<div class="manageLfLogo">
-					<img th:src="@{/ximages/logo.png}" />
-				</div>
-				<a id="dingdanguanli" th:href="@{/zhishifuwu/shenqinglist(front=0)}" class="manageMenuF">			
-						订单管理
-				</a>
-				<a id="xiangmuxinxi" th:href="@{/project/list(pageSize=10,pageIndex=0)}" class="manageMenuF">		
-						项目信息
-				</a>
-				<a id="xinxicaiji" href="javascript:;" class="manageMenuF">		
-						信息采集<em></em>
-				</a>
-				<div class="manageMenuS">
-					<!-- <a href="#">
-						采集任务
-					</a> -->
-					<a id="jieguoliebiao" th:href="@{/task/getTaskList}" >
-						结果列表
-					</a>
-					<!-- <a href="#">
-						采集日志
-					</a> -->
-				</div>
-				<a href="javascript:;" class="manageMenuF">		
-						企业智库<em></em>
-				</a>
-				<div class="manageMenuS">
-					<a id="fenxibaogao" th:href="@{/report/list(pageSize=10,pageIndex=0)}">
-						分析报告
-					</a>
-					<a id="zhogndianjigou" th:href="@{/org/list}">
-						重点机构
-					</a>
-					<a id="hangyerencai" th:href="@{/expert/list(pageSize=10,pageIndex=0)}">
-						行业人才
-					</a>
-				</div>
-				<a id="yonghuguanli" th:href="@{/user/list(pageIndex=0,pageSize=10)}" class="manageMenuF">		
-						用户管理
-				</a>
-				<a id="fenleishezhi" th:href="@{/item/config}" class="manageMenuF">		
-						分类设置
-				</a>
-			</div>
-		</div>
-		<div class="managHead clearfix">
-			<div class="right manageTx">
-				<div class="clearfix">
-				<img th:src="@{/ximages/tx.jpeg}" class="manageTxImg left" />
-				<span class="left manageTxName">张伟</span>
-				<em class="manageTxIco left"></em>
-				</div>
-			    <div class="loginAfterNo">
-								
-								<div class="loginAfterNoM">
-									<em class="loginAfterNoMSj"></em>
-									<p>
-										<span class="loginName">
-											张伟
-										</span>
-										<span class="vip">
-											超级管理员
-										</span>
-									</p>
-									<p>
-										<a href="#">
-											<img th:src="@{/ximages/tuichu.png}" />
-											退出
-										</a>
-									</p>
-									
-								</div>
-							</div>
-			</div>
-		</div>
+		<div th:replace="houtaizuocecaidan :: myzuocecaidan"></div>
+		<div th:replace="houtaidenglu :: myhoutaidenglu"></div>
 		<div class="manageNr">
 			<div class="usermanageOne">
 				<form>
@@ -161,9 +81,12 @@
 		    			</td>
 		    			<td>
 		    			<span th:if="${order.chulizhuangtai == '待处理'}">
-		    				<a th:href="@{/zhishifuwu/jiedan(uuid=${order.uuid},front=0,pageIndex=${pageIndex},pageSize=${pageSize})}" class="colorBlue">
+		    				<!-- <a th:href="@{/zhishifuwu/jiedan(uuid=${order.uuid},front=0,pageIndex=${pageIndex},pageSize=${pageSize})}" class="colorBlue">
 		    					接单 
-		    				</a>
+		    				</a> -->
+		    				<input id="uuid" type="hidden" th:value="${order.uuid}" />
+		    				<a href="javascript:jiedan()" class="colorBlue">
+		    					接单 
 		    			</span>
 		    			<span th:if="${order.chulizhuangtai == '处理中' || order.chulizhuangtai =='已完成' || order.chulizhuangtai =='无法满足'}">
 		    				<a th:href="@{/zhishifuwu/xiangqing(uuid=${order.uuid},front=0,pageIndex=${pageIndex},pageSize=${pageSize})}" class="colorBlue">
@@ -184,24 +107,20 @@
 			    </div>
 		    </div>
 		</div>
-		<script type="text/javascript" th:src="@{/js/main.js}" ></script>
+	    <script type="text/javascript" th:src="@{/js/main.js}" ></script>
 		<script type="text/javascript" th:inline="javascript">
+		var pageIndex =  [[${pageIndex}]];
+		var pageSize =  [[${pageSize}]];
 		 $(document).ready(function () {
-				$.cookie("openId","2");
-				//$.cookie("role","管理员");
-				$.cookie("role","操作员");
-				if($.cookie("role")!=null && $.cookie("role")==="操作员"){
-					//$(".vip").html("普通用户"); 
-					//$("#backgroud").css('display','none'); 
-					document.getElementById("fenleishezhi").removeAttribute("href");
-					document.getElementById("hangyerencai").removeAttribute("href");
-					document.getElementById("zhogndianjigou").removeAttribute("href");
-					document.getElementById("fenxibaogao").removeAttribute("href");
-					document.getElementById("jieguoliebiao").removeAttribute("href");
-					document.getElementById("xiangmuxinxi").removeAttribute("href");
-					
-				}
+				showLoginInfo();
 		 });
+		 
+		 function jiedan() {
+			 var uid = $("#uuid").val();
+			 window.location.href="/zhishifuwu/jiedan?uuid=" + uid + "&pageIndex="+pageIndex+"&pageSize="+pageSize+"&chuliren="+$.cookie("openId");
+			 //zhishifuwu/jiedan(uuid=${order.uuid},front=0,pageIndex=${pageIndex},pageSize=${pageSize})}
+		 }
+		
 		 </script>
 	</body>
 </html>

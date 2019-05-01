@@ -139,9 +139,12 @@
 									</span>
 								</td>
 								<td>
-									<!-- <a href="#" class="shenqingDown">
+									<!-- <a th:href="@{/zhishifuwu/xiangqing(uuid=${order.uuid})}" class="shenqingDown" th:if="${order.chulizhuangtai == '已完成'}">
 										下载
 									</a> -->
+									<a class="shenqingDown" th:if="${order.chulizhuangtai == '已完成' && order.chulirenfujianId != null && order.chulirenfujianId !='' }" th:href="@{/file/fileDownload(filename=${chufujianId})}">
+		    							下载
+		    						</a>
 									<a th:href="@{/zhishifuwu/xiangqing(uuid=${order.uuid})}">
 										查看
 									</a>

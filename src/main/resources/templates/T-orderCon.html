@@ -107,14 +107,14 @@
 									
 								</div>
 							</div>
-							<!-- <div class="orderconTextGp clearfix">
+							<div class="orderconTextGp clearfix">
 								<span class="left orderconTextGpName">
-									完成时间：
+									处理时间：
 								</span>
-								<div class="orderconTextGpRt">
-									2018/12/19 19:20
+								<div class="orderconTextGpRt" th:text="*{chulishijian}">
+									
 								</div>
-							</div> -->
+							</div>
 							<div class="orderconTextGp clearfix">
 								<span class="left orderconTextGpName">
 									处理状态：
@@ -123,14 +123,14 @@
 									<span class="colorGreen" th:text="*{chulizhuangtai}"></span>
 								</div>
 							</div>
-							<!-- <div class="orderconTextGp clearfix">
+							<div class="orderconTextGp clearfix">
 								<span class="left orderconTextGpName">
 									 处理人：
 								</span>
-								<div class="orderconTextGpRt">
-									张伟
+								<div class="orderconTextGpRt" th:text="${chuliren}">
+									
 								</div>
-							</div> -->
+							</div>
 							<div class="orderconTextGp clearfix">
 								<span class="left orderconTextGpName" >
 									处理意见：
