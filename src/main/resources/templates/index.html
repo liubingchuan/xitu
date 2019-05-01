@@ -550,8 +550,8 @@
 	    	
 			 $(document).ready(function () {
 // 				console.log($.cookie("openId"))
-				$.cookie("openId","2");
-				$.cookie("role","管理员");
+// 				$.cookie("openId","2");
+// 				$.cookie("role","管理员");
 				//$.cookie("role","普通用户");
 				
 				$("#alertbd").css('display','none');
@@ -656,6 +656,7 @@
 			            	$("#alertbd").css('display','none'); 
 			                if(data.code == "200")
 			                {
+			                	console.log($.cookie("nickName"))
 			                	$("#logoinName").html($.cookie("nickName"));
 			    			    $("#headImg").attr("src", $.cookie("headImg"));
 								$("#loginBefore").css('display','none');
@@ -665,7 +666,11 @@
 			                else
 			                {
 			                	console.log("binding error" + data);
+			                	if(data.code=="401") {
+			                		alert(data.msg);
+			                	}else {
 			                	 $("#quit").click();
+			                	}
 			                	
 			                }
 			            },

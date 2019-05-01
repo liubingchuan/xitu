@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.xitu.app.common.R;
 import com.xitu.app.common.SystemConstant;
 import com.xitu.app.common.request.LoginRequest;
@@ -29,6 +31,7 @@ import com.xitu.app.common.request.RegisterRequest;
 import com.xitu.app.common.request.SaveItemRequest;
 import com.xitu.app.common.request.SaveOrderRequest;
 import com.xitu.app.common.request.UpdateUserRequest;
+import com.xitu.app.constant.Constant;
 import com.xitu.app.mapper.UserMapper;
 import com.xitu.app.mapper.ZhishifuwuMapper;
 import com.xitu.app.model.Linkuser;
@@ -36,6 +39,7 @@ import com.xitu.app.model.Order;
 import com.xitu.app.model.Relation;
 import com.xitu.app.model.User;
 import com.xitu.app.utils.BeanUtil;
+import com.xitu.app.utils.HttpClientUtils;
 import com.xitu.app.utils.JwtUtils;
 
 
@@ -113,7 +117,51 @@ public class ZhishifuwuController {
 		//刘冰川
 		//微信发送给通知给用户  待处理
 		//微信发送通知给操作员
-		
+		String url = MESSAGE_URL.replace("{TOKEN}", Constant.ACCESS_TOKEN);
+		System.out.println("order userId------->" + order.getUserId());
+		JSONObject jsonObject = new JSONObject();
+//        jsonObject.put("touser", order.getUserId());   // openid
+		jsonObject.put("touser", "okT7G03g6kRUX7BI0FY048D0BA9o");
+        jsonObject.put("template_id", "xp9DfByRBXy5znxzyNW9o5TJh4_1zDRSCaV3BJhz3Sg");
+//        jsonObject.put("url", "http://www.baidu.com");
+ 
+        JSONObject data = new JSONObject();
+        JSONObject first = new JSONObject();
+        first.put("value", "hello");
+        first.put("color", "#173177");
+        JSONObject keyword1 = new JSONObject();
+        keyword1.put("value", "hello");
+        keyword1.put("color", "#173177");
+//        JSONObject keyword2 = new JSONObject();
+//        keyword2.put("value", "hello");
+//        keyword2.put("color", "#173177");
+//        JSONObject keyword3 = new JSONObject();
+//        keyword3.put("value", "hello");
+//        keyword3.put("color", "#173177");
+//        JSONObject remark = new JSONObject();
+//        remark.put("value", "hello");
+//        remark.put("color", "#173177");
+        
+        data.put("first",first);
+        data.put("keyword1",keyword1);
+//        data.put("keyword2",keyword2);
+//        data.put("keyword3",keyword3);
+//        data.put("remark",remark);
+ 
+        jsonObject.put("data", data);
+ 
+        String string = HttpClientUtils.sendPostJsonStr(url, jsonObject.toJSONString());
+        JSONObject result = JSON.parseObject(string);
+        System.out.println("response 结果------>" + string);
+        int errcode = result.getIntValue("errcode");
+        if(errcode == 0){
+            // 发送成功
+            System.out.println("发送成功");
+        } else {
+            // 发送失败
+            System.out.println("发送失败");
+
+        }		
 		
 		Linkuser linkuser = new Linkuser();
 		if (request.getName() != null) {
