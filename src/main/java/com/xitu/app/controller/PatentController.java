@@ -330,7 +330,7 @@ public class PatentController {
 		int currentPage = 0;
 		int pageSize = 0;
 		int index = 0;
-		for(int i=213;i<957;i++){
+		for(int i=455;i<957;i++){
 			
 			currentPage = (currentPage <= 0) ?1:currentPage;
 			pageSize = (pageSize<=0) ? 100:pageSize;
