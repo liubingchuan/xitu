@@ -1,6 +1,7 @@
 package com.xitu.app.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -24,7 +25,7 @@ public class Report implements Serializable{
 	@CrossQuery
 	private String subject; // 报告摘要
 	
-	private String author; // 报告作者
+	private List<String> author; // 报告作者
 	
 	@AggQuery
 	@SingleQuery
@@ -69,10 +70,11 @@ public class Report implements Serializable{
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
-	public String getAuthor() {
+	
+	public List<String> getAuthor() {
 		return author;
 	}
-	public void setAuthor(String author) {
+	public void setAuthor(List<String> author) {
 		this.author = author;
 	}
 	public String getUnit() {

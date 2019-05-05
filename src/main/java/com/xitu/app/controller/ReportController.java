@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -83,6 +84,27 @@ public class ReportController {
 		report.setNow(System.currentTimeMillis());
 		report.setYear(request.getPtime().substring(0, 4));
 		report.setSubject(request.getInfo());
+		
+		List<String> authors = new ArrayList<String>();
+		if (request.getAuthor() != null && !request.getAuthor().equals("")) {
+			if(request.getAuthor().contains(";")){
+				String[] s = request.getAuthor().split(";");
+				for(String id:s){
+					authors.add(id);
+				}
+			}else if (request.getAuthor().contains("；")) {
+				String[] s = request.getAuthor().split("；");
+				for(String id:s){
+					authors.add(id);
+				}
+			}else {
+				authors.add(request.getAuthor());
+			}
+			
+			
+		}
+		report.setAuthor(authors);
+		
 		reportRepository.save(report);
 		return "redirect:/report/list";
 	}
