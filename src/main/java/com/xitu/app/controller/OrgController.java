@@ -204,7 +204,7 @@ public class OrgController {
 		int i = 4;//0代表专利；1代表论文；2代表项目；3代表监测;4代表机构
 		// TODO 静态变量未环绕需调整
 		ThreadLocalUtil.set(model);
-		orgService.execute(pageIndex, pageSize, i,q,classic);
+		orgService.execute(pageIndex, pageSize, i,q,type,link,classic);
 		ThreadLocalUtil.remove();
 		String view = "qiyezhikuzhongdianjigouliebiao";
 		if (front != null) {

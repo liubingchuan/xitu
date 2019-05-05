@@ -8,6 +8,10 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
+import com.xitu.app.annotation.AggQuery;
+import com.xitu.app.annotation.CrossQuery;
+import com.xitu.app.annotation.SingleQuery;
+
 @Document(indexName = "expert", type = "et")
 public class Expert implements Serializable{
 	
@@ -15,18 +19,32 @@ public class Expert implements Serializable{
 
 	@Id
 	private String id;
+	@CrossQuery
 	private String name; // 姓名
 	private String alias; // 其他姓名
+	
+	@AggQuery
+	@SingleQuery
+	@Field(type=FieldType.Keyword)
 	private String unit; // 单位
+	
 	private String type; // 类型
 	private String phone; // 手机
 	private String tel; // 办公电话
 	private String email; 
+	
+	@AggQuery
+	@SingleQuery
 	@Field(type=FieldType.Keyword)
 	private List<String> area; //研究领域
+
 	private String address; // 地址
+	
+	@AggQuery
+	@SingleQuery
 	@Field(type=FieldType.Keyword)
 	private List<String> duty; // 职务
+	
 	@Field(type=FieldType.Keyword)
 	private List<String> title; // 职称
 	private String resume; // 简历

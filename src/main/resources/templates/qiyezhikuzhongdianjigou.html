@@ -115,22 +115,25 @@
 				    <div class="rencaiRt right">
 				    	<form>
 				    		<div class="recaiForm clearfix">
-				    			<select class="left">
+				    			<select class="left" id="linkselect">
 				    				<option>
 				    					全产业链
 				    				</option>
+				    				<option th:each="item : ${link}" th:value="${item.key}" th:text="${item.key}"></option>
 				    			</select>
-				    			<select class="left">
+				    			<select class="left" id="classicselect">
 				    				<option>
 				    					所有产品类型
 				    				</option>
+				    				<option th:each="item : ${classic}" th:value="${item.key}" th:text="${item.key}"></option>
 				    			</select>
-				    			<select class="left">
+				    			<select class="left" id="typeselect">
 				    				<option>
 				    					所有机构类型
 				    				</option>
+				    				<option th:each="item : ${type}" th:value="${item.key}" th:text="${item.key}"></option>
 				    			</select>
-				    			<input type="button" class="left shaixuanbtn" value="筛选">
+				    			<input type="button" class="left shaixuanbtn" value="筛选" onClick="shuaixuan();">
 				    		</div>
 				    	</form>
 				       <ul class="clearfix jigouUl">
@@ -162,11 +165,11 @@
 		            	 <span th:if=" ${totalCount > 0}">
 					    	<span th:text="'共 ' + ${totalCount}+' 条机构信息'">
 					    	</span>
-					    	<a th:style="'display:' + @{((${pageIndex}+1) == 1 ? 'none' : 'inline-block')} + ''"  th:href="@{/org/list(q=${query},front=0,pageIndex=0,pageSize=10)}"><首页</a>
- 							<a th:style="'display:' + @{((${pageIndex}+1) == 1 ? 'none' : 'inline-block')} + ''" th:href="@{/org/list(q=${query},front=0,pageIndex=(${pageIndex}-1),pageSize=10)}"><上一页</a>
+					    	<a th:style="'display:' + @{((${pageIndex}+1) == 1 ? 'none' : 'inline-block')} + ''"  th:href="@{/org/list(q=${query},front=0,pageIndex=0,pageSize=10,type=${types},link=${links},classic=${classics})}"><首页</a>
+ 							<a th:style="'display:' + @{((${pageIndex}+1) == 1 ? 'none' : 'inline-block')} + ''" th:href="@{/org/list(q=${query},front=0,pageIndex=(${pageIndex}-1),pageSize=10,type=${types},link=${links},classic=${classics})}"><上一页</a>
  							<!-- <a th:href="@{/jiance/jiancelist(pageIndex=(${pageIndex}),pageSize=10)}" th:text="(${pageIndex}+1) + '/' + ${totalPages}" ></a> -->
-							<a th:style="'display:' + @{((${pageIndex}+1) == ${totalPages} ? 'none' : 'inline-block')} + ''" th:href="@{/org/list(q=${query},front=0,pageIndex=(${pageIndex}+1),pageSize=10)}">下一页<em>></em></a>
-							<a th:style="'display:' + @{((${pageIndex}+1) == ${totalPages} ? 'none' : 'inline-block')} + ''" th:href="@{/org/list(q=${query},front=0,pageIndex=(${totalPages}-1),pageSize=10)}">尾页<em>></em></a>
+							<a th:style="'display:' + @{((${pageIndex}+1) == ${totalPages} ? 'none' : 'inline-block')} + ''" th:href="@{/org/list(q=${query},front=0,pageIndex=(${pageIndex}+1),pageSize=10,type=${types},link=${links},classic=${classics})}">下一页<em>></em></a>
+							<a th:style="'display:' + @{((${pageIndex}+1) == ${totalPages} ? 'none' : 'inline-block')} + ''" th:href="@{/org/list(q=${query},front=0,pageIndex=(${totalPages}-1),pageSize=10,type=${types},link=${links},classic=${classics})}">尾页<em>></em></a>
 		            		<span th:text="'页次：' + (${pageIndex}+1) + '/' + ${totalPages}"></span>
 		            	</span>
 		            	</div>
@@ -242,13 +245,26 @@
 	    </div>
 		
 		<script type="text/javascript" th:src="@{/js/main.js}" ></script>
-		<script type="text/javascript">
+		<script type="text/javascript" th:inline="javascript">
+		var type =  [[${types}]];
+		var link =  [[${links}]];
+		var classic =  [[${classics}]];
+		
 		$(document).ready(function () {
 		    if($.cookie("role")!=null && $.cookie("role")==="普通用户"){
 				$("#backgroud").css('display','none'); 
 			}
 			$("#logoinName").html($.cookie("nickName"));
 		    $("#headImg").attr("src", $.cookie("headImg"));
+		    if(type != null){
+		    	document.getElementById('typeselect').value=type;
+		    }
+		    if(link != null){
+		    	document.getElementById('linkselect').value=link;
+		    }
+		    if(classic != null){
+		    	document.getElementById('classicselect').value=classic;
+		    }
 		});
 		function search(){
 			    /*  window.location.href="http://127.0.0.1:8088/project/list?q=" + $("#keywords").val(); */
@@ -261,6 +277,22 @@
 	                 search();
 	             }
 	     	});
+			
+			function shuaixuan(){
+				var linkse = $('#linkselect  option:selected').val();
+				var typese = $('#typeselect  option:selected').val();
+				var classicse = $('#classicselect  option:selected').val();
+				if (typese != null && typese == "所有机构类型") {
+					typese = null;
+				}
+				if (linkse != null && linkse == "全产业链") {
+					linkse = null;
+				}
+				if (classicse !=null && classicse == "所有产品类型") {
+					classicse = null;
+				}
+				window.location.href="/org/list?front=0&link=" + encodeURI(encodeURIComponent(linkse)) + "&type=" + encodeURI(encodeURIComponent(typese)) + "&classic="+encodeURI(encodeURIComponent(classicse));
+			}
 			</script>
 
 	</body>
