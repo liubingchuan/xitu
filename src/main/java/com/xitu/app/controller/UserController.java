@@ -71,8 +71,8 @@ public class UserController {
 		System.out.println("nickName is " + nickName);
 		
 		User user = userMapper.getUserByAccount(account);
-		if(user != null && user.getId() != null) {
-			return R.error().put("token", "0");
+		if(user != null && user.getId() != null && !user.getOpenId().equals(openId)) {
+			return R.error().put("code", "401").put("msg", "该用户名已被注册，请换一个用户名");
 		}
 		
 		user = userMapper.getUserByOpenId(openId);
@@ -81,7 +81,7 @@ public class UserController {
 		user.setEmail(email);
 		if(user != null && user.getId() != null) {
 			userMapper.updateByOpenId(user);
-			System.out.println("binding successfully");
+			System.out.println("bind successfully");
 		}else {
 			logger.info("微信注册绑定失败，没有找到相应openId的人");
 			return R.error();
@@ -172,8 +172,10 @@ public class UserController {
 
 		Item yhsfitem = itemMapper.selectItemByService("yhsf");
 		List<String> yhsfitemitems = new ArrayList<String>();
-		for(String s: yhsfitem.getItem().split(";")) {
-			yhsfitemitems.add(s);
+		if(yhsfitem != null && yhsfitem.getItem() != null) {
+			for(String s: yhsfitem.getItem().split(";")) {
+				yhsfitemitems.add(s);
+			}
 		}
 		model.addAttribute("yhsfitems", yhsfitemitems);
 
