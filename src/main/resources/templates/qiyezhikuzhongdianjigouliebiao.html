@@ -44,7 +44,7 @@
 		    			</th>
 		    			
 		    		</tr>
-		    		<tr th:each="org : ${orgList}">
+		    		<tr th:each="org : ${list}">
 		    			<td>
 		    				<a th:href="@{/org/get(id=${org.id},disable='0')}" class="colorBlue" th:text="${org.name}">
 		    				</a>

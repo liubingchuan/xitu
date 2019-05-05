@@ -30,6 +30,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -42,7 +43,10 @@ import com.xitu.app.model.Org;
 import com.xitu.app.model.OrgVO;
 import com.xitu.app.model.Project;
 import com.xitu.app.repository.OrgRepository;
+import com.xitu.app.service.es.OrgService;
+import com.xitu.app.service.es.PatentService;
 import com.xitu.app.utils.BeanUtil;
+import com.xitu.app.utils.ThreadLocalUtil;
 
 
 
@@ -60,6 +64,9 @@ public class OrgController {
 	
 	@Autowired
     private ItemMapper itemMapper;
+	
+	@Autowired
+	private OrgService orgService;
 	
 	@PostMapping(value = "org/save")
 	public String saveOrg(SaveOrgRequest request,Model model) {
@@ -178,8 +185,11 @@ public class OrgController {
 	}
 	
 	@GetMapping(value = "org/list")
-	public String orgs(@RequestParam(required=false,value="front") String front,
+	public String patents(@RequestParam(required=false,value="front") String front,
 			@RequestParam(required=false,value="q") String q,
+			@RequestParam(required=false,value="type") String type,
+			@RequestParam(required=false,value="link") String link,
+			@RequestParam(required=false,value="classic") String classic,
 			@RequestParam(required=false,value="pageSize") Integer pageSize, 
 			@RequestParam(required=false, value="pageIndex") Integer pageIndex, 
 			Model model) {
@@ -189,72 +199,98 @@ public class OrgController {
 		if(pageIndex == null) {
 			pageIndex = 0;
 		}
-		long totalCount = 0L;
-		long totalPages = 0L;
-		List<Org> orgList = new ArrayList<Org>();
+		model.addAttribute("pageIndex", pageIndex);
+		model.addAttribute("pageSize", pageSize);
+		int i = 4;//0代表专利；1代表论文；2代表项目；3代表监测;4代表机构
+		// TODO 静态变量未环绕需调整
+		ThreadLocalUtil.set(model);
+		orgService.execute(pageIndex, pageSize, i,q,classic);
+		ThreadLocalUtil.remove();
 		String view = "qiyezhikuzhongdianjigouliebiao";
 		if (front != null) {
 			view = "qiyezhikuzhongdianjigou";
 		}
-		if(esTemplate.indexExists(Project.class)) {
-			if(q == null || q.equals("")) {
-				totalCount = orgRepository.count();
-				if(totalCount > 0) {
-					Sort sort = new Sort(Direction.DESC, "now");
-					Pageable pageable = new PageRequest(pageIndex, pageSize,sort);
-					SearchQuery searchQuery = new NativeSearchQueryBuilder()
-							.withPageable(pageable).build();
-					Page<Org> orgPage = orgRepository.search(searchQuery);
-					orgList = orgPage.getContent();
-					if(totalCount % pageSize == 0){
-						totalPages = totalCount/pageSize;
-					}else{
-						totalPages = totalCount/pageSize + 1;
-					}
-				}
-			}else {
-				// 分页参数
-				Pageable pageable = new PageRequest(pageIndex, pageSize);
-
-				// 分数，并自动按分排序
-				FunctionScoreQueryBuilder functionScoreQueryBuilder = QueryBuilders.functionScoreQuery(QueryBuilders.boolQuery().should(QueryBuilders.matchQuery("name", q)), ScoreFunctionBuilders.weightFactorFunction(1000));
-
-				// 分数、分页
-				SearchQuery searchQuery = new NativeSearchQueryBuilder().withPageable(pageable)
-						.withQuery(functionScoreQueryBuilder).build();
-
-				Page<Org> searchPageResults = orgRepository.search(searchQuery);
-				orgList = searchPageResults.getContent();
-				totalCount = esTemplate.count(searchQuery, Org.class);
-				//totalPages = Math.round(totalCount/pageSize);
-				if(totalCount % pageSize == 0){
-					totalPages = totalCount/pageSize;
-				}else{
-					totalPages = totalCount/pageSize + 1;
-				}
-//				view = "qiyezhikuzhongdianjigou";
-			}
-		}
-		int max = 800;
-		int min = 100;
-		Random random = new Random();
-		for(Org org: orgList) {
-			int x = random.nextInt(max-min) + min;
-			org.setProfessors(String.valueOf(x));
-			int y = random.nextInt(max-min) + min;
-			org.setPatents(String.valueOf(y));
-			int z = random.nextInt(max-min) + min;
-			org.setDymanics(String.valueOf(z));
-		}
-		model.addAttribute("orgList", orgList);
-		model.addAttribute("pageSize", pageSize);
-		model.addAttribute("totalCount", totalCount);
-		model.addAttribute("pageIndex", pageIndex);
-		model.addAttribute("totalPages", totalPages);
-		model.addAttribute("query", q);
-			
 		return view;
 	}
+	
+//	@GetMapping(value = "org/list")
+//	public String orgs(@RequestParam(required=false,value="front") String front,
+//			@RequestParam(required=false,value="q") String q,
+//			@RequestParam(required=false,value="pageSize") Integer pageSize, 
+//			@RequestParam(required=false, value="pageIndex") Integer pageIndex, 
+//			Model model) {
+//		if(pageSize == null) {
+//			pageSize = 10;
+//		}
+//		if(pageIndex == null) {
+//			pageIndex = 0;
+//		}
+//		long totalCount = 0L;
+//		long totalPages = 0L;
+//		List<Org> orgList = new ArrayList<Org>();
+//		String view = "qiyezhikuzhongdianjigouliebiao";
+//		if (front != null) {
+//			view = "qiyezhikuzhongdianjigou";
+//		}
+//		if(esTemplate.indexExists(Project.class)) {
+//			if(q == null || q.equals("")) {
+//				totalCount = orgRepository.count();
+//				if(totalCount > 0) {
+//					Sort sort = new Sort(Direction.DESC, "now");
+//					Pageable pageable = new PageRequest(pageIndex, pageSize,sort);
+//					SearchQuery searchQuery = new NativeSearchQueryBuilder()
+//							.withPageable(pageable).build();
+//					Page<Org> orgPage = orgRepository.search(searchQuery);
+//					orgList = orgPage.getContent();
+//					if(totalCount % pageSize == 0){
+//						totalPages = totalCount/pageSize;
+//					}else{
+//						totalPages = totalCount/pageSize + 1;
+//					}
+//				}
+//			}else {
+//				// 分页参数
+//				Pageable pageable = new PageRequest(pageIndex, pageSize);
+//
+//				// 分数，并自动按分排序
+//				FunctionScoreQueryBuilder functionScoreQueryBuilder = QueryBuilders.functionScoreQuery(QueryBuilders.boolQuery().should(QueryBuilders.matchQuery("name", q)), ScoreFunctionBuilders.weightFactorFunction(1000));
+//
+//				// 分数、分页
+//				SearchQuery searchQuery = new NativeSearchQueryBuilder().withPageable(pageable)
+//						.withQuery(functionScoreQueryBuilder).build();
+//
+//				Page<Org> searchPageResults = orgRepository.search(searchQuery);
+//				orgList = searchPageResults.getContent();
+//				totalCount = esTemplate.count(searchQuery, Org.class);
+//				//totalPages = Math.round(totalCount/pageSize);
+//				if(totalCount % pageSize == 0){
+//					totalPages = totalCount/pageSize;
+//				}else{
+//					totalPages = totalCount/pageSize + 1;
+//				}
+////				view = "qiyezhikuzhongdianjigou";
+//			}
+//		}
+//		int max = 800;
+//		int min = 100;
+//		Random random = new Random();
+//		for(Org org: orgList) {
+//			int x = random.nextInt(max-min) + min;
+//			org.setProfessors(String.valueOf(x));
+//			int y = random.nextInt(max-min) + min;
+//			org.setPatents(String.valueOf(y));
+//			int z = random.nextInt(max-min) + min;
+//			org.setDymanics(String.valueOf(z));
+//		}
+//		model.addAttribute("orgList", orgList);
+//		model.addAttribute("pageSize", pageSize);
+//		model.addAttribute("totalCount", totalCount);
+//		model.addAttribute("pageIndex", pageIndex);
+//		model.addAttribute("totalPages", totalPages);
+//		model.addAttribute("query", q);
+//			
+//		return view;
+//	}
 	
 	 /**
      * 文件解析
