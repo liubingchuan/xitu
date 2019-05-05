@@ -119,6 +119,9 @@ public abstract class AbstractESHttpService implements ESHttpService {
     	if (type == 2) {
     		sortfield = "now";
 		}
+    	if (type == 4) {
+    		sortfield = "now";
+		}
     	JSONObject order1s = new JSONObject();
     	order1s.put("order", "desc");
     	pubtimes.put(sortfield,order1s);
