@@ -323,6 +323,150 @@ public class PatentController {
 //			
 //		return view;
 //	}
+	
+	@GetMapping(value = "patent/transfer")
+	@ResponseBody
+	public R transferPaper() {
+		int currentPage = 0;
+		int pageSize = 0;
+		int index = 0;
+		for(int i=213;i<957;i++){
+			
+			currentPage = (currentPage <= 0) ?1:currentPage;
+			pageSize = (pageSize<=0) ? 100:pageSize;
+			index = (currentPage - 1) * pageSize;
+			System.out.println(i);
+			List<PatentMysql> patents = patentMapper.getPatents(index, pageSize);
+			currentPage++;
+			List<Patent> tobesaved = new LinkedList<Patent>();
+			for(PatentMysql patentMysql: patents) {
+				Patent patentES = new Patent();
+				
+				patentES.setId(patentMysql.getId()+"");
+				
+				if (patentMysql.getTitle() != null) {
+					patentES.setTitle(patentMysql.getTitle().trim());
+				}
+				
+				String subject = patentMysql.getSubject();
+				if (subject != null) {
+					patentES.setSubject(subject);
+				}
+				
+				String person = patentMysql.getPerson();
+				if (person != null && !person.trim().equals("")) {
+					person = person.trim();
+					
+					List<String> personlist = new ArrayList<String>();
+					if (person.contains(";")) {
+						String[] persons = person.split(";");
+						for(String s:persons){
+							personlist.add(s);
+						}
+					}else{
+						personlist.add(person);
+					}
+					patentES.setPerson(personlist);
+				}
+				
+				String creator = patentMysql.getCreator();
+				if (creator != null && !creator.trim().equals("")) {
+					creator = creator.trim();
+					
+					List<String> creatorlist = new ArrayList<String>();
+					if (creator.contains(";")) {
+						String[] creators = creator.split(";");
+						for(String s:creators){
+							creatorlist.add(s);
+						}
+					}else{
+						creatorlist.add(creator);
+					}
+					patentES.setCreator(creatorlist);
+				}
+				
+				if (patentMysql.getApplytime() != null) {
+					patentES.setApplytime(patentMysql.getApplytime().trim());
+				}
+				
+				if (patentMysql.getPublictime() != null) {
+					patentES.setPublictime(patentMysql.getPublictime().trim());
+				}
+				
+				if (patentMysql.getApplyyear() != null) {
+					patentES.setApplyyear(patentMysql.getApplyyear().trim());
+				}
+				
+				if (patentMysql.getPublicyear() != null) {
+					patentES.setPublicyear(patentMysql.getPublicyear().trim());
+				}
+				
+				if (patentMysql.getPtype() != null) {
+					patentES.setType(patentMysql.getPtype().trim());
+				}
+				
+				if (patentMysql.getDescription() != null) {
+					patentES.setDescription(patentMysql.getDescription().trim());
+				}
+				
+				if (patentMysql.getClaim() != null) {
+					patentES.setClaim(patentMysql.getClaim().trim());
+				}
+				
+				if (patentMysql.getPublicnumber() != null) {
+					patentES.setPublicnumber(patentMysql.getPublicnumber().trim());
+				}
+				
+				if (patentMysql.getApplynumber() != null) {
+					patentES.setApplynumber(patentMysql.getApplynumber().trim());
+				}
+				
+				String ipc = patentMysql.getIpc();
+				if (ipc != null && !ipc.trim().equals("")) {
+					ipc = ipc.trim();
+					
+					List<String> ipclist = new ArrayList<String>();
+					if (ipc.contains(";")) {
+						String[] ipcs = ipc.split(";");
+						for(String s:ipcs){
+							ipclist.add(s);
+						}
+					}else{
+						ipclist.add(ipc);
+					}
+					patentES.setIpc(ipclist);
+				}
+				
+				if (patentMysql.getPiroryear() != null) {
+					patentES.setPiroryear(patentMysql.getPiroryear().trim());
+				}
+				
+				if (patentMysql.getCountry() != null) {
+					patentES.setCountry(patentMysql.getCountry().trim());
+				}
+				
+				if (patentMysql.getLawstatus() != null) {
+					patentES.setLawstatus(patentMysql.getLawstatus().trim());
+				}
+				
+				if (patentMysql.getNow() != null) {
+					patentES.setNow(patentMysql.getNow());
+				}
+				tobesaved.add(patentES);
+//				paperRepository.save(paperES);
+			}
+			patentRepository.saveAll(tobesaved);
+			try {
+				Thread.sleep(4000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+			
+		return R.ok();
+	}
+	
 	@RequestMapping(value = "patent/list")
 	public String patents(@RequestParam(required=false,value="q") String q,
 			@RequestParam(required=false,value="person") String person,
