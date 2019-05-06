@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import java.util.UUID;
 
 import org.elasticsearch.index.query.QueryBuilders;
@@ -31,9 +32,12 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONReader;
 import com.xitu.app.common.R;
 import com.xitu.app.common.request.SaveOrgRequest;
@@ -43,6 +47,7 @@ import com.xitu.app.model.Org;
 import com.xitu.app.model.OrgVO;
 import com.xitu.app.model.Project;
 import com.xitu.app.repository.OrgRepository;
+import com.xitu.app.service.es.ESHttpClient;
 import com.xitu.app.service.es.OrgService;
 import com.xitu.app.service.es.PatentService;
 import com.xitu.app.utils.BeanUtil;
@@ -98,6 +103,26 @@ public class OrgController {
 		org.setDescription(request.getInfo());
 		org.setNow(System.currentTimeMillis());
 		org.setCtime(df.format(new Date()));
+		
+		List<String> alias = new ArrayList<String>();
+		if (request.getAlias() != null && !request.getAlias().equals("")) {
+			if(request.getAlias().contains(";")){
+				String[] s = request.getAlias().split(";");
+				for(String id:s){
+					alias.add(id);
+				}
+			}else if (request.getAlias().contains("；")) {
+				String[] s = request.getAlias().split("；");
+				for(String id:s){
+					alias.add(id);
+				}
+			}else {
+				alias.add(request.getAlias());
+			}
+			
+			
+		}
+		org.setAlias(alias);
 		orgRepository.save(org);
 		return "redirect:/org/list";
 	}
@@ -335,6 +360,27 @@ public class OrgController {
 		}
     	return R.ok();
     }
-	
+    @ResponseBody
+	@GetMapping(value = "org/searchNum")
+    public JSONObject searchNum(@RequestParam(required=false,value="insName") String insName) {
+    	JSONObject reData = new JSONObject();
+    	if (insName!=null) {
+			insName = insName.substring(1);
+		}
+		String[] insNamearr = insName.split(",");
+		int aggsize = insNamearr.length;
+		JSONArray arrcgs = new JSONArray();
+		JSONArray arrex = new JSONArray();
+	    JSONObject conESInsName = ESHttpClient.conESIns(orgService.createQqueryByListIns(insNamearr,aggsize));
+		
+		JSONObject aggregations = conESInsName.getJSONObject("aggregations");
+		
+		
+	    JSONObject agg = (JSONObject) aggregations.get("unit");
+		reData.put("ExpertNum", agg.get("buckets"));
+		reData.put("ProjectNum", arrcgs);
+		return reData;
+		
+	}
 	
 }

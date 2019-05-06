@@ -305,5 +305,39 @@ public abstract class AbstractESHttpService implements ESHttpService {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
         System.out.println(df.format(new Date()));// new Date()为获取当前系统时间
 	}
+	
+	 public static String createQqueryByListIns(String[] insNamearr,int aggsize){
+	    	JSONObject query = new JSONObject();
+	    	JSONObject bool1 = new JSONObject();
+	    	JSONObject bool2 = new JSONObject();
+	    	JSONObject bool3 = new JSONObject();
+	    	JSONObject must = new JSONObject();
+	    	JSONArray should = new JSONArray();
+	    	for(String s:insNamearr){
+	    		JSONObject term = new JSONObject();
+	        	JSONObject param = new JSONObject();
+	        	param.put("unit", s);
+	        	term.put("match", param);
+	        	should.add(term);
+	    	}
+	    	bool2.put("should", should);
+	    	bool3.put("bool", bool2);
+	    	must.put("must",bool3);
+	    	bool1.put("bool", must);
+	    	query.put("query", bool1);
+	    	
+	    	JSONObject args = new JSONObject();
+	    	JSONObject fz = new JSONObject();
+			JSONObject terms = new JSONObject();
+			
+			fz.put("field", "unit");
+			fz.put("size", aggsize);
+			terms.put("terms", fz);
+			args.put("unit", terms);
+			query.put("aggs",args);
+	    	//System.out.println("*****"+query.toString());
+	    	return query.toString();
+	    	
+	    }
 
 }

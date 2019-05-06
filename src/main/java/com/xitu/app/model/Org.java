@@ -23,7 +23,9 @@ public class Org implements Serializable{
 	@CrossQuery
 	private String name; // 机构名称
 	
-	private String alias; // 其他名称
+	@Field(type=FieldType.Keyword)
+	private List<String> alias; // 其他名称
+	
 	private String description; // 机构介绍
 	@Field(type=FieldType.Keyword)
 	private List<String> area;  // 研究领域 
@@ -83,10 +85,11 @@ public class Org implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getAlias() {
+	
+	public List<String> getAlias() {
 		return alias;
 	}
-	public void setAlias(String alias) {
+	public void setAlias(List<String> alias) {
 		this.alias = alias;
 	}
 	public String getDescription() {

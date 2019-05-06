@@ -149,7 +149,7 @@
 		            				</a>
 		            			</div>
 		            			<div class="jiansuoLiTag">
-		            				<span>相关成果：专家 <i class="colorBlue" th:text="${org.professors}"></i>人 </span>
+		            				<span>相关成果：专家 <i class="colorBlue" th:id = "ex+${org.name}"></i>人 </span>
 		            				<span>专利：<i class="colorBlue" th:text="${org.patents}"></i>件 </span>
 		            				<span>文献：<i class="colorBlue" th:text="${org.dymanics}"></i>条</span>
 		            			</div>
@@ -249,6 +249,7 @@
 		var type =  [[${types}]];
 		var link =  [[${links}]];
 		var classic =  [[${classics}]];
+		var list =  [[${list}]];
 		
 		$(document).ready(function () {
 		    if($.cookie("role")!=null && $.cookie("role")==="普通用户"){
@@ -265,6 +266,10 @@
 		    if(classic != null){
 		    	document.getElementById('classicselect').value=classic;
 		    }
+		    if(list != null && list.length>0){
+		    	searchNum();
+		    }
+		    
 		});
 		function search(){
 			    /*  window.location.href="http://127.0.0.1:8088/project/list?q=" + $("#keywords").val(); */
@@ -292,6 +297,44 @@
 					classicse = null;
 				}
 				window.location.href="/org/list?front=0&link=" + encodeURI(encodeURIComponent(linkse)) + "&type=" + encodeURI(encodeURIComponent(typese)) + "&classic="+encodeURI(encodeURIComponent(classicse));
+			}
+			
+			function searchNum(){
+				var name = '';
+				for(var q= 0;q<list.length;q++){  
+					name+=","+list[q].name;
+					
+				}
+				//for(var q= 0;q<list.length;q++){
+					//name+=","+list[q].name;
+					//var bieming=list[q].alias;
+					//for(var i= 0;i<bieming.length;i++){
+						//name+=","+bieming[i];
+					//}
+				//}
+				var url = "/org/searchNum";
+				var param = {
+					'insName' : name,
+				};
+				$.ajax({
+					url : url,
+					data : param,
+					contentType: "application/json; charset=utf-8",
+					dataType : 'json',
+					type : 'get',
+					success : function(data) {
+						for(var s in data.ExpertNum){
+							var countcgs =  data.ExpertNum[s].doc_count;
+							var ss = "#ex"+data.ExpertNum[s].key;
+							if(countcgs == 0){  
+								$(ss).html(" "+countcgs+" "); 
+							}else{
+								$(ss).html(" "+countcgs+" "); 
+							}
+						}
+						
+					}
+				}); 
 			}
 			</script>
 

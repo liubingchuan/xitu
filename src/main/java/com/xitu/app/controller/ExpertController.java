@@ -96,6 +96,25 @@ public class ExpertController {
 		expert.setTitle(titleList);
 		//expert.setUnit("中国科学院青岛生物能源与过程研究所");
 		expert.setUnit(request.getUnit());
+		List<String> alias = new ArrayList<String>();
+		if (request.getAlias() != null && !request.getAlias().equals("")) {
+			if(request.getAlias().contains(";")){
+				String[] s = request.getAlias().split(";");
+				for(String id:s){
+					alias.add(id);
+				}
+			}else if (request.getAlias().contains("；")) {
+				String[] s = request.getAlias().split("；");
+				for(String id:s){
+					alias.add(id);
+				}
+			}else {
+				alias.add(request.getAlias());
+			}
+			
+			
+		}
+		expert.setAlias(alias);
 		expertRepository.save(expert);
 		return "redirect:/expert/list";
 	}

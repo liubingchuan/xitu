@@ -5666,6 +5666,14 @@ public static String createQueryJsonImplProject(String value,String year,int pag
         	return query.toString();
         	
         }
+    	
+    	 public static JSONObject conESIns(String conn){
+    	    	ESHttpClient indexer = new ESHttpClient("45.77.86.209:9200", "expert","et");
+//    	    	ESHttpClient indexer = new ESHttpClient("10.3.11.6:9201", "t_dm_las_nstl_institution_v4","t_dm_las_nstl_institution");
+    	    	ESHttpClient.debug = true;
+    	        JSONObject json = indexer.execute(conn);
+    	        return json;
+    	    }
     
    
     

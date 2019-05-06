@@ -21,7 +21,9 @@ public class Expert implements Serializable{
 	private String id;
 	@CrossQuery
 	private String name; // 姓名
-	private String alias; // 其他姓名
+	
+	@Field(type=FieldType.Keyword)
+	private List<String> alias; // 其他姓名
 	
 	@AggQuery
 	@SingleQuery
@@ -64,10 +66,11 @@ public class Expert implements Serializable{
 		this.id = id;
 	}
 	
-	public String getAlias() {
+	
+	public List<String> getAlias() {
 		return alias;
 	}
-	public void setAlias(String alias) {
+	public void setAlias(List<String> alias) {
 		this.alias = alias;
 	}
 	public String getName() {
