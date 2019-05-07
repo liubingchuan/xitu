@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
@@ -31,6 +32,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -361,24 +363,33 @@ public class OrgController {
     	return R.ok();
     }
     @ResponseBody
-	@GetMapping(value = "org/searchNum")
-    public JSONObject searchNum(@RequestParam(required=false,value="insName") String insName) {
+	@PostMapping(value = "org/searchNum")
+    public JSONObject searchNum(@RequestBody Map<String, Object> map) {
     	JSONObject reData = new JSONObject();
-    	if (insName!=null) {
-			insName = insName.substring(1);
-		}
-		String[] insNamearr = insName.split(",");
-		int aggsize = insNamearr.length;
-		JSONArray arrcgs = new JSONArray();
-		JSONArray arrex = new JSONArray();
-	    JSONObject conESInsName = ESHttpClient.conESIns(orgService.createQqueryByListIns(insNamearr,aggsize));
-		
-		JSONObject aggregations = conESInsName.getJSONObject("aggregations");
-		
-		
-	    JSONObject agg = (JSONObject) aggregations.get("unit");
-		reData.put("ExpertNum", agg.get("buckets"));
-		reData.put("ProjectNum", arrcgs);
+    	if(map != null) {
+    		List<String> insNamearr = new LinkedList<String>();
+    		for(Map.Entry<String, Object> entry: map.entrySet()) {
+    			insNamearr.add(entry.getKey());
+    			if(entry.getValue() != null && !entry.getValue().equals("[]")) {
+    				insNamearr.addAll((List)entry.getValue());
+    			}
+    		}
+    		int aggsize = insNamearr.size();
+    		JSONArray arrcgs = new JSONArray();
+    		JSONArray arrex = new JSONArray();
+    		JSONObject conESInsName = ESHttpClient.conESIns(orgService.createQqueryByListIns(insNamearr.toArray(new String[insNamearr.size()]),aggsize));
+    		
+    		JSONObject aggregations = conESInsName.getJSONObject("aggregations");
+    		
+    		
+    		JSONObject agg = (JSONObject) aggregations.get("unit");
+    		reData.put("ExpertNum", agg.get("buckets"));
+    		reData.put("ProjectNum", arrcgs);
+    	}
+//    	if (insName!=null) {
+//			insName = insName.substring(1);
+//		}
+//		String[] insNamearr = insName.split(",");
 		return reData;
 		
 	}

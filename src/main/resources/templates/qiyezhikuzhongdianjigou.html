@@ -300,10 +300,11 @@
 			}
 			
 			function searchNum(){
-				var name = '';
+// 				var name = '';
+				var param = {}
 				for(var q= 0;q<list.length;q++){  
-					name+=","+list[q].name;
-					
+// 					name+=","+list[q].name;
+					param[list[q].name] = list[q].alias
 				}
 				//for(var q= 0;q<list.length;q++){
 					//name+=","+list[q].name;
@@ -313,15 +314,15 @@
 					//}
 				//}
 				var url = "/org/searchNum";
-				var param = {
-					'insName' : name,
-				};
+// 				var param = {
+// 					'insName' : name,
+// 				};
 				$.ajax({
 					url : url,
-					data : param,
+					data : JSON.stringify(param),
 					contentType: "application/json; charset=utf-8",
 					dataType : 'json',
-					type : 'get',
+					type : 'post',
 					success : function(data) {
 						for(var s in data.ExpertNum){
 							var countcgs =  data.ExpertNum[s].doc_count;

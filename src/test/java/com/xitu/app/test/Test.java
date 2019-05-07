@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -433,97 +434,112 @@ public class Test {
 	
 	
 	
+//	public static void main(String[] args) {
+////		String[] s = new String[4];
+////		s[0] = "liubings     ";
+////		s[1] = "asdfasf";
+////		s[2] = " liubingcshuan";
+////		s[3] = "s";
+////		s = filter(s);
+////		for(String a : s) {
+////			System.out.println(a);
+////		}
+////		for(String str: s) {
+////			System.out.println(str.length());
+////		}
+////		String[] newStr = new String[s.length];
+////		for(int i=0;i<s.length;i++) {
+////			newStr[i] = s[i].trim();
+////		}
+////		for(String str: newStr) {
+////			System.out.println(str.length());
+////		}
+//		String s = "";
+//		System.out.println(s.length());
+////		String[] str = s.split(" ");
+////		System.out.println(str[0].length());
+//		System.out.println(filter(s));
+////		System.out.println(filter(s).length());
+//	}
+//	//只保留子串
+//    public static String[] filter(String[] s) {
+//    	int m = 0;
+//    	List<Integer> k = new ArrayList<Integer>(s.length);
+//    	for(int i=0;i<s.length;i++) {
+//    		for(int j=0;j<s.length;j++) {
+//    			if(i==j || k.contains(i)) {
+//    				continue;
+//    			}
+//    			if(s[j].contains(s[i])) {
+//    				k.add(j);
+//    				m++;
+//    			}
+//    		}
+//    	}
+//    	if(m>0) {
+//    		List<String> newList = new LinkedList<String>();
+//    		for(int i=0;i<s.length;i++) {
+//    			if(!k.contains(i)) {
+//    				newList.add(s[i]);
+//    			}
+//    		}
+//    		String[] array = new String[s.length-m];
+//    		return newList.toArray(array);
+//    	}
+//    	return s;
+//    }
+//    
+//    public static String filter(String s) {
+//    	if(s.length()<=3) {
+//    		return "";
+//    	}else if(s.length()<6) {
+//    		return s;
+//    	}else {
+//    		int start = s.length()-6;
+//    		Pattern pattern = Pattern.compile("\\d{6}");
+//    		boolean matches = false;
+//    		while(start>=0 && (!matches)){
+//    			matches = pattern.matcher(s.substring(start, start+6)).matches();
+//    			if(!matches) {
+//    				start--;
+//    			}else {
+//    				while(start != 0 && (' ' != s.charAt(start-1))) {
+//    					System.out.println(s.charAt(start-1));
+//    					start--;
+//    				}
+//    			}
+//    		}
+//    		
+//    		if(matches) {
+//    			if(start<=0) {
+//    				s = "";
+//    			}else {
+//    				s = s.substring(0,start);
+//    				s = s.split(" ")[0];
+//    			}
+//    			
+//    		}
+//    		
+//    	}
+//    	
+//    	if(s.contains("研究生") || s.contains("博士生")) {
+//    		s = "";
+//    	}
+//    	return s;
+//    }
+	
+	
 	public static void main(String[] args) {
-//		String[] s = new String[4];
-//		s[0] = "liubings     ";
-//		s[1] = "asdfasf";
-//		s[2] = " liubingcshuan";
-//		s[3] = "s";
-//		s = filter(s);
-//		for(String a : s) {
-//			System.out.println(a);
-//		}
-//		for(String str: s) {
-//			System.out.println(str.length());
-//		}
-//		String[] newStr = new String[s.length];
-//		for(int i=0;i<s.length;i++) {
-//			newStr[i] = s[i].trim();
-//		}
-//		for(String str: newStr) {
-//			System.out.println(str.length());
-//		}
-		String s = "";
-		System.out.println(s.length());
-//		String[] str = s.split(" ");
-//		System.out.println(str[0].length());
-		System.out.println(filter(s));
-//		System.out.println(filter(s).length());
+		Map<String, String> map = new TreeMap<String, String>();
+		map.put("http://35.201.235.191:3000/users/1/web_requests/15/xituzixun.xml", "新闻动态");
+		map.put("http://35.201.235.191:3000/users/1/web_requests/18/xituguojiazhengce.xml", "国家政策");
+		map.put("http://35.201.235.191:3000/users/1/web_requests/37/xituzaixian.xml", "新闻动态");
+		map.put("http://35.201.235.191:3000/users/1/web_requests/40/ruidaoxitu.xml", "新闻动态");
+		map.put("http://35.201.235.191:3000/users/1/web_requests/42/SCI.xml", "科研进展");
+		
+		for(Map.Entry<String, String> kv: map.entrySet()) {
+			System.out.println(kv.getKey());
+		}
+		
 	}
-	//只保留子串
-    public static String[] filter(String[] s) {
-    	int m = 0;
-    	List<Integer> k = new ArrayList<Integer>(s.length);
-    	for(int i=0;i<s.length;i++) {
-    		for(int j=0;j<s.length;j++) {
-    			if(i==j || k.contains(i)) {
-    				continue;
-    			}
-    			if(s[j].contains(s[i])) {
-    				k.add(j);
-    				m++;
-    			}
-    		}
-    	}
-    	if(m>0) {
-    		List<String> newList = new LinkedList<String>();
-    		for(int i=0;i<s.length;i++) {
-    			if(!k.contains(i)) {
-    				newList.add(s[i]);
-    			}
-    		}
-    		String[] array = new String[s.length-m];
-    		return newList.toArray(array);
-    	}
-    	return s;
-    }
-    
-    public static String filter(String s) {
-    	if(s.length()<=3) {
-    		return "";
-    	}else if(s.length()<6) {
-    		return s;
-    	}else {
-    		int start = s.length()-6;
-    		Pattern pattern = Pattern.compile("\\d{6}");
-    		boolean matches = false;
-    		while(start>=0 && (!matches)){
-    			matches = pattern.matcher(s.substring(start, start+6)).matches();
-    			if(!matches) {
-    				start--;
-    			}else {
-    				while(start != 0 && (' ' != s.charAt(start-1))) {
-    					System.out.println(s.charAt(start-1));
-    					start--;
-    				}
-    			}
-    		}
-    		
-    		if(matches) {
-    			if(start<=0) {
-    				s = "";
-    			}else {
-    				s = s.substring(0,start);
-    				s = s.split(" ")[0];
-    			}
-    			
-    		}
-    		
-    	}
-    	
-    	if(s.contains("研究生") || s.contains("博士生")) {
-    		s = "";
-    	}
-    	return s;
-    }
 }

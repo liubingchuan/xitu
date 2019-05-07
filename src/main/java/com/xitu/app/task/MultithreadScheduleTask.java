@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.UUID;
 
 import org.jsoup.Jsoup;
@@ -143,7 +144,7 @@ jump:
 	public void jiance(){
     	List<Jiance> objs = new LinkedList<Jiance>();
     	try {
-    		Map<String, String> map = new HashMap<String, String>();
+    		Map<String, String> map = new TreeMap<String, String>();
     		map.put("http://35.201.235.191:3000/users/1/web_requests/15/xituzixun.xml", "新闻动态");
     		map.put("http://35.201.235.191:3000/users/1/web_requests/18/xituguojiazhengce.xml", "国家政策");
     		map.put("http://35.201.235.191:3000/users/1/web_requests/37/xituzaixian.xml", "新闻动态");
