@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -366,6 +367,9 @@ public class OrgController {
 	@PostMapping(value = "org/searchNum")
     public JSONObject searchNum(@RequestBody Map<String, Object> map) {
     	JSONObject reData = new JSONObject();
+    	Map<String, Integer> expertaggcountMap = new HashMap<String, Integer>();
+    	Map<String, Integer> expertinscountMap = new HashMap<String, Integer>();
+    	
     	if(map != null) {
     		List<String> insNamearr = new LinkedList<String>();
     		for(Map.Entry<String, Object> entry: map.entrySet()) {
@@ -375,21 +379,84 @@ public class OrgController {
     			}
     		}
     		int aggsize = insNamearr.size();
-    		JSONArray arrcgs = new JSONArray();
-    		JSONArray arrex = new JSONArray();
-    		JSONObject conESInsName = ESHttpClient.conESIns(orgService.createQqueryByListIns(insNamearr.toArray(new String[insNamearr.size()]),aggsize));
     		
-    		JSONObject aggregations = conESInsName.getJSONObject("aggregations");
-    		
-    		
+    		JSONObject expertInsName = ESHttpClient.conexpertESIns(orgService.createQqueryByListIns(insNamearr,aggsize,"unit"));
+    		JSONObject aggregations = expertInsName.getJSONObject("aggregations");
     		JSONObject agg = (JSONObject) aggregations.get("unit");
-    		reData.put("ExpertNum", agg.get("buckets"));
-    		reData.put("ProjectNum", arrcgs);
+    		for(Object s:(JSONArray)agg.get("buckets")){
+    			JSONObject ss = (JSONObject) s;
+    			expertaggcountMap.put(ss.getString("key"), Integer.valueOf(ss.getString("doc_count")));
+    		}
+    		for(Map.Entry<String, Object> entry: map.entrySet()) {
+    			String name = entry.getKey();
+    			List<String> bieming = (List<String>) entry.getValue();
+    			//bieming.add(name);
+    			int count = 0;
+    			for (String ns:bieming) {
+					if (expertaggcountMap.containsKey(ns)) {
+						count += expertaggcountMap.get(ns);
+					}
+				}
+    			if (expertaggcountMap.containsKey(name)) {
+					count += expertaggcountMap.get(name);
+				}
+    			expertinscountMap.put(name, count);
+    		}
+    		reData.put("ExpertNum", expertinscountMap);
+    		
+    		Map<String, Integer> patentaggcountMap = new HashMap<String, Integer>();
+        	Map<String, Integer> patentinscountMap = new HashMap<String, Integer>();
+    		JSONObject patentInsName = ESHttpClient.conpatentESIns(orgService.createQqueryByListIns(insNamearr,aggsize,"person"));
+    		JSONObject patentaggregations = patentInsName.getJSONObject("aggregations");
+    		JSONObject patentagg = (JSONObject) patentaggregations.get("person");
+    		for(Object s:(JSONArray)patentagg.get("buckets")){
+    			JSONObject ss = (JSONObject) s;
+    			patentaggcountMap.put(ss.getString("key"), Integer.valueOf(ss.getString("doc_count")));
+    		}
+    		for(Map.Entry<String, Object> entry: map.entrySet()) {
+    			String name = entry.getKey();
+    			List<String> bieming = (List<String>) entry.getValue();
+    			//bieming.add(name);
+    			int count = 0;
+    			for (String ns:bieming) {
+					if (patentaggcountMap.containsKey(ns)) {
+						count += patentaggcountMap.get(ns);
+					}
+				}
+    			if (patentaggcountMap.containsKey(name)) {
+					count += patentaggcountMap.get(name);
+				}
+    			patentinscountMap.put(name, count);
+    		}
+    		reData.put("PatentNum", patentinscountMap);
+    		
+    		Map<String, Integer> paperaggcountMap = new HashMap<String, Integer>();
+        	Map<String, Integer> paperinscountMap = new HashMap<String, Integer>();
+    		JSONObject paperInsName = ESHttpClient.conpaperESIns(orgService.createQqueryByListIns(insNamearr,aggsize,"institution"));
+    		JSONObject paperaggregations = paperInsName.getJSONObject("aggregations");
+    		JSONObject paperagg = (JSONObject) paperaggregations.get("institution");
+    		for(Object s:(JSONArray)paperagg.get("buckets")){
+    			JSONObject ss = (JSONObject) s;
+    			paperaggcountMap.put(ss.getString("key"), Integer.valueOf(ss.getString("doc_count")));
+    		}
+    		for(Map.Entry<String, Object> entry: map.entrySet()) {
+    			String name = entry.getKey();
+    			List<String> bieming = (List<String>) entry.getValue();
+    			//bieming.add(name);
+    			int count = 0;
+    			for (String ns:bieming) {
+					if (paperaggcountMap.containsKey(ns)) {
+						count += paperaggcountMap.get(ns);
+					}
+				}
+    			if (paperaggcountMap.containsKey(name)) {
+					count += paperaggcountMap.get(name);
+				}
+    			paperinscountMap.put(name, count);
+    		}
+    		reData.put("PaperNum", paperinscountMap);
+    		
     	}
-//    	if (insName!=null) {
-//			insName = insName.substring(1);
-//		}
-//		String[] insNamearr = insName.split(",");
 		return reData;
 		
 	}

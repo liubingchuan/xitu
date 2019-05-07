@@ -150,8 +150,8 @@
 		            			</div>
 		            			<div class="jiansuoLiTag">
 		            				<span>相关成果：专家 <i class="colorBlue" th:id = "ex+${org.name}"></i>人 </span>
-		            				<span>专利：<i class="colorBlue" th:text="${org.patents}"></i>件 </span>
-		            				<span>文献：<i class="colorBlue" th:text="${org.dymanics}"></i>条</span>
+		            				<span>专利：<i class="colorBlue" th:id = "pa+${org.name}"></i>件 </span>
+		            				<span>文献：<i class="colorBlue" th:id = "par+${org.name}"></i>条</span>
 		            			</div>
 		            			<div class="jiansuoLiText">
 		            				<span class="jiansuoLiTextSpan" th:utext="${org.description}">
@@ -325,13 +325,19 @@
 					type : 'post',
 					success : function(data) {
 						for(var s in data.ExpertNum){
-							var countcgs =  data.ExpertNum[s].doc_count;
-							var ss = "#ex"+data.ExpertNum[s].key;
-							if(countcgs == 0){  
-								$(ss).html(" "+countcgs+" "); 
-							}else{
-								$(ss).html(" "+countcgs+" "); 
-							}
+							var countcgs =  data.ExpertNum[s];
+							var ss = "#ex"+s;
+							$(ss).html(" "+countcgs+" "); 
+						}
+						for(var s in data.PatentNum){
+							var countcgs =  data.PatentNum[s];
+							var ss = "#pa"+s;
+							$(ss).html(" "+countcgs+" "); 
+						}
+						for(var s in data.PaperNum){
+							var countcgs =  data.PaperNum[s];
+							var ss = "#par"+s;
+							$(ss).html(" "+countcgs+" "); 
 						}
 						
 					}

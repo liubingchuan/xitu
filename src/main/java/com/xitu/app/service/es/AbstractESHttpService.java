@@ -306,7 +306,7 @@ public abstract class AbstractESHttpService implements ESHttpService {
         System.out.println(df.format(new Date()));// new Date()为获取当前系统时间
 	}
 	
-	 public static String createQqueryByListIns(String[] insNamearr,int aggsize){
+	 public static String createQqueryByListIns(List<String> insNamearr,int aggsize,String type){
 	    	JSONObject query = new JSONObject();
 	    	JSONObject bool1 = new JSONObject();
 	    	JSONObject bool2 = new JSONObject();
@@ -316,7 +316,7 @@ public abstract class AbstractESHttpService implements ESHttpService {
 	    	for(String s:insNamearr){
 	    		JSONObject term = new JSONObject();
 	        	JSONObject param = new JSONObject();
-	        	param.put("unit", s);
+	        	param.put(type, s);
 	        	term.put("match", param);
 	        	should.add(term);
 	    	}
@@ -330,10 +330,10 @@ public abstract class AbstractESHttpService implements ESHttpService {
 	    	JSONObject fz = new JSONObject();
 			JSONObject terms = new JSONObject();
 			
-			fz.put("field", "unit");
+			fz.put("field", type);
 			fz.put("size", aggsize);
 			terms.put("terms", fz);
-			args.put("unit", terms);
+			args.put(type, terms);
 			query.put("aggs",args);
 	    	//System.out.println("*****"+query.toString());
 	    	return query.toString();
