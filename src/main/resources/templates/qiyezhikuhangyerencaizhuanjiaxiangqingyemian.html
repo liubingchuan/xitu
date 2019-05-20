@@ -81,6 +81,8 @@
 					<div class="rencaiLf left">
 						<div class="rencaiLFmess">
 							<!-- <img id="frontendImg" th:src="@{/images/per.png}" /> -->
+							<img th:if=" ${expert.frontend !=null && expert.frontend != ''}" th:src="@{/file/fileDownload(filename=${expert.frontend})}" />
+				        	<img th:if=" ${expert.frontend ==null || expert.frontend == ''}" th:src="@{/images/slider.png}" />
 							<div class="rencaiLFmessText">
 								<p class="rencaiLFmessName">
 									姓名： 
@@ -252,7 +254,7 @@
 			
 			var frontendId =  [[${frontendId}]];
 			$(document).ready(function () {
-				$("#frontendImg").attr('src','/file/fileDownload?filename='+frontendId);
+				//$("#frontendImg").attr('src','/file/fileDownload?filename='+frontendId);
 			    if($.cookie("role")!=null && $.cookie("role")==="普通用户"){
 					$("#backgroud").css('display','none'); 
 				}
