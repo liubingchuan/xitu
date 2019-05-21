@@ -287,7 +287,7 @@
 		            	<ul class="jiansuoUl">
 		            		<li th:each="paper: ${list}">
 		            			<div class="jiansuoLiTL">
-		            				<a th:href="@{/paper/get(id=${paper.id})}" th:text="${paper.title}">
+		            				<a th:href="@{/paper/get(id=${paper.id},q=${query})}" th:text="${paper.title}">
 		            				</a>
 		            			</div>
 		            			<div class="jiansuoLiTag">

@@ -14,6 +14,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 
+import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
 import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders;
@@ -138,6 +139,16 @@ public class OrgController {
 		Org org = new Org();
 		if(id != null) {
 			org = orgRepository.findById(id).get();
+			String name = org.getName();
+			String bieming = null;
+			List<String> alias = org.getAlias();
+			if (alias != null && alias.size() > 0) {
+				bieming =  StringUtils.join(alias.toArray(), ",");
+			}
+			if (bieming != null) {
+				name = name+","+bieming;
+			}
+			model.addAttribute("namebieming", name);
 			model.addAttribute("frontendId", "".equals(org.getFrontend())?null:org.getFrontend());
 			model.addAttribute("frontendFileName", "".equals(org.getFrontendFileName())?null:org.getFrontendFileName());
 			model.addAttribute("frontendSize", "".equals(org.getFrontendSize())?null:org.getFrontendSize());
@@ -456,6 +467,32 @@ public class OrgController {
     		}
     		reData.put("PaperNum", paperinscountMap);
     		
+    		Map<String, Integer> jianceaggcountMap = new HashMap<String, Integer>();
+        	Map<String, Integer> jianceinscountMap = new HashMap<String, Integer>();
+    		JSONObject jianceInsName = ESHttpClient.conjianceESIns(orgService.createQqueryByListIns(insNamearr,aggsize,"institution"));
+    		
+    		JSONObject jianceaggregations = jianceInsName.getJSONObject("aggregations");
+    		JSONObject jianceagg = (JSONObject) jianceaggregations.get("institution");
+    		for(Object s:(JSONArray)jianceagg.get("buckets")){
+    			JSONObject ss = (JSONObject) s;
+    			jianceaggcountMap.put(ss.getString("key"), Integer.valueOf(ss.getString("doc_count")));
+    		}
+    		for(Map.Entry<String, Object> entry: map.entrySet()) {
+    			String name = entry.getKey();
+    			List<String> bieming = (List<String>) entry.getValue();
+    			//bieming.add(name);
+    			int count = 0;
+    			for (String ns:bieming) {
+					if (jianceaggcountMap.containsKey(ns)) {
+						count += jianceaggcountMap.get(ns);
+					}
+				}
+    			if (jianceaggcountMap.containsKey(name)) {
+					count += jianceaggcountMap.get(name);
+				}
+    			jianceinscountMap.put(name, count);
+    		}
+    		reData.put("JianceNum", jianceinscountMap);
     	}
 		return reData;
 		

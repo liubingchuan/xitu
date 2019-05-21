@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
 import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders;
@@ -137,6 +138,16 @@ public class ExpertController {
 		Expert expert = new Expert();
 		if(id != null) {
 			expert = expertRepository.findById(id).get();
+			String name = expert.getName();
+			String bieming = null;
+			List<String> alias = expert.getAlias();
+			if (alias != null && alias.size() > 0) {
+				bieming =  StringUtils.join(alias.toArray(), ",");
+			}
+			if (bieming != null) {
+				name = name+","+bieming;
+			}
+			model.addAttribute("namebieming", name);
 			model.addAttribute("frontendId", "".equals(expert.getFrontend())?null:expert.getFrontend());
 			model.addAttribute("frontendFileName", "".equals(expert.getFrontendFileName())?null:expert.getFrontendFileName());
 			model.addAttribute("frontendSize", "".equals(expert.getFrontendSize())?null:expert.getFrontendSize());

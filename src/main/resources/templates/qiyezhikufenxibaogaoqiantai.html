@@ -141,7 +141,9 @@
 				       <ul class="clearfix jigouUl fenxiUl">
 				       	<li class="clearfix" th:each="report: ${list}">
 				       		<a th:href="@{/report/get(id=${report.id},front=0)}" class="left jigouliLf">
-				       			<img id="frontendImg" th:src="@{/file/fileDownload?filename={filename}(filename=${report.frontend})}" />
+				       			<!-- <img id="frontendImg" th:src="@{/file/fileDownload?filename={filename}(filename=${report.frontend})}" /> -->
+				       		<img th:if=" ${report.frontend !=null && report.frontend != ''}" th:src="@{/file/fileDownload(filename=${report.frontend})}" />
+				        		<img th:if=" ${report.frontend ==null || report.frontend == ''}" th:src="@{/images/fenxi_03.png}" />
 				       		</a>
 				       		<div class="left jigouRt">
 				       			<div class="jiansuoLiTL">

@@ -138,10 +138,13 @@
 				    	</form>
 				       <ul class="clearfix jigouUl">
 				       	<li class="clearfix" th:each="org: ${list}">
-				       		<a href="#" class="left jigouliLf">
+				       		<a th:href="@{/org/get(id=${org.id},front=0)}" class="left jigouliLf">
 				       			<!-- <img id="frontendImg" th:src="@{/file/fileDownload?filename={filename}(filename=${org.frontend})}" /> -->
 				       			<!-- <img th:src="@{/ximages/qiyelogo_2.png}" /> -->
-				       			<img th:src="@{/ximages/gongsiLogo.png}" />
+				       			<!-- <img th:src="@{/ximages/gongsiLogo.png}" /> -->
+				       			<img th:if=" ${org.frontend !=null && org.frontend != ''}" th:src="@{/file/fileDownload(filename=${org.frontend})}" />
+				        			<img th:if=" ${org.frontend ==null || org.frontend == ''}" th:src="@{/images/slider.png}" />
+				       			
 				       		</a>
 				       		<div class="right jigouRt">
 				       			<div class="jiansuoLiTL">
@@ -152,6 +155,7 @@
 		            				<span>相关成果：专家 <i class="colorBlue" th:id = "ex+${org.name}"></i>人 </span>
 		            				<span>专利：<i class="colorBlue" th:id = "pa+${org.name}"></i>件 </span>
 		            				<span>文献：<i class="colorBlue" th:id = "par+${org.name}"></i>条</span>
+		            				<span>报道：<i class="colorBlue" th:id = "jc+${org.name}"></i>条</span>
 		            			</div>
 		            			<div class="jiansuoLiText">
 		            				<span class="jiansuoLiTextSpan" th:utext="${org.description}">
