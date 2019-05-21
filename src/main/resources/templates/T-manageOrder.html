@@ -87,6 +87,7 @@
 		    				<input id="uuid" type="hidden" th:value="${order.uuid}" />
 		    				<a href="javascript:jiedan()" class="colorBlue">
 		    					接单 
+		    					</a>
 		    			</span>
 		    			<span th:if="${order.chulizhuangtai == '处理中' || order.chulizhuangtai =='已完成' || order.chulizhuangtai =='无法满足'}">
 		    				<a th:href="@{/zhishifuwu/xiangqing(uuid=${order.uuid},front=0,pageIndex=${pageIndex},pageSize=${pageSize})}" class="colorBlue">

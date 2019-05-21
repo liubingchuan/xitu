@@ -38,6 +38,21 @@ public abstract class AbstractESHttpService implements ESHttpService {
 	public void execute(int pageIndex, int pageSize, int type,String...args) {
 		convert(getHttpClient().execute(composeDSL(pageIndex, pageSize, type,args)));
 	}
+	
+	@Override
+	public JSONObject executeIns(String insNamearr,int pageIndex, int pageSize, String field, int type) {
+		return convertIns(getHttpClient().execute(composeInsDSL(insNamearr,pageIndex, pageSize, field, type)),pageSize);
+	}
+	
+	@Override
+	public JSONObject executeXiangguan(int pageIndex, int pageSize,int type,String uuid,List<String> args) {
+		return convertIns(getHttpClient().execute(composeXiangguanDSL(pageIndex, pageSize, type,uuid,args)),pageSize);
+	}
+	
+	@Override
+	public void executefamingren(int pageIndex, int pageSize, int type,String q,String person,String creator) {
+		convert(getHttpClient().execute(composeDSL(pageIndex, pageSize, type,person,creator)));
+	}
 
 	public ESHttpClient getHttpClient() {
 		String url = endpoint;
@@ -301,6 +316,36 @@ public abstract class AbstractESHttpService implements ESHttpService {
 			model.addAttribute(key, agg.get("buckets"));
 		}
 	}
+	
+	public JSONObject convertIns(JSONObject response,int pageSize) {
+		JSONObject hits = response.getJSONObject("hits");
+		Integer totalCount = hits.getInteger("total"); 
+		JSONArray list = hits.getJSONArray("hits");
+		List sources = new LinkedList();
+		for(int i=0;i<list.size();i++) {
+			JSONObject obj = list.getJSONObject(i);
+			JSONObject source = (JSONObject) obj.get("_source");
+			sources.add(source);
+		}
+		Model model = ThreadLocalUtil.get();
+		//model.addAttribute("list", sources);
+		//model.addAttribute("totalCount", totalCount);
+		long totalPages = 0L;
+		if (totalCount > 0) {
+			if(totalCount % pageSize == 0){
+				totalPages = totalCount/pageSize;
+			}else{
+				totalPages = totalCount/pageSize + 1;
+			}
+		}
+		//model.addAttribute("totalPages", totalPages);
+		JSONObject rs = new JSONObject();
+		rs.put("list", sources);
+		rs.put("totalPages", totalPages);
+		rs.put("totalCount", totalCount);
+		return rs;
+	}
+	
 	public static void main(String[] args) { 
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
         System.out.println(df.format(new Date()));// new Date()为获取当前系统时间
@@ -339,5 +384,202 @@ public abstract class AbstractESHttpService implements ESHttpService {
 	    	return query.toString();
 	    	
 	    }
+	 
+	 public String composeInsDSL(String insNamearr,int pageIndex, int pageSize, String field, int type){
+			JSONObject query = new JSONObject();
+	    	JSONObject bool1 = new JSONObject();
+	    	JSONObject bool2 = new JSONObject();
+	    	JSONObject bool3 = new JSONObject();
+	    	JSONObject must = new JSONObject();
+	    	JSONArray should = new JSONArray();
+	    	if (insNamearr.contains(",")) {
+	    		for(String s:insNamearr.split(",")){
+		    		JSONObject term = new JSONObject();
+		        	JSONObject param = new JSONObject();
+		        	param.put(field, s);
+		        	term.put("match", param);
+		        	should.add(term);
+	    	    }
+			}else {
+				JSONObject term = new JSONObject();
+	        	JSONObject param = new JSONObject();
+	        	param.put(field, insNamearr);
+	        	term.put("match", param);
+	        	should.add(term);
+			}
+	    	
+	    	bool2.put("should", should);
+	    	bool3.put("bool", bool2);
+	    	must.put("must",bool3);
+	    	bool1.put("bool", must);
+	    	query.put("query", bool1);
+	    	query.put("from",pageIndex*pageSize);
+	    	query.put("size", pageSize);
+//	    	JSONObject args = new JSONObject();
+//	    	JSONObject fz = new JSONObject();
+//			JSONObject terms = new JSONObject();
+//			
+//			fz.put("field", type);
+//			fz.put("size", 15);
+//			terms.put("terms", fz);
+//			args.put(field, terms);
+//			query.put("aggs",args);
+	    	//System.out.println("*****"+query.toString());
+	    	return query.toString();
+		}
+		public String composeXiangguanDSL(int pageIndex, int pageSize,int type,String uuid,List<String> args) {
+			List<Field> fields = getFields(getEntityClass());
+			List<String> crossedFields = new ArrayList<String>();
+			
+			JSONObject query = new JSONObject();
+			
+			for (Field f : fields) {
+				
+				CrossQuery crossQuery = f.getAnnotation(CrossQuery.class);
+				
+				String fieldName = f.getName();
+				 
+				if (crossQuery != null) {
+					crossedFields.add(fieldName);
+				} 
+				
+			}
+			
+	    	JSONArray sort = new JSONArray();
+	    	JSONObject _score = new JSONObject();
+	    	JSONObject order = new JSONObject();
+	    	order.put("order", "desc");//method=desc
+	    	_score.put("_score",order);//orderby=_score
+	    	sort.add(_score);
+	    	JSONObject pubtimes = new JSONObject();
+	    	String sortfield ="";
+	    	if (type == 3) {
+	    		sortfield = "pubtime";
+			}
+	    	if (type == 0) {
+	    		sortfield = "publictime";
+			}
+	    	if (type == 1) {
+	    		sortfield = "year";
+			}
+	    	if (type == 2) {
+	    		sortfield = "now";
+			}
+	    	if (type == 4) {
+	    		sortfield = "now";
+			}
+	    	if (type == 5) {
+	    		sortfield = "now";
+			}
+	    	if (type == 6) {
+	    		sortfield = "now";
+			}
+//	    	JSONObject order1s = new JSONObject();
+//	    	order1s.put("order", "desc");
+//	    	pubtimes.put(sortfield,order1s);
+//	    	sort.add(pubtimes);
+	    	query.put("sort",sort);
+			
+			JSONArray should = new JSONArray();
+			//JSONObject multi_match = new JSONObject();
+			JSONObject match_all = new JSONObject();
+			JSONArray must = new JSONArray();
+			JSONObject bool1 = new JSONObject();
+	    	JSONObject bool2 = new JSONObject();
+			JSONObject bool4 = new JSONObject();
+	    	JSONObject bool3 = new JSONObject();
+			if (args == null || args.size()==0 ) {
+				JSONObject param = new JSONObject();
+			    match_all.put("match_all", param);
+			    must.add(match_all);
+			}else {
+				
+				for(int i=0;i<args.size();i++) {
+					JSONObject multi_match = new JSONObject();
+					JSONObject param = new JSONObject();
+					param.put("query", args.get(i));
+					
+					param.put("operator", "and");
+					param.put("type", "cross_fields");
+					param.put("fields", crossedFields.toArray());
+					//param.put("type", "best_fields");
+					multi_match.put("multi_match", param);
+					should.add(multi_match);
+				}
+				
+				bool4.put("should", should);
+				bool3.put("bool", bool4);
+				must.add(bool3);
+			}
+			
+	    	bool2.put("must",must);
+	    	
+	    	JSONObject must_not = new JSONObject();
+	    	JSONObject term = new JSONObject();
+	    	must_not.put("term", term);
+	    	term.put("id", uuid);
+	    	bool2.put("must_not",must_not);
+	    	
+	    	bool1.put("bool", bool2);
+	    	query.put("query", bool1);
+	    	query.put("from",pageIndex*pageSize);
+	    	query.put("size", pageSize);
+	    	System.out.println("query ---  " + query.toString());
+	    	return query.toString();
+		}
+		public String composefamingrenDSL(int pageIndex, int pageSize,int type,String q,String person,String creator) {
+			List<String> crossedFields = new ArrayList<String>();
+			JSONObject query = new JSONObject();
+			JSONObject aggs = new JSONObject();
+			
+			JSONObject fz = new JSONObject();
+			JSONObject terms = new JSONObject();
+			int size = 10;
+			fz.put("field", "person");
+			fz.put("size", size);
+			terms.put("terms", fz);
+			aggs.put("person", terms);
+			JSONObject fz1 = new JSONObject();
+			JSONObject terms1 = new JSONObject();
+			fz1.put("field", "creator");
+			fz1.put("size", size);
+			terms1.put("terms", fz1);
+			aggs.put("creator", terms1);
+			query.put("aggs",aggs);
+	    	
+			JSONObject param = new JSONObject();
+			JSONArray should = new JSONArray();
+			JSONObject multi_match = new JSONObject();
+			JSONObject match_all = new JSONObject();
+			JSONArray must = new JSONArray();
+			JSONObject bool1 = new JSONObject();
+	    	JSONObject bool2 = new JSONObject();
+			JSONObject bool4 = new JSONObject();
+	    	JSONObject bool3 = new JSONObject();
+	    	Model model = ThreadLocalUtil.get();
+			if (q == null || q.length()==0 || q == null || "".equals(q) || "null".equals(q)) {
+			    match_all.put("match_all", param);
+			    must.add(match_all);
+			}else {
+				param.put("query", q);
+				model.addAttribute("query",q);
+				param.put("operator", "and");
+				param.put("type", "cross_fields");
+				param.put("fields", crossedFields.toArray());
+				multi_match.put("multi_match", param);
+				should.add(multi_match);
+				bool4.put("should", should);
+				bool3.put("bool", bool4);
+				must.add(bool3);
+			}
+			
+	    	bool2.put("must",must);
+	    	bool1.put("bool", bool2);
+	    	query.put("query", bool1);
+	    	query.put("from",pageIndex*pageSize);
+	    	query.put("size", pageSize);
+	    	System.out.println("query ---  " + query.toString());
+	    	return query.toString();
+		}
 
 }

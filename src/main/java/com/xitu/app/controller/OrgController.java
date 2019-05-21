@@ -3,7 +3,6 @@ package com.xitu.app.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -14,10 +13,10 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
@@ -25,46 +24,29 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
-import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
-import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
-import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.JSONReader;
 import com.xitu.app.common.R;
 import com.xitu.app.common.request.SaveOrgRequest;
 import com.xitu.app.mapper.ItemMapper;
-import com.xitu.app.model.Expert;
 import com.xitu.app.model.Item;
 import com.xitu.app.model.Org;
-import com.xitu.app.model.OrgVO;
-import com.xitu.app.model.Project;
 import com.xitu.app.repository.OrgRepository;
 import com.xitu.app.service.es.ESHttpClient;
 import com.xitu.app.service.es.OrgService;
-import com.xitu.app.service.es.PatentService;
 import com.xitu.app.utils.BeanUtil;
 import com.xitu.app.utils.Scpclient;
 import com.xitu.app.utils.ThreadLocalUtil;
@@ -151,6 +133,16 @@ public class OrgController {
 		Org org = new Org();
 		if(id != null) {
 			org = orgRepository.findById(id).get();
+			String name = org.getName();
+			String bieming = null;
+			List<String> alias = org.getAlias();
+			if (alias != null && alias.size() > 0) {
+				bieming =  StringUtils.join(alias.toArray(), ",");
+			}
+			if (bieming != null) {
+				name = name+","+bieming;
+			}
+			model.addAttribute("namebieming", name);
 			model.addAttribute("frontendId", "".equals(org.getFrontend())?null:org.getFrontend());
 			model.addAttribute("frontendFileName", "".equals(org.getFrontendFileName())?null:org.getFrontendFileName());
 			model.addAttribute("frontendSize", "".equals(org.getFrontendSize())?null:org.getFrontendSize());
@@ -469,6 +461,32 @@ public class OrgController {
     		}
     		reData.put("PaperNum", paperinscountMap);
     		
+    		Map<String, Integer> jianceaggcountMap = new HashMap<String, Integer>();
+        	Map<String, Integer> jianceinscountMap = new HashMap<String, Integer>();
+    		JSONObject jianceInsName = ESHttpClient.conjianceESIns(orgService.createQqueryByListIns(insNamearr,aggsize,"institution"));
+    		
+    		JSONObject jianceaggregations = jianceInsName.getJSONObject("aggregations");
+    		JSONObject jianceagg = (JSONObject) jianceaggregations.get("institution");
+    		for(Object s:(JSONArray)jianceagg.get("buckets")){
+    			JSONObject ss = (JSONObject) s;
+    			jianceaggcountMap.put(ss.getString("key"), Integer.valueOf(ss.getString("doc_count")));
+    		}
+    		for(Map.Entry<String, Object> entry: map.entrySet()) {
+    			String name = entry.getKey();
+    			List<String> bieming = (List<String>) entry.getValue();
+    			//bieming.add(name);
+    			int count = 0;
+    			for (String ns:bieming) {
+					if (jianceaggcountMap.containsKey(ns)) {
+						count += jianceaggcountMap.get(ns);
+					}
+				}
+    			if (jianceaggcountMap.containsKey(name)) {
+					count += jianceaggcountMap.get(name);
+				}
+    			jianceinscountMap.put(name, count);
+    		}
+    		reData.put("JianceNum", jianceinscountMap);
     	}
 		return reData;
 		

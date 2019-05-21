@@ -8,6 +8,7 @@
 		<script type="text/javascript" th:src="@{/js/jquery-1.7.2.js}" ></script>
 		<script type="text/javascript" th:src="@{/js/jquery.media.js}" ></script>
 		<script type="text/javascript" th:src="@{/js/jquery.cookie.js}" ></script>
+		<script type="text/javascript" th:src="@{/js/pdfobject.js}" ></script>
 	</head>
 	<body>
 		<div class="nyMain">
@@ -117,12 +118,11 @@
 		            	<div class="zhuanliConOne">
 		            	 <P th:utext="*{subject}"></P>
 		            	</div>
-		            	<div class="hangyeContlSmall">
+		            	<div class="hangyeContlSmall" id="yulan" style = "display:none">
 		            		报告预览:
 		            	</div>
-		            	<div class="huandengpian">
-<!-- 		            		<img th:src="@{/images/hangye_05.png}" style="width: 100%;" /> -->
-							<a id="pdfImg" href="guice.pdf"></a>
+		            	<div id="pdf">
+		            		
 		            	</div>
 				    </div>
 				</div>
@@ -210,6 +210,13 @@
 				}
 				$("#logoinName").html($.cookie("nickName"));
 			    $("#headImg").attr("src", $.cookie("headImg"));
+			    
+			    if(pdfId != null && pdfId != ''){
+					
+					document.getElementById('yulan').style.display='block';
+					var pdfcon = "<object data=\"/file/fileDownload?filename="+pdfId+"\" type=\"application/pdf\" width=\"100%\" height=\"500px\" internalinstanceid=\"6\"></object>";
+					$("#pdf").html(pdfcon);
+				}
 			});
 			
 			

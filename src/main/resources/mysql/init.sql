@@ -57,10 +57,10 @@ CREATE TABLE IF NOT EXISTS xitu_order (
   chulishijian varchar(255) DEFAULT NULL,
   chulizhuangtai varchar(255) DEFAULT NULL,
   chuliren varchar(255) DEFAULT NULL,
-  chuliyijian varchar(255) DEFAULT NULL,
+  chuliyijian text DEFAULT NULL,
   chulirenfujian_id varchar(255) DEFAULT NULL,
   user_id varchar(255) DEFAULT NULL,
-  institution varchar(255) DEFAULT NULL
+  institution varchar(500) DEFAULT NULL
 ) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS xitu_price(

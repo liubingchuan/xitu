@@ -78,8 +78,8 @@ private static final Logger logger = LoggerFactory.getLogger(JianceController.cl
 		}
 		
 		DataDiscoveryServiceImpl dataDiscoveryService = new DataDiscoveryServiceImpl();
-		String json_send= dataDiscoveryService.jiance(q,year,institution,lanmu,pageIndex).toString();
-		System.out.println(json_send);
+//		String json_send= dataDiscoveryService.jiance(q,year,institution,lanmu,pageIndex).toString();
+//		System.out.println(json_send);
 		
 		
 		String view = "T-jiance1";			

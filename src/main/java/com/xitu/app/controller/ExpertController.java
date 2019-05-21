@@ -3,20 +3,18 @@ package com.xitu.app.controller;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
@@ -24,20 +22,10 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
-import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
-import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
-import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -46,20 +34,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSONReader;
 import com.xitu.app.common.R;
 import com.xitu.app.common.request.SaveExpertRequest;
 import com.xitu.app.mapper.ItemMapper;
 import com.xitu.app.model.Expert;
-import com.xitu.app.model.ExpertVO;
 import com.xitu.app.model.Item;
-import com.xitu.app.model.Org;
-import com.xitu.app.model.OrgVO;
 import com.xitu.app.repository.ExpertRepository;
 import com.xitu.app.service.es.ExpertService;
-import com.xitu.app.service.es.OrgService;
 import com.xitu.app.utils.BeanUtil;
-import com.xitu.app.utils.Scpclient;
 import com.xitu.app.utils.ThreadLocalUtil;
 
 
@@ -152,6 +134,16 @@ public class ExpertController {
 		Expert expert = new Expert();
 		if(id != null) {
 			expert = expertRepository.findById(id).get();
+			String name = expert.getName();
+			String bieming = null;
+			List<String> alias = expert.getAlias();
+			if (alias != null && alias.size() > 0) {
+				bieming =  StringUtils.join(alias.toArray(), ",");
+			}
+			if (bieming != null) {
+				name = name+","+bieming;
+			}
+			model.addAttribute("namebieming", name);
 			model.addAttribute("frontendId", "".equals(expert.getFrontend())?null:expert.getFrontend());
 			model.addAttribute("frontendFileName", "".equals(expert.getFrontendFileName())?null:expert.getFrontendFileName());
 			model.addAttribute("frontendSize", "".equals(expert.getFrontendSize())?null:expert.getFrontendSize());
