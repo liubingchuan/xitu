@@ -1,15 +1,29 @@
 package com.xitu.app.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DateUtil;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.functionscore.FunctionScoreQueryBuilder;
 import org.elasticsearch.index.query.functionscore.ScoreFunctionBuilders;
@@ -45,6 +59,7 @@ import com.xitu.app.repository.ExpertRepository;
 import com.xitu.app.service.es.ExpertService;
 import com.xitu.app.service.es.OrgService;
 import com.xitu.app.utils.BeanUtil;
+import com.xitu.app.utils.Scpclient;
 import com.xitu.app.utils.ThreadLocalUtil;
 
 
@@ -73,7 +88,7 @@ public class ExpertController {
 		Expert expert = new Expert();
 		BeanUtil.copyBean(request, expert);
 		if(expert.getId() == null || "".equals(request.getId())) {
-			expert.setId(UUID.randomUUID().toString());
+			expert.setId(UUID.randomUUID().toString().replaceAll("\\-", ""));
 		}
 		List<String> areaList =new ArrayList<String>();
 		List<String> dutyList =new ArrayList<String>();
@@ -279,48 +294,261 @@ public class ExpertController {
 		return view;
 	}
 	
+//	/**
+//     * 文件解析
+//     * */
+//    @GetMapping(value="expert/import")
+//    @ResponseBody 
+//    public R importJson(){
+//    	try {
+//			String filePath = String.format("/Users/liubingchuan/git/xitu/src/main/resources/xyz.json");
+//			File file = new File(filePath);
+//			JSONReader reader=new JSONReader(new FileReader(file));
+//			reader.startArray();
+//			List<Expert> experts = new LinkedList<Expert>();
+//			int i=1;
+//			while (reader.hasNext()) {
+//				if(i==1148){
+//					System.out.println();
+//				}
+//				if(experts.size()>=1000) {
+//					expertRepository.saveAll(experts);
+//					experts.clear();
+//				}
+//				ExpertVO vo = new ExpertVO();
+//				try{
+//					vo = reader.readObject(ExpertVO.class);
+//				}catch(Exception e) {
+//					continue;
+//				}
+//				Expert expert = new Expert();
+//				expert.setId(UUID.randomUUID().toString());
+//				expert.setName(vo.getKey());
+//				expert.setNow(System.currentTimeMillis());
+//				experts.add(expert);
+//				i++;
+//				System.out.println("当前id---------》" + i);
+//			}
+//			reader.endArray();
+//	        reader.close();
+//
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//    	return R.ok();
+//    }
+	
 	/**
      * 文件解析
      * */
     @GetMapping(value="expert/import")
     @ResponseBody 
-    public R importJson(){
-    	try {
-			String filePath = String.format("/Users/liubingchuan/git/xitu/src/main/resources/xyz.json");
-			File file = new File(filePath);
-			JSONReader reader=new JSONReader(new FileReader(file));
-			reader.startArray();
-			List<Expert> experts = new LinkedList<Expert>();
-			int i=1;
-			while (reader.hasNext()) {
-				if(i==1148){
-					System.out.println();
-				}
-				if(experts.size()>=1000) {
-					expertRepository.saveAll(experts);
-					experts.clear();
-				}
-				ExpertVO vo = new ExpertVO();
-				try{
-					vo = reader.readObject(ExpertVO.class);
-				}catch(Exception e) {
-					continue;
-				}
-				Expert expert = new Expert();
-				expert.setId(UUID.randomUUID().toString());
-				expert.setName(vo.getKey());
-				expert.setNow(System.currentTimeMillis());
-				experts.add(expert);
-				i++;
-				System.out.println("当前id---------》" + i);
+    public R importExcel(){
+    	
+    	Workbook wb =null;
+        Sheet sheet = null;
+        Row row = null;
+        List<Map<String,String>> list = null;
+        String cellData = null;
+        String filePath = "/Users/liubingchuan/Desktop/hangzhou/zhuanjiaxinxixiugai/zhuanjiaxinxi-1.xlsx";
+        String columns[] = {"id","name","alias","org","lingyu","resume","addr","email","phone","tel","duty","major","photo"};
+        String photoLocalPath = "/Users/liubingchuan/Desktop/hangzhou/zhuanjiaxinxixiugai/zhuanjiazhaopin-1";
+        wb = readExcel(filePath);
+//        Scpclient client = Scpclient.getInstance("45.76.75.11", 22, "root", "6c]V=*z2bY=mRZ2)");
+        Set<String> yanjiulingyus = new HashSet<String>();
+        Set<String> zhiwus = new HashSet<String>();
+        Set<String> zhichengs = new HashSet<String>();
+        if(wb != null){
+            //用来存放表中数据
+            list = new ArrayList<Map<String,String>>();
+            //获取第一个sheet
+            sheet = wb.getSheetAt(0);
+            //获取最大行数
+            int rownum = sheet.getPhysicalNumberOfRows();
+            //获取第一行
+            row = sheet.getRow(0);
+            //获取最大列数
+            int colnum = row.getPhysicalNumberOfCells();
+            for (int i = 116; i<rownum; i++) {
+            	Expert expert = new Expert();
+            	System.out.println("id------>" + i);
+                row = sheet.getRow(i);
+                if(row !=null){
+                    for (int j=0;j<colnum;j++){
+                        cellData = (String) getCellFormatValue(row.getCell(j));
+                        if(cellData.contains(".0")) {
+                        	cellData = cellData.split("\\.")[0];
+                        }
+                        if(j==0) {
+                        	UUID uuid = UUID.randomUUID();
+                        	String fileName = cellData;
+                        	System.out.println("fileId ---------->" + cellData);
+                        	fileName = fileName + ".jpg";
+                        	File photo = new File(photoLocalPath + File.separator + fileName);
+                        	if(photo.exists()) {
+                        		expert.setFrontend(uuid+"_"+fileName);
+                        		expert.setFrontendFileName(fileName);
+                        		expert.setFrontendSize(String.valueOf(Math.round(photo.length()/1000)));
+//                        		client.putFile(photoLocalPath + File.separator + fileName, uuid+"_"+fileName, "/root/files", "0755");
+                        	}else {
+                        		fileName = cellData + ".png";
+                        		photo = new File(photoLocalPath + File.separator + fileName);
+                        		if(photo.exists()) {
+                        			expert.setFrontend(uuid+"_"+fileName);
+                        			expert.setFrontendFileName(fileName);
+                        			expert.setFrontendSize(String.valueOf(Math.round(photo.length()/1000)));
+//                        			client.putFile(photoLocalPath + File.separator + fileName, uuid+"_"+fileName, "/root/files", "0755");
+                        		}
+                        	}
+                        }else if(j==1){
+                        	expert.setName(cellData);
+                        }else if(j==2) {
+                        	List<String> alias = new ArrayList<String>();
+                        	alias.add(cellData);
+                        	expert.setAlias(alias);
+                        }else if(j==3) {
+                        	expert.setUnit(cellData);
+                        }else if(j==4) {
+                        	String[] str = cellData.split("；");
+                        	List<String> areas = new ArrayList<String>();
+                        	for(String s : str) {
+                        		areas.add(s);
+                        		yanjiulingyus.add(s);
+                        	}
+                        	expert.setArea(areas);
+                        }else if(j==5) {
+                        	expert.setResume(cellData);
+                        }else if(j==6) {
+                        	expert.setAddress(cellData);
+                        }else if(j==7) {
+                        	expert.setEmail(cellData);
+                        }else if(j==8) {
+                        	expert.setPhone(cellData);
+                        }else if(j==9) {
+                        	expert.setTel(cellData);
+                        }else if(j==10) {
+                        	List<String> duties = new ArrayList<String>();
+                        	duties.add(cellData);
+                        	expert.setDuty(duties);
+                        	zhiwus.add(cellData);
+                        }else if(j == 11) {
+                        	List<String> titles = new ArrayList<String>();
+                        	titles.add(cellData);
+                        	expert.setTitle(titles);
+                        	zhichengs.add(cellData);
+                        }else {
+                        	expert.setId(UUID.randomUUID().toString().replaceAll("\\-", ""));
+                        }
+                    }
+//                    expertRepository.save(expert);
+                }else{
+                    break;
+                }
+            }
+        }
+        Item yjly = new Item();
+        yjly.setService("yjly");
+        StringBuilder bufferYjly = new StringBuilder();
+		boolean append = false;
+		for(String s: yanjiulingyus) {
+			if("".equals(s)) {
+				append=false;
+				continue;
 			}
-			reader.endArray();
-	        reader.close();
-
-		} catch (IOException e) {
-			e.printStackTrace();
+			if(append) bufferYjly.append(";"); else append = true; 
+			bufferYjly.append(s);
 		}
+		yjly.setItem(bufferYjly.toString().length()==0?"":bufferYjly.substring(0, bufferYjly.length()));
+		itemMapper.insertItem(yjly);
+		Item zw = new Item();
+		zw.setService("zw");
+		StringBuilder bufferZw = new StringBuilder();
+		append = false;
+		for(String s: zhiwus) {
+			if("".equals(s)) {
+				append=false;
+				continue;
+			}
+			if(append) bufferZw.append(";"); else append = true; 
+			bufferZw.append(s);
+		}
+		zw.setItem(bufferZw.toString().length()==0?"":bufferZw.substring(0, bufferZw.length()));
+		itemMapper.insertItem(zw);
+		
+		
+		Item zc = new Item();
+		zc.setService("zc");
+		StringBuilder bufferZc = new StringBuilder();
+		append = false;
+		for(String s: zhichengs) {
+			if("".equals(s)) {
+				append=false;
+				continue;
+			}
+			if(append) bufferZc.append(";"); else append = true; 
+			bufferZc.append(s);
+		}
+		zc.setItem(bufferZc.toString().length()==0?"":bufferZc.substring(0, bufferZc.length()));
+		itemMapper.insertItem(zc);
     	return R.ok();
+    }
+    
+  //读取excel
+    private static Workbook readExcel(String filePath){
+        Workbook wb = null;
+        if(filePath==null){
+            return null;
+        }
+        String extString = filePath.substring(filePath.lastIndexOf("."));
+        InputStream is = null;
+        try {
+            is = new FileInputStream(filePath);
+            if(".xls".equals(extString)){
+                return wb = new HSSFWorkbook(is);
+            }else if(".xlsx".equals(extString)){
+                return wb = new XSSFWorkbook(is);
+            }else{
+                return wb = null;
+            }
+            
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return wb;
+    }
+    private static Object getCellFormatValue(Cell cell){
+        Object cellValue = null;
+        if(cell!=null){
+            //判断cell类型
+            switch(cell.getCellType()){
+            case Cell.CELL_TYPE_NUMERIC:{
+                cellValue = String.valueOf(cell.getNumericCellValue());
+                break;
+            }
+            case Cell.CELL_TYPE_FORMULA:{
+                //判断cell是否为日期格式
+                if(DateUtil.isCellDateFormatted(cell)){
+                    //转换为日期格式YYYY-mm-dd
+                    cellValue = cell.getDateCellValue();
+                }else{
+                    //数字
+                    cellValue = String.valueOf(cell.getNumericCellValue());
+                }
+                break;
+            }
+            case Cell.CELL_TYPE_STRING:{
+                cellValue = cell.getRichStringCellValue().getString();
+                break;
+            }
+            default:
+                cellValue = "";
+            }
+        }else{
+            cellValue = "";
+        }
+        return cellValue;
     }
 	
 	
