@@ -1620,7 +1620,7 @@ public class PatentController {
 	@ResponseBody
 	@RequestMapping(value = "patent/patentInsList", method = RequestMethod.POST,consumes = "application/json")
 	public R expertInsList(@RequestBody JSONObject insname) {
-    	int pageSize = 2;
+    	int pageSize = 10;
 //		if(pageIndex == null) {
 //		   pageIndex = 0;
 //		}
@@ -1635,7 +1635,7 @@ public class PatentController {
 	@ResponseBody
 	@RequestMapping(value = "patent/patentExpList", method = RequestMethod.POST,consumes = "application/json")
 	public R expertpatentList(@RequestBody JSONObject insname) {
-    	int pageSize = 2;
+    	int pageSize = 10;
 //		if(pageIndex == null) {
 //		   pageIndex = 0;
 //		}

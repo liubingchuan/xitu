@@ -3,7 +3,7 @@
 .index-container{width: 1040px;margin: 0px auto;}
 .logo{display: block;width: 29px;height: 34px;margin-top:3px;margin-bottom:5px;padding-right:35px;}
 .logo img{width: 70px;height: 70px;vertical-align:5px;}
-.head{line-height: 68px;height: 68px;}
+.head{line-height: 68px;height: 75px;}
 .menu{width: 800px;}
 .menu a{display: inline-block;margin-left: 35px;font-size: 14px;color: #fff;float: left;}
 .menu a:hover{color: #F5A623;}
@@ -516,16 +516,20 @@ body{font-family:"寰蒋闆呴粦","Microsoft YaHei"!important;}
 .rencailiMList p{line-height: 20px;color: #707076;height: 20px;display: block;font-size: 14px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;margin-bottom: 5px;}
 .jiazai{text-align: center;color: #999;padding: 15px 0px;}
 .jiazai img{display: inline-block;vertical-align: middle;margin-right: 10px;}
-.rencaiLFmess img{display: block;width: 169px;vertical-align: middle;margin-bottom: 24px;}
+.rencaiLFmess img{display: block;width: 140px;vertical-align: middle;margin-bottom: 24px;}
+
+.rencaiLFmess1 img{display: block;width: 50px;vertical-align: middle;margin-bottom: 24px;}
+
 .rencaiRtMess{width: 850px;}
 .rencaiLFmessText{font-size: 14px;line-height: 24px;color: #000;}
 .rencaiLFmessName{font-weight: bold;}
 .jigouUl li{border-bottom: 1px solid #EEEEEE;padding: 25px 0px;}
-.jigouliLf{display: block;width: 156px;}
-.jigouliLf img{width: 100%;vertical-align: middle;}
 
-.jigouliLf1{display: block;width: 156px;text-align:center}
-.jigouliLf1 img{width: 35%;vertical-align: middle;}
+/*.jigouliLf{display: block;width: 156px;}
+.jigouliLf img{width: 100%;vertical-align: middle;}*/
+
+.jigouliLf{display: block;width: 156px;text-align:center}
+.jigouliLf img{width: 35%;vertical-align: middle;}
 
 .jigouRt{width: 720px;}
 i{font-style: normal;}

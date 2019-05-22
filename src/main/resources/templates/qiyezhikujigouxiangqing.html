@@ -81,10 +81,12 @@
 			
 				<div class="rencaiNr clearfix" th:object="${org}">
 					<div class="rencaiLf left">
-						<div class="rencaiLFmess">
+						<div class="rencaiLFmess1">
 							<img th:if=" ${org.frontend !=null && org.frontend != ''}" th:src="@{/file/fileDownload(filename=${org.frontend})}" />
 				        	<img th:if=" ${org.frontend ==null || org.frontend == ''}" th:src="@{/images/slider.png}" />
-							<div class="rencaiLFmessText">
+							 
+							 <!-- <img th:src="@{/ximages/27.jpg}"/> -->
+							 <div class="rencaiLFmessText">
 								<p class="rencaiLFmessName">
 									机构名称： 
 								</p>
