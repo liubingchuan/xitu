@@ -367,72 +367,8 @@
 				</div>
 			</div>
 			</div>
-		<div class="footer">
-	    	<div class="footerTop">
-	    		<div class="index-container clearfix">
-	    			<div class="left footerTopLf">
-	    				<img th:src="@{/ximages/wb.png}" class="xitufooterIMg" />
-	    			</div>
-	    			<div class="left footerTopMiddle">
-	    				<div class="footerTopMiddleTop">
-	    				<p class="footerTopTl">
-	    					<img th:src="@{/ximages/pingtai.png}" />
-	    					平台介绍
-	    				</p>
-	    				<div class="footerTopText">
-	    					平台围绕稀土领域进行信息监测与情报服务，结合文献情报中心的文献服务、情报咨询服务等，为稀土研究相关科研机构、政府部门、企业等提供产业技术情报服务和科技咨询服务。
-	    				</div>
-	    				</div>
-	    				<p class="footerTopTl">	    				
-	    					<img th:src="@{/ximages/lianxifangshi.png}" />联系方式
-	    				</p>
-	    				<div class="footerTopText">
-	    					<p>电话：010-82626611-6302</p>
-                             <p>邮箱：chinakx@mail.las.ac.cn</p>
-	    				</div>
-	    			</div>
-	    		    <div class="left footerTopLX">
-	    		    	
-	    		        <div class="footerTopText">
-	    		        	<p class="footerTopTl">	    				
-	    				 	<img th:src="@{/ximages/jigou.png}" />合作机构
-	    				    </p>
-	    		        	<ul>
-	    		        		<li>
-	    		        			<a href="#">•&nbsp;中国科学院分院</a>
-	    		        		</li>
-	    		        		<li>
-	    		        			<a href="#">•&nbsp;中国科学院文献情报中心</a>
-	    		        		</li>
-	    		        		<li>
-	    		        			<a href="#">•&nbsp;中国科学院分院</a>
-	    		        		</li>
-	    		        		<li>
-	    		        			<a href="#">•&nbsp;国家科学图书文献中心</a>
-	    		        		</li>
-	    		        		<li>
-	    		        			<a href="#">•&nbsp;中国科学院文献情报中心</a>
-	    		        		</li>
-	    		        		<li>
-	    		        			<a href="#">•&nbsp;国家科学图书文献中心</a>
-	    		        		</li>
-	    		        	</ul>
-	    		        </div>
-	    		    </div>
-	    		    <div class="right footerTopErw">
-	    		    	<img th:src="@{/ximages/erw.jpg}" />
-	    		    	<p>
-	    		    		<em></em>扫码快速关注公众号
-	    		    	</p>
-	    		    </div>
-	    		</div>
-	    	</div>
-	        <!-- <div class="footerB">
-	        	<div class="index-container">
-	        		版权所有 @ 2017 沈阳高新区生物医药知识服务云平台 中国科学院文献情报中心,京ICP证030173号
-	        	</div>
-	        </div> -->
-	    </div>
+		
+		<div th:replace="footer :: myfooter"></div>
 		
 		<script type="text/javascript" th:src="@{/js/main.js}" ></script>
 		<script type="text/javascript">
