@@ -225,10 +225,9 @@
 								let div1 = $('<div class=\"swiper-slide\"></div>');
 								let div2 = $('<div class=\"ysPer\"></div>');
 								let a2 = $('<a href=\"/expert/get?front=0&id=' + value.id + '\"></a>');
+								let img = $('<img src=\"/images/slider.png\" />');
 								if(value.frontend !=null && value.frontend != '' ){
-									let img = $('<img src=\"/file/fileDownload?filename='+value.frontend+'\" />');
-								}else{
-									let img = $('<img src=\"/images/slider.png\" />');
+									img = $('<img src=\"/file/fileDownload?filename='+value.frontend+'\" />');
 								}
 								
 								let p1 = $('<p class=\"ysName\">' + value.name+ '</p>');

@@ -181,7 +181,7 @@ body{background-color: rgba(249,249,249,1);}
 /*鍚庡彴绠＄悊椤甸潰*/
 .manageBody{background: #F7F7F7;}
 .manageLf{position: fixed;width: 150px;background: url(../ximages/menu_bg.png) no-repeat center;background-size:cover;height: 100%;left: 0px;box-shadow: 0px 5px 30px #333;z-index: 1003;top: 0px;overflow-y: auto;}
-.manageLfLogo img{width: 29px;height: 34px;vertical-align: middle;}
+.manageLfLogo img{width: 72px;height: 72px;vertical-align: middle;}
 .manageLfLogo{padding: 40px 0px;margin: 0px 14px;border-bottom: 1px solid #fff;text-align: center;margin-bottom: 10px;}
 .manageMenuF{font-size: 14px;color: #fff;display: block;padding: 15px 0px;text-align: center;position: relative;}
 .manageMenuS a{display: block;font-size: 14px;color: #fff;background: #1D85A8;padding: 10px 0px;text-align: center;}
