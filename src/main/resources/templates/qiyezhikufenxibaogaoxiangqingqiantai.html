@@ -86,7 +86,9 @@
 		        	
 		        			<a href="#">稀土智库</a>&gt;<span>行业报告</span>
 		        		    </div>
-							<img id="frontendImg" th:src="@{/images/hangye_03.png}" />
+							<!-- <img id="frontendImg" th:src="@{/images/hangye_03.png}" /> -->
+							<img th:if=" ${report.frontend !=null && report.frontend != ''}" th:src="@{/file/fileDownload(filename=${report.frontend})}" />
+				        	<img th:if=" ${report.frontend ==null || report.frontend == ''}" th:src="@{/images/hangye_03.png}" />
 							<div class="rencaiLFmessText">
 								<p class="rencaiLFmessName">
 									报告作者：  
