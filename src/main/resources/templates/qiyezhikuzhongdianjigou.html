@@ -152,7 +152,7 @@
 				       			
 				       			<!-- <img th:src="@{/ximages/27.jpg}" /> -->
 				       			<img th:if=" ${org.frontend !=null && org.frontend != ''}" th:src="@{/file/fileDownload(filename=${org.frontend})}" />
-				        	    <img th:if=" ${org.frontend ==null || org.frontend == ''}" th:src="@{/images/slider.png}" />
+				        	    <img th:if=" ${org.frontend ==null || org.frontend == ''}" th:src="@{/images/default.png}" />
 				       			
 				       		</a>
 				       		<div class="right jigouRt">
