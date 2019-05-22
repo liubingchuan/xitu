@@ -1,8 +1,8 @@
 /*澶撮儴*/
 .indexbanner{padding: 0px 0px 89px 0px;color: #fff;background: url(../ximages/banner.png) no-repeat center;background-size: cover;margin-bottom: -80px;}
 .index-container{width: 1040px;margin: 0px auto;}
-.logo{display: block;width: 29px;height: 34px;margin-top:11px;padding-right:35px;}
-.logo img{width: 72px;height: 72px;vertical-align:5px;}
+.logo{display: block;width: 29px;height: 34px;margin-top:3px;margin-bottom:5px;padding-right:35px;}
+.logo img{width: 70px;height: 70px;vertical-align:5px;}
 .head{line-height: 68px;height: 68px;}
 .menu{width: 800px;}
 .menu a{display: inline-block;margin-left: 35px;font-size: 14px;color: #fff;float: left;}
@@ -134,7 +134,7 @@ body{background-color: rgba(249,249,249,1);}
 /*妫�绱㈤〉*/
 .nyMain{background: url(../ximages/header.png) no-repeat center top;margin-bottom: 50px;}
 .nycontainer{width: 1220px;margin: 0px auto;}
-.jiansuoOne{line-height: 42px;background-color: #F7F7F7;position: relative;}
+.jiansuoOne{line-height: 42px;background-color: #F7F7F7;position: relative;margin-top:7px;}
 .jiansuoOnelf{width: 296px;text-align: center;border-right: 1px solid #D2CFCF;color: #595968;font-size: 14px;height: 42px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;}
 .headBack{color: #fff;font-size: 14px;margin-left: 124px;}
 .headBack:hover{color: #fff;text-decoration: underline;}
@@ -523,6 +523,10 @@ body{font-family:"寰蒋闆呴粦","Microsoft YaHei"!important;}
 .jigouUl li{border-bottom: 1px solid #EEEEEE;padding: 25px 0px;}
 .jigouliLf{display: block;width: 156px;}
 .jigouliLf img{width: 100%;vertical-align: middle;}
+
+.jigouliLf1{display: block;width: 156px;text-align:center}
+.jigouliLf1 img{width: 35%;vertical-align: middle;}
+
 .jigouRt{width: 720px;}
 i{font-style: normal;}
 .jigouUl li:last-child{border-bottom: none;}
@@ -642,3 +646,13 @@ i{font-style: normal;}
 .xitutable td{color: #72879C;font-size: 12px;line-height: 20px;padding: 6px 10px;text-align: center;}
 .xitutable tr:nth-child(2n+1) td{background: #F9F9F9;}
 .xitutable{margin-top: 15px;}
+
+.footerNewLf{width: 203px;margin-right: 40px;}
+.footerMapGpTl{display: inline-block;border-radius: 7px;font-size: 14px;background: #5959CF;line-height: 37px;padding: 0px 10px;margin-bottom: 11px;}
+.footerTopTl img{width: 21px;height: 21px;}
+.footerMapGp li a{color: #fff;line-height: 25px;font-size: 14px;}
+.footerMapGp li a:hover{text-decoration: underline;}
+.footerMapGp{text-align: center;margin-right: 25px;}
+.footerpartner{margin-bottom: 15px;}
+.footerpartner li{line-height: 34px;}
+.footerTopErw p{margin-top: 16px;}
