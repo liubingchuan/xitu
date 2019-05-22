@@ -225,7 +225,12 @@
 								let div1 = $('<div class=\"swiper-slide\"></div>');
 								let div2 = $('<div class=\"ysPer\"></div>');
 								let a2 = $('<a href=\"/expert/get?front=0&id=' + value.id + '\"></a>');
-								let img = $('<img src=\"/images/10.png\" />');
+								if(value.frontend !=null && value.frontend != '' ){
+									let img = $('<img src=\"/file/fileDownload?filename='+value.frontend+'\" />');
+								}else{
+									let img = $('<img src=\"/images/slider.png\" />');
+								}
+								
 								let p1 = $('<p class=\"ysName\">' + value.name+ '</p>');
 								let p2 = $('<p>' + value.duty+ '</p>');
 								a2.append(img);
@@ -234,9 +239,11 @@
 								div2.append(a2);
 								div1.append(div2);
 								$("#expertinfo").append(div1);
+							});
+							if(data.totalCount > 5){
 								document.getElementById("next").style="display:block";
 								document.getElementById("prev").style="display:block";
-							});
+							}
 							var swiper = new Swiper('.ysLb1 .swiper-container', {
 								slidesPerView:5,
 								spaceBetween: 18,
