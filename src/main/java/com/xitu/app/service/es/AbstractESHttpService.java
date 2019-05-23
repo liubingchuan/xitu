@@ -9,6 +9,7 @@ import java.lang.reflect.Method;
 import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -205,7 +206,7 @@ public abstract class AbstractESHttpService implements ESHttpService {
 					if (args[i].equals("近一天")) {
 				        JSONObject match = new JSONObject();
 						JSONObject field = new JSONObject();
-						field.put("pubtime", "2019-04-07");
+						field.put("pubtime", pubtime);
 						match.put("match", field);
 						must.add(match);
 					}
@@ -213,8 +214,8 @@ public abstract class AbstractESHttpService implements ESHttpService {
 				        JSONObject range = new JSONObject();
 						JSONObject field = new JSONObject();
 						JSONObject pub = new JSONObject();
-						pub.put("gte", "2019-04-20");
-						pub.put("lte", "2019-04-21");
+						pub.put("gte", getThreeDay());
+						pub.put("lte", pubtime);
 						//pub.put("format", "yyyy-MM-dd");
 						field.put("pubtime",pub);
 						range.put("range", field);
@@ -224,8 +225,8 @@ public abstract class AbstractESHttpService implements ESHttpService {
 				        JSONObject range = new JSONObject();
 						JSONObject field = new JSONObject();
 						JSONObject pub = new JSONObject();
-						pub.put("gte", "2019-04-13");
-						pub.put("lte", "2019-04-14");
+						pub.put("gte", getOneWeek());
+						pub.put("lte", pubtime);
 						//pub.put("format", "yyyy-MM-dd");
 						field.put("pubtime",pub);
 						range.put("range", field);
@@ -235,8 +236,8 @@ public abstract class AbstractESHttpService implements ESHttpService {
 				        JSONObject range = new JSONObject();
 						JSONObject field = new JSONObject();
 						JSONObject pub = new JSONObject();
-						pub.put("gte", "2019-04-18");
-						pub.put("lte", "2019-04-19");
+						pub.put("gte", getThreeWeek());
+						pub.put("lte", pubtime);
 						//pub.put("format", "yyyy-MM-dd");
 						field.put("pubtime",pub);
 						range.put("range", field);
@@ -246,8 +247,8 @@ public abstract class AbstractESHttpService implements ESHttpService {
 				        JSONObject range = new JSONObject();
 						JSONObject field = new JSONObject();
 						JSONObject pub = new JSONObject();
-						pub.put("gte", "2019-04-15");
-						pub.put("lte", "2019-04-16");
+						pub.put("gte", getLastMonth());
+						pub.put("lte", pubtime);
 						//pub.put("format", "yyyy-MM-dd");
 						field.put("pubtime",pub);
 						range.put("range", field);
@@ -581,5 +582,36 @@ public abstract class AbstractESHttpService implements ESHttpService {
 	    	System.out.println("query ---  " + query.toString());
 	    	return query.toString();
 		}
-
+		public String getLastMonth(){
+	        Calendar curr = Calendar.getInstance(); 
+	        curr.set(Calendar.MONTH,curr.get(Calendar.MONTH)-1); //减少一月
+	        Date date=curr.getTime();
+	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");  
+	        String dateNowStr = sdf.format(date);  
+	        return dateNowStr;
+	    }
+		public String getThreeDay(){
+	        Calendar curr = Calendar.getInstance(); 
+	        curr.set(Calendar.DAY_OF_YEAR,curr.get(Calendar.DAY_OF_YEAR)-2); //减少2天
+	        Date date=curr.getTime();
+	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");  
+	        String dateNowStr = sdf.format(date);  
+	        return dateNowStr;
+	    }
+		public String getOneWeek(){
+	        Calendar curr = Calendar.getInstance(); 
+	        curr.set(Calendar.DAY_OF_YEAR,curr.get(Calendar.DAY_OF_YEAR)-6); //减少6天
+	        Date date=curr.getTime();
+	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");  
+	        String dateNowStr = sdf.format(date);  
+	        return dateNowStr;
+	    }
+		public String getThreeWeek(){
+	        Calendar curr = Calendar.getInstance(); 
+	        curr.set(Calendar.DAY_OF_YEAR,curr.get(Calendar.DAY_OF_YEAR)-20); //减少6天
+	        Date date=curr.getTime();
+	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");  
+	        String dateNowStr = sdf.format(date);  
+	        return dateNowStr;
+	    }
 }

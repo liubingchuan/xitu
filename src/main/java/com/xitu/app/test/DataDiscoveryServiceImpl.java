@@ -1,7 +1,10 @@
 package com.xitu.app.test;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -30,6 +33,7 @@ import org.slf4j.LoggerFactory;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.xitu.app.controller.JianceController;
 import com.xitu.app.service.es.ESHttpClient;
 
 
@@ -181,6 +185,43 @@ public class DataDiscoveryServiceImpl {
 		}
 		return bycs;
 	}
-
-
+	public String getLastMonth(){
+        Calendar curr = Calendar.getInstance(); 
+        curr.set(Calendar.MONTH,curr.get(Calendar.MONTH)-1); //减少一月
+        Date date=curr.getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");  
+        String dateNowStr = sdf.format(date);  
+        return dateNowStr;
+    }
+	public String getThreeDay(){
+        Calendar curr = Calendar.getInstance(); 
+        curr.set(Calendar.DAY_OF_YEAR,curr.get(Calendar.DAY_OF_YEAR)-2); //减少2天
+        Date date=curr.getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");  
+        String dateNowStr = sdf.format(date);  
+        return dateNowStr;
+    }
+	public String getOneWeek(){
+        Calendar curr = Calendar.getInstance(); 
+        curr.set(Calendar.DAY_OF_YEAR,curr.get(Calendar.DAY_OF_YEAR)-6); //减少6天
+        Date date=curr.getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");  
+        String dateNowStr = sdf.format(date);  
+        return dateNowStr;
+    }
+	public String getThreeWeek(){
+        Calendar curr = Calendar.getInstance(); 
+        curr.set(Calendar.DAY_OF_YEAR,curr.get(Calendar.DAY_OF_YEAR)-20); //减少6天
+        Date date=curr.getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");  
+        String dateNowStr = sdf.format(date);  
+        return dateNowStr;
+    }
+	public static void main(String[] args){
+		DataDiscoveryServiceImpl jController = new DataDiscoveryServiceImpl();
+		//String mString = jController.getLastMonth();
+		//System.out.println(mString);
+		String mString = jController.getThreeWeek();
+		System.out.println(mString);
+	}
 }

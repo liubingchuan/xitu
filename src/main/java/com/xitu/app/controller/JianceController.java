@@ -2,7 +2,10 @@ package com.xitu.app.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -402,4 +405,5 @@ public class JianceController {
 		rs = jianceService.executeIns(insname.getString("insname"),pageIndex, pageSize, "institution",i);
 		return R.ok().put("list", rs.get("list")).put("totalPages", rs.get("totalPages")).put("totalCount", rs.get("totalCount")).put("pageIndex", pageIndex);
     }
+	
 }
