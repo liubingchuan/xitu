@@ -170,7 +170,7 @@
 			    	    <div class="yuansNrThreeBM">
 			    			<div class="yslbM">
 			    			<div class="ysLb ysLb2">
-			    				<div class="swiper-container">
+			    				<div class="swiper-container" id="orginfo">
 	    		</div>
 			    			    <div class="swiper-button-next"></div>
                                 <div class="swiper-button-prev"></div>
@@ -353,6 +353,54 @@
 							//li.append(div3);
 							$("#paperInfo").append(li);
 						});
+						items = data.experts;
+						if(JSON.stringify(items) === '[]') {
+							return;
+						}
+						$("#expertinfo").html('');
+						$.each(items,function(index,value){
+							let div1 = $('<div class=\"swiper-slide\"></div>');
+							let div2 = $('<div class=\"ysPer\"></div>');
+							let a2 = $('<a href=\"/expert/get?front=0&id=' + value.id + '\"></a>');
+							let img = $('<img src=\"/images/rencai.png\" />');
+							if(value.frontend !=null && value.frontend != '' ){
+								img = $('<img src=\"/file/fileDownload?filename='+value.frontend+'\" />');
+							}
+							
+							let p1 = $('<p class=\"ysName\">' + value.name+ '</p>');
+							let p2 = $('<p>' + value.duty+ '</p>');
+							a2.append(img);
+							a2.append(p1);
+							a2.append(p2);
+							div2.append(a2);
+							div1.append(div2);
+							$("#expertinfo").append(div1);
+						});
+						
+						items = data.orgs;
+						if(JSON.stringify(items) === '[]') {
+							return;
+						}
+						$("#orginfo").html('');
+						$.each(items,function(index,value){
+							let div1 = $('<div class=\"swiper-slide\"></div>');
+							let div2 = $('<div class=\"ysPer\"></div>');
+							let a2 = $('<a href=\"/org/get?front=0&id=' + value.id + '\"></a>');
+							let img = $('<img src=\"/images/rencai.png\" />');
+							if(value.frontend !=null && value.frontend != '' ){
+								img = $('<img src=\"/file/fileDownload?filename='+value.frontend+'\" />');
+							}
+							
+							let p1 = $('<p class=\"ysName\">' + value.name+ '</p>');
+							let p2 = $('<p>' + value.duty+ '</p>');
+							a2.append(img);
+							a2.append(p1);
+							a2.append(p2);
+							div2.append(a2);
+							div1.append(div2);
+							$("#orginfo").append(div1);
+						});
+						
 						//var totalPages = data.totalPages;
 						//var totalCount = data.totalCount;
 						//var pageIndex = data.pageIndex;

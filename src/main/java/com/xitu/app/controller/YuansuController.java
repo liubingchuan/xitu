@@ -18,9 +18,13 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -37,7 +41,10 @@ import com.xitu.app.common.R;
 import com.xitu.app.mapper.ElementMapper;
 import com.xitu.app.model.ElementMaster;
 import com.xitu.app.model.ElementSlave;
+import com.xitu.app.model.Expert;
+import com.xitu.app.model.Org;
 import com.xitu.app.repository.ExpertRepository;
+import com.xitu.app.repository.OrgRepository;
 import com.xitu.app.service.es.PaperService;
 import com.xitu.app.service.es.PatentService;
 import com.xitu.app.utils.JsonUtil;
@@ -53,6 +60,9 @@ public class YuansuController {
 	
 	@Autowired
     private ExpertRepository expertRepository;
+	
+	@Autowired
+	private OrgRepository orgRepository;
 	
 	@Autowired
     private ElementMapper elementMapper;
@@ -88,12 +98,14 @@ public class YuansuController {
 	public R related(@RequestBody JSONObject instance, Model model) {
 		ThreadLocalUtil.set(model);
 		int pageIndex = 0;
-		int pageSize = 1;
+		int pageSize = 50;
 		int i = 0;//0代表专利；1代表论文；2代表项目；3代表监测
 		Set<String> rens = new TreeSet<String>();
 		Set<String> units = new TreeSet<String>();
 		patentService.execute(pageIndex, pageSize, i,instance.getString("name"));
 		Map<String, Object> map = model.asMap();
+		List<Expert> experts = new ArrayList<Expert>();
+		List<Org> orgs = new ArrayList<Org>();
 		JSONArray creators = JsonUtil.parseArray(map.get("creator").toString());
 		JSONArray persons = JsonUtil.parseArray(map.get("person").toString());
 		for(int j=0;j<creators.size();j++) {
@@ -119,8 +131,26 @@ public class YuansuController {
 			units.add(obj.getString("key"));
 		}
 		JSONArray paperList = JsonUtil.parseArray(model.asMap().get("list").toString());
+		
+		//创建in查询builder
+		BoolQueryBuilder inBuilder = QueryBuilders.boolQuery();
+		for(String ren: rens) {
+			inBuilder.should(QueryBuilders.matchQuery("name", ren));
+		}
+		SearchQuery searchQuery = new NativeSearchQueryBuilder()
+				.withQuery(inBuilder).build();
+		experts = expertRepository.search(searchQuery).getContent();
+		
+		//创建in查询builder
+		BoolQueryBuilder inBuilderOrg = QueryBuilders.boolQuery();
+		for(String unit: units) {
+			inBuilderOrg.should(QueryBuilders.matchQuery("name", unit));
+		}
+		SearchQuery searchQueryOrg = new NativeSearchQueryBuilder()
+				.withQuery(inBuilderOrg).build();
+		orgs = orgRepository.search(searchQueryOrg).getContent();
 		ThreadLocalUtil.remove();		
-		return R.ok().put("patentList", patentList).put("paperList", paperList).put("rens", rens).put("units", units);
+		return R.ok().put("patentList", patentList).put("paperList", paperList).put("experts", experts).put("orgs", orgs);
 	}
 	
 	/**
