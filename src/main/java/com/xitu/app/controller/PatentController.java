@@ -808,7 +808,7 @@ public class PatentController {
 	public String price() {
 		
 
-		for(int i=4;i>0;i--) {
+		for(int i=5;i>0;i--) {
 			String url="http://nm.sci99.com/news/?page=" + i + "&sid=8784&siteid=10" ;
 			String base = "http://nm.sci99.com";
 			try {
@@ -879,6 +879,12 @@ public class PatentController {
 	            			price.setFloating(result + "%");
 	            		}
 	            		priceMapper.insertPrice(price);
+	            		try {
+	        				Thread.sleep(1000);
+	        			} catch (InterruptedException e) {
+	        				// TODO Auto-generated catch block
+	        				e.printStackTrace();
+	        			}
 	            		System.out.println("插入成功" + price.getName());
 	            	}
 	            	//  String title = clearfixli.getElementsByTag("a").text();

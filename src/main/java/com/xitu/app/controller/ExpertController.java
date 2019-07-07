@@ -502,7 +502,11 @@ public class ExpertController {
 		//rs.put("list", sources);
 		//rs.put("totalPages", totalPages);
 		//rs.put("totalCount", totalCount);
-		rs = expertService.executeIns(insname.getString("insname"),0, pageSize, "unit",i);
+		if(insname.containsKey("insname")) {
+			rs = expertService.executeIns(insname.getString("insname"),0, pageSize, "unit",i);
+		}else if(insname.containsKey("insname")) {
+			
+		}
 		return R.ok().put("list", rs.get("list")).put("totalPages", rs.get("totalPages")).put("totalCount", rs.get("totalCount"));
     }
     

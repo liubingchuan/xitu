@@ -82,44 +82,39 @@
 			</div>
 		</div>              
 		<div class="yuansNr">
-			<div class="nycontainer">
+			<div class="nycontainer" th:object="${master}">
 				<div class="yuansNrOne">
-					<span>镧</span>Lanthanum
+					<span th:text="*{name}"></span><span th:text="*{enName}" style="font-size: 20px"></span>
 				</div>
 				<div class="clearfix yuansNrTwo">
 					<div class="left yuansNrTwoLf">
 						<div class="yuansNrTwoLfT clearfix">
-							<a href="javascript:;" class="ahover">
+							<a href="javascript:void(0)" id="desca" onclick="sw('desc')" class="ahover">
 								<span>元素描述</span>
 							</a>
-							<a href="javascript:;">
+							<a href="javascript:void(0)" id="historya" onclick="sw('history')">
 								<span>历史介绍</span>
 							</a>
-							<a href="javascript:;">
+							<a href="javascript:void(0)" id="methoda" onclick="sw('method')">
 								<span>制备方法</span>
 							</a>
-							<a href="javascript:;">
+							<a href="javascript:void(0)" id="propa" onclick="sw('prop')">
 								<span>元素性质</span>
 							</a>
-							<a href="javascript:;">
+							<a href="javascript:void(0)" id="othera" onclick="sw('other')">
 								<span>其他</span>
 							</a>
 						</div>
 					    <div class="yuansNrTwoLfB">
-					    	<div class="yuansNrTwoLfBM active">
-					    		镧是一种金属稀土元素，原子序数57，原子量138.9055，元素名来源于希腊文，原意是“隐蔽”。银灰色光泽，质地较软，密度6.174g/cm3，熔点921℃，沸点3457℃；化学性质活泼，暴露于空气中很快失去金属光泽生成一层蓝色的氧化膜，但是它并不能保护金属，继而进一步氧化生成白色的氧化物粉末。能和冷水缓慢作用，易溶于酸，可以多种非金属反应。金属镧一般保存于矿物油或稀有气体中。镧在地壳中的含量为0.00183%，在稀土元素中含量仅次于铈。镧有两种天然同位素：镧139和放射性镧138。
+					    	<div class="yuansNrTwoLfBM active" id="desc" th:text="*{description}">
 					    	</div>
-					    	<div class="yuansNrTwoLfBM">
-					    		1金属稀土元素，原子序数57，原子量138.9055，元素名来源于希腊文，原意是“隐蔽”。银灰色光泽，质地较软，密度6.174g/cm3，熔点921℃，沸点3457℃；化学性质活泼，暴露于空气中很快失去金属光泽生成一层蓝色的氧化膜，但是它并不能保护金属，继而进一步氧化生成白色的氧化物粉末。能和冷水缓慢作用，易溶于酸，可以多种非金属反应。金属镧一般保存于矿物油或稀有气体中。镧在地壳中的含量为0.00183%，在稀土元素中含量仅次于铈。镧有两种天然同位素：镧139和放射性镧138。
+					    	<div class="yuansNrTwoLfBM" id="history" th:text="*{history}">
 					    	</div>
-					    	<div class="yuansNrTwoLfBM">
-					    		镧是一种金属稀土元素，原子序数57，原子量138.9055，元素名来源于希腊文，原意是“隐蔽”。银灰色光泽，质地较软，密度6.174g/cm3，熔点921℃，沸点3457℃；化学性质活泼，暴露于空气中很快失去金属光泽生成一层蓝色的氧化膜，但是它并不能保护金属，继而进一步氧化生成白色的氧化物粉末。能和冷水缓慢作用，易溶于酸，可以多种非金属反应。金属镧一般保存于矿物油或稀有气体中。镧在地壳中的含量为0.00183%，在稀土元素中含量仅次于铈。镧有两种天然同位素：镧139和放射性镧138。
+					    	<div class="yuansNrTwoLfBM" id="method" th:text="*{method}">
 					    	</div>
-					    	<div class="yuansNrTwoLfBM">
-					    		镧是一种金属稀土元素，原子序数57，原子量138.9055，元素名来源于希腊文，原意是“隐蔽”。银灰色光泽，质地较软，密度6.174g/cm3，熔点921℃，沸点3457℃；化学性质活泼，暴露于空气中很快失去金属光泽生成一层蓝色的氧化膜，但是它并不能保护金属，继而进一步氧化生成白色的氧化物粉末。能和冷水缓慢作用，易溶于酸，可以多种非金属反应。金属镧一般保存于矿物油或稀有气体中。镧在地壳中的含量为0.00183%，在稀土元素中含量仅次于铈。镧有两种天然同位素：镧139和放射性镧138。
+					    	<div class="yuansNrTwoLfBM" id="prop" th:text="*{prop}">
 					    	</div>
-					    	<div class="yuansNrTwoLfBM">
-					    		镧是一种金属稀土元素，原子序数57，原子量138.9055，元素名来源于希腊文，原意是“隐蔽”。银灰色光泽，质地较软，密度6.174g/cm3，熔点921℃，沸点3457℃；化学性质活泼，暴露于空气中很快失去金属光泽生成一层蓝色的氧化膜，但是它并不能保护金属，继而进一步氧化生成白色的氧化物粉末。能和冷水缓慢作用，易溶于酸，可以多种非金属反应。金属镧一般保存于矿物油或稀有气体中。镧在地壳中的含量为0.00183%，在稀土元素中含量仅次于铈。镧有两种天然同位素：镧139和放射性镧138。
+					    	<div class="yuansNrTwoLfBM" id="other" >
 					    	</div>
 					    </div>
 					</div>
@@ -128,10 +123,10 @@
 				    		<img th:src="@{/ximages/fenzi.png}" />主要化合物
 				    	</div>
 				    	<div class="yuansNrTwoRtB">
+				    		<!-- <div class="yuansNrTwoRtBM"> -->
 				    		<div class="yuansNrTwoRtBM">
-				    			<span>氧化镧</span>
-				    			<span>氢化镧</span>
-				    			<span>碳酸镧</span>
+				    			<span th:each="slave : ${slaves}" th:text="${slave.name}"></span>
+				    			
 				    		</div>
 				    	</div>
 				    </div>
@@ -150,248 +145,32 @@
 			    			<div class="yslbM">
 			    			<div class="ysLb ysLb1">
 			    				<div class="swiper-container">
-                    <div class="swiper-wrapper">
-	    			 <div class="swiper-slide">
-	    			 	<div class="ysPer">
-	    			 	<a href="#">
-	    			 		<img th:src="@{/ximages/10.png}" />
-	    			 		<p class="ysName">
-	    			 			张永生 
-	    			 		</p>
-	    			 		<p>
-	    			 			中国科学院应用化学 研究所
-	    			 		</p>
-	    			 	</a>
-	    			 	</div>
-	    			 </div>
-	    			 <div class="swiper-slide">
-	    			 	<div class="ysPer">
-	    			 	<a href="#">
-	    			 		<img th:src="@{/ximages/10.png}" />
-	    			 		<p class="ysName">
-	    			 			张永生 
-	    			 		</p>
-	    			 		<p>
-	    			 			中国科学院应用化学 研究所
-	    			 		</p>
-	    			 	</a>
-	    			 	</div>
-	    			 </div>
-	    			 <div class="swiper-slide">
-	    			 	<div class="ysPer">
-	    			 	<a href="#">
-	    			 		<img th:src="@{/ximages/10.png}" />
-	    			 		<p class="ysName">
-	    			 			张永生 
-	    			 		</p>
-	    			 		<p>
-	    			 			中国科学院应用化学 研究所
-	    			 		</p>
-	    			 	</a>
-	    			 	</div>
-	    			 </div>
-	    			 <div class="swiper-slide">
-	    			 	<div class="ysPer">
-	    			 	<a href="#">
-	    			 		<img th:src="@{/ximages/10.png}" />
-	    			 		<p class="ysName">
-	    			 			张永生 
-	    			 		</p>
-	    			 		<p>
-	    			 			中国科学院应用化学 研究所
-	    			 		</p>
-	    			 	</a>
-	    			 	</div>
-	    			 </div>
-	    			 <div class="swiper-slide">
-	    			 	<div class="ysPer">
-	    			 	<a href="#">
-	    			 		<img th:src="@{/ximages/10.png}" />
-	    			 		<p class="ysName">
-	    			 			张永生 
-	    			 		</p>
-	    			 		<p>
-	    			 			中国科学院应用化学 研究所
-	    			 		</p>
-	    			 	</a>
-	    			 	</div>
-	    			 </div>
-	    			 <div class="swiper-slide">
-	    			 	<div class="ysPer">
-	    			 	<a href="#">
-	    			 		<img th:src="@{/ximages/10.png}" />
-	    			 		<p class="ysName">
-	    			 			张永生 
-	    			 		</p>
-	    			 		<p>
-	    			 			中国科学院应用化学 研究所
-	    			 		</p>
-	    			 	</a>
-	    			 	</div>
-	    			 </div>
-	    			 <div class="swiper-slide">
-	    			 	<div class="ysPer">
-	    			 	<a href="#">
-	    			 		<img th:src="@{/ximages/10.png}" />
-	    			 		<p class="ysName">
-	    			 			张永生 
-	    			 		</p>
-	    			 		<p>
-	    			 			中国科学院应用化学 研究所
-	    			 		</p>
-	    			 	</a>
-	    			 	</div>
-	    			 </div>
-	    			 <div class="swiper-slide">
-	    			 	<div class="ysPer">
-	    			 	<a href="#">
-	    			 		<img th:src="@{/ximages/10.png}" />
-	    			 		<p class="ysName">
-	    			 			张永生 
-	    			 		</p>
-	    			 		<p>
-	    			 			中国科学院应用化学 研究所
-	    			 		</p>
-	    			 	</a>
-	    			 	</div>
-	    			 </div>
-	    			 <div class="swiper-slide">
-	    			 	<div class="ysPer">
-	    			 	<a href="#">
-	    			 		<img th:src="@{/ximages/10.png}" />
-	    			 		<p class="ysName">
-	    			 			张永生 
-	    			 		</p>
-	    			 		<p>
-	    			 			中国科学院应用化学 研究所
-	    			 		</p>
-	    			 	</a>
-	    			 	</div>
-	    			 </div>
-                    </div>
-	    		</div>
-			    			    <div class="swiper-button-next"></div>
-                                <div class="swiper-button-prev"></div>
-                                <script>
-    var swiper = new Swiper('.ysLb1 .swiper-container', {
-      slidesPerView:8,
-      spaceBetween: 12,
-     navigation: {
-								nextEl: '.ysLb1 .swiper-button-next',
-								prevEl: '.ysLb1 .swiper-button-prev',
-							},
-    });
-    
-  </script>
-			    			</div>
+                    				<div class="swiper-wrapper" id="expertinfo">
+	    							</div>
+			    			    	<div class="swiper-button-next"></div>
+                                	<div class="swiper-button-prev"></div>
+								                                <script>
+								    var swiper = new Swiper('.ysLb1 .swiper-container', {
+								      slidesPerView:8,
+								      spaceBetween: 12,
+								     navigation: {
+																nextEl: '.ysLb1 .swiper-button-next',
+																prevEl: '.ysLb1 .swiper-button-prev',
+															},
+								    });
+								    
+								  </script>
+			    				</div>
 			    		    </div>
-			    		</div>
+			    			</div>
+			    			</div>
+			    		
+			    		
+			    		
 			    	    <div class="yuansNrThreeBM">
 			    			<div class="yslbM">
 			    			<div class="ysLb ysLb2">
 			    				<div class="swiper-container">
-                    <div class="swiper-wrapper">
-	    			 <div class="swiper-slide">
-	    			 	<div class="ysPer">
-	    			 	<a href="#">
-	    			 		<img th:src="@{/ximages/10.png}" />
-	    			 		<p class="ysName">
-	    			 			张永生 
-	    			 		</p>
-	    			 		<p>
-	    			 			中国科学院应用化学 研究所
-	    			 		</p>
-	    			 	</a>
-	    			 	</div>
-	    			 </div>
-	    			 <div class="swiper-slide">
-	    			 	<div class="ysPer">
-	    			 	<a href="#">
-	    			 		<img th:src="@{/ximages/10.png}" />
-	    			 		<p class="ysName">
-	    			 			张永生 
-	    			 		</p>
-	    			 		<p>
-	    			 			中国科学院应用化学 研究所
-	    			 		</p>
-	    			 	</a>
-	    			 	</div>
-	    			 </div>
-	    			 <div class="swiper-slide">
-	    			 	<div class="ysPer">
-	    			 	<a href="#">
-	    			 		<img th:src="@{/ximages/10.png}" />
-	    			 		<p class="ysName">
-	    			 			张永生 
-	    			 		</p>
-	    			 		<p>
-	    			 			中国科学院应用化学 研究所
-	    			 		</p>
-	    			 	</a>
-	    			 	</div>
-	    			 </div>
-	    			 <div class="swiper-slide">
-	    			 	<div class="ysPer">
-	    			 	<a href="#">
-	    			 		<img th:src="@{/ximages/10.png}" />
-	    			 		<p class="ysName">
-	    			 			张永生 
-	    			 		</p>
-	    			 		<p>
-	    			 			中国科学院应用化学 研究所
-	    			 		</p>
-	    			 	</a>
-	    			 	</div>
-	    			 </div>
-	    			 <div class="swiper-slide">
-	    			 	<div class="ysPer">
-	    			 	<a href="#">
-	    			 		<img th:src="@{/ximages/10.png}" />
-	    			 		<p class="ysName">
-	    			 			张永生 
-	    			 		</p>
-	    			 		<p>
-	    			 			中国科学院应用化学 研究所
-	    			 		</p>
-	    			 	</a>
-	    			 	</div>
-	    			 </div>
-	    			 <div class="swiper-slide">
-	    			 	<div class="ysPer">
-	    			 	<a href="#">
-	    			 		<img th:src="@{/ximages/10.png}" />
-	    			 		<p class="ysName">
-	    			 			张永生 
-	    			 		</p>
-	    			 		<p>
-	    			 			中国科学院应用化学 研究所
-	    			 		</p>
-	    			 	</a>
-	    			 	</div>
-	    			 </div>
-	    			 <div class="swiper-slide">
-	    			 	<div class="ysPer">
-	    			 	<a href="#">
-	    			 		<img th:src="@{/ximages/10.png}" />
-	    			 		<p class="ysName">
-	    			 			张永生 
-	    			 		</p>
-	    			 		<p>
-	    			 			中国科学院应用化学 研究所
-	    			 		</p>
-	    			 	</a>
-	    			 	</div>
-	    			 </div>
-	    			 <div class="swiper-slide">
-	    			 	<div class="ysPer">
-	    			 	<a href="#">
-	    			 		
-	    			 		<img th:src="@{/ximages/11.png}" />
-	    			 	</a>
-	    			 	</div>
-	    			 </div>
-	    			 
-                    </div>
 	    		</div>
 			    			    <div class="swiper-button-next"></div>
                                 <div class="swiper-button-prev"></div>
@@ -409,268 +188,30 @@
 			    			</div>
 			    		    </div>
 			    		</div>
-			    	</div>
+			    	
 			    </div>
 			    <div class="yuansNrThree">
 			    	<div class="yuansNrThreeT clearfix">
-			    		<a href="javascript:;" class="ahover">
+			    		<a href="javascript:void(0)" onclick="p2p('patent')" class="ahover" id="patent">
 			    			<span>相关专利</span>
 			    		</a>
-			    		<a href="javascript:;">
+			    		<a href="javascript:void(0)" onclick="p2p('paper')" id="paper">
 			    			<span>相关论文</span>
 			    		</a>
 			    	</div>
 			    	<div class="yuansNrThreeB">
-			    		<div class="yuansNrThreeBM active">
+			    		<div class="yuansNrThreeBM active" id="patentContent">
 			    			<div class="xiangguan">
-			    				<ul>
-			    					<li>
-			    						<div class="xianguanTl">
-			    							<a href="#">
-			    								Conventional pluripotency markers are unspecific for bovine embryonic-derived cell-lines.Big data: The next frontier for innovation, competition, and productivity
-			    							</a>
-			    						</div>
-			    						<div class="xianguanB">
-			    							<span>
-			    								专利权人：Briefings in bioinformatics
-			    							</span>
-			    							<span>
-			    								优先权年：2017年12月1日
-			    							</span>
-			    						</div>
-			    					</li>
-			    					<li>
-			    						<div class="xianguanTl">
-			    							<a href="#">
-			    								Conventional pluripotency markers are unspecific for bovine embryonic-derived cell-lines.Big data: The next frontier for innovation, competition, and productivity
-			    							</a>
-			    						</div>
-			    						<div class="xianguanB">
-			    							<span>
-			    								专利权人：Briefings in bioinformatics
-			    							</span>
-			    							<span>
-			    								优先权年：2017年12月1日
-			    							</span>
-			    						</div>
-			    					</li>
-			    					<li>
-			    						<div class="xianguanTl">
-			    							<a href="#">
-			    								Conventional pluripotency markers are unspecific for bovine embryonic-derived cell-lines.Big data: The next frontier for innovation, competition, and productivity
-			    							</a>
-			    						</div>
-			    						<div class="xianguanB">
-			    							<span>
-			    								专利权人：Briefings in bioinformatics
-			    							</span>
-			    							<span>
-			    								优先权年：2017年12月1日
-			    							</span>
-			    						</div>
-			    					</li>
-			    					<li>
-			    						<div class="xianguanTl">
-			    							<a href="#">
-			    								Conventional pluripotency markers are unspecific for bovine embryonic-derived cell-lines.Big data: The next frontier for innovation, competition, and productivity
-			    							</a>
-			    						</div>
-			    						<div class="xianguanB">
-			    							<span>
-			    								专利权人：Briefings in bioinformatics
-			    							</span>
-			    							<span>
-			    								优先权年：2017年12月1日
-			    							</span>
-			    						</div>
-			    					</li>
-			    					<li>
-			    						<div class="xianguanTl">
-			    							<a href="#">
-			    								Conventional pluripotency markers are unspecific for bovine embryonic-derived cell-lines.Big data: The next frontier for innovation, competition, and productivity
-			    							</a>
-			    						</div>
-			    						<div class="xianguanB">
-			    							<span>
-			    								专利权人：Briefings in bioinformatics
-			    							</span>
-			    							<span>
-			    								优先权年：2017年12月1日
-			    							</span>
-			    						</div>
-			    					</li>
-			    					<li>
-			    						<div class="xianguanTl">
-			    							<a href="#">
-			    								Conventional pluripotency markers are unspecific for bovine embryonic-derived cell-lines.Big data: The next frontier for innovation, competition, and productivity
-			    							</a>
-			    						</div>
-			    						<div class="xianguanB">
-			    							<span>
-			    								专利权人：Briefings in bioinformatics
-			    							</span>
-			    							<span>
-			    								优先权年：2017年12月1日
-			    							</span>
-			    						</div>
-			    					</li>
-			    					<li>
-			    						<div class="xianguanTl">
-			    							<a href="#">
-			    								Conventional pluripotency markers are unspecific for bovine embryonic-derived cell-lines.Big data: The next frontier for innovation, competition, and productivity
-			    							</a>
-			    						</div>
-			    						<div class="xianguanB">
-			    							<span>
-			    								专利权人：Briefings in bioinformatics
-			    							</span>
-			    							<span>
-			    								优先权年：2017年12月1日
-			    							</span>
-			    						</div>
-			    					</li>
-			    					<li>
-			    						<div class="xianguanTl">
-			    							<a href="#">
-			    								Conventional pluripotency markers are unspecific for bovine embryonic-derived cell-lines.Big data: The next frontier for innovation, competition, and productivity
-			    							</a>
-			    						</div>
-			    						<div class="xianguanB">
-			    							<span>
-			    								专利权人：Briefings in bioinformatics
-			    							</span>
-			    							<span>
-			    								优先权年：2017年12月1日
-			    							</span>
-			    						</div>
-			    					</li>
+			    				<ul id="patentInfo">
+			    					
 			    				</ul>
 			    				
 			    			</div>
 			    		</div>
-			    	    <div class="yuansNrThreeBM">
+			    	    <div class="yuansNrThreeBM" id="paperContent">
 			    			<div class="xiangguan">
-			    				<ul>
-			    					<li>
-			    						<div class="xianguanTl">
-			    							<a href="#">
-			    								pluripotency markers are unspecific for bovine embryonic-derived cell-lines.Big data: The next frontier for innovation, competition, and productivity
-			    							</a>
-			    						</div>
-			    						<div class="xianguanB">
-			    							<span>
-			    								专利权人：Briefings in bioinformatics
-			    							</span>
-			    							<span>
-			    								优先权年：2017年12月1日
-			    							</span>
-			    						</div>
-			    					</li>
-			    					<li>
-			    						<div class="xianguanTl">
-			    							<a href="#">
-			    								Conventional pluripotency markers are unspecific for bovine embryonic-derived cell-lines.Big data: The next frontier for innovation, competition, and productivity
-			    							</a>
-			    						</div>
-			    						<div class="xianguanB">
-			    							<span>
-			    								专利权人：Briefings in bioinformatics
-			    							</span>
-			    							<span>
-			    								优先权年：2017年12月1日
-			    							</span>
-			    						</div>
-			    					</li>
-			    					<li>
-			    						<div class="xianguanTl">
-			    							<a href="#">
-			    								Conventional pluripotency markers are unspecific for bovine embryonic-derived cell-lines.Big data: The next frontier for innovation, competition, and productivity
-			    							</a>
-			    						</div>
-			    						<div class="xianguanB">
-			    							<span>
-			    								专利权人：Briefings in bioinformatics
-			    							</span>
-			    							<span>
-			    								优先权年：2017年12月1日
-			    							</span>
-			    						</div>
-			    					</li>
-			    					<li>
-			    						<div class="xianguanTl">
-			    							<a href="#">
-			    								Conventional pluripotency markers are unspecific for bovine embryonic-derived cell-lines.Big data: The next frontier for innovation, competition, and productivity
-			    							</a>
-			    						</div>
-			    						<div class="xianguanB">
-			    							<span>
-			    								专利权人：Briefings in bioinformatics
-			    							</span>
-			    							<span>
-			    								优先权年：2017年12月1日
-			    							</span>
-			    						</div>
-			    					</li>
-			    					<li>
-			    						<div class="xianguanTl">
-			    							<a href="#">
-			    								Conventional pluripotency markers are unspecific for bovine embryonic-derived cell-lines.Big data: The next frontier for innovation, competition, and productivity
-			    							</a>
-			    						</div>
-			    						<div class="xianguanB">
-			    							<span>
-			    								专利权人：Briefings in bioinformatics
-			    							</span>
-			    							<span>
-			    								优先权年：2017年12月1日
-			    							</span>
-			    						</div>
-			    					</li>
-			    					<li>
-			    						<div class="xianguanTl">
-			    							<a href="#">
-			    								Conventional pluripotency markers are unspecific for bovine embryonic-derived cell-lines.Big data: The next frontier for innovation, competition, and productivity
-			    							</a>
-			    						</div>
-			    						<div class="xianguanB">
-			    							<span>
-			    								专利权人：Briefings in bioinformatics
-			    							</span>
-			    							<span>
-			    								优先权年：2017年12月1日
-			    							</span>
-			    						</div>
-			    					</li>
-			    					<li>
-			    						<div class="xianguanTl">
-			    							<a href="#">
-			    								Conventional pluripotency markers are unspecific for bovine embryonic-derived cell-lines.Big data: The next frontier for innovation, competition, and productivity
-			    							</a>
-			    						</div>
-			    						<div class="xianguanB">
-			    							<span>
-			    								专利权人：Briefings in bioinformatics
-			    							</span>
-			    							<span>
-			    								优先权年：2017年12月1日
-			    							</span>
-			    						</div>
-			    					</li>
-			    					<li>
-			    						<div class="xianguanTl">
-			    							<a href="#">
-			    								Conventional pluripotency markers are unspecific for bovine embryonic-derived cell-lines.Big data: The next frontier for innovation, competition, and productivity
-			    							</a>
-			    						</div>
-			    						<div class="xianguanB">
-			    							<span>
-			    								专利权人：Briefings in bioinformatics
-			    							</span>
-			    							<span>
-			    								优先权年：2017年12月1日
-			    							</span>
-			    						</div>
-			    					</li>
+			    				<ul id="paperInfo">
+			    					
 			    				</ul>
 			    				
 			    			</div>
@@ -686,14 +227,166 @@
 		<div th:replace="footer :: myfooter"></div>
 		
 		<script type="text/javascript" th:src="@{/js/main.js}" ></script>
-		<script type="text/javascript" th:inline="none">
+		<script type="text/javascript" th:inline="javascript">
+		var name = [[${name}]];
 		$(document).ready(function () {
 		    if($.cookie("role")!=null && $.cookie("role")==="普通用户"){
 				$("#backgroud").css('display','none'); 
 			}
 			$("#logoinName").html($.cookie("nickName"));
 		    $("#headImg").attr("src", $.cookie("headImg"));
+		    getPatent();
 		});
+		
+		
+		function sw(name){
+			$("#desca").removeClass("ahover");
+			$("#historya").removeClass("ahover");
+			$("#methoda").removeClass("ahover");
+			$("#propa").removeClass("ahover");
+			$("#othera").removeClass("ahover");
+			$("#desc").removeClass("active");
+			$("#history").removeClass("active");
+			$("#method").removeClass("active");
+			$("#prop").removeClass("active");
+			$("#other").removeClass("active");
+			if(name=="desc") {
+				$("#desca").addClass("ahover");
+				$("#desc").addClass("active");
+			}else if(name=="history") {
+				$("#historya").addClass("ahover");
+				$("#history").addClass("active");
+			}else if(name=="method") {
+				$("#methoda").addClass("ahover");
+				$("#method").addClass("active");
+			}else if(name=="prop") {
+				$("#propa").addClass("ahover");
+				$("#prop").addClass("active");
+			}else if(name=="other") {
+				$("#othera").addClass("ahover");
+				$("#other").addClass("active");
+			}
+		}
+		
+		function p2p(type) {
+			$("#patent").removeClass("ahover");
+			$("#paper").removeClass("ahover");
+			$("#patentContent").removeClass("active");
+			$("#paperContent").removeClass("active");
+			if(type=="patent") {
+				$("#patent").addClass("ahover");
+				$("#patentContent").addClass("active");
+			}else {
+				$("#paper").addClass("ahover");
+				$("#paperContent").addClass("active");
+			}
+		}
+		
+		function getPatent() { 
+			var param = {
+					'name' : name
+				};
+				 $.ajax({
+					url : "/yuansu/xiangqing/related",
+					data : JSON.stringify(param),
+					dataType : 'json',
+					type : 'post',
+					contentType: "application/json; charset=utf-8",
+					success : function(data) {
+						let items = data.patentList;
+						if(JSON.stringify(items) === '[]') {
+							return;
+						}
+						$("#patentInfo").html('');
+						$.each(items,function(index,value){
+							let li = $('<li></li>');
+							let div1 = $('<div class=\"xianguanTl\"></div>');
+							let a1 = $('<a href=\"/patent/get?id=' + value.id + '\">'+ value.title + '</a>');
+							div1.append(a1);
+							let div2 = $('<div class=\"xianguanB\"></div>');
+							let span1 = $('<span>专利权人：' + value.person+ '</span>');
+							let span2 = $('<span>优先权年：' + value.piroryear+ '</span>');
+							div2.append(span1);
+							div2.append(span2);
+							//let div3 = $('<div class=\"jiansuoLiText\"></div>');
+							//let span3 = $('<span class=\"jiansuoLiTextSpan\">' + value.subject+ '</span>');
+							//let a2 = $('<a href=\"javascript:;\" class=\"jiansuoLImore\">展开更多</a>');
+							//div3.append(span3);
+							//div3.append(a2);
+// 							input.attr("id",index);
+// 							input.attr("value",value);
+// 							let label = $('<label></label>');
+// 							label.attr("for",index);
+// 							label.text(" " + value)
+							li.append(div1);
+							li.append(div2);
+							//li.append(div3);
+							$("#patentInfo").append(li);
+						});
+						items = data.paperList;
+						if(JSON.stringify(items) === '[]') {
+							return;
+						}
+						$("#paperInfo").html('');
+						$.each(items,function(index,value){
+							let li = $('<li></li>');
+							let div1 = $('<div class=\"xianguanTl\"></div>');
+							let a1 = $('<a href=\"/paper/get?id=' + value.id + '\">'+ value.title + '</a>');
+							div1.append(a1);
+							let div2 = $('<div class=\"xianguanB\"></div>');
+							let span1 = $('<span>出处：' + value.journal+ '</span>');
+							let span2 = $('<span>出版年：' + value.year+ '</span>');
+							div2.append(span1);
+							div2.append(span2);
+							//let div3 = $('<div class=\"jiansuoLiText\"></div>');
+							//let span3 = $('<span class=\"jiansuoLiTextSpan\">' + value.subject+ '</span>');
+							//let a2 = $('<a href=\"javascript:;\" class=\"jiansuoLImore\">展开更多</a>');
+							//div3.append(span3);
+							//div3.append(a2);
+// 							input.attr("id",index);
+// 							input.attr("value",value);
+// 							let label = $('<label></label>');
+// 							label.attr("for",index);
+// 							label.text(" " + value)
+							li.append(div1);
+							li.append(div2);
+							//li.append(div3);
+							$("#paperInfo").append(li);
+						});
+						//var totalPages = data.totalPages;
+						//var totalCount = data.totalCount;
+						//var pageIndex = data.pageIndex;
+						//if(totalCount > 0){
+							/* var pagecontent = "<span>";
+							pagecontent += "<span>共 "+totalCount+" 条专利信息</span>";
+							
+							if(pageIndex+1 != 1){
+								var px = pageIndex-1;
+								pagecontent += "<a href=\"javascript:getPatent(0)\"><首页</a>";
+								pagecontent += "<a href=\"javascript:getPatent("+px+")\"><上一页</a>";
+							}
+							if(pageIndex+1 != totalPages){
+								var px = pageIndex+1;
+								var pt = totalPages-1;
+								//pagecontent += "<a href=\"javascript:getPatent("+px+")\">下一页<em>></em></a>";
+								//pagecontent += "<a href=\"javascript:getPatent("+pt+")\">尾页<em>></em></a>";
+								if(pageIndex < 999){
+									pagecontent += "<a href=\"javascript:getPatent("+px+")\">下一页<em>></em></a>";
+								}
+								if(totalPages < 1000){
+									pagecontent += "<a href=\"javascript:getPatent("+pt+")\">尾页<em>></em></a>";
+								}
+								if(totalPages >= 1000){
+									pagecontent += "<a href=\"javascript:getPatent("+999+")\">尾页<em>></em></a>";
+								}
+							}
+							pagecontent+="</span>";
+							$("#patentsqPage").html(pagecontent); */
+						}
+						
+				}); 
+		}
+		
 		function search(){
 			    	var uri = '';
 			    	/* var entrust = ''
