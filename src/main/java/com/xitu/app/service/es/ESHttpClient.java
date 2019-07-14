@@ -355,26 +355,26 @@ public class ESHttpClient implements Serializable {
     }
     	
 	 public static JSONObject conexpertESIns(String conn){
-	    	ESHttpClient indexer = new ESHttpClient("45.77.86.209:9200", "expert","et");
+	    	ESHttpClient indexer = new ESHttpClient("39.96.82.217:9200", "expert","et");
 	    	ESHttpClient.debug = true;
 	        JSONObject json = indexer.execute(conn);
 	        return json;
 	    }
 	 public static JSONObject conpatentESIns(String conn){
-		ESHttpClient indexer = new ESHttpClient("45.77.86.209:9200", "patent","pt");
+		ESHttpClient indexer = new ESHttpClient("39.96.82.217:9200", "patent","pt");
 		ESHttpClient.debug = true;
 	    JSONObject json = indexer.execute(conn);
 	    return json;
 	}
 	 public static JSONObject conpaperESIns(String conn){
-		ESHttpClient indexer = new ESHttpClient("45.77.86.209:9200", "paper","pr");
+		ESHttpClient indexer = new ESHttpClient("39.96.82.217:9200", "paper","pr");
 		ESHttpClient.debug = true;
 	    JSONObject json = indexer.execute(conn);
 	    return json;
 	}
 	 
 	 public static JSONObject conjianceESIns(String conn){
-			ESHttpClient indexer = new ESHttpClient("45.77.86.209:9200", "jianceyiyao","jc");
+			ESHttpClient indexer = new ESHttpClient("39.96.82.217:9200", "jiance","jc");
 			ESHttpClient.debug = true;
 		    JSONObject json = indexer.execute(conn);
 		    return json;

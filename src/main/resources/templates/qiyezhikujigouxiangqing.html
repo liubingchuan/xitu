@@ -181,6 +181,7 @@
 		<script type="text/javascript" th:src="@{/js/main.js}" ></script>
 		<script type="text/javascript" th:inline="javascript">
 		var namebieming = [[${namebieming}]];
+		var name= [[${name}]];
 			var frontendId =  [[${frontendId}]];
 			$(document).ready(function () {
 				$("#frontendImg").attr('src','/file/fileDownload?filename='+frontendId);
@@ -425,7 +426,7 @@
 				 
 				 
 				var param = {
-						'insname' : namebieming,
+						'insname' : name,
 						'pageIndex' : index
 					};
 					 $.ajax({

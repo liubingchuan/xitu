@@ -134,6 +134,7 @@ public class OrgController {
 		if(id != null) {
 			org = orgRepository.findById(id).get();
 			String name = org.getName();
+			model.addAttribute("name", name);
 			String bieming = null;
 			List<String> alias = org.getAlias();
 			if (alias != null && alias.size() > 0) {
