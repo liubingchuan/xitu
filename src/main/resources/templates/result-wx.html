@@ -291,11 +291,11 @@
 		            				</a>
 		            			</div>
 		            			<div class="jiansuoLiTag">
-		            				<span th:text="'出处：' + ${paper.journal}"></span>
-		            				<span th:text="'出版年：' + ${paper.year}"></span>
+		            				<span th:if="${paper.journal != null && paper.journal != ''}" th:text="'出处：' + ${paper.journal}"></span>
+		            				<span th:if="${paper.year != null && paper.year != ''}" th:text="'出版年：' + ${paper.year}"></span>
 		            			</div>
 		            			<div class="jiansuoLiText">
-		            				<span class="jiansuoLiTextSpan" th:utext="${paper.subject}">
+		            				<span th:if="${paper.subject != null && paper.subject != ''}" class="jiansuoLiTextSpan" th:utext="${paper.subject}">
 		            				</span>
 		            				<a href="javascript:;" class="jiansuoLImore">
 		            					展开更多
