@@ -94,11 +94,71 @@ public class YuansuController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value = "yuansu/xiangqing/related", method = RequestMethod.POST,consumes = "application/json")
+	@RequestMapping(value = "yuansu/xiangqing/related/patents", method = RequestMethod.POST,consumes = "application/json")
+	public R relatedPatents(@RequestBody JSONObject instance, Model model) {
+		ThreadLocalUtil.set(model);
+		int pageIndex = (int) instance.get("pageIndex");
+		int pageSize = 100;
+		int i = 0;//0代表专利；1代表论文；2代表项目；3代表监测
+		Set<String> rens = new TreeSet<String>();
+		Set<String> units = new TreeSet<String>();
+		patentService.execute(pageIndex, pageSize, i,instance.getString("name"));
+		Map<String, Object> map = model.asMap();
+		List<Expert> experts = new ArrayList<Expert>();
+		List<Org> orgs = new ArrayList<Org>();
+		JSONArray creators = JsonUtil.parseArray(map.get("creator").toString());
+		JSONArray persons = JsonUtil.parseArray(map.get("person").toString());
+		for(int j=0;j<creators.size();j++) {
+			JSONObject obj = creators.getJSONObject(j);
+			rens.add(obj.getString("key"));
+		}
+		for(int j=0;j<persons.size();j++) {
+			JSONObject obj = persons.getJSONObject(j);
+			units.add(obj.getString("key"));
+		}
+		JSONArray patentList = JsonUtil.parseArray(model.asMap().get("list").toString());
+		System.out.println(patentList.toJSONString());
+		paperService.execute(pageIndex, pageSize, i, instance.getString("name"));
+		map = model.asMap();
+		JSONArray authors = JsonUtil.parseArray(map.get("author").toString());
+		JSONArray institutions = JsonUtil.parseArray(map.get("institution").toString());
+		for(int j=0;j<authors.size();j++) {
+			JSONObject obj = authors.getJSONObject(j);
+			rens.add(obj.getString("key"));
+		}
+		for(int j=0;j<institutions.size();j++) {
+			JSONObject obj = institutions.getJSONObject(j);
+			units.add(obj.getString("key"));
+		}
+		JSONArray paperList = JsonUtil.parseArray(model.asMap().get("list").toString());
+		
+		//创建in查询builder
+		BoolQueryBuilder inBuilder = QueryBuilders.boolQuery();
+		for(String ren: rens) {
+			inBuilder.should(QueryBuilders.matchQuery("name", ren));
+		}
+		SearchQuery searchQuery = new NativeSearchQueryBuilder()
+				.withQuery(inBuilder).build();
+		experts = expertRepository.search(searchQuery).getContent();
+		
+		//创建in查询builder
+		BoolQueryBuilder inBuilderOrg = QueryBuilders.boolQuery();
+		for(String unit: units) {
+			inBuilderOrg.should(QueryBuilders.matchQuery("name", unit));
+		}
+		SearchQuery searchQueryOrg = new NativeSearchQueryBuilder()
+				.withQuery(inBuilderOrg).build();
+		orgs = orgRepository.search(searchQueryOrg).getContent();
+		ThreadLocalUtil.remove();		
+		return R.ok().put("patentList", patentList).put("paperList", paperList).put("experts", experts).put("orgs", orgs);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "yuansu/xiangqing/related/papers", method = RequestMethod.POST,consumes = "application/json")
 	public R related(@RequestBody JSONObject instance, Model model) {
 		ThreadLocalUtil.set(model);
-		int pageIndex = 0;
-		int pageSize = 50;
+		int pageIndex = (int) instance.get("pageIndex");
+		int pageSize = 10;
 		int i = 0;//0代表专利；1代表论文；2代表项目；3代表监测
 		Set<String> rens = new TreeSet<String>();
 		Set<String> units = new TreeSet<String>();
@@ -165,7 +225,7 @@ public class YuansuController {
         Row row = null;
         List<Map<String,String>> list = null;
         String cellData = null;
-        String filePath = "/Users/liubingchuan/Desktop/abc.xlsx";
+        String filePath = "/Users/liubingchuan/Desktop/abcdefg.xlsx";
         wb = readExcel(filePath);
         if(wb != null){
             //用来存放表中数据

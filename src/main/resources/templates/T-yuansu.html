@@ -188,6 +188,9 @@
 			    				<ul id="patentInfo">
 			    					
 			    				</ul>
+			    				<div class="sqPage" id="patentsqPage">
+					            	 
+					            </div>
 			    				
 			    			</div>
 			    		</div>
@@ -279,12 +282,13 @@
 			}
 		}
 		
-		function getPatent() { 
+		function getPatent(index) { 
 			var param = {
-					'name' : name
+					'name' : name,
+					'pageIndex' : index
 				};
 				 $.ajax({
-					url : "/yuansu/xiangqing/related",
+					url : "/yuansu/xiangqing/related/patents",
 					data : JSON.stringify(param),
 					dataType : 'json',
 					type : 'post',
@@ -309,6 +313,38 @@
 							li.append(div2);
 							$("#patentInfo").append(li);
 						});
+						var totalPages = data.totalPages;
+						var totalCount = data.totalCount;
+						var pageIndex = data.pageIndex;
+						if(totalCount > 0){
+							var pagecontent = "<span>";
+							pagecontent += "<span>共 "+totalCount+" 条专利信息</span>";
+							
+							if(pageIndex+1 != 1){
+								var px = pageIndex-1;
+								pagecontent += "<a href=\"javascript:getPatent(0)\"><首页</a>";
+								pagecontent += "<a href=\"javascript:getPatent("+px+")\"><上一页</a>";
+							}
+							if(pageIndex+1 != totalPages){
+								var px = pageIndex+1;
+								var pt = totalPages-1;
+								//pagecontent += "<a href=\"javascript:getPatent("+px+")\">下一页<em>></em></a>";
+								//pagecontent += "<a href=\"javascript:getPatent("+pt+")\">尾页<em>></em></a>";
+								if(pageIndex < 999){
+									pagecontent += "<a href=\"javascript:getPatent("+px+")\">下一页<em>></em></a>";
+								}
+								if(totalPages < 1000){
+									pagecontent += "<a href=\"javascript:getPatent("+pt+")\">尾页<em>></em></a>";
+								}
+								if(totalPages >= 1000){
+									pagecontent += "<a href=\"javascript:getPatent("+999+")\">尾页<em>></em></a>";
+								}
+							}
+							pagecontent+="</span>";
+							$("#patentsqPage").html(pagecontent);
+						}
+						
+						
 						items = data.paperList;
 						if(JSON.stringify(items) === '[]') {
 							return;
