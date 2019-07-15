@@ -30,6 +30,10 @@ public class Org implements Serializable{
 	@Field(type=FieldType.Keyword)
 	private List<String> area;  // 研究领域 
 	
+	@CrossQuery
+	@Field(type=FieldType.Keyword)
+	private List<String> tags;  // tags 
+	
 	@AggQuery
 	@SingleQuery
 	@Field(type=FieldType.Keyword)
@@ -199,6 +203,12 @@ public class Org implements Serializable{
 	}
 	public void setFrontendSize(String frontendSize) {
 		this.frontendSize = frontendSize;
+	}
+	public List<String> getTags() {
+		return tags;
+	}
+	public void setTags(List<String> tags) {
+		this.tags = tags;
 	}
 	
 	

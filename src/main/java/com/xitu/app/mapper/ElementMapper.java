@@ -33,6 +33,12 @@ public interface ElementMapper {
 	@Select("select * from element_master where name = #{name} limit 1")
 	ElementMaster selectMasterByName(@Param("name") String name);
 	
+	@Select("select * from element_master")
+	List<ElementMaster> selectAllMasters();
+	
+	@Select("select * from element_slave")
+	List<ElementSlave> selectAllSlaves();
+	
 	@Select("select * from element_slave where name = #{name} limit 1")
 	ElementSlave selectSlaveByName(@Param("name") String name);
 	

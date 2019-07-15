@@ -199,7 +199,9 @@
 			    				<ul id="paperInfo">
 			    					
 			    				</ul>
-			    				
+			    				<div class="sqPage" id="papersqPage">
+					            	 
+					            </div>
 			    			</div>
 			    		</div>
 			    	</div>
@@ -221,7 +223,10 @@
 			}
 			$("#logoinName").html($.cookie("nickName"));
 		    $("#headImg").attr("src", $.cookie("headImg"));
-		    getPatent();
+		    getExperts(0);
+		    getPatent(0);
+		    getPaper(0);
+		    getOrg(0);
 		});
 		
 		
@@ -344,105 +349,183 @@
 							$("#patentsqPage").html(pagecontent);
 						}
 						
+						}
 						
-						items = data.paperList;
+				}); 
+		}
+		
+		function getPaper(index) { 
+			var param = {
+					'name' : name,
+					'pageIndex' : index
+				};
+				 $.ajax({
+					url : "/yuansu/xiangqing/related/papers",
+					data : JSON.stringify(param),
+					dataType : 'json',
+					type : 'post',
+					contentType: "application/json; charset=utf-8",
+					success : function(data) {
+						let items = data.paperList;
 						if(JSON.stringify(items) === '[]') {
 							return;
 						}
 						$("#paperInfo").html('');
-						$.each(items,function(index,value){
-							let li = $('<li></li>');
-							let div1 = $('<div class=\"xianguanTl\"></div>');
-							let a1 = $('<a href=\"/paper/get?id=' + value.id + '\">'+ value.title + '</a>');
-							div1.append(a1);
-							let div2 = $('<div class=\"xianguanB\"></div>');
-							let span1 = $('<span>出处：' + value.journal+ '</span>');
-							let span2 = $('<span>出版年：' + value.year+ '</span>');
-							div2.append(span1);
-							div2.append(span2);
-							li.append(div1);
-							li.append(div2);
-							$("#paperInfo").append(li);
-						});
-						items = data.experts;
-						if(JSON.stringify(items) === '[]') {
-							return;
-						}
-						
-						$("#expertinfo").html('');
-						$.each(items,function(index,value){
-							let div1 = $('<div class=\"swiper-slide\"></div>');
-							let div2 = $('<div class=\"ysPer\"></div>');
-							let a2 = $('<a href=\"/expert/get?front=0&id=' + value.id + '\"></a>');
-							let img = $('<img src=\"/images/rencai.png\" />');
-							if(value.frontend !=null && value.frontend != '' ){
-								img = $('<img src=\"/file/fileDownload?filename='+value.frontend+'\" />');
-							}
+			            $.each(items,function(index,value){
+			              let li = $('<li></li>');
+			              let div1 = $('<div class=\"xianguanTl\"></div>');
+			              let a1 = $('<a href=\"/paper/get?id=' + value.id + '\">'+ value.title + '</a>');
+			              div1.append(a1);
+			              let div2 = $('<div class=\"xianguanB\"></div>');
+			              let span1 = $('<span>出处：' + value.journal+ '</span>');
+			              let span2 = $('<span>出版年：' + value.year+ '</span>');
+			              div2.append(span1);
+			              div2.append(span2);
+			              li.append(div1);
+			              li.append(div2);
+			              $("#paperInfo").append(li);
+			            });
+						var totalPages = data.totalPages;
+						var totalCount = data.totalCount;
+						var pageIndex = data.pageIndex;
+						if(totalCount > 0){
+							var pagecontent = "<span>";
+							pagecontent += "<span>共 "+totalCount+" 条论文信息</span>";
 							
-							let p1 = $('<p class=\"ysName\">' + value.name+ '</p>');
-							let p2 = $('<p>' + value.duty+ '</p>');
-							a2.append(img);
-							a2.append(p1);
-							a2.append(p2);
-							div2.append(a2);
-							div1.append(div2);
-							$("#expertinfo").append(div1);
-						});
-						
-						if(items.length > 5){
-							document.getElementById("next").style="display:block";
-							document.getElementById("prev").style="display:block";
-						}
-						var swiper = new Swiper('.ysLb1 .swiper-container', {
-							slidesPerView:5,
-							spaceBetween: 18,
-							navigation: {
-								nextEl: '.ysLb1 .swiper-button-next',
-								prevEl: '.ysLb1 .swiper-button-prev',
-							},
-						});
-						
-						
-						items = data.orgs;
-						if(JSON.stringify(items) === '[]') {
-							return;
-						}
-						$("#orginfo").html('');
-						$.each(items,function(index,value){
-							let div1 = $('<div class=\"swiper-slide\"></div>');
-							let div2 = $('<div class=\"ysPer\"></div>');
-							let a2 = $('<a href=\"/org/get?front=0&id=' + value.id + '\"></a>');
-							let img = $('<img src=\"/images/rencai.png\" />');
-							if(value.frontend !=null && value.frontend != '' ){
-								img = $('<img src=\"/file/fileDownload?filename='+value.frontend+'\" />');
+							if(pageIndex+1 != 1){
+								var px = pageIndex-1;
+								pagecontent += "<a href=\"javascript:getPaper(0)\"><首页</a>";
+								pagecontent += "<a href=\"javascript:getPaper("+px+")\"><上一页</a>";
 							}
-							
-							let p1 = $('<p class=\"ysName\">' + value.name+ '</p>');
-							let p2 = $('<p>' + value.duty+ '</p>');
-							a2.append(img);
-							a2.append(p1);
-							a2.append(p2);
-							div2.append(a2);
-							div1.append(div2);
-							$("#orginfo").append(div1);
-						});
-						if(items.length > 5){
-							document.getElementById("next1").style="display:block";
-							document.getElementById("prev1").style="display:block";
+							if(pageIndex+1 != totalPages){
+								var px = pageIndex+1;
+								var pt = totalPages-1;
+								//pagecontent += "<a href=\"javascript:getPatent("+px+")\">下一页<em>></em></a>";
+								//pagecontent += "<a href=\"javascript:getPatent("+pt+")\">尾页<em>></em></a>";
+								if(pageIndex < 999){
+									pagecontent += "<a href=\"javascript:getPaper("+px+")\">下一页<em>></em></a>";
+								}
+								if(totalPages < 1000){
+									pagecontent += "<a href=\"javascript:getPaper("+pt+")\">尾页<em>></em></a>";
+								}
+								if(totalPages >= 1000){
+									pagecontent += "<a href=\"javascript:getPaper("+999+")\">尾页<em>></em></a>";
+								}
+							}
+							pagecontent+="</span>";
+							$("#papersqPage").html(pagecontent);
 						}
-						var swiper = new Swiper('.ysLb2 .swiper-container', {
-							slidesPerView:5,
-							spaceBetween: 18,
-							navigation: {
-								nextEl: '.ysLb2 .swiper-button-next',
-								prevEl: '.ysLb2 .swiper-button-prev',
-							},
-						});
-						
 						
 						}
 						
 				}); 
+		}
+		
+		function getExperts(index) {
+			var param = {
+					'name' : name,
+					'pageIndex' : index
+				};
+				 $.ajax({
+					url : "/yuansu/xiangqing/related/experts",
+					data : JSON.stringify(param),
+					dataType : 'json',
+					type : 'post',
+					contentType: "application/json; charset=utf-8",
+					success : function(data) {
+						let items = data.expertList;
+						if(JSON.stringify(items) === '[]') {
+							return;
+						}
+						$("#expertinfo").html('');
+			            $.each(items,function(index,value){
+			              let div1 = $('<div class=\"swiper-slide\"></div>');
+			              let div2 = $('<div class=\"ysPer\"></div>');
+			              let a2 = $('<a href=\"/expert/get?front=0&id=' + value.id + '\"></a>');
+			              let img = $('<img src=\"/images/rencai.png\" />');
+			              if(value.frontend !=null && value.frontend != '' ){
+			                img = $('<img src=\"/file/fileDownload?filename='+value.frontend+'\" />');
+			              }
+			              
+			              let p1 = $('<p class=\"ysName\">' + value.name+ '</p>');
+			              let p2 = $('<p>' + value.duty+ '</p>');
+			              a2.append(img);
+			              a2.append(p1);
+			              a2.append(p2);
+			              div2.append(a2);
+			              div1.append(div2);
+			              $("#expertinfo").append(div1);
+			            });
+			            
+			            if(items.length > 5){
+			              document.getElementById("next").style="display:block";
+			              document.getElementById("prev").style="display:block";
+			            }
+			            var swiper = new Swiper('.ysLb1 .swiper-container', {
+			              slidesPerView:5,
+			              spaceBetween: 18,
+			              navigation: {
+			                nextEl: '.ysLb1 .swiper-button-next',
+			                prevEl: '.ysLb1 .swiper-button-prev',
+			              },
+			            });
+						
+						}
+						
+				});
+		}
+		
+		function getOrg(index) {
+			var param = {
+					'name' : name,
+					'pageIndex' : index
+				};
+				 $.ajax({
+					url : "/yuansu/xiangqing/related/orgs",
+					data : JSON.stringify(param),
+					dataType : 'json',
+					type : 'post',
+					contentType: "application/json; charset=utf-8",
+					success : function(data) {
+						let items = data.orgList;
+						if(JSON.stringify(items) === '[]') {
+							return;
+						}
+						$("#orginfo").html('');
+			            $.each(items,function(index,value){
+			              let div1 = $('<div class=\"swiper-slide\"></div>');
+			              let div2 = $('<div class=\"ysPer\"></div>');
+			              let a2 = $('<a href=\"/org/get?front=0&id=' + value.id + '\"></a>');
+			              let img = $('<img src=\"/images/rencai.png\" />');
+			              if(value.frontend !=null && value.frontend != '' ){
+			                img = $('<img src=\"/file/fileDownload?filename='+value.frontend+'\" />');
+			              }
+			              
+			              let p1 = $('<p class=\"ysName\">' + value.name+ '</p>');
+			              /* let p2 = $('<p>' + value.duty+ '</p>'); */
+			              a2.append(img);
+			              a2.append(p1);
+			              /* a2.append(p2); */
+			              div2.append(a2);
+			              div1.append(div2);
+			              $("#orginfo").append(div1);
+			            });
+			            if(items.length > 5){
+			              document.getElementById("next1").style="display:block";
+			              document.getElementById("prev1").style="display:block";
+			            }
+			            var swiper = new Swiper('.ysLb2 .swiper-container', {
+			              slidesPerView:5,
+			              spaceBetween: 18,
+			              navigation: {
+			                nextEl: '.ysLb2 .swiper-button-next',
+			                prevEl: '.ysLb2 .swiper-button-prev',
+			              },
+			            });
+						
+						}
+						
+				});
 		}
 		
 		function search(){

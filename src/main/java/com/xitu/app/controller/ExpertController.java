@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -128,6 +129,29 @@ public class ExpertController {
 			expertRepository.deleteById(id);
 		}
 		return "redirect:/expert/list";
+	}
+	
+	@GetMapping(value = "expert/update")
+	public String updateExpert() {
+		Iterator<Expert> experts = expertRepository.findAll().iterator();
+		while(experts.hasNext()) {
+			Expert expert = experts.next();
+			System.out.println(expert.getId());
+			List<String> tags = new ArrayList<String>();
+			tags.add("测试");
+			if(expert.getFrontend() == null || expert.getFrontend().equals("")) {
+				expert.setFrontend("");
+			}
+			if(expert.getFrontendFileName()==null || expert.getFrontendFileName().equals("")) {
+				expert.setFrontendFileName("");
+			}
+			if(expert.getFrontendSize()==null || expert.getFrontendSize().equals("")) {
+				expert.setFrontendSize("");
+			}
+			expert.setTags(tags);
+			expertRepository.save(expert);
+		}
+		return "fasdf";
 	}
 	
 	

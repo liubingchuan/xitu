@@ -52,6 +52,9 @@ public class Expert implements Serializable{
 	private String resume; // 简历
 	@Field(type=FieldType.Keyword)
 	private List<String> project; // 科研项目
+	@CrossQuery
+	@Field(type=FieldType.Keyword)
+	private List<String> tags; // xitu 元素标签
 	private String photo;   // 照片
 	private String ctime;  // 提交时间
 	private String uploader; // 提交人
@@ -187,6 +190,12 @@ public class Expert implements Serializable{
 	}
 	public void setFrontendSize(String frontendSize) {
 		this.frontendSize = frontendSize;
+	}
+	public List<String> getTags() {
+		return tags;
+	}
+	public void setTags(List<String> tags) {
+		this.tags = tags;
 	}
 	
 }
