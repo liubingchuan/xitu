@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -273,8 +275,23 @@ public class YuansuController {
 		int i = 0;//0代表专利；1代表论文；2代表项目；3代表监测
 		expertService.execute(pageIndex, pageSize, i,instance.getString("name"));
 		JSONArray expertList = JsonUtil.parseArray(model.asMap().get("list").toString());
+		List<JSONObject> list = JSONArray.parseArray(expertList.toJSONString(), JSONObject.class);
+		Collections.sort(list, new Comparator<JSONObject>() {
+		    @Override
+		    public int compare(JSONObject o1, JSONObject o2) {
+		        int a = o1.getInteger("id");
+		        int b = o2.getInteger("id");
+		        if (a > b) {
+		            return 1;
+		        } else if(a == b) {
+		            return 0;
+		        } else
+		            return -1;
+		        }
+		});
+		JSONArray jsonArray = JSONArray.parseArray(list.toString());
 		ThreadLocalUtil.remove();		
-		return R.ok().put("expertList", expertList);
+		return R.ok().put("expertList", jsonArray);
 	}
 	
 	@ResponseBody
