@@ -279,14 +279,9 @@ public class YuansuController {
 		Collections.sort(list, new Comparator<JSONObject>() {
 		    @Override
 		    public int compare(JSONObject o1, JSONObject o2) {
-		        int a = o1.getInteger("id");
-		        int b = o2.getInteger("id");
-		        if (a > b) {
-		            return 1;
-		        } else if(a == b) {
-		            return 0;
-		        } else
-		            return -1;
+		        String a = o1.getString("frontend");
+		        String b = o2.getString("frontend");
+		        return b.compareTo(a);
 		        }
 		});
 		JSONArray jsonArray = JSONArray.parseArray(list.toString());
@@ -303,8 +298,18 @@ public class YuansuController {
 		int i = 0;//0代表专利；1代表论文；2代表项目；3代表监测
 		orgService.execute(pageIndex, pageSize, i,instance.getString("name"));
 		JSONArray orgList = JsonUtil.parseArray(model.asMap().get("list").toString());
+		List<JSONObject> list = JSONArray.parseArray(orgList.toJSONString(), JSONObject.class);
+		Collections.sort(list, new Comparator<JSONObject>() {
+		    @Override
+		    public int compare(JSONObject o1, JSONObject o2) {
+		        String a = o1.getString("frontend");
+		        String b = o2.getString("frontend");
+		        return b.compareTo(a);
+		        }
+		});
+		JSONArray jsonArray = JSONArray.parseArray(list.toString());
 		ThreadLocalUtil.remove();		
-		return R.ok().put("orgList", orgList);
+		return R.ok().put("orgList", jsonArray);
 	}
 	
 	/**
