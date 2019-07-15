@@ -393,7 +393,7 @@ public class JianceController {
 	
 	@ResponseBody
 	@RequestMapping(value = "jiance/jianceInsList", method = RequestMethod.POST,consumes = "application/json")
-	public R expertInsList(@RequestBody JSONObject insname) {
+	public R expertInsList(@RequestBody JSONObject insname,Model model) {
     	int pageSize = 10;
 //		if(pageIndex == null) {
 //		   pageIndex = 0;
@@ -402,7 +402,10 @@ public class JianceController {
 		int i = 5;//0代表专利；1代表论文；2代表项目；3代表监测;4代表机构；5代表专家；
 		// TODO 静态变量未环绕需调整
 		JSONObject rs = new JSONObject();
-		rs = jianceService.executeIns(insname.getString("insname"),pageIndex, pageSize, "institution",i);
+		ThreadLocalUtil.set(model);
+		//rs = jianceService.executeIns(insname.getString("insname"),pageIndex, pageSize, "institution",i);
+		rs = jianceService.execute(pageIndex, pageSize, 3,insname.getString("insname"),"","","");
+		ThreadLocalUtil.remove();
 		return R.ok().put("list", rs.get("list")).put("totalPages", rs.get("totalPages")).put("totalCount", rs.get("totalCount")).put("pageIndex", pageIndex);
     }
 	

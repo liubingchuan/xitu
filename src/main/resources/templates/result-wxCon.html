@@ -102,53 +102,53 @@
 		        			<a href="/">首页</a>><span>论文</span>
 		        		</div>
 		        		<div class="resultLfConNr">
-		        		<div class="resultLfCon">
+		        		<div class="resultLfCon" th:if="${paper.journal != null && paper.journal != ''}">
 		        			<div class="resultLfConTl">
 		        				出处： 
 		        			</div>
 		        			<p th:text="*{journal}"></p>
 		        		</div>
-		        		<div class="resultLfCon">
+		        		<div class="resultLfCon" th:if="${paper.author != null && paper.author != '' && #arrays.length(paper.author) > 0}">
 		        			<div class="resultLfConTl">
 		        				作者: 
 		        			</div>
-		        			<p class="colorBlue" th:text="*{author}">
+		        			<p style="display:inline" th:each="aut: ${paper.author}" class="colorBlue" th:text="${aut} + '   '">
 		        			</p>
 		        		</div>
-		        		<div class="resultLfCon">
+		        		<div class="resultLfCon" th:if="${paper.year != null && paper.year != ''}">
 		        			<div class="resultLfConTl">
 		        				出版年：  
 		        			</div>
 		        			<p th:text="*{year}">
 		        			</p>
 		        		</div>
-		        		<div class="resultLfCon">
+		        		<div class="resultLfCon" th:if="${paper.volume != null && paper.volume != ''}">
 		        			<div class="resultLfConTl">
 		        				卷期：   
 		        			</div>
 		        			<p th:text="*{volume}">
 		        			</p>
 		        		</div>
-		        		<div class="resultLfCon">
+		        		<div class="resultLfCon" th:if="${paper.citenum != null && paper.citenum != ''}">
 		        			<div class="resultLfConTl">
 		        				被引量： 
 		        			</div>
 		        			<p th:text="*{citenum}">
 		        			</p>
 		        		</div>
-		        		<div class="resultLfCon">
+		        		<div class="resultLfCon" th:if="${paper.keywords != null && paper.keywords != ''}">
 		        			<div class="resultLfConTl">
 		        				关键词 ：
 		        			</div>
-		        			<p th:text="*{keywords}">
+		        			<p style="display:inline" th:each="key: ${paper.keywords}" th:text="${key} + '   '">
 		        			</p>
 		        		</div>
-		        		<div class="resultLfCon">
+		        		<div class="resultLfCon" th:if="${paper.link != null && paper.link != ''}">
 		        			<div class="resultLfConTl">
 		        				全文链接 ：
 		        			</div>
 		        			<p>
-		        				<a href="#" class="colorBlue" th:text="*{link}"></a>
+		        				<a th:href="${lin}" th:each="lin: ${paper.link}" class="colorBlue" th:text="${lin}"></a>
 		        			</p>
 		        		</div>
 		        		

@@ -21,11 +21,11 @@
 				<div class="left menu clearfix">
 					<a href="/">平台首页</a>
 					<a id="xituzhiku" th:href="@{/patent/agmount}">稀土智库</a>
-					<a href="#">材料计算</a>
+					<a id="cailiaojisuan" th:href="@{/material/calculate}">材料计算</a>
 					<a id="chanyejiance" th:href="@{/jiance/jiancelist}">产业监测</a>
 					<a id="zhishifuwu" th:href="@{/zhishifuwu/zhishifuwu}">知识服务</a>
 					<a href="#">合作交流</a>
-					<a href="#">关于我们</a>
+					
 				</div>
 				<div class="right">
 					<!--登录前-->
@@ -293,19 +293,19 @@
 		</div>
 		<div class="gongneng">
 			<div class="index-container clearfix">
-				<a th:href="@{/patent/agmount}" class="left">
+				<a id="xituzhiku11" th:href="@{/patent/agmount}" class="left">
 					<img th:src="@{/ximages/gongneg4.png}" />
 					稀土智库
 				</a>
-				<a th:href="@{/zhishifuwu/zhishifuwu}" class="left">
+				<a id="zhishifuwu11" th:href="@{/zhishifuwu/zhishifuwu}" class="left">
 					<img th:src="@{/ximages/gongneng3.png}" />
 					知识服务
 				</a>
-				<a href="#" class="left">
+				<a id="cailiaojisuan11" th:href="@{/material/calculate}" class="left">
 					<img th:src="@{/ximages/gongneng1.png}" />
 					材料计算
 				</a>
-				<a th:href="@{/jiance/jiancelist}" class="left">
+				<a id="chanyejiance11" th:href="@{/jiance/jiancelist}" class="left">
 					<img th:src="@{/ximages/gongneng2.png}" />
 					产业监测
 				</a>
@@ -485,8 +485,8 @@
 	    	
 			 $(document).ready(function () {
 // 				console.log($.cookie("openId"))
-// 				$.cookie("openId","2");
-// 				$.cookie("role","管理员");
+				$.cookie("openId","2");
+ 				$.cookie("role","管理员");
 				//$.cookie("role","普通用户");
 				
 				$("#alertbd").css('display','none');
@@ -498,8 +498,31 @@
 						$(".vip").html("普通用户"); 
 						$("#backgroud").css('display','none'); 
 						document.getElementById("xituzhiku").removeAttribute("href");
+						document.getElementById("xituzhiku1").removeAttribute("href");
+						document.getElementById("xituzhiku2").removeAttribute("href");
+						document.getElementById("xituzhiku3").removeAttribute("href");
+						document.getElementById("xituzhiku4").removeAttribute("href");
+						document.getElementById("xituzhiku5").removeAttribute("href");
+						document.getElementById("xituzhiku6").removeAttribute("href");
+						document.getElementById("xituzhiku11").removeAttribute("href");
+						
+						document.getElementById("cailiaojisuan").removeAttribute("href");
+						document.getElementById("cailiaojisuan1").removeAttribute("href");
+						document.getElementById("cailiaojisuan2").removeAttribute("href");
+						document.getElementById("cailiaojisuan11").removeAttribute("href");
+						
 						document.getElementById("chanyejiance").removeAttribute("href");
+						document.getElementById("chanyejiance1").removeAttribute("href");
+						document.getElementById("chanyejiance2").removeAttribute("href");
+						document.getElementById("chanyejiance3").removeAttribute("href");
+						document.getElementById("chanyejiance11").removeAttribute("href");
+						
 						document.getElementById("zhishifuwu").removeAttribute("href");
+						document.getElementById("zhishifuwu1").removeAttribute("href");
+						document.getElementById("zhishifuwu2").removeAttribute("href");
+						document.getElementById("zhishifuwu3").removeAttribute("href");
+						document.getElementById("zhishifuwu4").removeAttribute("href");
+						document.getElementById("zhishifuwu11").removeAttribute("href");
 						
 					}
 					if($.cookie("role")!=null && $.cookie("role")==="管理员"){

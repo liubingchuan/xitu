@@ -103,7 +103,7 @@
 								<p class="rencaiLFmessName">
 									担任职务：
 								</p>
-								<p th:text="*{duty}">
+								<p th:each="du:*{duty}" th:text="${du}">
 								</p>
 							</div>
 						</div>

@@ -99,44 +99,44 @@
 		        	<div class="left jiansuoLf">
 		        		<div class="jiansuoTl">
 		        			<img th:src="@{/ximages/1.png}" />
-		        			<a href="#">首页</a>><span>专利</span>
+		        			<a href="/">首页</a>><span>专利</span>
 		        		</div>
 		        		<div class="resultLfConNr">
-		        		<div class="resultLfCon">
+		        		<div class="resultLfCon" th:if="${patent.publicnumber != null && patent.publicnumber != ''}">
 		        			<div class="resultLfConTl">
 		        				公开号： 
 		        			</div>
 		        			<p th:text="*{publicnumber}"></p>
 		        		</div>
-		        		<div class="resultLfCon">
+		        		<div class="resultLfCon" th:if="${patent.publicyear != null && patent.publicyear != ''}">
 		        			<div class="resultLfConTl">
 		        				公开年： 
 		        			</div>
 		        			<p th:text="*{publicyear}"></p>
 		        		</div>
-		        		<div class="resultLfCon">
+		        		<div class="resultLfCon" th:if="${patent.creator != null && patent.creator != '' && #arrays.length(patent.creator) > 0}">
 		        			<div class="resultLfConTl">
 		        				发明人:  
 		        			</div>
 		        			<p>
-		        				<span class="colorBlue" th:text="*{creator}">
+		        				<span th:each="cre: ${patent.creator}" class="colorBlue" th:text="${cre}">
 		        				</span>
 		        			</p>
 		        		</div>
-		        		<div class="resultLfCon">
+		        		<div class="resultLfCon" th:if="${patent.person != null && patent.person != '' && #arrays.length(patent.person) > 0}">
 		        			<div class="resultLfConTl">
 		        				专利权人：  
 		        			</div>
 		        			<p>
-		        				<span class="colorBlue" th:text="*{person}">
+		        				<span th:each="per: ${patent.person}" class="colorBlue" th:text="${per}">
 		        				</span>
 		        			</p>
 		        		</div>
-		        		<div class="resultLfCon">
+		        		<div class="resultLfCon" th:if="${patent.ipc != null && patent.ipc != '' && #arrays.length(patent.ipc) > 0}">
 		        			<div class="resultLfConTl">
 		        				IPC分类 
 		        			</div>
-		        			<p th:text="*{ipc}">
+		        			<p th:each="ipc: ${patent.ipc}" th:text="${ipc}">
 		        			</p>
 		        		</div>
 <!-- 		        		<a href="#" class="resultDown"> -->

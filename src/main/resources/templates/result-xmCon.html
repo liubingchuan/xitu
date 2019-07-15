@@ -99,59 +99,59 @@
 		        	<div class="left jiansuoLf">
 		        		<div class="jiansuoTl">
 		        			<img th:src="@{/ximages/1.png}" />
-		        			<a href="#">首页</a>><span>项目</span>
+		        			<a href="/">首页</a>><span>项目</span>
 		        		</div>
 		        		<div class="resultLfConNr">
-		        		<div class="resultLfCon">
+		        		<div class="resultLfCon" th:if="${project.entrust != null && project.entrust != ''}">
 		        			<div class="resultLfConTl">
 		        				项目委托方：  
 		        			</div>
 		        			<p th:text="*{entrust}"> </p>
 		        		</div>
-		        		<div class="resultLfCon">
+		        		<div class="resultLfCon" th:if="${project.budget != null && project.budget != ''}">
 		        			<div class="resultLfConTl">
 		        				项目预算： 
 		        			</div>
 		        			<p class="colorBlue" th:text="*{budget}">
 		        			</p>
 		        		</div>
-		        		<div class="resultLfCon">
+		        		<div class="resultLfCon" th:if="${project.start != null && project.start != ''}">
 		        			<div class="resultLfConTl">
 		        				招标开始日期：  
 		        			</div>
 		        			<p th:text="*{start}">
 		        			</p>
 		        		</div>
-		        		<div class="resultLfCon">
+		        		<div class="resultLfCon" th:if="${project.end != null && project.end != ''}">
 		        			<div class="resultLfConTl">
 		        				招标截止日期：
 		        			</div>
 		        			<p th:text="*{end}">
 		        			</p>
 		        		</div>
-		        		<div class="resultLfCon">
+		        		<div class="resultLfCon" th:if="${project.contacts != null && project.contacts != ''}">
 		        			<div class="resultLfConTl">
 		        				项目联系人：
 		        			</div>
 		        			<p th:text="*{contacts}">
 		        			</p>
 		        		</div>
-		        		<div class="resultLfCon">
+		        		<div class="resultLfCon" th:if="${project.phone != null && project.phone != ''}">
 		        			<div class="resultLfConTl">
 		        				联系方式： 
 		        			</div>
 		        			<p th:text="*{phone}">
 		        			</p>
 		        		</div>
-		        		<div class="resultLfCon">
+		        		<div class="resultLfCon" th:if="${project.classis != null && project.classis != ''}">
 		        			<div class="resultLfConTl">
 		        				项目分类
 		        			</div>
 		        			<p th:text="*{classis}">
-		        			生物医药
+		        			
 		        			</p>
 		        		</div>
-		        		<a th:href="*{url}" class="resultDown">
+		        		<a th:href="*{url}" class="resultDown" th:if="${project.url != null && project.url != ''}">
 		        			项目原地址
 		        		</a>
 		        		</div>

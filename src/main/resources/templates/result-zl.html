@@ -376,11 +376,12 @@
 		            				</a>
 		            			</div>
 		            			<div class="jiansuoLiTag">
-		            				<span th:text="'专利权人：' + ${patent.person}"></span>
-		            				<span th:text="'公开（公告）日：' + ${patent.publictime}"></span>
+		            				专利权人：
+		            				<span th:if="${patent.person != null && patent.person != '' && #arrays.length(patent.person) > 0}" th:each="per: ${patent.person}" th:text="${per}"></span>
+		            				<span th:if="${patent.publictime != null && patent.publictime != ''}" th:text="'公开（公告）日：' + ${patent.publictime}"></span>
 		            			</div>
 		            			<div class="jiansuoLiText">
-		            				<span class="jiansuoLiTextSpan" th:text="${patent.subject}">
+		            				<span th:if="${patent.subject != null && patent.subject != ''}" class="jiansuoLiTextSpan" th:text="${patent.subject}">
 		            				</span>
 		            				<a href="javascript:;" class="jiansuoLImore">
 		            					展开更多
