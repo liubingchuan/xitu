@@ -20,6 +20,7 @@ public class ElementSlave {
 	private String method;
 	private String prop;
 	private String stamp;
+	private transient String history;
 	public Integer getId() {
 		return id;
 	}
@@ -73,6 +74,12 @@ public class ElementSlave {
 	}
 	public void setStamp(String stamp) {
 		this.stamp = stamp;
+	}
+	public String getHistory() {
+		return history;
+	}
+	public void setHistory(String history) {
+		this.history = history;
 	}
 	
 	

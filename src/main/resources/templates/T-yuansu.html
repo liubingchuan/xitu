@@ -125,7 +125,7 @@
 				    	<div class="yuansNrTwoRtB">
 				    		<!-- <div class="yuansNrTwoRtBM"> -->
 				    		<div class="yuansNrTwoRtBM">
-				    			<span th:each="slave : ${slaves}" th:text="${slave.name}"><a href="#"></a></span>
+				    			<span><a th:each="slave : ${slaves}" th:text="${slave.name} + '  '" style="color:#4A90E2"  th:href="@{/yuansu/xiangqing(name=${slave.name})}"></a></span>
 				    			
 				    		</div>
 				    	</div>
