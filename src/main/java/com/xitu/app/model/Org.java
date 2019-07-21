@@ -62,6 +62,7 @@ public class Org implements Serializable{
 	private String ctime; // 提交时间
 	private Long now; // 更改时间
 	private String frontend; // LOGO封面
+	private String order; // 排序
 	private String frontendFileName; // LOGO文件名
 	private String frontendSize; // LOGO大小
 	
@@ -209,6 +210,12 @@ public class Org implements Serializable{
 	}
 	public void setTags(List<String> tags) {
 		this.tags = tags;
+	}
+	public String getOrder() {
+		return order;
+	}
+	public void setOrder(String order) {
+		this.order = order;
 	}
 	
 	

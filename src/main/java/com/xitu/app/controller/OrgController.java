@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +43,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.xitu.app.common.R;
 import com.xitu.app.common.request.SaveOrgRequest;
 import com.xitu.app.mapper.ItemMapper;
+import com.xitu.app.model.Expert;
 import com.xitu.app.model.Item;
 import com.xitu.app.model.Org;
 import com.xitu.app.repository.OrgRepository;
@@ -123,6 +125,46 @@ public class OrgController {
 		org.setAlias(alias);
 		orgRepository.save(org);
 		return "redirect:/org/list";
+	}
+	
+	@GetMapping(value = "org/update")
+	public String updateOrg() {
+		
+//		Iterator<Org> orgs = orgRepository.findAll().iterator();
+//		while(orgs.hasNext()) {
+//			Org org = orgs.next();
+//			System.out.println(org.getId());
+//			boolean flag = false;
+//			if(org.getFrontend() == null || org.getFrontend().equals("")) {
+//				org.setFrontend("");
+//				flag = true;
+//			}
+//			if(org.getFrontendFileName()==null || org.getFrontendFileName().equals("")) {
+//				org.setFrontendFileName("");
+//				flag = true;
+//			}
+//			if(org.getFrontendSize()==null || org.getFrontendSize().equals("")) {
+//				org.setFrontendSize("");
+//				flag = true;
+//			}
+//			if(flag) {
+//				orgRepository.save(org);
+//			}
+//		}
+		
+		
+		Iterator<Org> orgs = orgRepository.findAll().iterator();
+		while(orgs.hasNext()) {
+			Org org = orgs.next();
+			System.out.println(org.getId());
+			String order = "";
+			if(org.getFrontend() != null && !org.getFrontend().equals("")) {
+				order = org.getFrontend();
+			}
+			org.setOrder(order);
+			orgRepository.save(org);
+		}
+		return "fasdf";
 	}
 	
 	@GetMapping(value = "org/get")

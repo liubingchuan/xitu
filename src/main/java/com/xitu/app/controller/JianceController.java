@@ -420,6 +420,12 @@ public class JianceController {
 					System.out.println(feed.getTitle());
 					System.out.println("***********************************");
 					for (SyndEntry entry : feed.getEntries()) {
+						System.out.println(entry.getPublishedDate());
+						if(this.isNow(sdf.format(entry.getPublishedDate()))) {
+							System.out.println();
+						}else {
+							System.out.println();
+						}
 						Jiance jiance = new Jiance();
 						jiance.setId(UUID.randomUUID().toString());
 						jiance.setTitle(entry.getTitle());
@@ -442,7 +448,7 @@ public class JianceController {
 				}
 				i++;
 			}
-			jianceRepository.saveAll(objs);
+//			jianceRepository.saveAll(objs);
 			
 			
 		} catch (Exception e) {
@@ -450,6 +456,16 @@ public class JianceController {
 		}
     	return "success";
 	}
+	
+	private boolean isNow(String date) {
+        //当前时间
+        Date now = new Date();
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+        //获取今天的日期
+        String nowDay = sf.format(now);
+        //对比的时间
+        return date.equals(nowDay);
+    }
 	
 	@ResponseBody
 	@RequestMapping(value = "jiance/jianceInsList", method = RequestMethod.POST,consumes = "application/json")
