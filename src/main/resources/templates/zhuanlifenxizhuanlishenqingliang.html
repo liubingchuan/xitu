@@ -205,7 +205,7 @@
 			var myChart = echarts.init(document.getElementById('leixing'));
 			var name = "氧化钆";
 			var time = "3";
-			var conditions = {"time":"3", "name":name}
+			var conditions = {"time":time, "name":name}
 			$(document).ready(function() {
 
 				showleixing('jinsanyue');
@@ -220,10 +220,12 @@
 				if(type == 'jinwunian'){
 				}
 				if(type == 'jinyinian'){
+					time = "1";
 				}
 				if(type == 'jinsanyue'){
-					conditions = {"time":time, "name":name}
+					time = "3";
 				}
+				conditions = {"time":time, "name":name}
 				getGraph();
 			}
 			
@@ -287,7 +289,8 @@
 			
 			$("#yuansu").change(function(){
 				name = $("#yuansu").val();
-				showleixing('jinsanyue');
+				
+				showleixing('wuleixing');
 			});
 			
 			

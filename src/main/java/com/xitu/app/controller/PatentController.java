@@ -931,6 +931,26 @@ public class PatentController {
 				map.put(date.substring(4, 6), avg);
 				
 			}
+		}else if("1".equals(time)) {
+			for(int i=0;i<12;i++) {
+				Calendar c = Calendar.getInstance();
+				c.setTime(new Date());
+				c.add(Calendar.MONTH, -i);
+				Date lastmonth = c.getTime();
+				date = formatter.format(lastmonth);
+				String start = date.substring(0, 6) + "00";
+				String end = date.substring(0,6) + "32";
+				String avg = priceMapper.getAvgPricesGroupByName(start, end , name);
+				if(avg == null) {
+					continue;
+//					avg = "0";
+				}else if(avg.contains(".")) {
+					avg = avg.split("\\.")[0];
+				}
+				map.put(date.substring(4, 6), avg);
+				
+			}
+			
 		}
 		return R.ok().put("avg", map);
 	}
