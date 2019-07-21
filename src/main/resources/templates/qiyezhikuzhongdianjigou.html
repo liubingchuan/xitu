@@ -199,6 +199,7 @@
 		var link =  [[${links}]];
 		var classic =  [[${classics}]];
 		var list =  [[${list}]];
+		var query =  [[${query}]];
 		
 		$(document).ready(function () {
 		    if($.cookie("role")!=null && $.cookie("role")==="普通用户"){
@@ -245,7 +246,7 @@
 				if (classicse !=null && classicse == "所有产品类型") {
 					classicse = null;
 				}
-				window.location.href="/org/list?front=0&link=" + encodeURI(encodeURIComponent(linkse)) + "&type=" + encodeURI(encodeURIComponent(typese)) + "&classic="+encodeURI(encodeURIComponent(classicse));
+				window.location.href="/org/list?front=0&q="+query+"&link=" + encodeURI(encodeURIComponent(linkse)) + "&type=" + encodeURI(encodeURIComponent(typese)) + "&classic="+encodeURI(encodeURIComponent(classicse));
 			}
 			
 			function searchNum(){

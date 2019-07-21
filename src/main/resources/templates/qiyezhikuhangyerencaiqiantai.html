@@ -199,6 +199,7 @@
 		var unit =  [[${units}]];
 		var area =  [[${areas}]];
 		var duty =  [[${dutys}]];
+		var query =  [[${query}]];
 		
 		$(document).ready(function () {
 			if($.cookie("role")!=null && $.cookie("role")==="普通用户"){
@@ -231,7 +232,7 @@
 			if (dutyse !=null && dutyse == "全部担任职务") {
 				dutyse = null;
 			}
-			window.location.href="/expert/list?front=0&unit=" + encodeURI(encodeURIComponent(unitse)) + "&area=" + encodeURI(encodeURIComponent(arease)) + "&duty="+encodeURI(encodeURIComponent(dutyse));
+			window.location.href="/expert/list?front=0&q="+query+"&unit=" + encodeURI(encodeURIComponent(unitse)) + "&area=" + encodeURI(encodeURIComponent(arease)) + "&duty="+encodeURI(encodeURIComponent(dutyse));
 		}
 		
 		function search(){

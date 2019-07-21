@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -122,7 +123,26 @@ public class ExpertController {
 		return "redirect:/expert/list";
 	}
 	
-	
+	@GetMapping(value = "expert/getByName")
+	public String getExpertByname(
+			@RequestParam(required=false,value="name") String name, Model model) {
+		//String id = "1f93a2c9b53c4b10ac68c330a9f23234";
+		Expert expert = new Expert();
+		if(name != null && !name.equals("")) {
+			//expert = expertRepository.findById(id).get();
+			//expert = expertRepository.findByName(name).get();
+			JSONObject rs = new JSONObject();
+			rs = expertService.executeOneFiled("name",name);
+			List sources = new LinkedList();
+			if(rs != null) {
+				sources = (List) rs.get("list");
+				if(expert != null) {
+					return "redirect:/expert/get?front=0&id="+expert.getId();
+				}
+			}
+		}
+		return null;
+	}
 	@GetMapping(value = "expert/delete")
 	public String deleteExpert(@RequestParam(required=false,value="id") String id) {
 		if(id != null) {

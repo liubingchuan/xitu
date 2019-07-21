@@ -119,8 +119,10 @@
 		        				发明人:  
 		        			</div>
 		        			<p>
-		        				<span th:each="cre: ${patent.creator}" class="colorBlue" th:text="${cre}">
+		        				<span th:each="cre: ${patent.creator}" class="colorBlue" th:text="${cre}" th:onclick="'getName(' + ${cre} + ');'" >
 		        				</span>
+		        				<!-- <a th:href="@{/expert/getByName(name=${cre})}" th:each="cre: ${patent.creator}" th:text="${cre}">
+		            			</a> -->
 		        			</p>
 		        		</div>
 		        		<div class="resultLfCon" th:if="${patent.person != null && patent.person != '' && #arrays.length(patent.person) > 0}">
@@ -192,6 +194,7 @@
 			}
 			$("#logoinName").html($.cookie("nickName"));
 		    $("#headImg").attr("src", $.cookie("headImg"));
+		    
 		});
 			function search(){
 		    	var uri = '';

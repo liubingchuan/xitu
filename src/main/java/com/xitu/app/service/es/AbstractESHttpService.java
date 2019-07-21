@@ -46,6 +46,11 @@ public abstract class AbstractESHttpService implements ESHttpService {
 	}
 	
 	@Override
+	public JSONObject executeOneFiled(String filed,String value) {
+		return convertOneFiled(getHttpClient().execute(composeOneFiledDSL(filed,value)),1);
+	}
+	
+	@Override
 	public JSONObject executeXiangguan(int pageIndex, int pageSize,int type,String uuid,List<String> args) {
 		return convertIns(getHttpClient().execute(composeXiangguanDSL(pageIndex, pageSize, type,uuid,args)),pageSize);
 	}
@@ -122,6 +127,8 @@ public abstract class AbstractESHttpService implements ESHttpService {
     	_score.put("_score",order);//orderby=_score
     	sort.add(_score);
     	JSONObject pubtimes = new JSONObject();
+    	JSONObject areas = new JSONObject();
+    	JSONObject photos = new JSONObject();
     	String sortfield ="";
     	if (type == 3) {
     		sortfield = "pubtime";
@@ -136,18 +143,33 @@ public abstract class AbstractESHttpService implements ESHttpService {
     		sortfield = "now";
 		}
     	if (type == 4) {
-    		sortfield = "now";
+    		sortfield = "seq";
+        	JSONObject order1s = new JSONObject();
+        	order1s.put("order", "desc");
+        	photos.put(sortfield,order1s);
+        	sort.add(photos);
+        	sortfield = "desc";
+        	JSONObject order2s = new JSONObject();
+        	order2s.put("order", "desc");
+        	areas.put(sortfield,order2s);
+        	sort.add(areas);
 		}
     	if (type == 5) {
-    		sortfield = "now";
+    		sortfield = "seq";
+        	JSONObject order1s = new JSONObject();
+        	order1s.put("order", "desc");
+        	photos.put(sortfield,order1s);
+        	sort.add(photos);
+        	sortfield = "area";
+        	JSONObject order2s = new JSONObject();
+        	order2s.put("order", "desc");
+        	areas.put(sortfield,order2s);
+        	sort.add(areas);
 		}
     	if (type == 6) {
     		sortfield = "now";
 		}
-//    	JSONObject order1s = new JSONObject();
-//    	order1s.put("order", "desc");
-//    	pubtimes.put(sortfield,order1s);
-//    	sort.add(pubtimes);
+
     	query.put("sort",sort);
 		JSONObject param = new JSONObject();
 		JSONArray should = new JSONArray();
@@ -350,6 +372,25 @@ public abstract class AbstractESHttpService implements ESHttpService {
 		rs.put("totalPages", totalPages);
 		rs.put("totalCount", totalCount);
 		return rs;
+	}
+	public JSONObject convertOneFiled(JSONObject response,int pageSize) {
+		JSONObject hits = response.getJSONObject("hits");
+		Integer totalCount = hits.getInteger("total"); 
+		JSONArray list = hits.getJSONArray("hits");
+		List sources = new LinkedList();
+		if(sources!=null && sources.size() > 0) {
+			for(int i=0;i<1;i++) {
+				JSONObject obj = list.getJSONObject(i);
+				JSONObject source = (JSONObject) obj.get("_source");
+				sources.add(source);
+			}
+			
+			JSONObject rs = new JSONObject();
+			rs.put("list", sources);
+			return rs;
+		}else {
+			return null;
+		}
 	}
 	
 	public static void main(String[] args) { 
@@ -585,6 +626,17 @@ public abstract class AbstractESHttpService implements ESHttpService {
 	    	query.put("from",pageIndex*pageSize);
 	    	query.put("size", pageSize);
 	    	System.out.println("query ---  " + query.toString());
+	    	return query.toString();
+		}
+		
+		public String composeOneFiledDSL(String field,String value) {
+			JSONObject query = new JSONObject();
+	    	JSONObject term = new JSONObject();
+	    	JSONObject param = new JSONObject();
+	    	param.put(field, value);
+	    	term.put("term", param);
+	    	query.put("query", term);
+	    	System.out.println(query.toString());
 	    	return query.toString();
 		}
 		public String getLastMonth(){
