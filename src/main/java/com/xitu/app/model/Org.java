@@ -28,6 +28,8 @@ public class Org implements Serializable{
 	
 	private String description; // 机构介绍
 	@Field(type=FieldType.Keyword)
+	private String desc;  // 机构介绍
+	@Field(type=FieldType.Keyword)
 	private List<String> area;  // 研究领域 
 	
 	@CrossQuery
@@ -63,6 +65,8 @@ public class Org implements Serializable{
 	private Long now; // 更改时间
 	private String frontend; // LOGO封面
 	private String order; // 排序
+	@Field(type=FieldType.Keyword)
+	private String seq; // 排序
 	private String frontendFileName; // LOGO文件名
 	private String frontendSize; // LOGO大小
 	
@@ -216,6 +220,18 @@ public class Org implements Serializable{
 	}
 	public void setOrder(String order) {
 		this.order = order;
+	}
+	public String getDesc() {
+		return desc;
+	}
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
+	public String getSeq() {
+		return seq;
+	}
+	public void setSeq(String seq) {
+		this.seq = seq;
 	}
 	
 	
