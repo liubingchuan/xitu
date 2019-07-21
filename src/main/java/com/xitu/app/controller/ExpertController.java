@@ -157,18 +157,13 @@ public class ExpertController {
 		while(experts.hasNext()) {
 			Expert expert = experts.next();
 			System.out.println(expert.getId());
-			List<String> tags = new ArrayList<String>();
-			tags.add("测试");
-			if(expert.getFrontend() == null || expert.getFrontend().equals("")) {
-				expert.setFrontend("");
+//			List<String> tags = new ArrayList<String>();
+//			tags.add("测试");
+			String seq = "";
+			if(expert.getOrder() == null || expert.getOrder().equals("")) {
+				seq = expert.getOrder();
 			}
-			if(expert.getFrontendFileName()==null || expert.getFrontendFileName().equals("")) {
-				expert.setFrontendFileName("");
-			}
-			if(expert.getFrontendSize()==null || expert.getFrontendSize().equals("")) {
-				expert.setFrontendSize("");
-			}
-			expert.setTags(tags);
+			expert.setSeq(seq);
 			expertRepository.save(expert);
 		}
 		return "fasdf";
