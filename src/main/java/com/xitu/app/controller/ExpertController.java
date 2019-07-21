@@ -46,6 +46,7 @@ import com.xitu.app.common.request.SaveExpertRequest;
 import com.xitu.app.mapper.ItemMapper;
 import com.xitu.app.model.Expert;
 import com.xitu.app.model.Item;
+import com.xitu.app.model.Org;
 import com.xitu.app.repository.ExpertRepository;
 import com.xitu.app.service.es.ExpertService;
 import com.xitu.app.utils.BeanUtil;
@@ -123,21 +124,24 @@ public class ExpertController {
 		return "redirect:/expert/list";
 	}
 	
-	@GetMapping(value = "expert/getByName")
-	public String getExpertByname(
-			@RequestParam(required=false,value="name") String name, Model model) {
+	@ResponseBody
+	@RequestMapping(value = "expert/getByName", method = RequestMethod.POST,consumes = "application/json")
+	public JSONObject getExpertByname(
+			@RequestBody JSONObject insname) {
 		//String id = "1f93a2c9b53c4b10ac68c330a9f23234";
-		Expert expert = new Expert();
-		if(name != null && !name.equals("")) {
+		
+		if(insname != null ) {
 			//expert = expertRepository.findById(id).get();
 			//expert = expertRepository.findByName(name).get();
+			String name = insname.getString("name");
 			JSONObject rs = new JSONObject();
 			rs = expertService.executeOneFiled("name",name);
 			List sources = new LinkedList();
 			if(rs != null) {
 				sources = (List) rs.get("list");
-				if(expert != null) {
-					return "redirect:/expert/get?front=0&id="+expert.getId();
+				if(sources != null) {
+					//return "redirect:/expert/get?front=0&id="+expert.getId();
+					return (JSONObject) sources.get(0);
 				}
 			}
 		}

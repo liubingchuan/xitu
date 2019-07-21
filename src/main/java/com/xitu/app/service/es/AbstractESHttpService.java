@@ -378,7 +378,7 @@ public abstract class AbstractESHttpService implements ESHttpService {
 		Integer totalCount = hits.getInteger("total"); 
 		JSONArray list = hits.getJSONArray("hits");
 		List sources = new LinkedList();
-		if(sources!=null && sources.size() > 0) {
+		if(list!=null && list.size() > 0) {
 			for(int i=0;i<1;i++) {
 				JSONObject obj = list.getJSONObject(i);
 				JSONObject source = (JSONObject) obj.get("_source");
