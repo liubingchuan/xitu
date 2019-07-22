@@ -32,6 +32,7 @@
 					<a id="chanyejiance" th:href="@{/jiance/jiancelist}">产业监测</a>
 					<a id="zhishifuwu" th:href="@{/zhishifuwu/zhishifuwu}">知识服务</a>
 					<a href="#">合作交流</a>
+					<a th:href="@{/guanyu/women}">关于我们</a>
 					
 				</div>
 				<div class="right">
@@ -86,73 +87,76 @@
 		    
 			</div>
 			<div class="nycontainer rencaiM">
-				
+				<div class="rencaiTl">
+					关于我们
+				</div>
 				<div class="rencaiNr clearfix">
-					<div class="rencaiLf left">
-						<div class="rencaiLfTl">
-							目录导航
-						</div>
-						<ul class="rencaiLfUl">
-							<li>
-								<a th:href="@{/patent/agmount}" class="ahover">
-									<span>实时价格</span>
-								</a>
-							</li>
-							<li>
-								<a th:href="@{/patent/agcountry}">
-									<span>原料分布</span>
-								</a>
-							</li>
-							<li>
-								<a th:href="@{/report/list(front=0)}">
-									<span>分析报告</span>
-								</a>
-							</li>
-							<li>
-								<a th:href="@{/org/list(front=0)}">
-									<span>重点机构</span>
-								</a>
-							</li>
-							<li>
-								<a th:href="@{/expert/list(front=0)}">
-									<span>行业人才</span>
-								</a>
-							</li>
-						</ul>
+					<div class="rencaiLfg left">
+						<img th:src="@{/images/guan1.png}" />
+						
 					</div>
 				   
-				    <div class="rencaiRt right">
-				    	<form>
-				    		<div class="recaiForm clearfix zhuanlOneNr">
-				    			<span class="left zhuanlOne">
-				    				价格走势
-				    			</span>
-				    			<div class="left zhuanlTwo">
-				    				<a href="javascript:showleixing('jinsanyue')" class="ahover">
-				    					近三月
-				    				</a>
-				    				<a href="javascript:showleixing('jinyinian')">
-				    					近一年
-				    				</a>
-				    				<a href="javascript:showleixing('jinwunian')">
-				    					近五年
-				    				</a>
-				    			</div>
-				    			<div class="clearfix right">
-			    				<select id="yuansu" class="left">
-                            		<option th:each="item : ${items}" th:value="${item}" th:text="${item}"></option>
-                        		</select>
-				    			<!-- <input type="button" class="left shaixuanbtn" value="筛选"> -->
-				    			</div>
-				    		</div>
-				    	</form>
-				        
-				    	<div class="zhuanlThree" style="width: 100%; height: 500px;">
-				    		<img th:src="@{/images/guanyuwomen.png}" />
-				    	</div>
-				        
+				    <div class="rencaiRtg right">
+				    	<span class="chaxinfwgpg" style="font-weight: bold;">稀土大数据平台依托中国科学院包头稀土研发中心，联合中国科学院文献情报中心、中国科学院金属所、中国科学院宁波材料所等研究单位共同建立。</span>
+				    	<br/>
+				    	<br/>
+					        <div class="chaxinfwgpjg"  >
+					    		该平台重点开发稀土元素导航、稀土信息动态监测、情报对接服务及稀土材料模拟计算；
+					    	</div>
+					    	 <div class="chaxinfwgpjg"  >
+					    		实时追踪稀土元素及其化合物的理化性质、元素应用成果、文献专利、相关技术研发、科研创新等信息资源；
+					    	</div>
+					    	 <div class="chaxinfwgpjg"  >
+					    		深度挖掘稀土领域科研、产业、市场、机构等数据；
+					    	</div>
+					    	<div class="chaxinfwgpjg"  >
+					    		开展关键知识产权技术动态追踪，实时监测全球知识产权信息，对稀土领域知识产权技术进行研究；
+					    	</div>
+					    	<div class="chaxinfwgpjg"  >
+					    		提供科技查新服务、情报对接服务、稀土材料模拟计算服务；
+					    	</div>
+					    	<div class="chaxinfwgpjg"  >
+					    		最终建立稀土元素情报、咨询、利用、设计和运营管理智能一体化服务体系。
+					    	</div>
+				    	
 				    </div>
 				</div>
+				<div class="rencaiNr clearfix">
+					<div class="rencaiRtgg left">
+						<span class="chaxinfwgpg" style="font-weight: bold;padding-bottom:20px">我们的目标</span>
+				    	<br/>
+				    	<br/>
+					        <div class="chaxinfwgpjg">
+					    		稀土大数据平台瞄准稀土元素的基础理论、新材料、产业链等关键环节，构筑我国稀土领域科学研究、产业发展的大数据公共支撑服务平台。
+					    	</div>
+					    	 <div class="chaxinfwgpjg"  >
+					    		为用户提供稀土领域的信息搜索、情报分析、数据应用等服务，同时为稀土新材料的模拟计算、设计应用提供智能服务打下坚实基础。
+					    	</div>
+					    	 <div class="chaxinfwgpjg"  >
+					    		建立稀土元素科学研究向产业发展的高速通道，为稀土新材料实现精准设计与模拟计算提供科学保障。
+					    	</div>
+					    	<div style="padding-top:35px">
+						    	<div class="left">
+						    		<img th:src="@{/images/guan3.png}" />
+						    	</div>
+						    	<div class="right" style="padding-top:45px">
+						    		<div class="chaxinfwgpjg"  style="font-weight: bold;">
+						    		联系电话：0472-5179029
+						    	</div>
+						    	<div class="chaxinfwgpjg" style="font-weight: bold;" >
+						    		联系地址：内蒙古包头市稀土高新区稀土大街规划路8-15号
+						    	</div>
+						    	</div>
+					    	</div>
+						
+					</div>
+				   
+				    <div class="rencaiLfg right">
+				    	
+				    	<img th:src="@{/images/guan2.png}" />
+				    </div>
+				</div>
+				
 			</div>
 			</div>
 		

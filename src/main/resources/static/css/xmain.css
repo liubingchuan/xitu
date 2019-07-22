@@ -333,6 +333,8 @@ body{font-family:"寰蒋闆呴粦","Microsoft YaHei"!important;}
 .chaxinfwTl{line-height: 25px;padding-left: 30px;color: #000;font-size: 14px;font-weight: bold;}
 .chaxinfwgp{color: #000;font-size: 14px;line-height: 27px;background: url(../ximages/Sketchchaxin_09.png) no-repeat left 8px;padding-left: 30px;margin-top: 39px;}
 .chaxinfwgpj{color: #000;font-size: 14px;line-height: 27px;background: url(../ximages/Sketchchaxin_09.png) no-repeat left 8px;padding-left: 30px;}
+.chaxinfwgpg{color: #000;font-size: 14px;line-height: 27px;margin-top: 39px;}
+.chaxinfwgpjg{color: #000;font-size: 12px;line-height: 27px;background: url(../images/guan4.jpg) no-repeat left 8px;padding-left: 30px;}
 .chaxinfwgpTl{font-weight: bold;}
 .chaxingpInp{border: 1px solid #9B9B9B;width: 100%;height: 40px;line-height: 40px;font-size: 14px;box-sizing: border-box;padding: 0px 10px;}
 .chaxingpInpj{border: 1px solid #9B9B9B;width: 100%;height: 25px;line-height: 25px;font-size: 14px;box-sizing: border-box;padding: 0px 10px;}
@@ -503,6 +505,7 @@ body{font-family:"寰蒋闆呴粦","Microsoft YaHei"!important;}
 .rencaiM{background: #fff;}
 .rencaiNr{padding: 39px 65px;}
 .rencaiLf{width: 170px;}
+.rencaiLg{width: 350px;}
 .rencaiLfj{width: 900px;}
 .rencaiLfTl{font-size: 16px;color: #D2CFCF;font-weight: bold;margin-bottom: 55px;}
 .rencaiLfUl a{display: inline-block;line-height: 27px;color: #4A4A4A;font-size: 16px;background: url(../ximages/Triangle.png) no-repeat left 8px;padding-left: 26px;margin-bottom: 30px;}
@@ -512,6 +515,8 @@ body{font-family:"寰蒋闆呴粦","Microsoft YaHei"!important;}
 .rencaiLfUl .ahover{color: #F5A623;}
 .rencaiLfUl .ahover span{border-bottom:5px solid  #F5A623;}
 .rencaiRt{width: 900px;}
+.rencaiRtg{width: 720px;}
+.rencaiRtgg{width: 520px;}
 .recaiForm{background: #F7F7F7;border-left: 5px solid #6D6DFF;padding: 8px 14px 8px 103px;}
 .recaiForm select{height: 35px;font-size: 14px;border: 1px solid #CCCCCC;width: 223px;margin-right: 13px;}
 .shaixuanbtn{width: 64px;border-radius: 2px;background: #F5A623;color: #fff;font-size: 14px;height: 35px;line-height: 35px;text-align: center;cursor: pointer;border: none;}
