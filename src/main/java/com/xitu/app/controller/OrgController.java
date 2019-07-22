@@ -180,7 +180,7 @@ public class OrgController {
 			//expert = expertRepository.findByName(name).get();
 			String name = insname.getString("name");
 			JSONObject rs = new JSONObject();
-			rs = orgService.executeOneFiled("name",name);
+			rs = orgService.executeOneFiled("anotherName",name);
 			List sources = new LinkedList();
 			if(rs != null) {
 				sources = (List) rs.get("list");

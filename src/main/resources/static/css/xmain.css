@@ -134,6 +134,7 @@ body{background-color: rgba(249,249,249,1);}
 /*妫�绱㈤〉*/
 .nyMain{background: url(../ximages/header.png) no-repeat center top;margin-bottom: 50px;}
 .nycontainer{width: 1220px;margin: 0px auto;}
+.nycontainerj{width: 1050px;margin: 0px auto;}
 .jiansuoOne{line-height: 42px;background-color: #F7F7F7;position: relative;margin-top:7px;}
 .jiansuoOnelf{width: 296px;text-align: center;border-right: 1px solid #D2CFCF;color: #595968;font-size: 14px;height: 42px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;}
 .headBack{color: #fff;font-size: 14px;margin-left: 124px;}
@@ -496,6 +497,7 @@ body{font-family:"寰蒋闆呴粦","Microsoft YaHei"!important;}
 .rencaiM{background: #fff;}
 .rencaiNr{padding: 39px 65px;}
 .rencaiLf{width: 170px;}
+.rencaiLfj{width: 200px;}
 .rencaiLfTl{font-size: 16px;color: #D2CFCF;font-weight: bold;margin-bottom: 55px;}
 .rencaiLfUl a{display: inline-block;line-height: 27px;color: #4A4A4A;font-size: 16px;background: url(../ximages/Triangle.png) no-repeat left 8px;padding-left: 26px;margin-bottom: 30px;}
 .rencaiLfUl a span{display: inline-block;border-bottom:5px solid transparent;}

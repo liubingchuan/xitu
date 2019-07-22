@@ -135,7 +135,7 @@ public class ExpertController {
 			//expert = expertRepository.findByName(name).get();
 			String name = insname.getString("name");
 			JSONObject rs = new JSONObject();
-			rs = expertService.executeOneFiled("name",name);
+			rs = expertService.executeOneFiled("anotherName",name);
 			List sources = new LinkedList();
 			if(rs != null) {
 				sources = (List) rs.get("list");

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" th:href="@{/css/xinit.css}" />
+		<link rel="stylesheet" th:href="@{/css/xmain.css}" />
+		<script type="text/javascript" th:src="@{/js/jquery-1.7.2.js}" ></script>
+		<script type="text/javascript" th:src="@{/js/echarts.min.js}" ></script>
+		<script type="text/javascript" th:src="@{/js/jquery.cookie.js}" ></script>
+	</head>
+	<body>
+		<div class="nyMain">
+			<div class="nycontainer">
+			<div class="head">
+			<div class="clearfix">
+				<a href="/" class="left logo">
+					<img th:src="@{/ximages/logo.png}" />
+				</a>
+				<!-- <a href="/" class="left headBack">
+					<<返回首页
+				</a>
+				<div class="left headsuos">
+					<em></em>
+					<input type="button" class="headsuosBtn" value="搜索" onClick="search();"/>
+					<input type="text" class="headsuosInp" th:text="${query}" id="keywords"/>
+				</div> -->
+				<div class="left menu clearfix">
+					<a href="/">平台首页</a>
+					<a id="xituzhiku" th:href="@{/patent/agmount}">稀土智库</a>
+					<a id="cailiaojisuan" th:href="@{/material/calculate}">材料计算</a>
+					<a id="chanyejiance" th:href="@{/jiance/jiancelist}">产业监测</a>
+					<a id="zhishifuwu" th:href="@{/zhishifuwu/zhishifuwu}">知识服务</a>
+					<a href="#">合作交流</a>
+					
+				</div>
+				<div class="right">
+					<!--登录前-->
+					<!--<div class="loginbefore">
+						<a href="javascript:;" class="loginBtn">登录</a><span>/</span><a href="loginBtn">注册</a>
+					</div>-->
+					<!--登陆后-->
+					<div class="loginAfter">
+						<div class="loginAfterM">
+							<a href="#" class="loginAfterTx">
+								<img id="headImg" th:src="@{/ximages/jiazai.png}" />
+							</a>
+							<div class="loginAfterNo">
+								
+								<div class="loginAfterNoM">
+									<em class="loginAfterNoMSj"></em>
+									<p>
+										<!-- <span class="loginName" th:text="${user.account}"></span> -->
+										<span class="loginName" id="logoinName"></span>
+										<span class="vip">
+										</span>
+									</p>
+									<p id="backgroud">
+										<!-- <a th:each="cookie :${#httpServletRequest.getCookies()}" th:if="${cookie.getName().equals('token')}"  th:href="@{/user/list(token=${cookie.getValue()},pageIndex=0,pageSize=10)}"> -->
+										<a th:href="@{/user/list(pageIndex=0,pageSize=10)}">
+											<img th:src="@{/ximages/houtai.png}" />
+											进入管理后台
+										</a>
+									</p>
+									<p>
+										<a href="#">
+											<img th:src="@{/ximages/dingdan.png}" />
+											我的申请
+										</a>
+									</p>
+									<p>
+										<a id="quit" href="/">
+											<img th:src="@{/ximages/tuichu.png}" />
+											退出
+										</a>
+									</p>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				
+				</div>
+			</div>
+		</div>              
+		    
+			</div>
+			<div class="nycontainer rencaiM">
+				<div class="rencaiTl">
+					材料计算
+				</div>
+				<div class="rencaiNr clearfix">
+					<div class="rencaiLf left">
+						<div class="rencaiLfTl">
+							目录导航
+						</div>
+						<ul class="rencaiLfUl">
+							<li>
+								<a th:href="@{/material/calculate}" class="ahover">
+									<span>计算服务平台</span>
+								</a>
+							</li>
+							<li>
+								<a th:href="@{/patent/agcountry}">
+									<span>相图数据库</span>
+								</a>
+							</li>
+							<li>
+								<a th:href="@{/report/list(front=0)}">
+									<span>性质数据库</span>
+								</a>
+							</li>
+							
+						</ul>
+					</div>
+				   <div class="rencaiLfj right">
+				    <div class="chaxinBottom">
+				<div class="nycontainerj clearfix">
+					<div class="left chaxinLF">
+						<form name="saveForm" th:action="@{/order/save}"  th:method="post">
+							<input id="userId" type="hidden"/>
+							<div class="chaxinTwo">
+								<div class="chaxinK chaxinTwoGp">
+									<em class="chaxintwoDel">×</em>
+									<div class="chaxinTwoTl">
+										主要联系人
+									</div>
+									<div class="chaxinTwoB">
+										<div class="clearfix">
+											<div class="left chaxingpLf">
+												<p class="chaxinName">
+													姓名<span class="colorRed">*</span>
+												</p>
+												<input type="text" class="chaxingpInp" id="name" />
+												<div class="erroText" id="nameer">
+	    				                              姓名不能为空
+	    			                            </div>
+											</div>
+											<div class="right chaxingpRt">
+												<p class="chaxinName">
+													邮箱<span class="colorRed">*</span>
+												</p>
+												<input type="text" class="chaxingpInp" id="email"  />
+												<div class="erroText" id="emailer">
+	    				                                                 邮箱不能为空
+	    			                            </div>
+											</div>
+										</div>
+									    <div class="clearfix">
+											<div class="left chaxingpLf">
+												<p class="chaxinName">
+												单位 <span class="colorRed">*</span>
+												</p>
+												<input type="text" class="chaxingpInp" id="institution"  />
+												<div class="erroText" id="institutioner">
+	    				                                                单位不能为空
+	    			                            </div>
+											</div>
+											<div class="right chaxingpRt">
+												<p class="chaxinName">
+												手机<span class="colorRed">*</span>
+												</p>
+												<input type="text" class="chaxingpInp" id="telephone"  />
+												<div class="erroText" id="telephoneer">
+	    				                                                手机不能为空
+	    			                            </div>
+											</div>
+										</div>
+									</div>
+									<div class="chaxinTwoB1" style="display:none">
+										<div class="clearfix">
+											<div class="left chaxingpLf">
+												<p class="chaxinName">
+													姓名
+												</p>
+												<input type="text" class="chaxingpInp" id="funame"  />
+												<div class="erroText" id="funameer">
+	    				                                                姓名不能为空
+	    			                            </div>
+											</div>
+											<div class="right chaxingpRt">
+												<p class="chaxinName">
+													邮箱
+												</p>
+												<input type="text" class="chaxingpInp" id="fuemail"  />
+												<div class="erroText" id="fuemailer">
+	    				                                                邮箱不能为空
+	    			                            </div>
+											</div>
+										</div>
+									    <div class="clearfix">
+											<div class="left chaxingpLf">
+												<p class="chaxinName">
+												单位 
+												</p>
+												<input type="text" class="chaxingpInp" id="fuinstitution"  />
+												<div class="erroText" id="fuinstitutioner">
+	    				                                               单位不能为空
+	    			                            </div>
+											</div>
+											<div class="right chaxingpRt">
+												<p class="chaxinName">
+												手机
+												</p>
+												<input type="text" class="chaxingpInp" id="futelephone" />
+												<div class="erroText" id="futelephoneer">
+	    				                                             手机不能为空
+	    			                            </div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<a href="javascript:;" class="chaxinThree" id="add">
+								+添加其他联系人
+							</a> 
+							
+						
+							
+						    <input type="button" value="提交" class="chaxinSubmit"  onclick="uptext()"/>
+						</form>
+					</div>
+				    <div class="right chaxinRt">
+				    	
+				    	<div class="chaxinfwTl">
+				    		服务标准
+				    	</div>
+				    	<div class="chaxinfwgp">
+				    		<div class="chaxinfwgpTl">
+				    			国内知识服务 
+				    		</div>
+				    		<P>费用：1000元/项</P>
+				    		<P> 时间：7个工作日 </P>
+				    		 <P>每项委托包含1个查新点。国内查新每增加1个查新点，查新费用增加300元，工作时间增加1个工作日； </P>
+				    	</div>
+				    	<div class="chaxinfwgp">
+				    		<div class="chaxinfwgpTl">
+				    			国外知识服务  
+				    		</div>
+				    		<P>费用：2000元/项</P>
+				    		<P>时间：10个工作日</P>
+				    		 <P>国内外查新每增加1个查新点，查新费用增加600元，工作时间增加3个工作日。</P>
+				    	</div>
+				    	<div class="chaxinfwgp">
+				    		<div class="chaxinfwgpTl">
+				    			说明 
+				    		</div>
+				    		<P>如需加急，按查新实际时间计算； </P>
+				    		<P>每项查新提交用户一式2份查新报告原件，每增加1份报告30元；</P>
+				    		 <P> 邮寄查新报告另收邮费及长话费50元。 </P>
+				    	</div>
+				    	
+				    </div>
+				</div>
+			</div>
+			</div>
+				</div>
+			</div>
+			</div>
+		
+		<div th:replace="footer :: myfooter"></div>
+		
+		<script type="text/javascript" th:src="@{/js/main.js}" ></script>
+		<script type="text/javascript">
+			
+			var myChart = echarts.init(document.getElementById('leixing'));
+			var name = "氧化钆";
+			var time = "3";
+			var conditions = {"time":time, "name":name}
+			$(document).ready(function() {
+
+				showleixing('jinsanyue');
+				if($.cookie("role")!=null && $.cookie("role")==="普通用户"){
+					$("#backgroud").css('display','none'); 
+				}
+				$("#logoinName").html($.cookie("nickName"));
+			    $("#headImg").attr("src", $.cookie("headImg"));
+			});
+		    
+			function showleixing(type) {
+				if(type == 'jinwunian'){
+				}
+				if(type == 'jinyinian'){
+					time = "1";
+				}
+				if(type == 'jinsanyue'){
+					time = "3";
+				}
+				conditions = {"time":time, "name":name}
+				getGraph();
+			}
+			
+			function getGraph() {
+				$.ajax({
+		            url:"/price/avg",
+		            type:"post",
+		            contentType: "application/json; charset=utf-8",
+		            data: JSON.stringify(conditions),
+		            dataType: "json",
+		            success:function(data){
+		            	
+		                let x = [];
+		    			let y = [];
+		    			let avg = data.avg;
+		    			$.each(avg, function(i) {
+		    			   x.push(i);
+		    			   y.push(avg[i]);
+		    			});
+		    			
+						option = {
+							
+							tooltip: {
+								trigger: 'axis'
+							},
+							grid: {
+								left: '3%',
+								right: '4%',
+								bottom: '3%',
+								containLabel: true
+							},
+							toolbox: {
+								feature: {
+									saveAsImage: {}
+								}
+							},
+							xAxis: {
+								type: 'category',
+								data: x
+							},
+							yAxis: {
+								type: 'value'
+							},
+							series: [
+								{
+									type:'line',
+									stack: '总量',
+									data: y,
+									itemStyle : { normal: {label : {show: true}}}
+								}
+							]
+						};
+
+					   myChart.setOption(option);
+		            },
+		            error:function(e){
+		                alert("获取报价失败！！");
+		            }
+		        });
+			}
+			
+			$("#yuansu").change(function(){
+				name = $("#yuansu").val();
+				
+				showleixing('wuleixing');
+			});
+			
+			
+			function search(){
+			    /*  window.location.href="http://127.0.0.1:8088/project/list?q=" + $("#keywords").val(); */
+			     window.location.href="/patent/list?q=" + $("#keywords").val();
+				/* window.location.href="http://47.104.7.73/patent/list?q=" + $("#keywords").val(); */
+			}
+			$("#keywords").keypress(function(e) {
+	            var eCode = e.keyCode ? e.keyCode : e.which ? e.which : e.charCode;
+	             if (eCode == 13){
+	                 search();
+	             }
+	     	});
+		</script>
+	</body>
+</html>
