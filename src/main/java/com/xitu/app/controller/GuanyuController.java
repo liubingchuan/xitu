@@ -82,9 +82,9 @@ import com.xitu.app.utils.ThreadLocalUtil;
 
 @CrossOrigin(origins = "*", maxAge = 3600, allowCredentials = "true")
 @Controller
-public class MaterialController {
+public class GuanyuController {
 
-	private static final Logger logger = LoggerFactory.getLogger(MaterialController.class);
+	private static final Logger logger = LoggerFactory.getLogger(GuanyuController.class);
 	
 	
 	// 代理隧道验证信息
@@ -100,16 +100,10 @@ public class MaterialController {
     final static String ProxyHeadVal = "yes";
 	
 	
-    @GetMapping(value = "material/calculate")
+    @GetMapping(value = "guanyu/women")
 	public String jisuanfuwu(Model model) {
 		
-		return "jisuanfuwupingtai";
-	}
-    
-    @GetMapping(value = "material/xiangtu")
-	public String xiangtushujuku(Model model) {
-		
-		return "xiangtushujuku";
+		return "guanyuwomen";
 	}
 	
 }

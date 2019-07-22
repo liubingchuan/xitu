@@ -134,7 +134,7 @@ body{background-color: rgba(249,249,249,1);}
 /*妫�绱㈤〉*/
 .nyMain{background: url(../ximages/header.png) no-repeat center top;margin-bottom: 50px;}
 .nycontainer{width: 1220px;margin: 0px auto;}
-.nycontainerj{width: 1050px;margin: 0px auto;}
+.nycontainerj{width: 950px;margin: 0px auto;}
 .jiansuoOne{line-height: 42px;background-color: #F7F7F7;position: relative;margin-top:7px;}
 .jiansuoOnelf{width: 296px;text-align: center;border-right: 1px solid #D2CFCF;color: #595968;font-size: 14px;height: 42px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;}
 .headBack{color: #fff;font-size: 14px;margin-left: 124px;}
@@ -322,16 +322,21 @@ body{font-family:"寰蒋闆呴粦","Microsoft YaHei"!important;}
 .chaxinOne a:hover{text-decoration: underline;}
 .chaxinBottom{background: #fff;padding-top: 39px;}
 .chaxinLF{width: 856px;}
+.chaxinLFj{width: 440px;}
 .chaxinK{border: 1px solid #BCBCBC;border-radius: 4px;margin-bottom: 20px;}
 .chaxinTwoGp{position: relative;}
 .chaxinTwoTl{color: #000;font-size: 14px;font-weight: bold;border-bottom: 1px solid #BCBCBC;padding: 15px 29px;}
 .chaxinTwoB{padding: 30px 42px 25px 40px;}
 .chaxinRt{width: 324px;}
+.chaxinRtj{width: 470px;}
 .chaxinRtTl{background: url(../ximages/Sketchchaxin_03.png) no-repeat center;background-size: cover;border-radius: 8px;text-align: center;color: #fff;font-size: 30px;padding: 35px 0px;font-weight: bold;margin-bottom: 25px;}
 .chaxinfwTl{line-height: 25px;padding-left: 30px;color: #000;font-size: 14px;font-weight: bold;}
 .chaxinfwgp{color: #000;font-size: 14px;line-height: 27px;background: url(../ximages/Sketchchaxin_09.png) no-repeat left 8px;padding-left: 30px;margin-top: 39px;}
+.chaxinfwgpj{color: #000;font-size: 14px;line-height: 27px;background: url(../ximages/Sketchchaxin_09.png) no-repeat left 8px;padding-left: 30px;}
 .chaxinfwgpTl{font-weight: bold;}
 .chaxingpInp{border: 1px solid #9B9B9B;width: 100%;height: 40px;line-height: 40px;font-size: 14px;box-sizing: border-box;padding: 0px 10px;}
+.chaxingpInpj{border: 1px solid #9B9B9B;width: 100%;height: 25px;line-height: 25px;font-size: 14px;box-sizing: border-box;padding: 0px 10px;}
+.chaxingpInpjj{border: 1px solid #9B9B9B;width: 100%;height: 80px;line-height: 80px;font-size: 14px;box-sizing: border-box;padding: 0px 10px;}
 .chaxinName{margin-bottom: 10px;font-size: 14px;color: #000;line-height: 20px;}
 .chaxingpLf{width: 341px;margin-bottom: 25px;}
 .erro .alertFormName,.erro .chaxinName,.erro .M_messGpName{color: red;}
@@ -446,6 +451,7 @@ body{font-family:"寰蒋闆呴粦","Microsoft YaHei"!important;}
 }
 .whitebg{background: #fff;}
 .chaxinSubmit{width: 132px;font-size: 16px;height: 49px;border: none;text-align: center;cursor: pointer;background: #4A90E2;color: #fff;margin-top: 32px;}
+.chaxinSubmitj{width: 132px;font-size: 16px;height: 49px;border: none;text-align: center;cursor: pointer;background: #4A90E2;color: #fff;margin-top: 15px;}
 .alertxuq img{width: 59px;vertical-align: middle;margin-bottom: 11px;}
 .alertxuq{width: 248px;border-radius: 5px;padding: 28px 0px;text-align: center;margin-left: -124px;margin-top: -107px;}
 .alertxuqTEXT{color: #4A90E2;font-size: 12px;line-height: 22px;}
@@ -497,7 +503,7 @@ body{font-family:"寰蒋闆呴粦","Microsoft YaHei"!important;}
 .rencaiM{background: #fff;}
 .rencaiNr{padding: 39px 65px;}
 .rencaiLf{width: 170px;}
-.rencaiLfj{width: 200px;}
+.rencaiLfj{width: 900px;}
 .rencaiLfTl{font-size: 16px;color: #D2CFCF;font-weight: bold;margin-bottom: 55px;}
 .rencaiLfUl a{display: inline-block;line-height: 27px;color: #4A4A4A;font-size: 16px;background: url(../ximages/Triangle.png) no-repeat left 8px;padding-left: 26px;margin-bottom: 30px;}
 .rencaiLfUl a span{display: inline-block;border-bottom:5px solid transparent;}

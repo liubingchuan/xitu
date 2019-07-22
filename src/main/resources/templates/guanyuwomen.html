@@ -86,9 +86,7 @@
 		    
 			</div>
 			<div class="nycontainer rencaiM">
-				<div class="rencaiTl">
-					材料计算
-				</div>
+				
 				<div class="rencaiNr clearfix">
 					<div class="rencaiLf left">
 						<div class="rencaiLfTl">
@@ -96,135 +94,64 @@
 						</div>
 						<ul class="rencaiLfUl">
 							<li>
-								<a th:href="@{/material/calculate}" class="ahover">
-									<span>计算服务平台</span>
+								<a th:href="@{/patent/agmount}" class="ahover">
+									<span>实时价格</span>
 								</a>
 							</li>
 							<li>
-								<a th:href="@{/material/xiangtu}">
-									<span>相图数据库</span>
+								<a th:href="@{/patent/agcountry}">
+									<span>原料分布</span>
 								</a>
 							</li>
 							<li>
-								<a>
-									<span>性质数据库</span>
+								<a th:href="@{/report/list(front=0)}">
+									<span>分析报告</span>
 								</a>
 							</li>
-							
+							<li>
+								<a th:href="@{/org/list(front=0)}">
+									<span>重点机构</span>
+								</a>
+							</li>
+							<li>
+								<a th:href="@{/expert/list(front=0)}">
+									<span>行业人才</span>
+								</a>
+							</li>
 						</ul>
 					</div>
-				   <div class="rencaiLfj right">
-				    <div class="chaxinBottom">
-				<div class="nycontainerj clearfix">
-					<div class="left chaxinLFj">
-						
-				    	<div class="chaxinfwgpj">
-				    		<div class="chaxinfwgpTl colorBlue"  style="font-size:20px">
-				    			解决计算需求 
+				   
+				    <div class="rencaiRt right">
+				    	<form>
+				    		<div class="recaiForm clearfix zhuanlOneNr">
+				    			<span class="left zhuanlOne">
+				    				价格走势
+				    			</span>
+				    			<div class="left zhuanlTwo">
+				    				<a href="javascript:showleixing('jinsanyue')" class="ahover">
+				    					近三月
+				    				</a>
+				    				<a href="javascript:showleixing('jinyinian')">
+				    					近一年
+				    				</a>
+				    				<a href="javascript:showleixing('jinwunian')">
+				    					近五年
+				    				</a>
+				    			</div>
+				    			<div class="clearfix right">
+			    				<select id="yuansu" class="left">
+                            		<option th:each="item : ${items}" th:value="${item}" th:text="${item}"></option>
+                        		</select>
+				    			<!-- <input type="button" class="left shaixuanbtn" value="筛选"> -->
+				    			</div>
 				    		</div>
-				    		
-				    		 <P style="padding-top:45px">稀土大数据平台依托中国科学院包头稀土研发中心，联合中国科学院金属研究所、中国科学院长春应用化学研究所、
-				    		 中国科学院宁波材料研究所等专业模拟计算科研团队，通过与科研院所专家、企业对接，嫁接起院所与企业之间的沟通桥梁，
-				    		 为用户提供合理、高效的材料模拟计算方案。</P>
+				    	</form>
+				        
+				    	<div class="zhuanlThree" style="width: 100%; height: 500px;">
+				    		<img th:src="@{/images/guanyuwomen.png}" />
 				    	</div>
-				    	<div class="chaxinfwgp">
-				    		<div class="chaxinfwgpTl colorBlue" style="font-size:20px">
-				    			实验验证
-				    		</div>
-				    		
-				    		 <P style="padding-top:45px">稀土大数据平台根据用户需求，选择科研院所专家，对接合作企业、院校，为用户提供在线实验验证功能。</P>
-				    	</div>
-				    	<div class="chaxinfwgp">
-				    		<div class="chaxinfwgpTl colorBlue" style="font-size:20px">
-				    			服务流程
-				    		</div>
-				    		
-				    		 <P style="padding-top:45px"> 客户需求分析—选择院所专家—双方合作—提供计算服务—对接企业、院校—进行实验验证。 </P>
-				    	</div>
-					</div>
-				    <div class="right chaxinRtj">
-				    	<form name="saveForm" th:action="@{/order/save}"  th:method="post">
-							<input id="userId" type="hidden"/>
-							<div class="chaxinTwo">
-								<div class="chaxinK chaxinTwoGp">
-									<em class="chaxintwoDel">×</em>
-									
-									<div class="chaxinTwoB">
-										<div class="clearfix">
-											<div class="right chaxingpRt">
-												<p class="chaxinName">
-													请问如何称呼您<span class="colorRed"></span>
-												</p>
-												<input type="text" class="chaxingpInpj" id="name" />
-												<div class="erroText" id="nameer">
-	    				                              姓名不能为空
-	    			                            </div>
-											</div>
-											<div class="right chaxingpRt">
-												<p class="chaxinName">
-													您的邮箱<span class="colorRed">*</span>
-												</p>
-												<input type="text" class="chaxingpInpj" id="email"  />
-												<div class="erroText" id="emailer">
-	    				                                                 邮箱不能为空
-	    			                            </div>
-											</div>
-										</div>
-									    <div class="clearfix">
-											<div class="right chaxingpRt">
-												<p class="chaxinName">
-												您的微信号 <span class="colorRed">*</span>
-												</p>
-												<input type="text" class="chaxingpInpj" id="institution"  />
-												<div class="erroText" id="institutioner">
-	    				                                                单位不能为空
-	    			                            </div>
-											</div>
-											<div class="right chaxingpRt">
-												<p class="chaxinName">
-												您的QQ<span class="colorRed">*</span>
-												</p>
-												<input type="text" class="chaxingpInpj" id="telephone"  />
-												<div class="erroText" id="telephoneer">
-	    				                                                手机不能为空
-	    			                            </div>
-											</div>
-										</div>
-										<div class="clearfix">
-											<div class="right chaxingpRt">
-												<p class="chaxinName">
-												您的手机号 <span class="colorRed"></span>
-												</p>
-												<input type="text" class="chaxingpInpj" id="institution"  />
-												<div class="erroText" id="institutioner">
-	    				                                                单位不能为空
-	    			                            </div>
-											</div>
-											<div class="right chaxingpRt">
-												<p class="chaxinName">
-												请描述您的需求<span class="colorRed">*</span>
-												</p>
-												<input type="text" class="chaxingpInpjj" id="telephone"  />
-												<div class="erroText" id="telephoneer">
-	    				                                                手机不能为空
-	    			                            </div>
-											</div>
-										</div>
-									</div>
-									
-								</div>
-							</div>
-							
-						    <div style="padding-left:169px">
-						    	<input type="button" value="提交" class="chaxinSubmitj"  onclick="uptext()"/>
-						    </div>
-						</form>
-				    	
-				    	
+				        
 				    </div>
-				</div>
-			</div>
-			</div>
 				</div>
 			</div>
 			</div>
