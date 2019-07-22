@@ -104,26 +104,23 @@ jump:
             	}
             	Elements tdes = tdelement.select("td");
             	Price price = new Price();
-            	price.setUpdateTime(formatter.format(date));
-        		price.setName(tdes.get(0).text());
-        		price.setDescription(tdes.get(1).text());
-        		price.setUnit(tdes.get(6).text());
-        		price.setPrice(tdes.get(3).text());
-        		price.setAvg(tdes.get(4).text());
-        		Price yesterday = priceMapper.getLatestPrice(price.getName());
-        		if(yesterday == null) {
-        			price.setFloating("100%");
+            	if(tdes.size()==7) {
+            		price.setUpdateTime(formatter.format(date));
+        			price.setName(tdes.get(0).text());
+        			price.setDescription(tdes.get(1).text());
+        			price.setUnit(tdes.get(6).text());
+        			price.setPrice(tdes.get(3).text());
+        			price.setAvg(tdes.get(4).text());
+        			price.setFloating(tdes.get(5).text());
         		}else {
-        			float before = Float.valueOf(yesterday.getAvg());
-        			float now = Float.valueOf(tdes.get(4).text());
-        			float delta = now - before;
-        			if(delta != 0) {
-        				System.out.println();
-        			}
-        			NumberFormat numberFormat = NumberFormat.getInstance();
-        			numberFormat.setMaximumFractionDigits(2);
-        			String result = numberFormat.format(delta / before * 100);
-        			price.setFloating(result + "%");
+        			price.setUpdateTime(formatter.format(date));
+        			price.setName(tdes.get(0).text());
+        			price.setDescription(tdes.get(1).text());
+        			price.setUnit(tdes.get(7).text());
+        			price.setPrice(tdes.get(3).text()+"-"+tdes.get(4).text());
+        			price.setAvg(tdes.get(5).text());
+        			price.setFloating(tdes.get(6).text());
+        			
         		}
             	priceMapper.insertPrice(price);
             }
