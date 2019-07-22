@@ -10,4 +10,5 @@ public interface ESService {
 	JSONObject executeIns(String insNamearr,int pageIndex, int pageSize, String field, int type);
 	JSONObject executeXiangguan(int pageIndex, int pageSize,int type,String uuid,List<String> args);
 	void executefamingren(int pageIndex, int pageSize, int type,String q,String person,String creator);
+	JSONObject executeOneFiled(String filed,String value);
 }

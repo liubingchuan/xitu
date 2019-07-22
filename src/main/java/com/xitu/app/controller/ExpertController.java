@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -45,6 +46,7 @@ import com.xitu.app.common.request.SaveExpertRequest;
 import com.xitu.app.mapper.ItemMapper;
 import com.xitu.app.model.Expert;
 import com.xitu.app.model.Item;
+import com.xitu.app.model.Org;
 import com.xitu.app.repository.ExpertRepository;
 import com.xitu.app.service.es.ExpertService;
 import com.xitu.app.utils.BeanUtil;
@@ -122,7 +124,29 @@ public class ExpertController {
 		return "redirect:/expert/list";
 	}
 	
-	
+	@ResponseBody
+	@RequestMapping(value = "expert/getByName", method = RequestMethod.POST,consumes = "application/json")
+	public JSONObject getExpertByname(
+			@RequestBody JSONObject insname) {
+		//String id = "1f93a2c9b53c4b10ac68c330a9f23234";
+		
+		if(insname != null ) {
+			//expert = expertRepository.findById(id).get();
+			//expert = expertRepository.findByName(name).get();
+			String name = insname.getString("name");
+			JSONObject rs = new JSONObject();
+			rs = expertService.executeOneFiled("name",name);
+			List sources = new LinkedList();
+			if(rs != null) {
+				sources = (List) rs.get("list");
+				if(sources != null) {
+					//return "redirect:/expert/get?front=0&id="+expert.getId();
+					return (JSONObject) sources.get(0);
+				}
+			}
+		}
+		return null;
+	}
 	@GetMapping(value = "expert/delete")
 	public String deleteExpert(@RequestParam(required=false,value="id") String id) {
 		if(id != null) {

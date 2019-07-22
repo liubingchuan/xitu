@@ -119,8 +119,10 @@
 		        				发明人:  
 		        			</div>
 		        			<p>
-		        				<span th:each="cre: ${patent.creator}" class="colorBlue" th:text="${cre}">
+		        				<span style="padding-left:10px" th:each="cre: ${patent.creator}" class="colorBlue" th:text="${cre}" th:onclick="'getName(\'' + ${cre} + '\');'" >
 		        				</span>
+		        				<!-- <a th:href="@{/expert/getByName(name=${cre})}" th:each="cre: ${patent.creator}" th:text="${cre}">
+		            			</a> -->
 		        			</p>
 		        		</div>
 		        		<div class="resultLfCon" th:if="${patent.person != null && patent.person != '' && #arrays.length(patent.person) > 0}">
@@ -128,7 +130,7 @@
 		        				专利权人：  
 		        			</div>
 		        			<p>
-		        				<span th:each="per: ${patent.person}" class="colorBlue" th:text="${per}">
+		        				<span style="padding-left:10px" th:each="per: ${patent.person}" class="colorBlue" th:text="${per}" th:onclick="'getOrgName(\'' + ${per} + '\')'" >
 		        				</span>
 		        			</p>
 		        		</div>
@@ -192,7 +194,51 @@
 			}
 			$("#logoinName").html($.cookie("nickName"));
 		    $("#headImg").attr("src", $.cookie("headImg"));
+		    
 		});
+		
+		function getName(name){
+			var param = {
+					'name' : name
+				};
+				 $.ajax({
+					url : "/expert/getByName",
+					data : JSON.stringify(param),
+					dataType : 'json',
+					type : 'post',
+					contentType: "application/json; charset=utf-8",
+					success : function(data) {
+						if(data != null){
+							//alert(data);
+							//window.location.href="/patent/list?q=" + $("#keywords").val() + "&" + uri;
+							window.location.href="/expert/get?front=0&id="+data.id;
+						}
+						
+					}
+				}); 
+			
+		}
+		function getOrgName(name){
+			var param = {
+					'name' : name
+				};
+				 $.ajax({
+					url : "/org/getByName",
+					data : JSON.stringify(param),
+					dataType : 'json',
+					type : 'post',
+					contentType: "application/json; charset=utf-8",
+					success : function(data) {
+						if(data != null){
+							//alert(data);
+							//window.location.href="/patent/list?q=" + $("#keywords").val() + "&" + uri;
+							window.location.href="/org/get?front=0&id="+data.id;
+						}
+						
+					}
+				}); 
+			
+		}
 			function search(){
 		    	var uri = '';
 		    	/* var entrust = ''

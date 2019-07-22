@@ -35,6 +35,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -167,6 +169,29 @@ public class OrgController {
 		return "fasdf";
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "org/getByName", method = RequestMethod.POST,consumes = "application/json")
+	public JSONObject getExpertByname(
+			@RequestBody JSONObject insname) {
+		//String id = "1f93a2c9b53c4b10ac68c330a9f23234";
+		Org org = new Org();
+		if(insname != null ) {
+			//expert = expertRepository.findById(id).get();
+			//expert = expertRepository.findByName(name).get();
+			String name = insname.getString("name");
+			JSONObject rs = new JSONObject();
+			rs = orgService.executeOneFiled("name",name);
+			List sources = new LinkedList();
+			if(rs != null) {
+				sources = (List) rs.get("list");
+				if(sources != null) {
+					//return "redirect:/expert/get?front=0&id="+expert.getId();
+					return (JSONObject) sources.get(0);
+				}
+			}
+		}
+		return null;
+	}
 	@GetMapping(value = "org/get")
 	public String getOrg(@RequestParam(required=false,value="front") String front,
 			@RequestParam(required=false,value="disable") String disable,
