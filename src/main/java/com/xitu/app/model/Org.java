@@ -22,6 +22,8 @@ public class Org implements Serializable{
 	
 	@CrossQuery
 	private String name; // 机构名称
+	@Field(type=FieldType.Keyword)
+	private String anotherName; // 机构名称
 	
 	@Field(type=FieldType.Keyword)
 	private List<String> alias; // 其他名称
@@ -232,6 +234,12 @@ public class Org implements Serializable{
 	}
 	public void setSeq(String seq) {
 		this.seq = seq;
+	}
+	public String getAnotherName() {
+		return anotherName;
+	}
+	public void setAnotherName(String anotherName) {
+		this.anotherName = anotherName;
 	}
 	
 	

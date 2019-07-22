@@ -157,16 +157,11 @@ public class OrgController {
 		while(orgs.hasNext()) {
 			Org org = orgs.next();
 			System.out.println(org.getId());
-			String seq = "";
-			String desc = "0";
-			if(org.getDescription() != null && !org.getDescription().equals("")) {
-				desc = "1";
+			String anotherName = "";
+			if(org.getName() != null && !org.getName().equals("")) {
+				anotherName = org.getName();
 			}
-			if(org.getOrder() != null && !org.getOrder().equals("")) {
-				seq = org.getOrder();
-			}
-			org.setSeq(seq);
-			org.setDesc(desc);
+			org.setAnotherName(anotherName);
 			orgRepository.save(org);
 		}
 		return "fasdf";

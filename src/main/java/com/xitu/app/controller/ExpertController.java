@@ -139,11 +139,11 @@ public class ExpertController {
 			System.out.println(expert.getId());
 //			List<String> tags = new ArrayList<String>();
 //			tags.add("测试");
-			String seq = "";
-			if(expert.getOrder() == null || expert.getOrder().equals("")) {
-				seq = expert.getOrder();
+			String anotherName = "";
+			if(expert.getName() == null || expert.getName().equals("")) {
+				anotherName = expert.getAnotherName();
 			}
-			expert.setSeq(seq);
+			expert.setAnotherName(anotherName);
 			expertRepository.save(expert);
 		}
 		return "fasdf";
