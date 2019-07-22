@@ -808,61 +808,74 @@ public class PatentController {
 	public void price() {
 		
 
-//		for(int i=5;i>0;i--) {
-//			String url="http://nm.sci99.com/news/?page=" + i + "&sid=8784&siteid=10" ;
-//			String base = "http://nm.sci99.com";
-//			try {
-//	        	
-////	        	Price exist = priceMapper.getPriceByUpdateTime(ymd);
-//	        	
-////	        	if(exist != null) {
-////	        		return;
-////	        	}
-//
-//	            Document doc = Jsoup.connect(url).get();
-//
-//	            Elements module = doc.getElementsByClass("ul_w690");
-//
-//	            Document moduleDoc = Jsoup.parse(module.toString());
-//
-//	            Elements lis = moduleDoc.getElementsByTag("li");  //选择器的形式
-//
-//	            Map< String, String> urls= new TreeMap<String, String>();
-//	            for (Element li : lis){
-//	                Document liDoc = Jsoup.parse(li.toString());
-//	                Elements hrefs = liDoc.select("a[href]");
-//	                for(Element elem: hrefs) {
-//	                	System.out.println(elem.text().substring(elem.text().length()-9,elem.text().length()-1));
-//	                	
-//	                	if(!"".equals(elem.attr("href"))){
-//	                		String href = elem.attr("href");
-//	                		urls.put(base + href, elem.text().substring(elem.text().length()-9,elem.text().length()-1));
-//	                	}
-//	                }
-//
+		for(int i=7;i>0;i--) {
+			String url="http://nm.sci99.com/news/?page=" + i + "&sid=8784&siteid=10" ;
+			String base = "http://nm.sci99.com";
+			try {
+	        	
+//	        	Price exist = priceMapper.getPriceByUpdateTime(ymd);
+	        	
+//	        	if(exist != null) {
+//	        		return;
+//	        	}
+
+	            Document doc = Jsoup.connect(url).get();
+
+	            Elements module = doc.getElementsByClass("ul_w690");
+
+	            Document moduleDoc = Jsoup.parse(module.toString());
+
+	            Elements lis = moduleDoc.getElementsByTag("li");  //选择器的形式
+
+	            Map< String, String> urls= new TreeMap<String, String>();
+	            for (Element li : lis){
+	                Document liDoc = Jsoup.parse(li.toString());
+	                Elements hrefs = liDoc.select("a[href]");
+	                for(Element elem: hrefs) {
+	                	System.out.println(elem.text().substring(elem.text().length()-9,elem.text().length()-1));
+	                	
+	                	if(!"".equals(elem.attr("href"))){
+	                		String href = elem.attr("href");
+	                		urls.put(base + href, elem.text().substring(elem.text().length()-9,elem.text().length()-1));
+	                	}
+	                }
+
+	            }
+	            for(Map.Entry<String, String> entry: urls.entrySet()) {
+	            	
+	            	Document singleDoc = Jsoup.connect(entry.getKey()).get();
+//	            if(!singleDoc.toString().contains(ymd)){
+//	            	return;
 //	            }
-//	            for(Map.Entry<String, String> entry: urls.entrySet()) {
-//	            	
-//	            	Document singleDoc = Jsoup.connect(entry.getKey()).get();
-////	            if(!singleDoc.toString().contains(ymd)){
-////	            	return;
-////	            }
-//	            	Element zoom = singleDoc.getElementById("zoom");
-//	            	Elements trElements = zoom.select("tr");
-//	            	boolean ignore = true;
-//	            	for(Element tdelement : trElements) {
-//	            		if(ignore) {
-//	            			ignore = false;
-//	            			continue;
-//	            		}
-//	            		Elements tdes = tdelement.select("td");
-//	            		Price price = new Price();
-//	            		price.setUpdateTime(entry.getValue());
-//	            		price.setName(tdes.get(0).text());
-//	            		price.setDescription(tdes.get(1).text());
-//	            		price.setUnit(tdes.get(6).text());
-//	            		price.setPrice(tdes.get(3).text());
-//	            		price.setAvg(tdes.get(4).text());
+	            	Element zoom = singleDoc.getElementById("zoom");
+	            	Elements trElements = zoom.select("tr");
+	            	boolean ignore = true;
+	            	for(Element tdelement : trElements) {
+	            		if(ignore) {
+	            			ignore = false;
+	            			continue;
+	            		}
+	            		Elements tdes = tdelement.select("td");
+	            		System.out.println(tdes.size());
+	            		Price price = new Price();
+	            		if(tdes.size()==7) {
+	            			price.setUpdateTime(entry.getValue());
+	            			price.setName(tdes.get(0).text());
+	            			price.setDescription(tdes.get(1).text());
+	            			price.setUnit(tdes.get(6).text());
+	            			price.setPrice(tdes.get(3).text());
+	            			price.setAvg(tdes.get(4).text());
+	            			price.setFloating(tdes.get(5).text());
+	            		}else {
+	            			price.setUpdateTime(entry.getValue());
+	            			price.setName(tdes.get(0).text());
+	            			price.setDescription(tdes.get(1).text());
+	            			price.setUnit(tdes.get(7).text());
+	            			price.setPrice(tdes.get(3).text()+"-"+tdes.get(4).text());
+	            			price.setAvg(tdes.get(5).text());
+	            			price.setFloating(tdes.get(6).text());
+	            			
+	            		}
 //	            		Price yesterday = priceMapper.getLatestPrice(price.getName());
 //	            		if(yesterday == null) {
 //	            			price.setFloating("100%");
@@ -878,118 +891,118 @@ public class PatentController {
 //	            			String result = numberFormat.format(delta / before * 100);
 //	            			price.setFloating(result + "%");
 //	            		}
-//	            		priceMapper.insertPrice(price);
-//	            		try {
-//	        				Thread.sleep(1000);
-//	        			} catch (InterruptedException e) {
-//	        				// TODO Auto-generated catch block
-//	        				e.printStackTrace();
-//	        			}
-//	            		System.out.println("插入成功" + price.getName());
-//	            	}
-//	            	//  String title = clearfixli.getElementsByTag("a").text();
-//	            	System.out.println("fasdf");
-//	            }
-//
-//
-//	        } catch (IOException e) {
-//	            e.printStackTrace();
-//	        }
-//			try {
-//				Thread.sleep(10000);
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
+	            		priceMapper.insertPrice(price);
+	            		try {
+	        				Thread.sleep(1000);
+	        			} catch (InterruptedException e) {
+	        				// TODO Auto-generated catch block
+	        				e.printStackTrace();
+	        			}
+	            		System.out.println("插入成功" + price.getName());
+	            	}
+	            	//  String title = clearfixli.getElementsByTag("a").text();
+	            	System.out.println("fasdf");
+	            }
+
+
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+			try {
+				Thread.sleep(10000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
-		final String url="http://nm.sci99.com/news/s8784.html" ;
-		String single = "http://nm.sci99.com";
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
-		Date date = new Date();
-		String ymd = formatter.format(date);
-
-        try {
-        	
-        	Price exist = priceMapper.getPriceByUpdateTime(ymd);
-        	
-        	if(exist != null) {
-        		return;
-//        		System.out.println("exist");
-        	}
-
-            Document doc = Jsoup.connect(url).get();
-
-            Elements module = doc.getElementsByClass("ul_w690");
-            if(!module.text().contains(ymd)) {
-            	return;
-//            	System.out.println("");
-            }
-            System.out.println(module.text());
-
-            Document moduleDoc = Jsoup.parse(module.toString());
-
-            Elements lis = moduleDoc.getElementsByTag("li");  //选择器的形式
-
-jump:
-            for (Element li : lis){
-                Document liDoc = Jsoup.parse(li.toString());
-                Elements hrefs = liDoc.select("a[href]");
-                for(Element elem: hrefs) {
-                	if(!"".equals(elem.attr("href"))){
-                		String href = elem.attr("href");
-                		single = single + href;
-                		break jump;
-                	}
-                }
-
-            }
-            
-            Document singleDoc = Jsoup.connect(single).get();
-//            if(!singleDoc.toString().contains(ymd)){
+//		final String url="http://nm.sci99.com/news/s8784.html" ;
+//		String single = "http://nm.sci99.com";
+//		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+//		Date date = new Date();
+//		String ymd = formatter.format(date);
+//
+//        try {
+//        	
+//        	Price exist = priceMapper.getPriceByUpdateTime(ymd);
+//        	
+////        	if(exist != null) {
+////        		return;
+//////        		System.out.println("exist");
+////        	}
+//
+//            Document doc = Jsoup.connect(url).get();
+//
+//            Elements module = doc.getElementsByClass("ul_w690");
+//            if(!module.text().contains(ymd)) {
 //            	return;
+////            	System.out.println("");
 //            }
-            Element zoom = singleDoc.getElementById("zoom");
-            Elements trElements = zoom.select("tr");
-            boolean ignore = true;
-            for(Element tdelement : trElements) {
-            	if(ignore) {
-            		ignore = false;
-            		continue;
-            	}
-            	Elements tdes = tdelement.select("td");
-            	Price price = new Price();
-            	price.setUpdateTime(formatter.format(date));
-        		price.setName(tdes.get(0).text());
-        		price.setDescription(tdes.get(1).text());
-        		price.setUnit(tdes.get(6).text());
-        		price.setPrice(tdes.get(3).text());
-        		price.setAvg(tdes.get(4).text());
-        		Price yesterday = priceMapper.getLatestPrice(price.getName());
-        		if(yesterday == null) {
-        			price.setFloating("100%");
-        		}else {
-        			float before = Float.valueOf(yesterday.getAvg());
-        			float now = Float.valueOf(tdes.get(4).text());
-        			float delta = now - before;
-        			if(delta != 0) {
-        				System.out.println();
-        			}
-        			NumberFormat numberFormat = NumberFormat.getInstance();
-        			numberFormat.setMaximumFractionDigits(2);
-        			String result = numberFormat.format(delta / before * 100);
-        			price.setFloating(result + "%");
-        		}
-            	priceMapper.insertPrice(price);
-            }
-              //  String title = clearfixli.getElementsByTag("a").text();
-            System.out.println("fasdf");
-
-          //  System.out.println(clearfix);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//            System.out.println(module.text());
+//
+//            Document moduleDoc = Jsoup.parse(module.toString());
+//
+//            Elements lis = moduleDoc.getElementsByTag("li");  //选择器的形式
+//
+//jump:
+//            for (Element li : lis){
+//                Document liDoc = Jsoup.parse(li.toString());
+//                Elements hrefs = liDoc.select("a[href]");
+//                for(Element elem: hrefs) {
+//                	if(!"".equals(elem.attr("href"))){
+//                		String href = elem.attr("href");
+//                		single = single + href;
+//                		break jump;
+//                	}
+//                }
+//
+//            }
+//            
+//            Document singleDoc = Jsoup.connect(single).get();
+////            if(!singleDoc.toString().contains(ymd)){
+////            	return;
+////            }
+//            Element zoom = singleDoc.getElementById("zoom");
+//            Elements trElements = zoom.select("tr");
+//            boolean ignore = true;
+//            for(Element tdelement : trElements) {
+//            	if(ignore) {
+//            		ignore = false;
+//            		continue;
+//            	}
+//            	Elements tdes = tdelement.select("td");
+//            	Price price = new Price();
+//            	price.setUpdateTime(formatter.format(date));
+//        		price.setName(tdes.get(0).text());
+//        		price.setDescription(tdes.get(1).text());
+//        		price.setUnit(tdes.get(6).text());
+//        		price.setPrice(tdes.get(3).text());
+//        		price.setAvg(tdes.get(4).text());
+//        		Price yesterday = priceMapper.getLatestPrice(price.getName());
+//        		if(yesterday == null) {
+//        			price.setFloating("100%");
+//        		}else {
+//        			float before = Float.valueOf(yesterday.getAvg());
+//        			float now = Float.valueOf(tdes.get(4).text());
+//        			float delta = now - before;
+//        			if(delta != 0) {
+//        				System.out.println();
+//        			}
+//        			NumberFormat numberFormat = NumberFormat.getInstance();
+//        			numberFormat.setMaximumFractionDigits(2);
+//        			String result = numberFormat.format(delta / before * 100);
+//        			price.setFloating(result + "%");
+//        		}
+////            	priceMapper.insertPrice(price);
+//            }
+//              //  String title = clearfixli.getElementsByTag("a").text();
+//            System.out.println("fasdf");
+//
+//          //  System.out.println(clearfix);
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 //		return "T-rencaiCon";
 	}
 	
