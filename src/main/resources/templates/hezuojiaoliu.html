@@ -88,144 +88,81 @@
 			</div>
 			<div class="nycontainer rencaiM">
 				<div class="rencaiTl">
-					材料计算
+					合作交流
 				</div>
-				<div class="rencaiNr clearfix">
-					<div class="rencaiLf left">
-						<div class="rencaiLfTl">
-							目录导航
-						</div>
-						<ul class="rencaiLfUl">
-							<li>
-								<a th:href="@{/material/calculate}" class="ahover">
-									<span>计算服务平台</span>
-								</a>
-							</li>
-							<li>
-								<a th:href="@{/material/xiangtu}">
-									<span>相图数据库</span>
-								</a>
-							</li>
-							<li>
-								<a>
-									<span>性质数据库</span>
-								</a>
-							</li>
-							
-						</ul>
-					</div>
-				   <div class="rencaiLfj right">
-				    <div class="chaxinBottom">
-				<div class="nycontainerj clearfix">
-					<div class="left chaxinLFj">
+				<div class="rencaiNrh clearfix">
+					<div class="rencaiLfg left">
+						<img th:src="@{/images/hezuo1.png}" />
 						
-				    	<div class="chaxinfwgpj">
-				    		<div class="chaxinfwgpTl colorBlue"  style="font-size:20px">
-				    			解决计算需求 
-				    		</div>
-				    		
-				    		 <P style="padding-top:45px">稀土大数据平台依托中国科学院包头稀土研发中心，联合中国科学院金属研究所、中国科学院长春应用化学研究所、
-				    		 中国科学院宁波材料研究所等专业模拟计算科研团队，通过与科研院所专家、企业对接，嫁接起院所与企业之间的沟通桥梁，
-				    		 为用户提供合理、高效的材料模拟计算方案。</P>
-				    	</div>
-				    	<div class="chaxinfwgp">
-				    		<div class="chaxinfwgpTl colorBlue" style="font-size:20px">
-				    			实验验证
-				    		</div>
-				    		
-				    		 <P style="padding-top:45px">稀土大数据平台根据用户需求，选择科研院所专家，对接合作企业、院校，为用户提供在线实验验证功能。</P>
-				    	</div>
-				    	<div class="chaxinfwgp">
-				    		<div class="chaxinfwgpTl colorBlue" style="font-size:20px">
-				    			服务流程
-				    		</div>
-				    		
-				    		 <P style="padding-top:45px"> 客户需求分析—选择院所专家—双方合作—提供计算服务—对接企业、院校—进行实验验证。 </P>
-				    	</div>
 					</div>
-				    <div class="right chaxinRtj">
-				    	<form name="saveForm" th:action="@{/order/save}"  th:method="post">
-							<input id="userId" type="hidden"/>
-							<div class="chaxinTwo">
-								<div class="chaxinK chaxinTwoGp">
-									<em class="chaxintwoDel">×</em>
-									
-									<div class="chaxinTwoB">
-										<div class="clearfix">
-											<div class="right chaxingpRt">
-												<p class="chaxinName">
-													请问如何称呼您<span class="colorRed"></span>
-												</p>
-												<input type="text" class="chaxingpInpj" id="name" />
-												<div class="erroText" id="nameer">
-	    				                              姓名不能为空
-	    			                            </div>
-											</div>
-											<div class="right chaxingpRt">
-												<p class="chaxinName">
-													您的邮箱<span class="colorRed">*</span>
-												</p>
-												<input type="text" class="chaxingpInpj" id="email"  />
-												<div class="erroText" id="emailer">
-	    				                                                 邮箱不能为空
-	    			                            </div>
-											</div>
-										</div>
-									    <div class="clearfix">
-											<div class="right chaxingpRt">
-												<p class="chaxinName">
-												您的微信号 <span class="colorRed">*</span>
-												</p>
-												<input type="text" class="chaxingpInpj" id="institution"  />
-												<div class="erroText" id="institutioner">
-	    				                                                单位不能为空
-	    			                            </div>
-											</div>
-											<div class="right chaxingpRt">
-												<p class="chaxinName">
-												您的QQ<span class="colorRed">*</span>
-												</p>
-												<input type="text" class="chaxingpInpj" id="telephone"  />
-												<div class="erroText" id="telephoneer">
-	    				                                                手机不能为空
-	    			                            </div>
-											</div>
-										</div>
-										<div class="clearfix">
-											<div class="right chaxingpRt">
-												<p class="chaxinName">
-												您的手机号 <span class="colorRed"></span>
-												</p>
-												<input type="text" class="chaxingpInpj" id="institution"  />
-												<div class="erroText" id="institutioner">
-	    				                                                单位不能为空
-	    			                            </div>
-											</div>
-											<div class="right chaxingpRt">
-												<p class="chaxinName">
-												请描述您的需求<span class="colorRed">*</span>
-												</p>
-												<input type="text" class="chaxingpInpjj" id="telephone"  />
-												<div class="erroText" id="telephoneer">
-	    				                                                手机不能为空
-	    			                            </div>
-											</div>
-										</div>
-									</div>
-									
-								</div>
-							</div>
-							
-						    <div style="padding-left:169px">
-						    	<input type="button" value="提交" class="chaxinSubmitj"  onclick="uptext()"/>
-						    </div>
-						</form>
-				    	
+				</div>
+				<div class="rencaiNrhhh clearfix">
+					<div class="rencaiRtggh left">
+						<span class="chaxinfwgpg" style="font-weight: bold">稀土大数据平台致力于为合作伙伴构提供全方位合作、优质数据服务、专业技术支持、高效解决方案。</span>
+					</div>
+				   
+				</div>
+				<div class="rencaiNrh clearfix">
+					<div class="rencaiLfg left">
+						<img th:src="@{/images/hezuo2.png}" />
+						
+					</div>
+				</div>
+				<div class="rencaiNrhhh clearfix">
+					<div class="rencaiRtggh left">
+						<img th:src="@{/images/hezuo6.png}" />
+					</div>
+				   
+				</div>
+				<div class="rencaiNrh clearfix">
+					<div class="rencaiLfg left">
+						<img th:src="@{/images/hezuo5.png}" />
+						
+					</div>
+				</div>
+				<div class="rencaiNrhhh clearfix">
+					<div class="rencaiRtggh left">
+						<img th:src="@{/images/hezuo7.png}" />
+					</div>
+				   
+				</div>
+				<div class="rencaiNrh clearfix">
+					<div class="rencaiLfg left">
+						<img th:src="@{/images/hezuo8.png}" />
+						
+					</div>
+				</div>
+				<div class="rencaiNrhhh clearfix">
+					<div class="rencaiRtggh left">
+						<img th:src="@{/images/hezuo13.png}" />
+					</div>
+				   
+				</div>
+				<div class="rencaiNrhh clearfix">
+					<div class="rencaiLfg left">
+						<img th:src="@{/images/hezuo9.png}" />
+						
+					</div>
+				</div>
+				<div class="rencaiNrh clearfix">
+					<div class="rencaiLfg left"  style="width:200px">
+						<img th:src="@{/images/hezuo11.png}" />
+						
+					</div>
+				   
+				    <div class="rencaiRtg right">
+				    <br/>
+				    	<span class="chaxinfwgpg" style="font-size:13px">中国科学院包头稀土研发中心联合中国科学院金属研究所，依托稀土大数据平台，开展多尺度全流程材料设计与计算项目。</span>
+				    	<br/>
+				    	<br/>
+				    	<span class="chaxinfwgpg" style="font-size:13px">通过计算模拟，开发了原子尺度-介观尺度-宏观尺度的强关联多尺度模拟计算算法，通过高通量计算，从不同尺度对材料的成分、组织和性能进行模拟及预测，建立材料了制备全流程计算模拟系统。</span>
+				    	<br/>
+				    	<br/>
+				    	<span class="chaxinfwgpg" style="font-size:13px">稀土大数据平台对接当地企业进行现场验证，该模拟系统指导了稀土钢、稀土铝合金、等离子清洗、超大重型铸锻件的设计与制造。</span>
+				    	<br/>
+				    	<br/>
 				    	
 				    </div>
-				</div>
-			</div>
-			</div>
 				</div>
 			</div>
 			</div>

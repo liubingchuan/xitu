@@ -504,6 +504,9 @@ body{font-family:"寰蒋闆呴粦","Microsoft YaHei"!important;}
 .rencaiTl{background: url(../ximages/zhuanlifenxi-bg.png) no-repeat center;padding: 20px 20px 20px 288px;color: #fff;font-size: 30px;margin-top: 15px;font-weight: bold;line-height: 30px;}
 .rencaiM{background: #fff;}
 .rencaiNr{padding: 39px 65px;}
+.rencaiNrhhh{padding: 0px 65px;}
+.rencaiNrh{padding: 30px 65px;}
+.rencaiNrhh{padding:15px 65px 5px 65px;}
 .rencaiLf{width: 170px;}
 .rencaiLg{width: 350px;}
 .rencaiLfj{width: 900px;}
@@ -517,6 +520,7 @@ body{font-family:"寰蒋闆呴粦","Microsoft YaHei"!important;}
 .rencaiRt{width: 900px;}
 .rencaiRtg{width: 720px;}
 .rencaiRtgg{width: 520px;}
+.rencaiRtggh{width: 900px;}
 .recaiForm{background: #F7F7F7;border-left: 5px solid #6D6DFF;padding: 8px 14px 8px 103px;}
 .recaiForm select{height: 35px;font-size: 14px;border: 1px solid #CCCCCC;width: 223px;margin-right: 13px;}
 .shaixuanbtn{width: 64px;border-radius: 2px;background: #F5A623;color: #fff;font-size: 14px;height: 35px;line-height: 35px;text-align: center;cursor: pointer;border: none;}
