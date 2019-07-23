@@ -163,11 +163,11 @@ public class ExpertController {
 			System.out.println(expert.getId());
 //			List<String> tags = new ArrayList<String>();
 //			tags.add("测试");
-			String anotherName = "";
-			if(expert.getName() == null || expert.getName().equals("")) {
-				anotherName = expert.getAnotherName();
+			String seq = "";
+			if(expert.getFrontend() == null || expert.getFrontend().equals("")) {
+				seq = expert.getFrontend();
 			}
-			expert.setAnotherName(anotherName);
+			expert.setSeq(seq);
 			expertRepository.save(expert);
 		}
 		return "fasdf";
