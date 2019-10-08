@@ -572,14 +572,10 @@ public class OrgController {
         Row row = null;
         List<Map<String,String>> list = null;
         String cellData = null;
-        String filePath = "/Users/liubingchuan/Desktop/hangzhou/dierpijigouxinxihuizong597/jigouxinxihuizongdierpi.xlsx";
-        String photoLocalPath = "/Users/liubingchuan/Desktop/hangzhou/dierpijigouxinxihuizong597/jigouzhaopianhuizong0514";
+        String filePath = "/Users/liubingchuan/Desktop/shuju/jigou.xlsx";
+        String photoLocalPath = "/Users/liubingchuan/Desktop/shuju/jigou";
         wb = readExcel(filePath);
-        Scpclient client = Scpclient.getInstance("45.76.75.11", 22, "root", "6c]V=*z2bY=mRZ2)");
-        Set<String> jigouleixings = new HashSet<String>();
-        Set<String> suoshuguojias = new HashSet<String>();
-        Set<String> chanyelians = new HashSet<String>();
-        Set<String> chanpinleixings = new HashSet<String>();
+        Scpclient client = Scpclient.getInstance("47.93.216.109", 22, "root", "Xitudashuju%1688");
         if(wb != null){
             //用来存放表中数据
             list = new ArrayList<Map<String,String>>();
@@ -610,20 +606,49 @@ public class OrgController {
                         	if(photo.exists()) {
                         		org.setFrontend(uuid+"_"+fileName);
                         		org.setFrontendFileName(fileName);
+                        		org.setSeq(uuid+"_"+fileName);
                         		org.setFrontendSize(String.valueOf(Math.round(photo.length()/1000)));
                         		client.putFile(photoLocalPath + File.separator + fileName, uuid+"_"+fileName, "/root/files", "0755");
-                        	}else {
-                        		fileName = cellData + ".png";
-                        		photo = new File(photoLocalPath + File.separator + fileName);
-                        		if(photo.exists()) {
-                        			org.setFrontend(uuid+"_"+fileName);
-                        			org.setFrontendFileName(fileName);
-                        			org.setFrontendSize(String.valueOf(Math.round(photo.length()/1000)));
-                        			client.putFile(photoLocalPath + File.separator + fileName, uuid+"_"+fileName, "/root/files", "0755");
-                        		}
+                        		continue;
                         	}
+                        	fileName = fileName + ".png";
+                        	photo = new File(photoLocalPath + File.separator + fileName);
+                        	if(photo.exists()) {
+                        		org.setFrontend(uuid+"_"+fileName);
+                        		org.setSeq(uuid+"_"+fileName);
+                        		org.setFrontendFileName(fileName);
+                        		org.setFrontendSize(String.valueOf(Math.round(photo.length()/1000)));
+                        		client.putFile(photoLocalPath + File.separator + fileName, uuid+"_"+fileName, "/root/files", "0755");
+                        		continue;
+                        	}
+                        	fileName = fileName + ".JPG";
+                        	photo = new File(photoLocalPath + File.separator + fileName);
+                        	if(photo.exists()) {
+                        		org.setFrontend(uuid+"_"+fileName);
+                        		org.setSeq(uuid+"_"+fileName);
+                        		org.setFrontendFileName(fileName);
+                        		org.setFrontendSize(String.valueOf(Math.round(photo.length()/1000)));
+                        		client.putFile(photoLocalPath + File.separator + fileName, uuid+"_"+fileName, "/root/files", "0755");
+                        		continue;
+                        	}
+                        	fileName = fileName + ".gif";
+                        	photo = new File(photoLocalPath + File.separator + fileName);
+                        	if(photo.exists()) {
+                        		org.setFrontend(uuid+"_"+fileName);
+                        		org.setSeq(uuid+"_"+fileName);
+                        		org.setFrontendFileName(fileName);
+                        		org.setFrontendSize(String.valueOf(Math.round(photo.length()/1000)));
+                        		client.putFile(photoLocalPath + File.separator + fileName, uuid+"_"+fileName, "/root/files", "0755");
+                        		continue;
+                        	}
+                        	org.setFrontend("");
+                        	org.setSeq("");
+                        	org.setFrontendFileName("");
+                        	org.setFrontendSize("");
+                        	
                         }else if(j==1){
                         	org.setName(cellData);
+                        	org.setAnotherName(cellData);
                         }else if(j==2) {
                         	String[] str = cellData.split("、");
                         	List<String> alias = new ArrayList<String>();
@@ -653,50 +678,50 @@ public class OrgController {
                 }
             }
         }
-        Item jglx = new Item();
-        jglx.setService("jglx");
-        StringBuilder bufferJglx = new StringBuilder();
-		boolean append = false;
-		for(String s: jigouleixings) {
-			if("".equals(s)) {
-				append=false;
-				continue;
-			}
-			if(append) bufferJglx.append(";"); else append = true; 
-			bufferJglx.append(s);
-		}
-		jglx.setItem(bufferJglx.toString().length()==0?"":bufferJglx.substring(0, bufferJglx.length()));
-		itemMapper.insertItem(jglx);
-		Item gj = new Item();
-		gj.setService("gj");
-		StringBuilder bufferGj = new StringBuilder();
-		append = false;
-		for(String s: suoshuguojias) {
-			if("".equals(s)) {
-				append=false;
-				continue;
-			}
-			if(append) bufferGj.append(";"); else append = true; 
-			bufferGj.append(s);
-		}
-		gj.setItem(bufferGj.toString().length()==0?"":bufferGj.substring(0, bufferGj.length()));
-		itemMapper.insertItem(gj);
-		
-		
-		Item cyl = new Item();
-		cyl.setService("cyl");
-		StringBuilder bufferCyl = new StringBuilder();
-		append = false;
-		for(String s: chanyelians) {
-			if("".equals(s)) {
-				append=false;
-				continue;
-			}
-			if(append) bufferCyl.append(";"); else append = true; 
-			bufferCyl.append(s);
-		}
-		cyl.setItem(bufferCyl.toString().length()==0?"":bufferCyl.substring(0, bufferCyl.length()));
-		itemMapper.insertItem(cyl);
+//        Item jglx = new Item();
+//        jglx.setService("jglx");
+//        StringBuilder bufferJglx = new StringBuilder();
+//		boolean append = false;
+//		for(String s: jigouleixings) {
+//			if("".equals(s)) {
+//				append=false;
+//				continue;
+//			}
+//			if(append) bufferJglx.append(";"); else append = true; 
+//			bufferJglx.append(s);
+//		}
+//		jglx.setItem(bufferJglx.toString().length()==0?"":bufferJglx.substring(0, bufferJglx.length()));
+//		itemMapper.insertItem(jglx);
+//		Item gj = new Item();
+//		gj.setService("gj");
+//		StringBuilder bufferGj = new StringBuilder();
+//		append = false;
+//		for(String s: suoshuguojias) {
+//			if("".equals(s)) {
+//				append=false;
+//				continue;
+//			}
+//			if(append) bufferGj.append(";"); else append = true; 
+//			bufferGj.append(s);
+//		}
+//		gj.setItem(bufferGj.toString().length()==0?"":bufferGj.substring(0, bufferGj.length()));
+//		itemMapper.insertItem(gj);
+//		
+//		
+//		Item cyl = new Item();
+//		cyl.setService("cyl");
+//		StringBuilder bufferCyl = new StringBuilder();
+//		append = false;
+//		for(String s: chanyelians) {
+//			if("".equals(s)) {
+//				append=false;
+//				continue;
+//			}
+//			if(append) bufferCyl.append(";"); else append = true; 
+//			bufferCyl.append(s);
+//		}
+//		cyl.setItem(bufferCyl.toString().length()==0?"":bufferCyl.substring(0, bufferCyl.length()));
+//		itemMapper.insertItem(cyl);
     	return R.ok();
     }
     
