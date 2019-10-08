@@ -120,24 +120,43 @@
 				    				<option>
 				    					稀土元素
 				    				</option>
-				    				<option></option>
+				    				<option selected>镧</option>
+				    				<option>铈</option>
+				    				<option>镨</option>
+				    				<option>钕</option>
+				    				<option>钷</option>
+				    				<option>钐</option>
+				    				<option>铕</option>
+				    				<option>钆</option>
+				    				<option>铽</option>
+				    				<option>钬</option>
+				    				<option>铒</option>
+				    				<option>铥</option>
+				    				<option>镱</option>
+				    				<option>镥</option>
+				    				<option>钇</option>
+				    				<option>钪</option>
 				    			</select>
 				    			<select class="left" id="areaselect">
 				    				<option>
 				    					合金
 				    				</option>
-				    				<option></option>
+				    				<option>铝硅</option>
+				    				<option selected>铝镁</option>
+				    				<option>铝铜</option>
+				    				<option>铁碳</option>
+				    				
 				    			</select>
 				    			
 				    			<input type="button" class="left shaixuanbtn" value="筛选" onClick="shuaixuan();">
 				    		</div>
 				    	</form>
-				       <div class="zhuanlThree" id="leixing" style="padding-left:95px;width: 100%; ">
-				    		<img th:src="@{/images/La.png}" />
+				    	
+				       <div class="zhuanlThree" id="leixing" style="padding-left:95px;">
+				    		
+				    		
 				    	</div>
-				         <div class="zhuanlThree" id="leixing" style="padding-left:95px;width: 100%;">
-				    		<img th:src="@{/images/Mg.png}" />
-				    	</div>
+				         
 				    </div>
 				</div>
 			</div>
@@ -148,11 +167,6 @@
 		<script type="text/javascript" th:src="@{/js/main.js}" ></script>
 		<script type="text/javascript" th:inline="javascript">
 		
-		var unit =  [[${units}]];
-		var area =  [[${areas}]];
-		var duty =  [[${dutys}]];
-		var query =  [[${query}]];
-		
 		$(document).ready(function () {
 			if($.cookie("role")!=null && $.cookie("role")==="普通用户"){
 				$("#backgroud").css('display','none'); 
@@ -160,44 +174,213 @@
 			$("#logoinName").html($.cookie("nickName"));
 		    $("#headImg").attr("src", $.cookie("headImg"));
 		    
-		    if(unit != null){
-		    	document.getElementById('unitselect').value=unit;
-		    }
-		    if(area != null){
-		    	document.getElementById('areaselect').value=area;
-		    }
-		    if(duty != null){
-		    	document.getElementById('dutyselect').value=duty;
-		    }
+		    var html = '<div style="padding-left:250px;color:red">铝-镧-镁合金相图</div>';
+			html += '<img src="/xiangtuimage/lanlvmei1.png" width="560px"; />';
+			html += '<div style="padding-left:250px;">图1 Al-x wt.%La</div>';
+			html += '<img src="/xiangtuimage/lanlvmei2.png" width="560px"; />';
+			html += '<div style="padding-left:250px;">图2 Al-x wt.%La-1 wt.%Mg</div>';
+			html += '<img src="/xiangtuimage/lanlvmei3.png" width="560px"; />';
+			html += '<div style="padding-left:250px;">图3 Al-x wt.%La-2 wt.%Mg</div>';
+			html += '<img src="/xiangtuimage/lanlvmei4.png" width="560px"; />';
+			html += '<div style="padding-left:250px;">图4 Al-x wt.%La-3 wt.%Mg</div>';
+			html += '<img src="/xiangtuimage/lanlvmei5.png" width="560px"; />';
+			html += '<div style="padding-left:250px;">图5 Al-x wt.%La-5wt.%Mg</div>';
+			html += '<img src="/xiangtuimage/lanlvmei6.png" width="560px"; />';
+			html += '<div style="padding-left:250px;">图6 Al-x wt.%La-15 wt.%Mg</div>';
+			html += '<img src="/xiangtuimage/lanlvmei7.png" width="560px"; />';
+			html += '<div style="padding-left:250px;">图7 Al-x wt.%La-20wt.%Mg</div>';
+			html += '<img src="/xiangtuimage/lanlvmei8.png" width="560px"; />';
+			html += '<div style="padding-left:250px;">图8 Al-x wt.%La-50wt.%Mg</div>';
+			html += '<img src="/xiangtuimage/lanlvmei9.png" width="560px"; />';
+			html += '<div style="padding-left:250px;">图9 Al-x wt.%La-70wt.%Mg</div>';
+			html += '<img src="/xiangtuimage/lanlvmei10.png" width="560px"; />';
+			html += '<div style="padding-left:250px;">图10 Al-x wt.%La-90wt.%Mg</div>';
+			
+			html += '<div style="padding-left:250px;padding-top:25px;color:red">铝-镁-镧合金相图</div>';
+			html += '<img src="/xiangtuimage/lvmeilan1.jpg" width="560px"; />';
+			html += '<div style="padding-left:250px;">图1 Al-x wt.%Mg</div>';
+			html += '<img src="/xiangtuimage/lvmeilan2.jpg" width="560px"; />';
+			html += '<div style="padding-left:250px;">图2 Al-x wt.%Mg-0.01wt.%La</div>';
+			html += '<img src="/xiangtuimage/lvmeilan3.jpg" width="560px"; />';
+			html += '<div style="padding-left:250px;">图3 Al-x wt.%Mg-0.02wt.%La</div>';
+			html += '<img src="/xiangtuimage/lvmeilan4.jpg" width="560px"; />';
+			html += '<div style="padding-left:250px;">图4 Al-x wt.%Mg-0.03wt.%La</div>';
+			html += '<img src="/xiangtuimage/lvmeilan5.jpg" width="560px"; />';
+			html += '<div style="padding-left:250px;">图5 Al-x wt.%Mg-0.04wt.%La</div>';
+			html += '<img src="/xiangtuimage/lvmeilan6.jpg" width="560px"; />';
+			html += '<div style="padding-left:250px;">图6 Al-x wt.%Mg-0.05wt.%La</div>';
+			html += '<img src="/xiangtuimage/lvmeilan7.jpg" width="560px"; />';
+			html += '<div style="padding-left:250px;">图7 Al-x wt.%Mg-0.06wt.%La</div>';
+			html += '<img src="/xiangtuimage/lvmeilan8.jpg" width="560px"; />';
+			html += '<div style="padding-left:250px;">图8 Al-x wt.%Mg-0.07wt.%La</div>';
+			html += '<img src="/xiangtuimage/lvmeilan9.jpg" width="560px"; />';
+			html += '<div style="padding-left:250px;">图9 Al-x wt.%Mg-0.1wt.%La</div>';
+			html += '<img src="/xiangtuimage/lvmeilan10.jpg" width="560px"; />';
+			html += '<div style="padding-left:250px;">图10 Al-x wt.%Mg-0.5wt.%La</div>';
+			html += '<img src="/xiangtuimage/lvmeilan11.jpg" width="560px"; />';
+			html += '<div style="padding-left:250px;">图11 Al-x wt.%Mg-1wt.%La</div>';
+			html += '<img src="/xiangtuimage/lvmeilan12.jpg" width="560px"; />';
+			html += '<div style="padding-left:250px;">图12 Al-x wt.%Mg-1.5wt.%La</div>';
+			html += '<img src="/xiangtuimage/lvmeilan13.jpg" width="560px"; />';
+			html += '<div style="padding-left:250px;">图13 Al-x wt.%Mg-2wt.%La</div>';
+			html += '<img src="/xiangtuimage/lvmeilan14.jpg" width="560px"; />';
+			html += '<div style="padding-left:250px;">图14 Al-x wt.%Mg-2.5wt.%La</div>';
+			html += '<img src="/xiangtuimage/lvmeilan15.jpg" width="560px"; />';
+			html += '<div style="padding-left:250px;">图15 Al-x wt.%Mg-5wt.%La</div>';
+			html += '<img src="/xiangtuimage/lvmeilan16.jpg" width="560px"; />';
+			html += '<div style="padding-left:250px;">图16 Al-x wt.%Mg-30wt.%La</div>';
+			html += '<img src="/xiangtuimage/lvmeilan17.jpg" width="560px"; />';
+			html += '<div style="padding-left:250px;">图17 Al-x wt.%Mg-60wt.%La</div>';
+			html += '<img src="/xiangtuimage/lvmeilan18.jpg" width="560px"; />';
+			html += '<div style="padding-left:250px;">图18 Al-x wt.%Mg-65wt.%La</div>';
+			html += '<img src="/xiangtuimage/lvmeilan19.jpg" width="560px"; />';
+			html += '<div style="padding-left:250px;">图19 Al-x wt.%Mg-70wt.%La</div>';
+			html += '<img src="/xiangtuimage/lvmeilan20.jpg" width="560px"; />';
+			html += '<div style="padding-left:250px;">图20 Al-x wt.%Mg-80wt.%La</div>';
+			html += '<img src="/xiangtuimage/lvmeilan21.jpg" width="560px"; />';
+			html += '<div style="padding-left:250px;">图21 Al-x wt.%Mg-95wt.%La</div>';
+			$("#leixing").html(html);
 		});
 		
 		function shuaixuan(){
 			var unitse = $('#unitselect  option:selected').val();
 			var arease = $('#areaselect  option:selected').val();
-			var dutyse = $('#dutyselect  option:selected').val();
-			if (unitse != null && unitse == "全部单位") {
-				unitse = null;
+			var html = '';
+			if (unitse != null && unitse == "镧") {
+				if (arease != null && arease == "铝镁") {
+					
+					html = '<div style="padding-left:250px;color:red">铝-镧-镁合金相图</div>';
+					html += '<img src="/xiangtuimage/lanlvmei1.png" width="560px"; />';
+					html += '<div style="padding-left:250px;">图1 Al-x wt.%La</div>';
+					html += '<img src="/xiangtuimage/lanlvmei2.png" width="560px"; />';
+					html += '<div style="padding-left:250px;">图2 Al-x wt.%La-1 wt.%Mg</div>';
+					html += '<img src="/xiangtuimage/lanlvmei3.png" width="560px"; />';
+					html += '<div style="padding-left:250px;">图3 Al-x wt.%La-2 wt.%Mg</div>';
+					html += '<img src="/xiangtuimage/lanlvmei4.png" width="560px"; />';
+					html += '<div style="padding-left:250px;">图4 Al-x wt.%La-3 wt.%Mg</div>';
+					html += '<img src="/xiangtuimage/lanlvmei5.png" width="560px"; />';
+					html += '<div style="padding-left:250px;">图5 Al-x wt.%La-5wt.%Mg</div>';
+					html += '<img src="/xiangtuimage/lanlvmei6.png" width="560px"; />';
+					html += '<div style="padding-left:250px;">图6 Al-x wt.%La-15 wt.%Mg</div>';
+					html += '<img src="/xiangtuimage/lanlvmei7.png" width="560px"; />';
+					html += '<div style="padding-left:250px;">图7 Al-x wt.%La-20wt.%Mg</div>';
+					html += '<img src="/xiangtuimage/lanlvmei8.png" width="560px"; />';
+					html += '<div style="padding-left:250px;">图8 Al-x wt.%La-50wt.%Mg</div>';
+					html += '<img src="/xiangtuimage/lanlvmei9.png" width="560px"; />';
+					html += '<div style="padding-left:250px;">图9 Al-x wt.%La-70wt.%Mg</div>';
+					html += '<img src="/xiangtuimage/lanlvmei10.png" width="560px"; />';
+					html += '<div style="padding-left:250px;">图10 Al-x wt.%La-90wt.%Mg</div>';
+					
+					html += '<div style="padding-left:250px;padding-top:25px;color:red">铝-镁-镧合金相图</div>';
+					html += '<img src="/xiangtuimage/lvmeilan1.jpg" width="560px"; />';
+					html += '<div style="padding-left:250px;">图1 Al-x wt.%Mg</div>';
+					html += '<img src="/xiangtuimage/lvmeilan2.jpg.png" width="560px"; />';
+					html += '<div style="padding-left:250px;">图2 Al-x wt.%Mg-0.01wt.%La</div>';
+					html += '<img src="/xiangtuimage/lvmeilan3.jpg" width="560px"; />';
+					html += '<div style="padding-left:250px;">图3 Al-x wt.%Mg-0.02wt.%La</div>';
+					html += '<img src="/xiangtuimage/lvmeilan4.jpg" width="560px"; />';
+					html += '<div style="padding-left:250px;">图4 Al-x wt.%Mg-0.03wt.%La</div>';
+					html += '<img src="/xiangtuimage/lvmeilan5.jpg" width="560px"; />';
+					html += '<div style="padding-left:250px;">图5 Al-x wt.%Mg-0.04wt.%La</div>';
+					html += '<img src="/xiangtuimage/lvmeilan6.jpg" width="560px"; />';
+					html += '<div style="padding-left:250px;">图6 Al-x wt.%Mg-0.05wt.%La</div>';
+					html += '<img src="/xiangtuimage/lvmeilan7.jpg" width="560px"; />';
+					html += '<div style="padding-left:250px;">图7 Al-x wt.%Mg-0.06wt.%La</div>';
+					html += '<img src="/xiangtuimage/lvmeilan8.jpg" width="560px"; />';
+					html += '<div style="padding-left:250px;">图8 Al-x wt.%Mg-0.07wt.%La</div>';
+					html += '<img src="/xiangtuimage/lvmeilan9.jpg" width="560px"; />';
+					html += '<div style="padding-left:250px;">图9 Al-x wt.%Mg-0.1wt.%La</div>';
+					html += '<img src="/xiangtuimage/lvmeilan10.jpg" width="560px"; />';
+					html += '<div style="padding-left:250px;">图10 Al-x wt.%Mg-0.5wt.%La</div>';
+					html += '<img src="/xiangtuimage/lvmeilan11.jpg" width="560px"; />';
+					html += '<div style="padding-left:250px;">图11 Al-x wt.%Mg-1wt.%La</div>';
+					html += '<img src="/xiangtuimage/lvmeilan12.jpg.png" width="560px"; />';
+					html += '<div style="padding-left:250px;">图12 Al-x wt.%Mg-1.5wt.%La</div>';
+					html += '<img src="/xiangtuimage/lvmeilan13.jpg" width="560px"; />';
+					html += '<div style="padding-left:250px;">图13 Al-x wt.%Mg-2wt.%La</div>';
+					html += '<img src="/xiangtuimage/lvmeilan14.jpg" width="560px"; />';
+					html += '<div style="padding-left:250px;">图14 Al-x wt.%Mg-2.5wt.%La</div>';
+					html += '<img src="/xiangtuimage/lvmeilan15.jpg" width="560px"; />';
+					html += '<div style="padding-left:250px;">图15 Al-x wt.%Mg-5wt.%La</div>';
+					html += '<img src="/xiangtuimage/lvmeilan16.jpg" width="560px"; />';
+					html += '<div style="padding-left:250px;">图16 Al-x wt.%Mg-30wt.%La</div>';
+					html += '<img src="/xiangtuimage/lvmeilan17.jpg" width="560px"; />';
+					html += '<div style="padding-left:250px;">图17 Al-x wt.%Mg-60wt.%La</div>';
+					html += '<img src="/xiangtuimage/lvmeilan18.jpg" width="560px"; />';
+					html += '<div style="padding-left:250px;">图18 Al-x wt.%Mg-65wt.%La</div>';
+					html += '<img src="/xiangtuimage/lvmeilan19.jpg" width="560px"; />';
+					html += '<div style="padding-left:250px;">图19 Al-x wt.%Mg-70wt.%La</div>';
+					html += '<img src="/xiangtuimage/lvmeilan20.jpg" width="560px"; />';
+					html += '<div style="padding-left:250px;">图20 Al-x wt.%Mg-80wt.%La</div>';
+					html += '<img src="/xiangtuimage/lvmeilan21.jpg" width="560px"; />';
+					html += '<div style="padding-left:250px;">图21 Al-x wt.%Mg-95wt.%La</div>';
+					
+				}
 			}
-			if (arease != null && arease == "全部研究领域") {
-				arease = null;
+			
+			if (unitse != null && unitse == "镧") {
+				if (arease != null && arease == "铝硅") {
+					
+					html = '<div style="padding-left:250px;color:red">铝-硅-镧合金相图</div>';
+					html += '<img src="/xiangtuimage/lvguilan1.jpg" width="560px"; />';
+					html += '<div style="padding-left:250px;">图1 Al-x wt.%Si</div>';
+					html += '<img src="/xiangtuimage/lvguilan2.jpg" width="560px"; />';
+					html += '<div style="padding-left:250px;">图2 Al-x wt.%Si-0.01wt.%La</div>';
+					html += '<img src="/xiangtuimage/lvguilan3.jpg" width="560px"; />';
+					html += '<div style="padding-left:250px;">图3 Al-x wt.%Si-0.02wt.%La</div>';
+					html += '<img src="/xiangtuimage/lvguilan4.jpg" width="560px"; />';
+					html += '<div style="padding-left:250px;">图4 Al-x wt.%Si-0.03wt.%La</div>';
+					html += '<img src="/xiangtuimage/lvguilan5.jpg" width="560px"; />';
+					html += '<div style="padding-left:250px;">图5 Al-x wt.%Si-0.04wt.%La</div>';
+					html += '<img src="/xiangtuimage/lvguilan6.jpg" width="560px"; />';
+					html += '<div style="padding-left:250px;">图6 Al-x wt.%Si-0.05wt.%La</div>';
+					html += '<img src="/xiangtuimage/lvguilan7.jpg" width="560px"; />';
+					html += '<div style="padding-left:250px;">图7 Al-x wt.%Si-0.06wt.%La</div>';
+					html += '<img src="/xiangtuimage/lvguilan8.jpg" width="560px"; />';
+					html += '<div style="padding-left:250px;">图8 Al-x wt.%Si-0.07wt.%La</div>';
+					html += '<img src="/xiangtuimage/lvguilan9.jpg" width="560px"; />';
+					html += '<div style="padding-left:250px;">图9 Al-x wt.%Si-0.08wt.%La</div>';
+					html += '<img src="/xiangtuimage/lvguilan10.jpg" width="560px"; />';
+					html += '<div style="padding-left:250px;">图10 Al-x wt.%Si-0.09wt.%La</div>';
+					html += '<img src="/xiangtuimage/lvguilan11.jpg" width="560px"; />';
+					html += '<div style="padding-left:250px;">图11 Al-x wt.%Si-0.1wt.%La</div>';
+					html += '<img src="/xiangtuimage/lvguilan12.jpg" width="560px"; />';
+					html += '<div style="padding-left:250px;">图12 Al-x wt.%Si-0.2wt.%La</div>';
+					html += '<img src="/xiangtuimage/lvguilan13.jpg" width="560px"; />';
+					html += '<div style="padding-left:250px;">图13 Al-x wt.%Si-0.5wt.%La</div>';
+					html += '<img src="/xiangtuimage/lvguilan14.jpg" width="560px"; />';
+					html += '<div style="padding-left:250px;">图14 Al-x wt.%Si-1wt.%La</div>';
+					html += '<img src="/xiangtuimage/lvguilan15.jpg" width="560px"; />';
+					html += '<div style="padding-left:250px;">图15 Al-x wt.%Si-2wt.%La</div>';
+					html += '<img src="/xiangtuimage/lvguilan16.jpg" width="560px"; />';
+					html += '<div style="padding-left:250px;">图16 Al-x wt.%Si-5wt.%La</div>';
+					html += '<img src="/xiangtuimage/lvguilan17.jpg" width="560px"; />';
+					html += '<div style="padding-left:250px;">图17 Al-x wt.%Si-10wt.%La</div>';
+					html += '<img src="/xiangtuimage/lvguilan18.jpg" width="560px"; />';
+					html += '<div style="padding-left:250px;">图18 Al-x wt.%Si-20wt.%La</div>';
+					
+					html += '<div style="padding-left:250px;padding-top:25px;color:red">铝-镧-硅合金相图</div>';
+					html += '<img src="/xiangtuimage/lvlangui1.jpg" width="560px"; />';
+					html += '<div style="padding-left:250px;">图1 Al-x wt.%La</div>';
+					html += '<img src="/xiangtuimage/lvlangui2.jpg" width="560px"; />';
+					html += '<div style="padding-left:250px;">图2 Al-x wt.%La-0.01wt.%Si</div>';
+					html += '<img src="/xiangtuimage/lvlangui3.jpg" width="560px"; />';
+					html += '<div style="padding-left:250px;">图3 Al-x wt.%La-0.05wt.%Si</div>';
+					
+				}
 			}
-			if (dutyse !=null && dutyse == "全部担任职务") {
-				dutyse = null;
+			if (unitse != null && unitse == "镧") {
+				if (arease != null && arease == "铝铜") {
+					
+					html = '<div style="padding-left:270px;color:red">铝-铜-镧合金相图</div>';
+					html += '<img src="/xiangtuimage/lvtonglan1.png" width="560px"; />';
+					html += '<div style="padding-left:270px;">图1 Al-x wt.%Cu</div>';
+				}
 			}
-			window.location.href="/expert/list?front=0&q="+query+"&unit=" + encodeURI(encodeURIComponent(unitse)) + "&area=" + encodeURI(encodeURIComponent(arease)) + "&duty="+encodeURI(encodeURIComponent(dutyse));
+			$("#leixing").html(html);
 		}
 		
-		function search(){
-			    /*  window.location.href="http://127.0.0.1:8088/project/list?q=" + $("#keywords").val(); */
-			     window.location.href="/patent/list?q=" + $("#keywords").val();
-				/* window.location.href="http://47.104.7.73/patent/list?q=" + $("#keywords").val(); */
-			}
-			$("#keywords").keypress(function(e) {
-	            var eCode = e.keyCode ? e.keyCode : e.which ? e.which : e.charCode;
-	             if (eCode == 13){
-	                 search();
-	             }
-	     	});
+		
 			</script>
 	</body>
 </html>
