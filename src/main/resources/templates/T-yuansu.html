@@ -510,9 +510,9 @@
 			              let div1 = $('<div class=\"swiper-slide\"></div>');
 			              let div2 = $('<div class=\"ysPer\"></div>');
 			              let a2 = $('<a href=\"/org/get?front=0&id=' + value.id + '\"></a>');
-			              let img = $('<img src=\"/images/rencai.png\" />');
+			              let img = $('<img src=\"/images/rencai.png\" height="100" width="100"/>');
 			              if(value.frontend !=null && value.frontend != '' ){
-			                img = $('<img src=\"/file/fileDownload?filename='+value.frontend+'\" />');
+			                img = $('<img src=\"/file/fileDownload?filename='+value.frontend+'\" height="100" width="100"/>');
 			              }
 			              
 			              let p1 = $('<p class=\"ysName\">' + value.name+ '</p>');
@@ -528,7 +528,7 @@
 			            let div1 = $('<div class=\"swiper-slide\"></div>');
 			              let div2 = $('<div class=\"ysPer\"></div>');
 			              let a2 = $('<a href=\"/org/list?front=0&q=' +name+ '\"></a>');
-			              let img = $('<img src=\"/images/22.png\"/>');
+			              let img = $('<img src=\"/images/22.png\" height="100" width="100"/>');
 			              //let p1 = $('<p class=\"ysName\">' + '查看更多'+ '</p>');
 			              let p2 = $('<p>' + '</p>');
 			              a2.append(img);
