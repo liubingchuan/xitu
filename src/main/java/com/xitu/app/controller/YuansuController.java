@@ -279,6 +279,9 @@ public class YuansuController {
 		Collections.sort(list, new Comparator<JSONObject>() {
 		    @Override
 		    public int compare(JSONObject o1, JSONObject o2) {
+		    	if (o1.getString("frontend") == null || o2.getString("frontend") == null) {
+		    		return 0;
+		    	}
 		        String a = o1.getString("frontend");
 		        String b = o2.getString("frontend");
 		        return b.compareTo(a);
@@ -302,6 +305,9 @@ public class YuansuController {
 		Collections.sort(list, new Comparator<JSONObject>() {
 		    @Override
 		    public int compare(JSONObject o1, JSONObject o2) {
+		    	if (o1.getString("frontend") == null || o2.getString("frontend")==null) {
+		    		return 0;
+		    	}
 		        String a = o1.getString("frontend");
 		        String b = o2.getString("frontend");
 		        return b.compareTo(a);
