@@ -43,13 +43,17 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONReader;
 import com.xitu.app.common.R;
 import com.xitu.app.common.request.SaveExpertRequest;
+import com.xitu.app.mapper.ElementMapper;
 import com.xitu.app.mapper.ItemMapper;
+import com.xitu.app.model.ElementMaster;
+import com.xitu.app.model.ElementSlave;
 import com.xitu.app.model.Expert;
 import com.xitu.app.model.Item;
 import com.xitu.app.model.Org;
 import com.xitu.app.repository.ExpertRepository;
 import com.xitu.app.service.es.ExpertService;
 import com.xitu.app.utils.BeanUtil;
+import com.xitu.app.utils.Scpclient;
 import com.xitu.app.utils.ThreadLocalUtil;
 
 
@@ -65,6 +69,9 @@ public class ExpertController {
 	
 	@Autowired
 	private ElasticsearchTemplate esTemplate;
+	
+	@Autowired
+	private ElementMapper elementMapper;
 	
 	@Autowired
     private ItemMapper itemMapper;
@@ -164,7 +171,7 @@ public class ExpertController {
 //			List<String> tags = new ArrayList<String>();
 //			tags.add("测试");
 			String seq = "";
-			if(expert.getFrontend() == null || expert.getFrontend().equals("")) {
+			if(expert.getFrontend() != null && !expert.getFrontend().equals("")) {
 				seq = expert.getFrontend();
 			}
 			expert.setSeq(seq);
@@ -389,12 +396,13 @@ public class ExpertController {
         Sheet sheet = null;
         Row row = null;
         List<Map<String,String>> list = null;
+		List<ElementMaster> masters = elementMapper.selectAllMasters();
+		List<ElementSlave> slaves = elementMapper.selectAllSlaves();
         String cellData = null;
-        String filePath = "/Users/liubingchuan/Desktop/hangzhou/zhuanjiaxinxixiugai/zhuanjiaxinxi-1.xlsx";
-        String columns[] = {"id","name","alias","org","lingyu","resume","addr","email","phone","tel","duty","major","photo"};
-        String photoLocalPath = "/Users/liubingchuan/Desktop/hangzhou/zhuanjiaxinxixiugai/zhuanjiazhaopin-1";
+        String filePath = "/Users/liubingchuan/Desktop/shuju/zhuanjia.xlsx";
+        String photoLocalPath = "/Users/liubingchuan/Desktop/shuju/zhuanjia";
         wb = readExcel(filePath);
-//        Scpclient client = Scpclient.getInstance("45.76.75.11", 22, "root", "6c]V=*z2bY=mRZ2)");
+        Scpclient client = Scpclient.getInstance("47.93.216.109", 22, "root", "Xitudashuju%1688");
         Set<String> yanjiulingyus = new HashSet<String>();
         Set<String> zhiwus = new HashSet<String>();
         Set<String> zhichengs = new HashSet<String>();
@@ -409,8 +417,11 @@ public class ExpertController {
             row = sheet.getRow(0);
             //获取最大列数
             int colnum = row.getPhysicalNumberOfCells();
-            for (int i = 116; i<rownum; i++) {
+            for (int i = 1; i<rownum; i++) {
             	Expert expert = new Expert();
+            	List<String> tags = new ArrayList<String>();;
+            	expert.setNow(System.currentTimeMillis());
+            	expert.setCtime((new Date()).toLocaleString());
             	System.out.println("id------>" + i);
                 row = sheet.getRow(i);
                 if(row !=null){
@@ -429,19 +440,48 @@ public class ExpertController {
                         		expert.setFrontend(uuid+"_"+fileName);
                         		expert.setFrontendFileName(fileName);
                         		expert.setFrontendSize(String.valueOf(Math.round(photo.length()/1000)));
-//                        		client.putFile(photoLocalPath + File.separator + fileName, uuid+"_"+fileName, "/root/files", "0755");
-                        	}else {
-                        		fileName = cellData + ".png";
-                        		photo = new File(photoLocalPath + File.separator + fileName);
-                        		if(photo.exists()) {
-                        			expert.setFrontend(uuid+"_"+fileName);
-                        			expert.setFrontendFileName(fileName);
-                        			expert.setFrontendSize(String.valueOf(Math.round(photo.length()/1000)));
-//                        			client.putFile(photoLocalPath + File.separator + fileName, uuid+"_"+fileName, "/root/files", "0755");
-                        		}
+                        		expert.setSeq(uuid+"_"+fileName);
+                        		client.putFile(photoLocalPath + File.separator + fileName, uuid+"_"+fileName, "/root/files", "0755");
+                        		continue;
                         	}
+                        	
+                        	fileName = cellData + ".png";
+                    		photo = new File(photoLocalPath + File.separator + fileName);
+                    		if(photo.exists()) {
+                    			expert.setFrontend(uuid+"_"+fileName);
+                    			expert.setFrontendFileName(fileName);
+                    			expert.setSeq(uuid+"_"+fileName);
+                    			expert.setFrontendSize(String.valueOf(Math.round(photo.length()/1000)));
+                    			client.putFile(photoLocalPath + File.separator + fileName, uuid+"_"+fileName, "/root/files", "0755");
+                    			continue;
+                    		}
+                    		fileName = cellData + ".JPG";
+                    		photo = new File(photoLocalPath + File.separator + fileName);
+                    		if(photo.exists()) {
+                    			expert.setFrontend(uuid+"_"+fileName);
+                    			expert.setFrontendFileName(fileName);
+                    			expert.setSeq(uuid+"_"+fileName);
+                    			expert.setFrontendSize(String.valueOf(Math.round(photo.length()/1000)));
+                    			client.putFile(photoLocalPath + File.separator + fileName, uuid+"_"+fileName, "/root/files", "0755");
+                    			continue;
+                    		}
+                    		fileName = cellData + ".gif";
+                    		photo = new File(photoLocalPath + File.separator + fileName);
+                    		if(photo.exists()) {
+                    			expert.setFrontend(uuid+"_"+fileName);
+                    			expert.setFrontendFileName(fileName);
+                    			expert.setSeq(uuid+"_"+fileName);
+                    			expert.setFrontendSize(String.valueOf(Math.round(photo.length()/1000)));
+                    			client.putFile(photoLocalPath + File.separator + fileName, uuid+"_"+fileName, "/root/files", "0755");
+                    			continue;
+                    		}
+                    		expert.setFrontend("");
+                    		expert.setFrontendFileName("");
+                    		expert.setSeq("");
+                    		expert.setFrontendSize("");
                         }else if(j==1){
                         	expert.setName(cellData);
+                        	expert.setAnotherName(cellData);
                         }else if(j==2) {
                         	List<String> alias = new ArrayList<String>();
                         	alias.add(cellData);
@@ -449,15 +489,39 @@ public class ExpertController {
                         }else if(j==3) {
                         	expert.setUnit(cellData);
                         }else if(j==4) {
+                        	for(ElementMaster master : masters) {
+                        		if (cellData.contains(master.getName()) || cellData.contains(master.getEnName())) {
+                        			tags.add(master.getName());
+                        		}
+                        	}
+                        	
+                        	for(ElementSlave slave: slaves) {
+                        		if(cellData.contains(slave.getName()) || cellData.contains(slave.getEnName())) {
+                        			tags.add(slave.getName());
+                        		}
+                        	}
                         	String[] str = cellData.split("；");
                         	List<String> areas = new ArrayList<String>();
                         	for(String s : str) {
                         		areas.add(s);
-                        		yanjiulingyus.add(s);
+//                        		yanjiulingyus.add(s);
                         	}
                         	expert.setArea(areas);
+//                        	expert.setTags(tags);
                         }else if(j==5) {
+                        	for(ElementMaster master : masters) {
+                        		if (cellData.contains(master.getName()) || cellData.contains(master.getEnName())) {
+                        			tags.add(master.getName());
+                        		}
+                        	}
+                        	
+                        	for(ElementSlave slave: slaves) {
+                        		if(cellData.contains(slave.getName()) || cellData.contains(slave.getEnName())) {
+                        			tags.add(slave.getName());
+                        		}
+                        	}
                         	expert.setResume(cellData);
+                        	expert.setTags(tags);
                         }else if(j==6) {
                         	expert.setAddress(cellData);
                         }else if(j==7) {
@@ -480,56 +544,56 @@ public class ExpertController {
                         	expert.setId(UUID.randomUUID().toString().replaceAll("\\-", ""));
                         }
                     }
-//                    expertRepository.save(expert);
+                    expertRepository.save(expert);
                 }else{
                     break;
                 }
             }
         }
-        Item yjly = new Item();
-        yjly.setService("yjly");
-        StringBuilder bufferYjly = new StringBuilder();
-		boolean append = false;
-		for(String s: yanjiulingyus) {
-			if("".equals(s)) {
-				append=false;
-				continue;
-			}
-			if(append) bufferYjly.append(";"); else append = true; 
-			bufferYjly.append(s);
-		}
-		yjly.setItem(bufferYjly.toString().length()==0?"":bufferYjly.substring(0, bufferYjly.length()));
-		itemMapper.insertItem(yjly);
-		Item zw = new Item();
-		zw.setService("zw");
-		StringBuilder bufferZw = new StringBuilder();
-		append = false;
-		for(String s: zhiwus) {
-			if("".equals(s)) {
-				append=false;
-				continue;
-			}
-			if(append) bufferZw.append(";"); else append = true; 
-			bufferZw.append(s);
-		}
-		zw.setItem(bufferZw.toString().length()==0?"":bufferZw.substring(0, bufferZw.length()));
-		itemMapper.insertItem(zw);
-		
-		
-		Item zc = new Item();
-		zc.setService("zc");
-		StringBuilder bufferZc = new StringBuilder();
-		append = false;
-		for(String s: zhichengs) {
-			if("".equals(s)) {
-				append=false;
-				continue;
-			}
-			if(append) bufferZc.append(";"); else append = true; 
-			bufferZc.append(s);
-		}
-		zc.setItem(bufferZc.toString().length()==0?"":bufferZc.substring(0, bufferZc.length()));
-		itemMapper.insertItem(zc);
+//        Item yjly = new Item();
+//        yjly.setService("yjly");
+//        StringBuilder bufferYjly = new StringBuilder();
+//		boolean append = false;
+//		for(String s: yanjiulingyus) {
+//			if("".equals(s)) {
+//				append=false;
+//				continue;
+//			}
+//			if(append) bufferYjly.append(";"); else append = true; 
+//			bufferYjly.append(s);
+//		}
+//		yjly.setItem(bufferYjly.toString().length()==0?"":bufferYjly.substring(0, bufferYjly.length()));
+//		itemMapper.insertItem(yjly);
+//		Item zw = new Item();
+//		zw.setService("zw");
+//		StringBuilder bufferZw = new StringBuilder();
+//		append = false;
+//		for(String s: zhiwus) {
+//			if("".equals(s)) {
+//				append=false;
+//				continue;
+//			}
+//			if(append) bufferZw.append(";"); else append = true; 
+//			bufferZw.append(s);
+//		}
+//		zw.setItem(bufferZw.toString().length()==0?"":bufferZw.substring(0, bufferZw.length()));
+//		itemMapper.insertItem(zw);
+//		
+//		
+//		Item zc = new Item();
+//		zc.setService("zc");
+//		StringBuilder bufferZc = new StringBuilder();
+//		append = false;
+//		for(String s: zhichengs) {
+//			if("".equals(s)) {
+//				append=false;
+//				continue;
+//			}
+//			if(append) bufferZc.append(";"); else append = true; 
+//			bufferZc.append(s);
+//		}
+//		zc.setItem(bufferZc.toString().length()==0?"":bufferZc.substring(0, bufferZc.length()));
+//		itemMapper.insertItem(zc);
     	return R.ok();
     }
     @ResponseBody

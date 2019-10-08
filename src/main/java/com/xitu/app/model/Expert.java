@@ -63,8 +63,6 @@ public class Expert implements Serializable{
 	private Long now;
 	private String frontend; // 专家照片
 	@Field(type=FieldType.Keyword)
-	private String order; // 顺序
-	@Field(type=FieldType.Keyword)
 	private String seq; // 顺序
 	private String frontendFileName; // 专家照片名
 	private String frontendSize; // 专家照片大小
@@ -202,12 +200,6 @@ public class Expert implements Serializable{
 	}
 	public void setTags(List<String> tags) {
 		this.tags = tags;
-	}
-	public String getOrder() {
-		return order;
-	}
-	public void setOrder(String order) {
-		this.order = order;
 	}
 	public String getSeq() {
 		return seq;
