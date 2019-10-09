@@ -276,18 +276,26 @@ public class YuansuController {
 		expertService.execute(pageIndex, pageSize, i,instance.getString("name"));
 		JSONArray expertList = JsonUtil.parseArray(model.asMap().get("list").toString());
 		List<JSONObject> list = JSONArray.parseArray(expertList.toJSONString(), JSONObject.class);
-		Collections.sort(list, new Comparator<JSONObject>() {
+		List<JSONObject> newList = new ArrayList<JSONObject>();
+		for(JSONObject obj : list) {
+			if(obj.getString("frontend") == null) {
+				obj.put("frontend", "0");
+				obj.put("duty", "unknown");
+				newList.add(obj);
+				if(newList.size()==20) {
+					break;
+				}
+			}
+		}
+		Collections.sort(newList, new Comparator<JSONObject>() {
 		    @Override
 		    public int compare(JSONObject o1, JSONObject o2) {
-		    	if (o1.getString("frontend") == null || o2.getString("frontend") == null) {
-		    		return 0;
-		    	}
 		        String a = o1.getString("frontend");
 		        String b = o2.getString("frontend");
 		        return b.compareTo(a);
 		        }
 		});
-		JSONArray jsonArray = JSONArray.parseArray(list.toString());
+		JSONArray jsonArray = JSONArray.parseArray(newList.toString());
 		ThreadLocalUtil.remove();		
 		return R.ok().put("expertList", jsonArray);
 	}
@@ -302,18 +310,25 @@ public class YuansuController {
 		orgService.execute(pageIndex, pageSize, i,instance.getString("name"));
 		JSONArray orgList = JsonUtil.parseArray(model.asMap().get("list").toString());
 		List<JSONObject> list = JSONArray.parseArray(orgList.toJSONString(), JSONObject.class);
-		Collections.sort(list, new Comparator<JSONObject>() {
+		List<JSONObject> newList = new ArrayList<JSONObject>();
+		for(JSONObject obj : list) {
+			if(obj.getString("frontend") == null) {
+				obj.put("frontend", "0");
+				newList.add(obj);
+				if(newList.size()==20) {
+					break;
+				}
+			}
+		}
+		Collections.sort(newList, new Comparator<JSONObject>() {
 		    @Override
 		    public int compare(JSONObject o1, JSONObject o2) {
-		    	if (o1.getString("frontend") == null || o2.getString("frontend")==null) {
-		    		return 0;
-		    	}
 		        String a = o1.getString("frontend");
 		        String b = o2.getString("frontend");
 		        return b.compareTo(a);
 		        }
 		});
-		JSONArray jsonArray = JSONArray.parseArray(list.toString());
+		JSONArray jsonArray = JSONArray.parseArray(newList.toString());
 		ThreadLocalUtil.remove();		
 		return R.ok().put("orgList", jsonArray);
 	}
