@@ -487,7 +487,11 @@ public class ExpertController {
                         	alias.add(cellData);
                         	expert.setAlias(alias);
                         }else if(j==3) {
-                        	expert.setUnit(cellData);
+                        	if(cellData == null || "".equals(cellData)) {
+                        		expert.setUnit("");
+                        	}else {
+                        		expert.setUnit(cellData);
+                        	}
                         }else if(j==4) {
                         	for(ElementMaster master : masters) {
                         		if (cellData.contains(master.getName()) || cellData.contains(master.getEnName())) {
@@ -542,6 +546,7 @@ public class ExpertController {
                         	zhichengs.add(cellData);
                         }else {
                         	expert.setId(UUID.randomUUID().toString().replaceAll("\\-", ""));
+                        	expert.setTop("0");
                         }
                     }
                     expertRepository.save(expert);

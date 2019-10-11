@@ -670,6 +670,7 @@ public class OrgController {
                         	org.setClassic(classices);
                         }else if(j==8) {
                         	org.setId(UUID.randomUUID().toString().replaceAll("\\-", ""));
+                        	org.setTop("0");
                         }
                     }
                     orgRepository.save(org);

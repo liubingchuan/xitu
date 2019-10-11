@@ -68,6 +68,8 @@ public class Org implements Serializable{
 	private String frontend; // LOGO封面
 	@Field(type=FieldType.Keyword)
 	private String seq; // 排序
+	@Field(type=FieldType.Keyword)
+	private String top; // 顶置
 	private String frontendFileName; // LOGO文件名
 	private String frontendSize; // LOGO大小
 	
@@ -233,6 +235,12 @@ public class Org implements Serializable{
 	}
 	public void setAnotherName(String anotherName) {
 		this.anotherName = anotherName;
+	}
+	public String getTop() {
+		return top;
+	}
+	public void setTop(String top) {
+		this.top = top;
 	}
 	
 	

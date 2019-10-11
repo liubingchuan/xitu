@@ -1884,6 +1884,7 @@ public class PatentController {
 			e.setAnotherName(eo[0]);
 			e.setNow(System.currentTimeMillis());
 			e.setUnit(eo[1]);
+			e.setTop("0");
 			List<String> tags = new ArrayList<String>();
 			tags.addAll(entry.getValue());
 			e.setTags(tags);
@@ -1899,6 +1900,7 @@ public class PatentController {
 			o.setTags(tags);
 			o.setNow(System.currentTimeMillis());
 			o.setAnotherName(key);
+			o.setTop("0");
 			orgRepository.save(o);
 		}
 		return "bsdf";

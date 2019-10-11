@@ -64,6 +64,8 @@ public class Expert implements Serializable{
 	private String frontend; // 专家照片
 	@Field(type=FieldType.Keyword)
 	private String seq; // 顺序
+	@Field(type=FieldType.Keyword)
+	private String top; // 顶置
 	private String frontendFileName; // 专家照片名
 	private String frontendSize; // 专家照片大小
 	public String getId() {
@@ -212,6 +214,12 @@ public class Expert implements Serializable{
 	}
 	public void setAnotherName(String anotherName) {
 		this.anotherName = anotherName;
+	}
+	public String getTop() {
+		return top;
+	}
+	public void setTop(String top) {
+		this.top = top;
 	}
 	
 }
