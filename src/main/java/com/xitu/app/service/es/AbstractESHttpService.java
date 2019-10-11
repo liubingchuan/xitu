@@ -434,6 +434,24 @@ public abstract class AbstractESHttpService implements ESHttpService {
 	 
 	 public String composeInsDSL(String insNamearr,int pageIndex, int pageSize, String field, int type){
 			JSONObject query = new JSONObject();
+			JSONArray sort = new JSONArray();
+	    	
+	    	JSONObject pubtimes = new JSONObject();
+	    	String sortfield ="";
+	    	if (type == 5) {
+	    		sortfield = "top";
+			}
+	    	JSONObject _score = new JSONObject();
+	    	JSONObject order = new JSONObject();
+	    	order.put("order", "desc");//method=desc
+	    	_score.put(sortfield,order);//orderby=_score
+	    	sort.add(_score);
+	    	
+	    	JSONObject order1s = new JSONObject();
+	    	order1s.put("order", "desc");
+	    	pubtimes.put("seq",order1s);
+	    	sort.add(pubtimes);
+	    	query.put("sort",sort);
 	    	JSONObject bool1 = new JSONObject();
 	    	JSONObject bool2 = new JSONObject();
 	    	JSONObject bool3 = new JSONObject();
@@ -471,7 +489,7 @@ public abstract class AbstractESHttpService implements ESHttpService {
 //			terms.put("terms", fz);
 //			args.put(field, terms);
 //			query.put("aggs",args);
-	    	//System.out.println("*****"+query.toString());
+	    	System.out.println("*****"+query.toString());
 	    	return query.toString();
 		}
 		public String composeXiangguanDSL(int pageIndex, int pageSize,int type,String uuid,List<String> args) {

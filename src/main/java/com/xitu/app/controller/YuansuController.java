@@ -266,39 +266,58 @@ public class YuansuController {
 		return R.ok().put("paperList", paperList).put("totalPages", map.get("totalPages")).put("totalCount", map.get("totalCount")).put("pageIndex", pageIndex);
 	}
 	
+//	@ResponseBody
+//	@RequestMapping(value = "yuansu/xiangqing/related/experts", method = RequestMethod.POST,consumes = "application/json")
+//	public R relatedExperts(@RequestBody JSONObject instance, Model model) {
+//		ThreadLocalUtil.set(model);
+//		int pageIndex = (int) instance.get("pageIndex");
+//		int pageSize = 10;
+//		int i = 0;//0代表专利；1代表论文；2代表项目；3代表监测
+//		expertService.execute(pageIndex, pageSize, i,instance.getString("name"));
+//		JSONArray expertList = JsonUtil.parseArray(model.asMap().get("list").toString());
+//		List<JSONObject> list = JSONArray.parseArray(expertList.toJSONString(), JSONObject.class);
+//		List<JSONObject> newList = new ArrayList<JSONObject>();
+////		for(JSONObject obj : list) {
+////			if(obj.getString("frontend") == null) {
+////				obj.put("frontend", "0");
+////				obj.put("duty", "unknown");
+////				newList.add(obj);
+////				if(newList.size()==20) {
+////					break;
+////				}
+////			}
+////		}
+//		Collections.sort(list, new Comparator<JSONObject>() {
+//		    @Override
+//		    public int compare(JSONObject o1, JSONObject o2) {
+//		        String a = o1.getString("top");
+//		        String b = o2.getString("top");
+//		        return b.compareTo(a);
+//		        }
+//		});
+//		JSONArray jsonArray = JSONArray.parseArray(list.toString());
+//		ThreadLocalUtil.remove();		
+//		return R.ok().put("expertList", jsonArray);
+//	}
+	
 	@ResponseBody
 	@RequestMapping(value = "yuansu/xiangqing/related/experts", method = RequestMethod.POST,consumes = "application/json")
-	public R relatedExperts(@RequestBody JSONObject instance, Model model) {
-		ThreadLocalUtil.set(model);
-		int pageIndex = (int) instance.get("pageIndex");
-		int pageSize = 10;
-		int i = 0;//0代表专利；1代表论文；2代表项目；3代表监测
-		expertService.execute(pageIndex, pageSize, i,instance.getString("name"));
-		JSONArray expertList = JsonUtil.parseArray(model.asMap().get("list").toString());
-		List<JSONObject> list = JSONArray.parseArray(expertList.toJSONString(), JSONObject.class);
-		List<JSONObject> newList = new ArrayList<JSONObject>();
-//		for(JSONObject obj : list) {
-//			if(obj.getString("frontend") == null) {
-//				obj.put("frontend", "0");
-//				obj.put("duty", "unknown");
-//				newList.add(obj);
-//				if(newList.size()==20) {
-//					break;
-//				}
-//			}
-//		}
-		Collections.sort(list, new Comparator<JSONObject>() {
-		    @Override
-		    public int compare(JSONObject o1, JSONObject o2) {
-		        String a = o1.getString("top");
-		        String b = o2.getString("top");
-		        return b.compareTo(a);
-		        }
-		});
-		JSONArray jsonArray = JSONArray.parseArray(list.toString());
-		ThreadLocalUtil.remove();		
-		return R.ok().put("expertList", jsonArray);
-	}
+		public R expertInsList(@RequestBody JSONObject instance) {
+	    	int pageSize = 10;
+			//if(pageIndex == null) {
+			int pageIndex = 0;
+			//}
+			int i = 5;//0代表专利；1代表论文；2代表项目；3代表监测;4代表机构；5代表专家；
+			// TODO 静态变量未环绕需调整
+			JSONObject rs = new JSONObject();
+			//rs.put("list", sources);
+			//rs.put("totalPages", totalPages);
+			//rs.put("totalCount", totalCount);
+			if(instance.containsKey("name")) {
+				rs = expertService.executeIns(instance.getString("name"),0, pageSize, "tags",i);
+			}
+			return R.ok().put("expertList", rs.get("list")).put("totalPages", rs.get("totalPages")).put("totalCount", rs.get("totalCount"));
+	    }
 	
 	@ResponseBody
 	@RequestMapping(value = "yuansu/xiangqing/related/orgs", method = RequestMethod.POST,consumes = "application/json")
