@@ -185,10 +185,13 @@
 			    		</div>
 			    		<div class="M_messGp clearfix">
 			    			<span class="left M_messGpName">
-			    				修改人：
+			    				是否顶置：
 			    			</span>
 			    			<div class="M_messGpRt">
-			    				<span class="M_messGpRtText">王伟</span>
+			    				<select th:field="*{top}"  th:value="*{top}" name="top">
+                            		<option th:value="0" th:text="否"></option>
+                            		<option th:value="1" th:text="是"></option>
+                        		</select>
 			    			</div>
 			    		</div>
 			    		<div class="clearfix bianjinrbtn">

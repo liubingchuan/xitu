@@ -91,7 +91,7 @@ public class ExpertController {
 		}
 		List<String> tags = new ArrayList<String>();
 		List<String> areas = expert.getArea();
-		String resume = expert.getResume();
+		String resume = request.getInfo();
 		String area = "";
 		if(areas != null) {
 			StringBuffer areaBuffer = new StringBuffer();
@@ -103,7 +103,7 @@ public class ExpertController {
 		for(ElementMaster master: masters) {
 			if( !"".equals(area) && area.contains( master.getName())) {
 				tags.add(master.getName());
-			}else if(!"".equals(resume) && resume.contains(master.getName())) {
+			}else if(resume != null && !"".equals(resume) && resume.contains(master.getName())) {
 				tags.add(master.getName());
 			}
 		}
@@ -111,7 +111,7 @@ public class ExpertController {
 		for(ElementSlave slave: slaves) {
 			if( !"".equals(area) && area.contains( slave.getName())) {
 				tags.add(slave.getName());
-			}else if(!"".equals(resume) && resume.contains(slave.getName())) {
+			}else if(resume!=null && !"".equals(resume) && resume.contains(slave.getName())) {
 				tags.add(slave.getName());
 			}
 		}
@@ -134,6 +134,7 @@ public class ExpertController {
 		expert.setDuty(dutyList);
 		expert.setResume(request.getInfo());
 		expert.setNow(System.currentTimeMillis());
+		expert.setTop(request.getTop());
 		expert.setCtime(df.format(new Date()));
 		expert.setTitle(titleList);
 		//expert.setUnit("中国科学院青岛生物能源与过程研究所");

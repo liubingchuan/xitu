@@ -21,6 +21,7 @@ public class SaveExpertRequest extends BaseRequest{
 	private String info;
 	private String name;
 	private String alias;
+	private String top;
 	private String frontend; // 专家照片
 	private String frontendFileName; // 专家照片文件名
 	private String frontendSize; // 专家照片大小
@@ -146,6 +147,12 @@ public class SaveExpertRequest extends BaseRequest{
 	}
 	public void setFrontendSize(String frontendSize) {
 		this.frontendSize = frontendSize;
+	}
+	public String getTop() {
+		return top;
+	}
+	public void setTop(String top) {
+		this.top = top;
 	}
 	
 	
