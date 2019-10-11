@@ -81,12 +81,41 @@ public class ExpertController {
 	
 	@PostMapping(value = "expert/save")
 	public String saveExpert(SaveExpertRequest request,Model model) {
+		List<ElementMaster> masters = elementMapper.selectAllMasters();
+		List<ElementSlave> slaves = elementMapper.selectAllSlaves();
 		
 		Expert expert = new Expert();
 		BeanUtil.copyBean(request, expert);
 		if(expert.getId() == null || "".equals(request.getId())) {
 			expert.setId(UUID.randomUUID().toString().replaceAll("\\-", ""));
 		}
+		List<String> tags = new ArrayList<String>();
+		List<String> areas = expert.getArea();
+		String resume = expert.getResume();
+		String area = "";
+		if(areas != null) {
+			StringBuffer areaBuffer = new StringBuffer();
+			for(String ar: areas) {
+				areaBuffer.append(ar);
+			}
+			area = areaBuffer.toString();
+		}
+		for(ElementMaster master: masters) {
+			if( !"".equals(area) && area.contains( master.getName())) {
+				tags.add(master.getName());
+			}else if(!"".equals(resume) && resume.contains(master.getName())) {
+				tags.add(master.getName());
+			}
+		}
+		
+		for(ElementSlave slave: slaves) {
+			if( !"".equals(area) && area.contains( slave.getName())) {
+				tags.add(slave.getName());
+			}else if(!"".equals(resume) && resume.contains(slave.getName())) {
+				tags.add(slave.getName());
+			}
+		}
+		
 		List<String> areaList =new ArrayList<String>();
 		List<String> dutyList =new ArrayList<String>();
 		List<String> titleList =new ArrayList<String>();
@@ -101,6 +130,7 @@ public class ExpertController {
 		dutyList.add(request.getDuty());
 		titleList.add(request.getTitle());
 		expert.setArea(areaList);;
+		expert.setTags(tags);
 		expert.setDuty(dutyList);
 		expert.setResume(request.getInfo());
 		expert.setNow(System.currentTimeMillis());

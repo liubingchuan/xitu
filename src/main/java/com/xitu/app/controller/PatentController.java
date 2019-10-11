@@ -1880,6 +1880,7 @@ public class PatentController {
 			String key = entry.getKey();
 			String[] eo = key.split("%");
 			Expert e = new Expert();
+			e.setId(UUID.randomUUID().toString().replaceAll("\\-", ""));
 			e.setName(eo[0]);
 			e.setAnotherName(eo[0]);
 			e.setNow(System.currentTimeMillis());
@@ -1896,6 +1897,7 @@ public class PatentController {
 			List<String> tags = new ArrayList<String>();
 			tags.addAll(entry.getValue());
 			Org o = new Org();
+			o.setId(UUID.randomUUID().toString().replaceAll("\\-", ""));
 			o.setName(key);
 			o.setTags(tags);
 			o.setNow(System.currentTimeMillis());
