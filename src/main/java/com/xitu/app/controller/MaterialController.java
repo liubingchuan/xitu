@@ -68,6 +68,7 @@ import com.xitu.app.common.request.AgPersonRequest;
 import com.xitu.app.common.request.AgTypeRequest;
 import com.xitu.app.common.request.PatentPageListRequest;
 import com.xitu.app.common.request.PriceAvgRequest;
+import com.xitu.app.common.request.SaveOrderRequest;
 import com.xitu.app.mapper.PatentMapper;
 import com.xitu.app.mapper.PriceMapper;
 import com.xitu.app.model.Patent;
@@ -102,7 +103,8 @@ public class MaterialController {
 	
     @GetMapping(value = "material/calculate")
 	public String jisuanfuwu(Model model) {
-		
+    	SaveOrderRequest saveOrderRequest = new SaveOrderRequest();
+		model.addAttribute("saveOrderRequest", saveOrderRequest);
 		return "jisuanfuwupingtai";
 	}
     
