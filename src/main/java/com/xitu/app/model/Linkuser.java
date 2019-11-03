@@ -16,6 +16,8 @@ public class Linkuser {
 	private String email;
 	private String telephone;
 	private String institution;
+	private String qq;
+	private String webchat;
 	private String uuid;
 	public Integer getId() {
 		return id;
@@ -52,6 +54,18 @@ public class Linkuser {
 	}
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
+	}
+	public String getQq() {
+		return qq;
+	}
+	public void setQq(String qq) {
+		this.qq = qq;
+	}
+	public String getWebchat() {
+		return webchat;
+	}
+	public void setWebchat(String webchat) {
+		this.webchat = webchat;
 	}
 	
 }

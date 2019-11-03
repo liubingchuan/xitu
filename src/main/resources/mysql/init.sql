@@ -62,7 +62,9 @@ CREATE TABLE IF NOT EXISTS xitu_linkuser (
   name varchar(255) DEFAULT NULL,
   email varchar(255) DEFAULT NULL,
   telephone varchar(255) DEFAULT NULL,
-  institution varchar(255) DEFAULT NULL
+  institution varchar(255) DEFAULT NULL,
+  wechat VARCHAR(255) DEFAULT NULL,
+  qq VARCHAR(255) DEFAULT NULL
 ) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS xitu_order (
@@ -122,5 +124,17 @@ CREATE TABLE IF NOT EXISTS xitu_patent(
   lawstatus VARCHAR(255) DEFAULT NULL,
   now BIGINT DEFAULT 0
 ) DEFAULT CHARSET=utf8;
-
+CREATE TABLE IF NOT EXISTS xitu_jisuan(
+  ID INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  uuid varchar(255) DEFAULT NULL,
+  ordernumber varchar(255) DEFAULT NULL,
+  description TEXT DEFAULT NULL,
+  shenqingshijian varchar(255) DEFAULT NULL,
+  chulishijian varchar(255) DEFAULT NULL,
+  chulizhuangtai varchar(255) DEFAULT NULL,
+  chuliren varchar(255) DEFAULT NULL,
+  chuliyijian text DEFAULT NULL,
+  chulirenfujian_id varchar(255) DEFAULT NULL,
+  user_id varchar(255) DEFAULT NULL
+) DEFAULT CHARSET=utf8;
 
