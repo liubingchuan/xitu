@@ -17,8 +17,6 @@ import java.util.List;
 @Component
 public interface JisuanfuwuMapper {
 	
-	@InsertProvider(type = BasedProvider.class, method = BasedProvider.INSERT)
-	int insertOrder(Order order);
 	@Select("select count(*) from xitu_jisuan where user_id = #{userid}")
     int getOrderCount(@Param("userid") String userid);
 	
