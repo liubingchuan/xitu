@@ -148,7 +148,7 @@ public abstract class AbstractESHttpService implements ESHttpService {
         	order1s.put("order", "desc");
         	photos.put(sortfield,order1s);
         	sort.add(photos);
-        	sortfield = "desc";
+        	sortfield = "top";
         	JSONObject order2s = new JSONObject();
         	order2s.put("order", "desc");
         	areas.put(sortfield,order2s);

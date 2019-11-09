@@ -330,7 +330,8 @@ body{font-family:"寰蒋闆呴粦","Microsoft YaHei"!important;}
 .chaxinRt{width: 324px;}
 .chaxinRtj{width: 470px;}
 .chaxinRtTl{background: url(../ximages/Sketchchaxin_03.png) no-repeat center;background-size: cover;border-radius: 8px;text-align: center;color: #fff;font-size: 30px;padding: 35px 0px;font-weight: bold;margin-bottom: 25px;}
-.chaxinfwTl{line-height: 25px;padding-left: 30px;color: #000;font-size: 14px;font-weight: bold;}
+/* .chaxinfwTl{line-height: 25px;padding-left: 30px;color: #000;font-size: 14px;font-weight: bold;} */
+.chaxinfwTl{background: url(../ximages/Sketchchaxin_04.png) no-repeat left top;line-height: 25px;padding-left: 30px;color: #999;font-size: 18px;}  
 .chaxinfwgp{color: #000;font-size: 14px;line-height: 27px;background: url(../ximages/Sketchchaxin_09.png) no-repeat left 8px;padding-left: 30px;margin-top: 39px;}
 .chaxinfwgpj{color: #000;font-size: 14px;line-height: 27px;background: url(../ximages/Sketchchaxin_09.png) no-repeat left 8px;padding-left: 30px;}
 .chaxinfwgpg{color: #000;font-size: 14px;line-height: 27px;margin-top: 39px;}

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 
 import com.xitu.app.common.PagedRequest;
 import com.xitu.app.mapper.BasedProvider;
+import com.xitu.app.model.Jisuan;
 import com.xitu.app.model.Linkuser;
 import com.xitu.app.model.Order;
 import com.xitu.app.model.Relation;
@@ -18,4 +19,66 @@ public interface JisuanfuwuMapper {
 	
 	@InsertProvider(type = BasedProvider.class, method = BasedProvider.INSERT)
 	int insertOrder(Order order);
+	@Select("select count(*) from xitu_jisuan where user_id = #{userid}")
+    int getOrderCount(@Param("userid") String userid);
+	
+	@Select("select count(*) from xitu_jisuan")
+    int getTotalOrderCount();
+	
+	@Select("select * from xitu_jisuan where user_id = #{userid} limit #{pageIndex}, #{pageSize}")
+    List<Jisuan> getOrders(@Param("userid") String userid,@Param("pageIndex") int pageIndex, @Param("pageSize") int pageSize);
+	
+	@Select("select * from xitu_jisuan limit #{pageIndex}, #{pageSize}")
+    List<Jisuan> getTotalOrders(@Param("pageIndex") int pageIndex, @Param("pageSize") int pageSize);
+	
+	
+	@InsertProvider(type = BasedProvider.class, method = BasedProvider.INSERT)
+	int insertOrder(Jisuan jisuan);
+	
+	@InsertProvider(type = BasedProvider.class, method = BasedProvider.INSERT)
+	int insertRelation(Relation relation);
+	
+	@InsertProvider(type = BasedProvider.class, method = BasedProvider.INSERT)
+	int insertLinkuser(Linkuser linkuser);
+	
+	@Select("SELECT * FROM xitu_jisuan where uuid = #{uuid} limit 1")
+	Order getOrderByUUID(@Param("uuid") String uuid);
+	
+	@Select("SELECT * FROM xitu_user where open_id = #{open_id} limit 1")
+	User getUserByID(@Param("open_id") String open_id);
+	
+	@Select("SELECT * FROM xitu_relation where order_id = #{uuid}")
+	List<Relation> getRelationByUUID(@Param("uuid") String uuid);
+	
+	@Select("SELECT * FROM xitu_linkuser where uuid = #{uuid} limit 1")
+	Linkuser getLinkuserByUUID(@Param("uuid") String uuid);
+	
+	@Update("UPDATE xitu_jisuan SET chulizhuangtai = #{chulizhuangtai}, chulishijian = #{chulishijian}, chuliyijian= #{chuliyijian},chulirenfujian_id = #{chulirenfujianId}  WHERE uuid = #{uuid} limit 1")
+	void updateChulizhuangtaiByUUID(@Param("uuid") String uuid,@Param("chulizhuangtai") String chulizhuangtai,@Param("chulishijian") String chulishijian,@Param("chuliyijian") String chuliyijian,@Param("chulirenfujianId") String chulirenfujianId);
+	
+	@Update("UPDATE xitu_jisuan SET chulizhuangtai = #{chulizhuangtai}, chulishijian = #{chulishijian}, chuliyijian= #{chuliyijian},chuliren = #{chuliren},chulirenfujian_id = #{chulirenfujianId}  WHERE uuid = #{uuid} limit 1")
+	void updateJieDanChulizhuangtaiByUUID(@Param("uuid") String uuid,@Param("chulizhuangtai") String chulizhuangtai,@Param("chulishijian") String chulishijian,@Param("chuliyijian") String chuliyijian,@Param("chuliren") String chuliren,@Param("chulirenfujianId") String chulirenfujianId);
+	
+	@Update("UPDATE xitu_jisuan SET chulizhuangtai = #{user.account}, password = #{user.password}, name = #{user.name}, "
+		    + "identity = #{user.identity}, unit = #{user.unit}, job = #{user.job}, "
+		    + "duty = #{user.duty}, major = #{user.major}, email = #{user.email}, "
+		    + "phone = #{user.phone}, stamp = #{user.stamp} "
+	        + "WHERE id = #{user.id}")
+	void updateById(@Param("user") User user);
+	
+	
+//    @Select("SELECT * FROM car_user")
+//    List<User> getAll();
+//
+//
+//    @Delete("DELETE FROM car_user")
+//    void deleteAll();
+//    
+//    @Update("update car_user set password = #{password} where account = #{account}")
+//    void updatePassword(@Param("account") String account, @Param("password") String password);
+//    
+//    @Update("update car_user set nick = #{nick} where account = #{account}")
+//    void updateNick(@Param("account") String account, @Param("nick") String nick);
+	
+	
 }
