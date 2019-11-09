@@ -56,26 +56,35 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.xitu.app.common.R;
 import com.xitu.app.common.request.AgPersonRequest;
 import com.xitu.app.common.request.AgTypeRequest;
 import com.xitu.app.common.request.PatentPageListRequest;
 import com.xitu.app.common.request.PriceAvgRequest;
+import com.xitu.app.common.request.SaveOrderRequest;
+import com.xitu.app.constant.Constant;
 import com.xitu.app.mapper.PatentMapper;
 import com.xitu.app.mapper.PriceMapper;
+import com.xitu.app.model.Linkuser;
+import com.xitu.app.model.Order;
 import com.xitu.app.model.Patent;
 import com.xitu.app.model.PatentMysql;
 import com.xitu.app.model.Price;
+import com.xitu.app.model.Relation;
 import com.xitu.app.repository.PatentRepository;
 import com.xitu.app.service.es.JianceService;
 import com.xitu.app.service.es.PatentService;
+import com.xitu.app.utils.HttpClientUtils;
 import com.xitu.app.utils.ThreadLocalUtil;
 
 
@@ -111,5 +120,63 @@ public class MaterialController {
 		
 		return "xiangtushujuku";
 	}
+    
+    
+//    @PostMapping(value = "material/save")
+//	public String saveOrder(SaveOrderRequest request,Model model, RedirectAttributes redirectAttributes) throws Exception {
+//		Order order = new Order();
+//		if (request.getTitle() != null) {
+//			order.setTitle(request.getTitle());
+//		}
+//		if (request.getUserId() != null) {
+//			order.setUserId(request.getUserId());
+//		}
+//		if (request.getChaxinfanwei() != null && !request.getChaxinfanwei().equals("请选择查新范围")) {
+//			order.setChaxinfanwei(request.getChaxinfanwei());
+//		}
+//		
+//		if (request.getMudi() != null && !request.getMudi().equals("请选择项目目的")) {
+//			order.setMudi(request.getMudi());
+//		}
+//		
+//		if (request.getKexueyaodian() != null) {
+//			order.setKexueyaodian(request.getKexueyaodian());
+//		}
+//		
+//		if (request.getJiansuodian() != null) {
+//			order.setJiansuodian(request.getJiansuodian());
+//		}
+//		if (request.getBeizhu() != null) {
+//			order.setBeizhu(request.getBeizhu());
+//		}
+//		
+//		if (request.getJiansuoci() != null) {
+//			order.setJiansuoci(request.getJiansuoci());
+//		}
+//		if (request.getShenqingfujianId() != null) {
+//			order.setShenqingfujianId(request.getShenqingfujianId());
+//		}
+//		if (request.getXueke() != null && !request.getXueke().equals("请选择学科分类")) {
+//			order.setXueke(request.getXueke());
+//		}
+//		if (request.getChanye() != null && !request.getChanye().equals("请选择产业分类")) {
+//			order.setChanye(request.getChanye());
+//		}
+//		if (request.getInstitution()!= null) {
+//			order.setInstitution(request.getInstitution());
+//		}
+//		//order.setUserId(1);
+//		order.setChulizhuangtai("待处理");
+//		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+//		//System.out.println(df.format(new Date()));// new Date()为获取当前系统时间
+//		order.setShenqingshijian(df.format(new Date()));
+//		
+//		String orderuuid = UUID.randomUUID().toString();
+//		order.setUuid(orderuuid);
+//		zhishifuwuMapper.insertOrder(order);
+//		model.addAttribute("display", "1");
+//		redirectAttributes.addAttribute("token", request.getToken());
+//		return "T-zhishi";
+//	}
 	
 }

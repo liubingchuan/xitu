@@ -575,7 +575,8 @@ public class OrgController {
         String filePath = "/Users/liubingchuan/Desktop/shuju/jigou.xlsx";
         String photoLocalPath = "/Users/liubingchuan/Desktop/shuju/jigou";
         wb = readExcel(filePath);
-        Scpclient client = Scpclient.getInstance("47.93.216.109", 22, "root", "Xitudashuju%1688");
+//        Scpclient client = Scpclient.getInstance("47.93.216.109", 22, "root", "Xitudashuju%1688");
+        Scpclient client = Scpclient.getInstance("47.104.7.73", 22, "root", "Alibaba%1688");
         if(wb != null){
             //用来存放表中数据
             list = new ArrayList<Map<String,String>>();
@@ -590,6 +591,9 @@ public class OrgController {
             for (int i = 1; i<rownum; i++) {
             	Org org = new Org();
             	System.out.println("id------>" + i);
+            	if(i==491) {
+            		System.out.println(i);
+            	}
                 row = sheet.getRow(i);
                 if(row !=null){
                     for (int j=0;j<colnum;j++){

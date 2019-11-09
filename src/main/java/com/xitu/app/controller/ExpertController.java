@@ -433,7 +433,8 @@ public class ExpertController {
         String filePath = "/Users/liubingchuan/Desktop/shuju/zhuanjia.xlsx";
         String photoLocalPath = "/Users/liubingchuan/Desktop/shuju/zhuanjia";
         wb = readExcel(filePath);
-        Scpclient client = Scpclient.getInstance("47.93.216.109", 22, "root", "Xitudashuju%1688");
+//        Scpclient client = Scpclient.getInstance("47.93.216.109", 22, "root", "Xitudashuju%1688");
+        Scpclient client = Scpclient.getInstance("47.104.7.73", 22, "root", "Alibaba%1688");
         Set<String> yanjiulingyus = new HashSet<String>();
         Set<String> zhiwus = new HashSet<String>();
         Set<String> zhichengs = new HashSet<String>();
@@ -711,4 +712,9 @@ public class ExpertController {
         return cellValue;
     }
 	
+    
+    
+    public static void main(String[] args) {
+		
+	}
 }
