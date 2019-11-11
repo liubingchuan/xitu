@@ -33,7 +33,7 @@ public interface JisuanfuwuMapper {
 	
 	
 	@InsertProvider(type = BasedProvider.class, method = BasedProvider.INSERT)
-	int insertOrder(Jisuan jisuan);
+	int insertJisuan(Jisuan jisuan);
 	
 	@InsertProvider(type = BasedProvider.class, method = BasedProvider.INSERT)
 	int insertRelation(Relation relation);

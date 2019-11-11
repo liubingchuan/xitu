@@ -91,29 +91,29 @@ CREATE TABLE IF NOT EXISTS xitu_order (
   institution varchar(500) DEFAULT NULL
 ) DEFAULT CHARSET=utf8;
 
---CREATE TABLE IF NOT EXISTS xitu_material_order (
---  ID INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
---  uuid varchar(255) DEFAULT NULL,
---  ordernumber varchar(255) DEFAULT NULL,
---  title varchar(1000) DEFAULT NULL,
---  chaxinfanwei varchar(255) DEFAULT NULL,
---  mudi text DEFAULT NULL,
---  kexueyaodian text DEFAULT NULL,
---  jiansuodian text DEFAULT NULL,
---  jiansuoci varchar(500) DEFAULT NULL,
---  xueke varchar(255) DEFAULT NULL,
---  chanye varchar(255) DEFAULT NULL,
---  beizhu text DEFAULT NULL,
---  shenqingfujian_id varchar(255) DEFAULT NULL,
---  shenqingshijian varchar(255) DEFAULT NULL,
---  chulishijian varchar(255) DEFAULT NULL,
---  chulizhuangtai varchar(255) DEFAULT NULL,
---  chuliren varchar(255) DEFAULT NULL,
---  chuliyijian text DEFAULT NULL,
---  chulirenfujian_id varchar(255) DEFAULT NULL,
---  user_id varchar(255) DEFAULT NULL,
---  institution varchar(500) DEFAULT NULL
---) DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS xitu_material_order (
+  ID INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  uuid varchar(255) DEFAULT NULL,
+  ordernumber varchar(255) DEFAULT NULL,
+  title varchar(1000) DEFAULT NULL,
+  chaxinfanwei varchar(255) DEFAULT NULL,
+  mudi text DEFAULT NULL,
+  kexueyaodian text DEFAULT NULL,
+  jiansuodian text DEFAULT NULL,
+  jiansuoci varchar(500) DEFAULT NULL,
+  xueke varchar(255) DEFAULT NULL,
+  chanye varchar(255) DEFAULT NULL,
+  beizhu text DEFAULT NULL,
+  shenqingfujian_id varchar(255) DEFAULT NULL,
+  shenqingshijian varchar(255) DEFAULT NULL,
+  chulishijian varchar(255) DEFAULT NULL,
+  chulizhuangtai varchar(255) DEFAULT NULL,
+  chuliren varchar(255) DEFAULT NULL,
+  chuliyijian text DEFAULT NULL,
+  chulirenfujian_id varchar(255) DEFAULT NULL,
+  user_id varchar(255) DEFAULT NULL,
+  institution varchar(500) DEFAULT NULL
+) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS xitu_price(
   ID INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -148,6 +148,7 @@ CREATE TABLE IF NOT EXISTS xitu_patent(
   lawstatus VARCHAR(255) DEFAULT NULL,
   now BIGINT DEFAULT 0
 ) DEFAULT CHARSET=utf8;
+
 CREATE TABLE IF NOT EXISTS xitu_jisuan(
   ID INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
   uuid varchar(255) DEFAULT NULL,
@@ -162,3 +163,13 @@ CREATE TABLE IF NOT EXISTS xitu_jisuan(
   user_id varchar(255) DEFAULT NULL
 ) DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS xitu_xiangtu(
+  ID INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  unitse varchar(32) NOT NULL,
+  arease varchar(32) NOT NULL,
+  path varchar(128) NOT NULL,
+  name varchar(128) NOT NULL,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  deleted_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+) DEFAULT CHARSET=utf8;

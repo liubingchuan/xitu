@@ -138,9 +138,8 @@
 				    				<option>钪</option>
 				    			</select>
 				    			<select class="left" id="areaselect">
-				    				<option>
-				    					合金
-				    				</option>
+									<option>选择种类</option>
+				    				<option>合金</option>
 				    				<option>铝硅</option>
 				    				<option selected>铝镁</option>
 				    				<option>铝铜</option>
@@ -148,13 +147,23 @@
 				    				
 				    			</select>
 				    			
-				    			<input type="button" class="left shaixuanbtn" value="筛选" onClick="shuaixuan();">
+				    			<input type="button" class="left shaixuanbtn" value="筛选" onClick="shuaixuanReal();">
 				    		</div>
 				    	</form>
 				    	
 				       <div class="zhuanlThree" id="leixing" style="padding-left:95px;">
-				    		
-				    		
+
+						   <div class="sqPage">
+							 <span th:if=" ${totalCount > 0}">
+								<span th:text="'共 ' + ${totalCount}+' 张相图'">
+								</span>
+								<a th:style="'display:' + @{((${pageIndex}+1) == 1 ? 'none' : 'inline-block')} + ''"  th:href="@{/material/xiangtu/list(pageIndex=0,pageSize=3,unitse=${unitse},arease=${arease})}">首页<em>></em></a>
+								<a th:style="'display:' + @{((${pageIndex}+1) == 1 ? 'none' : 'inline-block')} + ''" th:href="@{/material/xiangtu/list(pageIndex=(${pageIndex}-1),pageSize=3,,unitse=${unitse},arease=${arease})}">上一页<em>></em></a>
+								<a th:style="'display:' + @{((${pageIndex}+1) == ${totalPages} ? 'none' : 'inline-block')} + ''" th:href="@{/material/xiangtu/list(pageIndex=(${pageIndex}+1),pageSize=3,unitse=${unitse},arease=${arease})}">下一页<em>></em></a>
+								<a th:style="'display:' + @{((${pageIndex}+1) == ${totalPages} ? 'none' : 'inline-block')} + ''" th:href="@{/material/xiangtu/list(pageIndex=(${totalPages}-1),pageSize=3,unitse=${unitse},arease=${arease})}">尾页<em>></em></a>
+								<span th:text="'页次：' + (${pageIndex}+1) + '/' + ${totalPages}"></span>
+							 </span>
+						   </div>
 				    	</div>
 				         
 				    </div>
@@ -166,6 +175,8 @@
 		
 		<script type="text/javascript" th:src="@{/js/main.js}" ></script>
 		<script type="text/javascript" th:inline="javascript">
+		var unitse =  [[${unitse}]];
+		var arease =  [[${arease}]];
 		
 		$(document).ready(function () {
 			if($.cookie("role")!=null && $.cookie("role")==="普通用户"){
@@ -173,6 +184,13 @@
 			}
 			$("#logoinName").html($.cookie("nickName"));
 		    $("#headImg").attr("src", $.cookie("headImg"));
+
+		    if(unitse != null){
+		    	document.getElementById('unitselect').value=type;
+		    }
+		    if(arease != null){
+		    	document.getElementById('areaselect').value=link;
+		    }
 		    
 		    var html = '<div style="padding-left:250px;color:red">铝-镧-镁合金相图</div>';
 			html += '<img src="/xiangtuimage/lanlvmei1.png" width="560px"; />';
@@ -241,6 +259,19 @@
 			html += '<div style="padding-left:250px;">图21 Al-x wt.%Mg-95wt.%La</div>';
 			$("#leixing").html(html);
 		});
+
+		function shuaixuanReal(){
+			var linkse = $('#linkselect  option:selected').val();
+			var typese = $('#typeselect  option:selected').val();
+			var classicse = $('#classicselect  option:selected').val();
+			if (unitse != null && unitse == "稀土元素") {
+				typese = null;
+			}
+			if (arease != null && arease == "选择种类") {
+				arease = null;
+			}
+			window.location.href="/material/xiangtu/list?front=0&q="+query+"&link=" + encodeURI(encodeURIComponent(linkse)) + "&type=" + encodeURI(encodeURIComponent(typese)) + "&classic="+encodeURI(encodeURIComponent(classicse));
+		}
 		
 		function shuaixuan(){
 			var unitse = $('#unitselect  option:selected').val();
