@@ -251,8 +251,8 @@ public class MaterialController {
 //	}
 
 	@GetMapping(value = "material/xiangtu")
-	public String xiangtuList(@RequestParam("unitse") String unitse,
-									 @RequestParam("arease") String arease,
+	public String xiangtuList(@RequestParam(required=false, value="unitse") String unitse,
+									 @RequestParam(required=false, value="arease") String arease,
 									 @RequestParam(required=false, value="pageIndex") Integer pageIndex,
 									 @RequestParam(required=false, value="pageSize") Integer pageSize,
 									 Model model) {
@@ -264,8 +264,22 @@ public class MaterialController {
 		}
 		model.addAttribute("pageIndex", pageIndex);
 		model.addAttribute("pageSize", pageSize);
+
+		if (unitse == null) {
+			unitse = "镧";
+		}
+		if (arease == null) {
+			arease = "铝镁";
+		}
+		model.addAttribute("unitse", unitse);
+		model.addAttribute("arease", arease);
+
 		List<Xiangtu> xiangtuList = xiangtuMapper.getXiangtuList(unitse, arease, pageIndex, pageSize);
 		model.addAttribute("xiangtuList", xiangtuList);
+
+		int totalCount = xiangtuMapper.getXiangtuCount(unitse, arease);
+		model.addAttribute("totalCount", totalCount);
+		model.addAttribute("totalPages", (int)Math.ceil((float)totalCount/(float)pageSize));
 
 		return "xiangtushujuku";
 	}

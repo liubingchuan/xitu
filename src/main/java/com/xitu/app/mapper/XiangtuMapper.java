@@ -20,4 +20,8 @@ public interface XiangtuMapper {
                                         @Param("arease") String arease,
                                         @Param("pageIndex") int pageIndex,
                                         @Param("pageSize") int pageSize);
+
+    @Select("SELECT count(*) FROM xitu_xiangtu where unitse = #{unitse} and arease = #{arease}")
+    int getXiangtuCount(@Param("unitse") String unitse,
+                                 @Param("arease") String arease);
 }
