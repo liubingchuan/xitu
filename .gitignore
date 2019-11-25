@@ -2,3 +2,6 @@ target/*
 /target/
 .idea/
 src/main/resources/application.yml
+out
+src/META-INF/
+src/main/java/META-INF/

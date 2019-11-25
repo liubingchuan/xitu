@@ -322,34 +322,20 @@ public class YuansuController {
 	@ResponseBody
 	@RequestMapping(value = "yuansu/xiangqing/related/orgs", method = RequestMethod.POST,consumes = "application/json")
 	public R relatedOrgs(@RequestBody JSONObject instance, Model model) {
-		ThreadLocalUtil.set(model);
-		int pageIndex = (int) instance.get("pageIndex");
 		int pageSize = 10;
-		int i = 0;//0代表专利；1代表论文；2代表项目；3代表监测
-		orgService.execute(pageIndex, pageSize, i,instance.getString("name"));
-		JSONArray orgList = JsonUtil.parseArray(model.asMap().get("list").toString());
-		List<JSONObject> list = JSONArray.parseArray(orgList.toJSONString(), JSONObject.class);
-		List<JSONObject> newList = new ArrayList<JSONObject>();
-		for(JSONObject obj : list) {
-			if(obj.getString("frontend") == null) {
-				obj.put("frontend", "0");
-				newList.add(obj);
-				if(newList.size()==20) {
-					break;
-				}
-			}
+		//if(pageIndex == null) {
+		int pageIndex = 0;
+		//}
+		int i = 5;//0代表专利；1代表论文；2代表项目；3代表监测;4代表机构；5代表专家；
+		// TODO 静态变量未环绕需调整
+		JSONObject rs = new JSONObject();
+		//rs.put("list", sources);
+		//rs.put("totalPages", totalPages);
+		//rs.put("totalCount", totalCount);
+		if(instance.containsKey("name")) {
+			rs = orgService.executeIns(instance.getString("name"),0, pageSize, "tags",i);
 		}
-		Collections.sort(newList, new Comparator<JSONObject>() {
-		    @Override
-		    public int compare(JSONObject o1, JSONObject o2) {
-		        String a = o1.getString("frontend");
-		        String b = o2.getString("frontend");
-		        return b.compareTo(a);
-		        }
-		});
-		JSONArray jsonArray = JSONArray.parseArray(newList.toString());
-		ThreadLocalUtil.remove();		
-		return R.ok().put("orgList", jsonArray);
+		return R.ok().put("orgList", rs.get("list")).put("totalPages", rs.get("totalPages")).put("totalCount", rs.get("totalCount"));
 	}
 	
 	/**

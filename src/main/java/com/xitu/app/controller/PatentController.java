@@ -116,14 +116,25 @@ public class PatentController {
 	@Autowired
 	private PatentService patentService;
 	
-	// 代理隧道验证信息
-    final static String ProxyUser = "H677S6B336VV189D";
-    final static String ProxyPass = "8E65F1A7219B95AB";
-
+//	// 代理隧道验证信息
+//    final static String ProxyUser = "H677S6B336VV189D";
+//    final static String ProxyPass = "8E65F1A7219B95AB";
+//
+//    // 代理服务器
+//    final static String ProxyHost = "http-dyn.abuyun.com";
+//    final static Integer ProxyPort = 9020;
+//
+//    // 设置IP切换头
+//    final static String ProxyHeadKey = "Proxy-Switch-Ip";
+//    final static String ProxyHeadVal = "yes";
+    // 代理隧道验证信息
+    final static String ProxyUser = "H7R062DY66KTYK9D";
+    final static String ProxyPass = "7D4E7E8D9B417AF0";
+    
     // 代理服务器
     final static String ProxyHost = "http-dyn.abuyun.com";
     final static Integer ProxyPort = 9020;
-
+    
     // 设置IP切换头
     final static String ProxyHeadKey = "Proxy-Switch-Ip";
     final static String ProxyHeadVal = "yes";
@@ -820,6 +831,89 @@ public class PatentController {
 	public String agtypecon() {
 		return "T-rencaiCon";
 	}
+	
+	
+//	@GetMapping(value = "patent/fore")
+//	public String fore() {
+//		final String url="https://worldwide.espacenet.com/data/searchResults?submitted=true&locale=en_EP&DB=EPODOC&ST=advanced&TI=&AB=Medical+apparatus+and+instruments&PN=&AP=&PR=&PD=201907&PA=&IN=&CPC=&IC=&Submit=Search&rnd="+ System.currentTimeMillis() ;
+//		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+//		Date date = new Date();
+//		String base = "https://worldwide.espacenet.com/data";
+//
+//        try {
+//        	System.setProperty("jdk.http.auth.tunneling.disabledSchemes", "");
+//        	Authenticator.setDefault(new Authenticator() {
+//                public PasswordAuthentication getPasswordAuthentication()
+//                {
+//                    return new PasswordAuthentication(ProxyUser, ProxyPass.toCharArray());
+//                }
+//            });
+//
+//            Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(ProxyHost, ProxyPort));
+//
+//            Document doc = Jsoup.connect(url).followRedirects(false)
+//                    .timeout(3000)
+//                    .header(ProxyHeadKey, ProxyHeadVal)
+//                    .proxy(proxy)
+//                    // 忽略证书校验
+//                    .validateTLSCertificates(false)
+//                    .get();
+//
+//            doc.has
+//            Elements module = doc.getElementsByClass("publicationLinkClass");
+//
+//            Document moduleDoc = Jsoup.parse(module.toString());
+//
+//            Elements as = moduleDoc.getElementsByTag("a");  //选择器的形式
+//
+//            for (Element a : as){
+//                Document aDoc = Jsoup.parse(a.toString());
+//                Elements hrefs = aDoc.select("a[href]");
+//                for(Element elem: hrefs) {
+//                	if(!"".equals(elem.attr("href"))){
+//                		String href = elem.attr("href");
+//                		String singleUrl = base + href;
+//                		Patent patent = new Patent();
+//                    	patent.setId(UUID.randomUUID().toString().replaceAll("\\-", ""));
+//                    	Document singleDoc = Jsoup.connect(singleUrl).followRedirects(false)
+//                                .timeout(3000)
+//                                .header(ProxyHeadKey, ProxyHeadVal)
+//                                .proxy(proxy)
+//                                // 忽略证书校验
+//                                .validateTLSCertificates(false)
+//                                .get();
+//                    	Elements abs = singleDoc.getElementsByClass("printAbstract");
+//                    	for(Element e : abs) {
+//                    		patent.setSubject(e.text().trim());
+//                    	}
+//                        Element inventors = singleDoc.getElementById("inventors");
+//                        String itrs = inventors.text();
+//                        List<String> creaters = new ArrayList<String>();
+//                        for(String c: itrs.split(";")) {
+//                        	creaters.add(c.trim());
+//                        }
+//                        patent.setCreator(creaters);
+//                        Element applicants = singleDoc.getElementById("applicants");
+//                        String acts = applicants.text();
+//                        List<String> persons = new ArrayList<String>();
+//                        for(String p: acts.split(";")) {
+//                        	persons.add(p.trim());
+//                        }
+//                        patent.setPerson(persons);
+//                        Element bookmarkTitle = singleDoc.getElementById("bookmarkTitle");
+//                        String title = bookmarkTitle.text();
+//                        patent.setTitle(title.trim());
+//                		break;
+//                	}
+//                }
+//
+//            }
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//		return "success";
+//	}
 	
 	@GetMapping(value = "price")
 	public void price() {
@@ -1876,23 +1970,26 @@ public class PatentController {
 			}
 			i++;
 		}
-		for(Map.Entry<String, Set<String>> entry: expertMap.entrySet()) {
-			String key = entry.getKey();
-			String[] eo = key.split("%");
-			Expert e = new Expert();
-			e.setId(UUID.randomUUID().toString().replaceAll("\\-", ""));
-			e.setName(eo[0]);
-			e.setAnotherName(eo[0]);
-			e.setNow(System.currentTimeMillis());
-			e.setUnit(eo[1]);
-			e.setTop("0");
-			List<String> tags = new ArrayList<String>();
-			tags.addAll(entry.getValue());
-			e.setTags(tags);
-			expertRepository.save(e);
-		}
+//		for(Map.Entry<String, Set<String>> entry: expertMap.entrySet()) {
+//			String key = entry.getKey();
+//			String[] eo = key.split("%");
+//			Expert e = new Expert();
+//			e.setId(UUID.randomUUID().toString().replaceAll("\\-", ""));
+//			e.setName(eo[0]);
+//			e.setAnotherName(eo[0]);
+//			e.setNow(System.currentTimeMillis());
+//			e.setUnit(eo[1]);
+//			e.setTop("0");
+//			List<String> tags = new ArrayList<String>();
+//			tags.addAll(entry.getValue());
+//			e.setTags(tags);
+//			expertRepository.save(e);
+//		}
 		
 		for(Map.Entry<String, Set<String>> entry: orgMap.entrySet()) {
+			if(entry.getValue()!= null) {
+				System.out.println();
+			}
 			String key = entry.getKey();
 			List<String> tags = new ArrayList<String>();
 			tags.addAll(entry.getValue());
