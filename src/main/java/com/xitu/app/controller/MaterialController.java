@@ -23,6 +23,8 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.xitu.app.mapper.*;
+import com.xitu.app.model.*;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.index.query.BoolQueryBuilder;
@@ -54,14 +56,7 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilde
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.alibaba.fastjson.JSON;
@@ -75,16 +70,6 @@ import com.xitu.app.common.request.SaveOrderRequest;
 import com.xitu.app.constant.Constant;
 import com.xitu.app.mapper.PatentMapper;
 import com.xitu.app.mapper.PriceMapper;
-import com.xitu.app.mapper.JisuanfuwuMapper;
-import com.xitu.app.mapper.PatentMapper;
-import com.xitu.app.mapper.PriceMapper;
-import com.xitu.app.mapper.ZhishifuwuMapper;
-import com.xitu.app.model.Linkuser;
-import com.xitu.app.model.Order;
-import com.xitu.app.model.Patent;
-import com.xitu.app.model.PatentMysql;
-import com.xitu.app.model.Price;
-import com.xitu.app.model.Relation;
 import com.xitu.app.repository.PatentRepository;
 import com.xitu.app.service.es.JianceService;
 import com.xitu.app.service.es.PatentService;
@@ -96,6 +81,9 @@ import com.xitu.app.utils.ThreadLocalUtil;
 @CrossOrigin(origins = "*", maxAge = 3600, allowCredentials = "true")
 @Controller
 public class MaterialController {
+
+	@Autowired
+	private XiangtuMapper xiangtuMapper;
 
 	private static final Logger logger = LoggerFactory.getLogger(MaterialController.class);
 	private static final String MESSAGE_URL = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token={TOKEN}";
@@ -255,9 +243,44 @@ public class MaterialController {
 //		redirectAttributes.addAttribute("token", request.getToken());
 //		return "T-jisuanfuwupingtai";
 //	}
-    @GetMapping(value = "material/xiangtu")
-	public String xiangtushujuku(Model model) {
-		
+//    @GetMapping(value = "material/xiangtu")
+//	public String xiangtushujuku(Model model) {
+//
+//
+//		return "xiangtushujuku";
+//	}
+
+	@GetMapping(value = "material/xiangtu")
+	public String xiangtuList(@RequestParam(required=false, value="unitse") String unitse,
+									 @RequestParam(required=false, value="arease") String arease,
+									 @RequestParam(required=false, value="pageIndex") Integer pageIndex,
+									 @RequestParam(required=false, value="pageSize") Integer pageSize,
+									 Model model) {
+		if(pageSize == null) {
+			pageSize = 3;
+		}
+		if(pageIndex == null) {
+			pageIndex = 0;
+		}
+		model.addAttribute("pageIndex", pageIndex);
+		model.addAttribute("pageSize", pageSize);
+
+		if (unitse == null) {
+			unitse = "镧";
+		}
+		if (arease == null) {
+			arease = "铝镁";
+		}
+		model.addAttribute("unitse", unitse);
+		model.addAttribute("arease", arease);
+
+		List<Xiangtu> xiangtuList = xiangtuMapper.getXiangtuList(unitse, arease, pageIndex, pageSize);
+		model.addAttribute("xiangtuList", xiangtuList);
+
+		int totalCount = xiangtuMapper.getXiangtuCount(unitse, arease);
+		model.addAttribute("totalCount", totalCount);
+		model.addAttribute("totalPages", (int)Math.ceil((float)totalCount/(float)pageSize));
+
 		return "xiangtushujuku";
 	}
     

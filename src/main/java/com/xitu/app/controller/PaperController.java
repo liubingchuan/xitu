@@ -1137,7 +1137,7 @@ public class PaperController {
 //   		   pageIndex = 0;
 //   		}
        	int pageIndex = (int) insname.get("pageIndex");
-   		int i = 5;//0代表专利；1代表论文；2代表项目；3代表监测;4代表机构；5代表专家；
+   		int i = 1;//0代表专利；1代表论文；2代表项目；3代表监测;4代表机构；5代表专家；
    		// TODO 静态变量未环绕需调整
    		JSONObject rs = new JSONObject();
    		rs = paperService.executeIns(insname.getString("insname"),pageIndex, pageSize, "author",i);

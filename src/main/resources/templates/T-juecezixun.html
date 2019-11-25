@@ -87,7 +87,7 @@
 		</div>              
 		    <div class="chaxinOne">
 		    	<h1>
-		    		科技查新
+		    		决策咨询
 		    	</h1>
 		    	<div class="chaxinOneText">
 		    		调研国内外领域/研究方向的科技政策，综合分析国家/机构中长期发展计划、科技前沿动态、行业报告与咨询报告，追踪研判国际年度重点农业政策，并进行解读解析，为我国机构、科研团队、科技政策制定部门、资金资助部门和贸易合作决策部门等提供支撑服务
@@ -205,14 +205,14 @@
 								<div class="chaxinTwoB">
 									<div class="chaxinMB chaxinw-one">
 										       <p class="chaxinName">
-												项目名称<span class="colorRed">*</span>
+												咨询主题<span class="colorRed">*</span>
 												</p>
 												<input type="text" class="chaxingpInp" id="title" th:field="*{title}"/>
 												<div class="erroText" id="titleer">
-	    				                                               项目名称不能为空
+	    				                                               咨询主题不能为空
 	    			                            </div>
 									</div>
-								    <div class="clearfix">
+								   <!--  <div class="clearfix">
 								    	<div class="left chaxinMB chaxinw-two">
 								    		<p class="chaxinName">
 												查新范围
@@ -222,9 +222,9 @@
 													<option value ="国内">国内</option>
 													<option value ="国外">国外</option>
 												</select>
-												<!-- <div class="erroText">
+												<div class="erroText">
 	    				                                                输入错误
-	    			                            </div> -->
+	    			                            </div>
 								    	</div>
 								    	<div class="left chaxinMB chaxinw-three ml21">
 								    		<p class="chaxinName">
@@ -234,18 +234,18 @@
 													<option value="请选择项目目的">请选择项目目的</option>
 													<option value="项目评审">项目评审</option>
 												</select>
-												<!-- <div class="erroText">
+												<div class="erroText">
 	    				                                                输入错误
-	    			                            </div> -->
+	    			                            </div>
 								    	</div>
-								    </div>
+								    </div> -->
 								    <div class="chaxinMB">
 										       <p class="chaxinName">
-												项目科学要点<span class="colorRed">*</span>
+												咨询科学要点<span class="colorRed">*</span>
 												</p>
 												<textarea class="chaxintextarea" id="kexueyaodian" th:field="*{kexueyaodian}" placeholder="充分反映出查新项目的概貌，简述项目的背景、技术问题、解决技术问题所采用的方案、主要技术特征、技术参数或指标、应用范围等相关技术内容。"></textarea>
 												<div class="erroText" id="kexueyaodianer">
-	    				                                            项目科学要点不能为空
+	    				                                            咨询科学要点不能为空
 	    			                            </div>
 									</div>
 								    <div class="chaxinzj">
@@ -363,14 +363,15 @@
 					</div>
 				    <div class="right chaxinRt">
 				    	<div class="chaxinRtTl">
+				    		<a th:href="@{/zhishifuwu/zhishifuwu}" class="chaxinRtTl">科技查新</a>
+				    	</div>
+				    	<div class="chaxinRtTl">
 				    		<a th:href="@{/zhishifuwu/chanyeqingbao}" class="chaxinRtTl">产业情报</a>
 				    	</div>
 				    	<div class="chaxinRtTl">
 				    		<a th:href="@{/zhishifuwu/zhishichanquan}" class="chaxinRtTl">知识产权</a>
 				    	</div>
-				    	<div class="chaxinRtTl">
-				    		<a th:href="@{/zhishifuwu/juecezixun}" class="chaxinRtTl">决策咨询</a>
-				    	</div>
+				    	
 				    	<div class="chaxinfwTl">
 				    		服务说明
 				    	</div>
@@ -430,7 +431,6 @@
 		var frontendId = null;
 		var shenqingfujianId = '';
 		var display =  [[${display}]];
-		//$.cookie("openId","2");
 		$(document).ready(function () {
 			//alert($.cookie("openId"));
 		    if($.cookie("role")!=null && $.cookie("role")==="普通用户"){
@@ -500,8 +500,7 @@
 				/* window.location.href="http://47.104.7.73/patent/list?q=" + $("#keywords").val(); */
 			}
 			function uptext() {
-				$("#fuwutype").val('科技查新');
-				$("#fuwutype").val('科技查新');
+				$("#fuwutype").val('决策咨询');
 				if($("#name").val() == ''){
 					document.getElementById('nameer').style.display='block';
 					return null;

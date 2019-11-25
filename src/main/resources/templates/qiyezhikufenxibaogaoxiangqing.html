@@ -253,6 +253,7 @@
 					contentType : false
 				}).done(function(res) {
 // 					$("#pdfImg").attr('src',res.img);
+					
 					$('#pdfPid').replaceWith('<p id="pdfPid">' + res.filename + '&nbsp;' + res.size + 'kb&nbsp;<a id="pdfDel" href="javascript:delPdf()" class="colorRed">删除</a></p>');
 					$("#pdfShow").show();
 					$("#pdfUpload").hide();
@@ -260,6 +261,7 @@
 					$("#pdfFileNameHidden").val(res.filename)
 					$("#pdfSizeHidden").val(res.size)
 					pdfId = res.uuid + '_' + res.filename;
+					alert('PDF上传成功');
 				}).fail(function(res) {
 					alert("文件上传失败，请重试")
 				});
@@ -278,6 +280,7 @@
 					processData : false,
 					contentType : false
 				}).done(function(res) {
+					
 					$("#frontendImg").attr('src',res.img);
 					$('#frontendPid').replaceWith('<p id="frontendPid">' + res.filename + '&nbsp;' + res.size + 'kb&nbsp;<a id="frontendDel" href="javascript:delFrontend()" class="colorRed">删除</a></p>');
 					$("#frontendShow").show();
@@ -286,6 +289,7 @@
 					$("#frontendFileNameHidden").val(res.filename)
 					$("#frontendSizeHidden").val(res.size)
 					frontendId = res.uuid + '_' + res.filename;
+					alert('报告封面上传成功');
 				}).fail(function(res) {
 					alert("文件上传失败，请重试")
 				});

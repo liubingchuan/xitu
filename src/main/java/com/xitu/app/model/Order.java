@@ -30,6 +30,7 @@ public class Order {
 	private String chuliyijian;
 	private String institution;
 	private String chulirenfujianId;
+	private String fuwutype;
 	private String userId;
 	private String uuid;
 	public Integer getId() {
@@ -157,6 +158,12 @@ public class Order {
 	}
 	public void setInstitution(String institution) {
 		this.institution = institution;
+	}
+	public String getFuwutype() {
+		return fuwutype;
+	}
+	public void setFuwutype(String fuwutype) {
+		this.fuwutype = fuwutype;
 	}
 	
 }

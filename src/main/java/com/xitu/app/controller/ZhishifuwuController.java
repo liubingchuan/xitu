@@ -62,11 +62,35 @@ public class ZhishifuwuController {
 		return "T-zhishi";
 	}
 	
+	@GetMapping(value = "zhishifuwu/chanyeqingbao")
+	public String chanyeqingbao(Model model) {
+		SaveOrderRequest saveOrderRequest = new SaveOrderRequest();
+		model.addAttribute("saveOrderRequest", saveOrderRequest);
+		return "T-chanyeqingbao";
+	}
+	
+	@GetMapping(value = "zhishifuwu/zhishichanquan")
+	public String zhishichanquan(Model model) {
+		SaveOrderRequest saveOrderRequest = new SaveOrderRequest();
+		model.addAttribute("saveOrderRequest", saveOrderRequest);
+		return "T-zhishichanquan";
+	}
+	
+	@GetMapping(value = "zhishifuwu/juecezixun")
+	public String juecezixun(Model model) {
+		SaveOrderRequest saveOrderRequest = new SaveOrderRequest();
+		model.addAttribute("saveOrderRequest", saveOrderRequest);
+		return "T-juecezixun";
+	}
+	
 	@PostMapping(value = "order/save")
 	public String saveOrder(SaveOrderRequest request,Model model, RedirectAttributes redirectAttributes) throws Exception {
 		Order order = new Order();
 		if (request.getTitle() != null) {
 			order.setTitle(request.getTitle());
+		}
+		if (request.getFuwutype() != null) {
+			order.setFuwutype(request.getFuwutype());
 		}
 		if (request.getUserId() != null) {
 			order.setUserId(request.getUserId());
