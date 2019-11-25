@@ -88,7 +88,8 @@ CREATE TABLE IF NOT EXISTS xitu_order (
   chuliyijian text DEFAULT NULL,
   chulirenfujian_id varchar(255) DEFAULT NULL,
   user_id varchar(255) DEFAULT NULL,
-  institution varchar(500) DEFAULT NULL
+  institution varchar(500) DEFAULT NULL,
+  fuwutype varchar(500) DEFAULT NULL
 ) DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS xitu_material_order (

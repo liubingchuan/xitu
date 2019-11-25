@@ -154,14 +154,18 @@
 								</div>
 							</div>
 							<div class="orderconTextGp clearfix">
-								<span class="left orderconTextGpName">
+								<span th:if="${order.fuwutype == '决策咨询'}" class="left orderconTextGpName">
+									咨询主题：
+								</span>
+								<span th:if="${order.fuwutype == '科技查新' || order.fuwutype == '产业情报' || order.fuwutype == '知识产权'}" class="left orderconTextGpName">
 									项目名称：
 								</span>
+								
 								<div class="orderconTextGpRt" th:text="*{title}">
 									
 								</div>
 							</div>
-							<div class="orderconTextGp clearfix">
+							<div th:if="${order.fuwutype == '科技查新'}" class="orderconTextGp clearfix">
 								<span class="left orderconTextGpName">
 									查新范围：
 								</span>
@@ -169,7 +173,7 @@
 									
 								</div>
 							</div>
-							<div class="orderconTextGp clearfix">
+							<div th:if="${order.fuwutype == '科技查新'}" class="orderconTextGp clearfix">
 								<span class="left orderconTextGpName">
 									 查新目的：
 								</span>
@@ -178,7 +182,10 @@
 								</div>
 							</div>
 							<div class="orderconTextGp clearfix">
-								<span class="left orderconTextGpName">
+								<span th:if="${order.fuwutype == '决策咨询'}" class="left orderconTextGpName">
+									咨询科学要点：
+								</span>
+								<span th:if="${order.fuwutype == '科技查新' || order.fuwutype == '产业情报' || order.fuwutype == '知识产权'}" class="left orderconTextGpName">
 									项目科学要点：
 								</span>
 								<div class="orderconTextGpRt" th:text="*{kexueyaodian}">

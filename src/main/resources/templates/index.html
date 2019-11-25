@@ -23,7 +23,7 @@
 					<a id="xituzhiku" th:href="@{/patent/agmount}">稀土智库</a>
 					<a id="cailiaojisuan" th:href="@{/material/calculate}">材料计算</a>
 					<a id="chanyejiance" th:href="@{/jiance/jiancelist}">产业监测</a>
-					<a id="zhishifuwu" th:href="@{/zhishifuwu/zhishifuwu}">科技查新</a>
+					<a id="zhishifuwu" th:href="@{/zhishifuwu/zhishifuwu}">情报服务</a>
 					<a th:href="@{/hezuo/jiaoliu}">合作交流</a>
 					<a th:href="@{/guanyu/women}">关于我们</a>
 					
@@ -89,11 +89,16 @@
 		<div class="indexTopSmall">
 			整合稀土领域各类科技信息资源，为稀土行业提供定制化知识服务
 		</div>
-		<div class="headSS clearfix">
-			<input type="text" class="left headSSLf" placeholder="请输入稀土相关的关键词" id="keywords"/>
-			<input type="button" class="left headSSRt" value="搜索" id="search" onClick="search();"/>
-			<input type="button" style="display:inline;padding-top:2px" class="headSSRt" value="文献入口" id="search" onClick="papersearch();"/>
-			<input type="button" style="display:inline;padding-top:2px"  class="headSSRt" value="专利入口" id="search" onClick="search();"/>
+		<div class="clearfix">
+			<div class="headSS left clearfix">
+				<input type="text" class="left headSSLf" placeholder="请输入稀土相关的关键词" id="keywords"/>
+				<input type="button" class="left headSSRt" value="搜索" id="search" onClick="search();"/>
+				
+			</div>
+			<div class="right clearfix" style="width:240px">
+				<input type="button" class="left headSSRt" value="文献入口" id="search" onClick="papersearch();"/>
+				<input type="button" class="right headSSRt" value="专利入口" id="search" onClick="search();"/>
+			</div>
 		</div>
 		<div class="headCompanyTl">
 			<span>
@@ -303,7 +308,7 @@
 				</a>
 				<a id="zhishifuwu11" th:href="@{/zhishifuwu/zhishifuwu}" class="left">
 					<img th:src="@{/ximages/gongneng3.png}" />
-					科技查新
+					情报服务
 				</a>
 				<a id="cailiaojisuan11" th:href="@{/material/calculate}" class="left">
 					<img th:src="@{/ximages/gongneng1.png}" />

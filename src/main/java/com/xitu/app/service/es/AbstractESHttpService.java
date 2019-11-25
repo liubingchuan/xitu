@@ -437,7 +437,7 @@ public abstract class AbstractESHttpService implements ESHttpService {
 			JSONArray sort = new JSONArray();
 	    	
 	    	JSONObject pubtimes = new JSONObject();
-	    	String sortfield ="";
+	    	String sortfield ="_score";
 	    	if (type == 5) {
 	    		sortfield = "top";
 			}
@@ -446,11 +446,12 @@ public abstract class AbstractESHttpService implements ESHttpService {
 	    	order.put("order", "desc");//method=desc
 	    	_score.put(sortfield,order);//orderby=_score
 	    	sort.add(_score);
-	    	
+	    	if (type == 5) {
 	    	JSONObject order1s = new JSONObject();
 	    	order1s.put("order", "desc");
 	    	pubtimes.put("seq",order1s);
 	    	sort.add(pubtimes);
+	    	}
 	    	query.put("sort",sort);
 	    	JSONObject bool1 = new JSONObject();
 	    	JSONObject bool2 = new JSONObject();

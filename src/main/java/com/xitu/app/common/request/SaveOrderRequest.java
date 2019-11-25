@@ -24,6 +24,7 @@ public class SaveOrderRequest extends BaseRequest{
 	private String chuliren;
 	private String chuliyijian;
 	private String chulirenfujianId;
+	private String fuwutype;
 	private String token;
 	private String userId;
 	
@@ -206,6 +207,12 @@ public class SaveOrderRequest extends BaseRequest{
 	public void setFuins(String fuins) {
 		this.fuins = fuins;
 	}
-
+	public String getFuwutype() {
+		return fuwutype;
+	}
+	public void setFuwutype(String fuwutype) {
+		this.fuwutype = fuwutype;
+	}
+	
 	
 }
