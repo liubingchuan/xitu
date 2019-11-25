@@ -1,5 +1,6 @@
 package com.xitu.app.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -17,6 +18,9 @@ import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.Aggregations;
 import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
 import org.elasticsearch.search.aggregations.bucket.terms.StringTerms.Bucket;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -309,6 +313,25 @@ public class ProjectController {
 		}
 		
 		return "redirect:/project/list";
+	}
+	
+	@GetMapping(value = "project/dr")
+	public String dr() {
+		int pageIndex = 1;
+		String url="http://search.ccgp.gov.cn/bxsearch?searchtype=2&page_index=4&bidSort=0&buyerName=&projectId=&pinMu=1&bidType=0&dbselect=bidx&kw=%E8%83%BD%E6%BA%90&start_time=2019%3A05%3A21&end_time=2019%3A11%3A19&timeType=5&displayZone=&zoneId=&pppStatus=0&agentName=";
+		try {
+			Document doc = Jsoup.connect(url).get();
+			System.out.println(doc.toString());
+			Elements module = doc.getElementsByClass("vT-srch-result-list");
+			System.out.println(module.text());
+			Document moduleDoc = Jsoup.parse(module.toString());
+			Elements lis = doc.getElementsByTag("li");  //选择器的形式
+			System.out.println();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "success";
 	}
 	
 	@ResponseBody

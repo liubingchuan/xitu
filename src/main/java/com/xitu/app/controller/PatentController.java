@@ -1,14 +1,23 @@
 package com.xitu.app.controller;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.Authenticator;
 import java.net.InetSocketAddress;
 import java.net.PasswordAuthentication;
 import java.net.Proxy;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -16,10 +25,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.TreeSet;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -36,7 +43,6 @@ import org.elasticsearch.search.aggregations.Aggregations;
 import org.elasticsearch.search.aggregations.bucket.terms.StringTerms;
 import org.elasticsearch.search.aggregations.bucket.terms.StringTerms.Bucket;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
-import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -72,8 +78,6 @@ import com.xitu.app.common.request.PriceAvgRequest;
 import com.xitu.app.mapper.ElementMapper;
 import com.xitu.app.mapper.PatentMapper;
 import com.xitu.app.mapper.PriceMapper;
-import com.xitu.app.model.ElementMaster;
-import com.xitu.app.model.ElementSlave;
 import com.xitu.app.model.Expert;
 import com.xitu.app.model.Org;
 import com.xitu.app.model.Patent;
@@ -82,7 +86,6 @@ import com.xitu.app.model.Price;
 import com.xitu.app.repository.ExpertRepository;
 import com.xitu.app.repository.OrgRepository;
 import com.xitu.app.repository.PatentRepository;
-import com.xitu.app.service.es.JianceService;
 import com.xitu.app.service.es.PatentService;
 import com.xitu.app.utils.ThreadLocalUtil;
 
@@ -128,8 +131,8 @@ public class PatentController {
 //    final static String ProxyHeadKey = "Proxy-Switch-Ip";
 //    final static String ProxyHeadVal = "yes";
     // 代理隧道验证信息
-    final static String ProxyUser = "H7R062DY66KTYK9D";
-    final static String ProxyPass = "7D4E7E8D9B417AF0";
+    final static String ProxyUser = "H1H17D0134OD999D";
+    final static String ProxyPass = "2A44BD5B12A05398";
     
     // 代理服务器
     final static String ProxyHost = "http-dyn.abuyun.com";
@@ -1461,25 +1464,25 @@ public class PatentController {
 	@GetMapping(value = "patent/travel")
 	public String updatePatent() {
 		Iterator<Patent> patents = patentRepository.findAll().iterator();
-		Iterator<Org> orgs = orgRepository.findAll().iterator();
-		Iterator<Expert> experts = expertRepository.findAll().iterator();
+//		Iterator<Org> orgs = orgRepository.findAll().iterator();
+//		Iterator<Expert> experts = expertRepository.findAll().iterator();
 		Map<String, Expert> eMap = new HashMap<String, Expert>();
 		Map<String, Org> oMap = new HashMap<String, Org>();
-		while(experts.hasNext()) {
-			Expert e = experts.next();
-			String ren = e.getName();
-			String jigou = e.getUnit();
-			eMap.put(ren + "%" + jigou, e);
-		}
-		while(orgs.hasNext()) {
-			Org o = orgs.next();
-			String jigou = o.getName();
-			oMap.put(jigou, o);
-		}
-		List<ElementMaster> masters = elementMapper.selectAllMasters();
-		List<ElementSlave> slaves = elementMapper.selectAllSlaves();
-		Map<String, Set<String>> expertMap = new HashMap<String, Set<String>>();
-		Map<String, Set<String>> orgMap = new HashMap<String, Set<String>>();
+//		while(experts.hasNext()) {
+//			Expert e = experts.next();
+//			String ren = e.getName();
+//			String jigou = e.getUnit();
+//			eMap.put(ren + "%" + jigou, e);
+//		}
+//		while(orgs.hasNext()) {
+//			Org o = orgs.next();
+//			String jigou = o.getName();
+//			oMap.put(jigou, o);
+//		}
+//		List<ElementMaster> masters = elementMapper.selectAllMasters();
+//		List<ElementSlave> slaves = elementMapper.selectAllSlaves();
+//		Map<String, Set<String>> expertMap = new HashMap<String, Set<String>>();
+//		Map<String, Set<String>> orgMap = new HashMap<String, Set<String>>();
 		int i=0;
 		while(patents.hasNext()) {
 			System.out.println(i);
@@ -1488,41 +1491,41 @@ public class PatentController {
 			List<String> rens = patent.getCreator();
 			List<String> jigous = patent.getPerson();
 			
-			String title = patent.getTitle();
-			String subject = patent.getSubject();
-			for(ElementMaster master: masters) {
-				if( title.contains( master.getName())) {
-					tags.add(master.getName());
-				}else if(subject.contains(master.getName())) {
-					tags.add(master.getName());
-				}
-			}
+//			String title = patent.getTitle();
+//			String subject = patent.getSubject();
+//			for(ElementMaster master: masters) {
+//				if( title.contains( master.getName())) {
+//					tags.add(master.getName());
+//				}else if(subject.contains(master.getName())) {
+//					tags.add(master.getName());
+//				}
+//			}
 			
-			for(ElementSlave slave: slaves) {
-				if( title.contains( slave.getName())) {
-					tags.add(slave.getName());
-				}else if(subject.contains(slave.getName())) {
-					tags.add(slave.getName());
-				}
-			}
+//			for(ElementSlave slave: slaves) {
+//				if( title.contains( slave.getName())) {
+//					tags.add(slave.getName());
+//				}else if(subject.contains(slave.getName())) {
+//					tags.add(slave.getName());
+//				}
+//			}
 			
 			for(String jigou: jigous) {
 				for(String ren: rens) {
 					String key = ren + "%" + jigou;
 					if (eMap.containsKey(key)) {
-						Expert expert = eMap.get(key);
-						List<String> expertTags = expert.getTags();
-						for(String tag : tags) {
-							if(expertTags == null) {
-								expertTags = new ArrayList<String>();
-							}
-							if(!expertTags.contains(tag)) {
-								expertTags.add(tag);
-							}
-						}
-						expertRepository.save(expert);
+//						Expert expert = eMap.get(key);
+//						List<String> expertTags = expert.getTags();
+//						for(String tag : tags) {
+//							if(expertTags == null) {
+//								expertTags = new ArrayList<String>();
+//							}
+//							if(!expertTags.contains(tag)) {
+//								expertTags.add(tag);
+//							}
+//						}
+//						expertRepository.save(expert);
 					}else {
-						expertMap.put(key, tags);
+//						expertMap.put(key, tags);
 					}
 				}
 				if(oMap.containsKey(jigou)) {
@@ -1538,7 +1541,7 @@ public class PatentController {
 					}
 					orgRepository.save(org);
 				}else {
-					orgMap.put(jigou, tags);
+//					orgMap.put(jigou, tags);
 				}
 			}
 			i++;
@@ -1559,23 +1562,369 @@ public class PatentController {
 //			expertRepository.save(e);
 //		}
 		
-		for(Map.Entry<String, Set<String>> entry: orgMap.entrySet()) {
-			if(entry.getValue()!= null) {
-				System.out.println();
-			}
-			String key = entry.getKey();
-			List<String> tags = new ArrayList<String>();
-			tags.addAll(entry.getValue());
-			Org o = new Org();
-			o.setId(UUID.randomUUID().toString().replaceAll("\\-", ""));
-			o.setName(key);
-			o.setTags(tags);
-			o.setNow(System.currentTimeMillis());
-			o.setAnotherName(key);
-			o.setTop("0");
-			orgRepository.save(o);
-		}
+//		for(Map.Entry<String, Set<String>> entry: orgMap.entrySet()) {
+//			if(entry.getValue()!= null) {
+//				System.out.println();
+//			}
+//			String key = entry.getKey();
+//			List<String> tags = new ArrayList<String>();
+//			tags.addAll(entry.getValue());
+//			Org o = new Org();
+//			o.setId(UUID.randomUUID().toString().replaceAll("\\-", ""));
+//			o.setName(key);
+//			o.setTags(tags);
+//			o.setNow(System.currentTimeMillis());
+//			o.setAnotherName(key);
+//			o.setTop("0");
+//			orgRepository.save(o);
+//		}
 		return "bsdf";
 	}
+	
+	
+	@GetMapping(value = "patent/eout")
+	public String eout() {
+		Iterator<Patent> patents = patentRepository.findAll().iterator();
+		Set<String> eos = new HashSet<String>();
+		Set<String> os= new HashSet<String>();
+		int i=0;
+		while(patents.hasNext()) {
+			System.out.println(i);
+			Patent patent = patents.next();
+//			if(patent.getCountry() == null || patent.getCountry().contains("中国")) {
+//				continue;
+//			}
+			List<String> rens = patent.getCreator();
+			List<String> jigous = patent.getPerson();
+			
+			if(jigous == null || rens==null) {
+				continue;
+			} 
+			for(String jigou: jigous) {
+				for(String ren: rens) {
+					String key = ren + "," + jigou;
+					if(!eos.contains(key)) {
+						eos.add(key);
+					}
+				}
+				if(!os.contains(jigou)) {
+					os.add(jigou);
+				}
+			}
+			i++;
+		}
+		File file1 = new File("/Users/liubingchuan/zhuanjia_jilin.csv");
+		File file2 = new File("/Users/liubingchuan/jigou_jilin.csv");
+		exportCsv(file1, eos);
+		exportCsv(file2, os);
+		
+		return "bsdf";
+	}
+	
+	
+	public boolean exportCsv(File file, Set<String> dataList){
+		boolean isSucess=false;
+		FileOutputStream out=null;
+		OutputStreamWriter osw=null;
+		BufferedWriter bw=null;
+		try {
+            out = new FileOutputStream(file);
+            osw = new OutputStreamWriter(out);
+            bw =new BufferedWriter(osw);
+            if(dataList!=null && !dataList.isEmpty()){
+                for(String data : dataList){
+                    bw.append(data).append("\r");
+                }
+            }
+            isSucess=true;
+        } catch (Exception e) {
+            isSucess=false;
+        }finally{
+            if(bw!=null){
+                try {
+                    bw.close();
+                    bw=null;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } 
+            }
+            if(osw!=null){
+                try {
+                    osw.close();
+                    osw=null;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } 
+            }
+            if(out!=null){
+                try {
+                    out.close();
+                    out=null;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } 
+            }
+        }
+		return isSucess;
+    }
+
+	
+	public String ndayago(int i) {
+		  Calendar calendar1 = Calendar.getInstance();
+		  SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMdd");
+		  calendar1.add(Calendar.DATE, -i);
+		  String three_days_ago = sdf1.format(calendar1.getTime());
+		  System.out.println(three_days_ago);
+		  return three_days_ago;
+	}
+	
+	@GetMapping(value = "patent/fore")
+	public String fore() {
+		String fileName = "/Users/liubingchuan/Desktop/daima.csv";
+		Map<String, String> map = new HashMap<String, String>();
+		try {
+			String record;
+			BufferedReader file = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), "UTF-8"));
+			file.readLine();
+			while((record = file.readLine()) != null) {
+				String fields[] = record.split(",");
+				map.put(fields[0].trim(), fields[1].trim());
+			}
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		for(int m=0;m<8000;) {
+			m++;
+			String url="https://worldwide.espacenet.com/data/searchResults?submitted=true&locale=en_EP&DB=EPODOC&ST=advanced&TI=&AB=Vaccine&PN=&AP=&PR=&PD=" + ndayago(m) + "&PA=&IN=&CPC=&IC=&Submit=Search&rnd="+ System.currentTimeMillis() ;
+//			String url="https://worldwide.espacenet.com/data/searchResults?submitted=true&locale=en_EP&DB=EPODOC&ST=advanced&TI=&AB=Medical+apparatus+and+instruments&PN=&AP=&PR=&PD=201910&PA=&IN=&CPC=&IC=&Submit=Search&rnd="+ System.currentTimeMillis() ;
+			String base = "https://worldwide.espacenet.com/data";
+			System.out.println(ndayago(m));
+			System.out.println("单位" + m);
+			Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(ProxyHost, ProxyPort));
+			Document doc = null;
+			try {
+				System.setProperty("jdk.http.auth.tunneling.disabledSchemes", "");
+				Authenticator.setDefault(new Authenticator() {
+					public PasswordAuthentication getPasswordAuthentication()
+					{
+						return new PasswordAuthentication(ProxyUser, ProxyPass.toCharArray());
+					}
+				});
+				
+				
+			    doc = Jsoup.connect(url).followRedirects(false)
+						.timeout(3000)
+						.header(ProxyHeadKey, ProxyHeadVal)
+						.proxy(proxy)
+						// 忽略证书校验
+						.validateTLSCertificates(false)
+						.get();
+			} catch (IOException e) {
+				m--;
+				e.printStackTrace();
+				continue;
+			}
+				
+			if (doc == null) {
+				continue;
+			}
+			
+				Elements cpcElements = doc.getElementsByClass("cpcColumn");
+				Elements ipcElements = doc.getElementsByClass("ipcColumn");
+				Elements publicationInfoElements = doc.getElementsByClass("publicationInfoColumn");
+				Elements nowraps = doc.getElementsByClass("nowrap");
+				
+				
+				boolean goon = true;
+				int i= 0;
+				while(goon) {
+					Element publicationElement = doc.getElementById("publicationId" + (i+1));
+					if(publicationElement==null) {
+						goon = false;
+						break;
+					} 
+					Patent patent = new Patent();
+					String uri = publicationElement.attr("href");
+					System.out.println(uri);
+					System.out.println(publicationElement.text());
+					if (count(publicationElement.text())>32766) {
+						patent.setTitle(publicationElement.text().substring(0,32767));
+					}else {
+						patent.setTitle(publicationElement.text());
+					}
+					// 钻进去
+					
+					
+					List<String> cpcs = new ArrayList<String>();
+					Element cpcElement = cpcElements.get(i);
+					Elements cpcEles = cpcElement.getElementsByTag("a");
+					for ( Element e: cpcEles) {
+						cpcs.add(e.text());
+					}
+					patent.setCpc(cpcs);
+					
+					List<String> ipcs = new ArrayList<String>();
+					Element ipcElement = ipcElements.get(i);
+					Elements ipcEles = ipcElement.getElementsByTag("a");
+					for(Element e : ipcEles) {
+						ipcs.add(e.text());
+					}
+					patent.setIpc(ipcs);
+					
+					Element publicationInfoElement = publicationInfoElements.get(i);
+					String pubInfo = publicationInfoElement.text();
+					if(pubInfo != null && !"".equals(pubInfo)) {
+						String pubTime = getDate(pubInfo);
+						patent.setPublicyear(pubTime.split("-")[0]);
+						patent.setPublictime(pubTime);
+						String pubNum = pubInfo.replace("Publication info:", "").replace(pubTime, "").trim();
+						patent.setPublicnumber(pubNum);
+					}
+					Element nowrapElem = nowraps.get(i);
+					String priorityDay = nowrapElem.text();
+					if (priorityDay != null && !"".equals(priorityDay)) {
+						patent.setPiroryear(priorityDay.split("-")[0]);
+					}
+					String singleUrl = base + uri;
+					patent.setId(UUID.randomUUID().toString().replaceAll("\\-", ""));
+					Document singleDoc;
+					try {
+						singleDoc = Jsoup.connect(singleUrl).followRedirects(false)
+								.timeout(3000)
+								.header(ProxyHeadKey, ProxyHeadVal)
+								.proxy(proxy)
+								// 忽略证书校验
+								.validateTLSCertificates(false)
+								.get();
+						Elements tableTextElems = singleDoc.getElementsByClass("printTableText");
+						Element inventors = singleDoc.getElementById("inventors");
+						List<String> creators = new ArrayList<String>();
+						if(inventors != null && inventors.text() != null & !"".equals(inventors.text())) {
+							for(String inventor : inventors.text().split(";")){
+								creators.add(inventor);
+							}
+							patent.setCreator(creators);
+						}
+						
+						Element applicants = singleDoc.getElementById("applicants");
+						List<String> persons = new ArrayList<String>();
+						if(applicants != null && applicants.text()!=null && !"".equals(applicants.text())) {
+							for(String person: applicants.text().split(";")) {
+								persons.add(person);
+							}
+							patent.setPerson(persons);
+						}
+						
+						Elements absEles = singleDoc.getElementsByClass("printAbstract");
+						if(absEles != null && absEles.size()>0) {
+							patent.setSubject(absEles.get(0).text());
+						}
+						
+						int j=0;
+						if (tableTextElems != null && tableTextElems.size()>0) {
+							while(tableTextElems.get(j).text()!=null && !tableTextElems.get(j).text().contains("Application number")) {
+								j++;
+							}
+							String applyInfo = tableTextElems.get(j+1).text();
+							String applyInfoNum = applyInfo.trim().split(" ")[0];
+							System.out.println(applyInfoNum.trim().substring(0, 2));
+							String country = map.get(applyInfoNum.trim().substring(0, 2));
+							patent.setCountry(country);
+							String applyInfoDate = applyInfo.trim().split(" ")[1];
+							String applyYear = applyInfoDate.substring(0, 4);
+							patent.setApplynumber(applyInfoNum);
+							patent.setApplytime(applyInfoDate);
+							patent.setApplyyear(applyYear);
+							System.out.println(singleDoc.toString());
+						}
+//					singleDoc.getElementsContainingOwnText(searchText)
+						Elements claimElements = singleDoc.getElementsContainingOwnText("Claims");
+						if(claimElements != null && claimElements.size()>0) {
+							String claimUri = claimElements.get(0).attr("href");
+							if(claimUri != null && !"".equals(claimUri)) {
+								String claimUrl = "https://worldwide.espacenet.com/data" + claimUri;
+								Document claimDoc;
+								claimDoc = Jsoup.connect(claimUrl).followRedirects(false)
+										.timeout(3000)
+										.header(ProxyHeadKey, ProxyHeadVal)
+										.proxy(proxy)
+										// 忽略证书校验
+										.validateTLSCertificates(false)
+										.get();
+								Element claimElem = claimDoc.getElementById("claims");
+								if(claimElem != null) {
+									if (count(claimElem.text())>32766) {
+										patent.setClaim("");
+									}else {
+										patent.setClaim(claimElem.text());
+									}
+								}
+							}
+						}
+					} catch (IOException e2) {
+						// TODO Auto-generated catch block
+						e2.printStackTrace();
+						continue;
+					}
+					patent.setType("UNKNOWN");
+					try{
+						patentRepository.save(patent);
+					}catch(Exception e) {
+						e.printStackTrace();
+						continue;
+					}
+					i++;
+				}
+				
+				
+				
+			
+		}
+		return "success";
+	}
+	public int count(String str) { 
+		if(str == null || str.length() == 0) { 
+			return 0; 
+		} 
+		int count = 0; 
+		char[] chs = str.toCharArray(); 
+		for(int i = 0; i < chs.length; i++) {
+			count += (chs[i] > 0xff) ? 2 : 1; 
+			}
+		    return count; 
+		}
+	public String getDate(String text) { 
+        String dateStr = text.replaceAll("r?n", " ");
+        try { 
+            List matches = null; 
+            Pattern p = Pattern.compile("(\\d{1,4}[-|\\/]\\d{1,2}[-|\\/]\\d{1,2})", Pattern.CASE_INSENSITIVE|Pattern.MULTILINE); 
+            Matcher matcher = p.matcher(dateStr); 
+            if (matcher.find() && matcher.groupCount() >= 1) { 
+                matches = new ArrayList(); 
+                for (int i = 1; i <= matcher.groupCount(); i++) { 
+                    String temp = matcher.group(i); 
+                    matches.add(temp); 
+                } 
+            } else { 
+                matches = Collections.EMPTY_LIST; 
+            }            
+            
+            if (matches.size() > 0) { 
+                return ((String) matches.get(0)).trim(); 
+            } else { 
+                return ""; 
+            } 
+            
+        } catch (Exception e) { 
+            return ""; 
+        } 
+    }
 	
 }
