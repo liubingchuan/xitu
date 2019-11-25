@@ -121,18 +121,25 @@ public abstract class AbstractESHttpService implements ESHttpService {
 		}
 		query.put("aggs",aggs);
     	JSONArray sort = new JSONArray();
+    	String sortfield ="";
+    	JSONObject pubtimes = new JSONObject();
+    	JSONObject areas = new JSONObject();
+    	JSONObject photos = new JSONObject();
+    	if (type == 3) {
+    		sortfield = "pubtime";
+    		JSONObject order1s = new JSONObject();
+        	order1s.put("order", "desc");
+        	photos.put(sortfield,order1s);
+        	sort.add(photos);
+        	
+		}
     	JSONObject _score = new JSONObject();
     	JSONObject order = new JSONObject();
     	order.put("order", "desc");//method=desc
     	_score.put("_score",order);//orderby=_score
     	sort.add(_score);
-    	JSONObject pubtimes = new JSONObject();
-    	JSONObject areas = new JSONObject();
-    	JSONObject photos = new JSONObject();
-    	String sortfield ="";
-    	if (type == 3) {
-    		sortfield = "pubtime";
-		}
+    	
+    	
     	if (type == 0) {
     		sortfield = "publictime";
 		}
