@@ -1866,7 +1866,7 @@ public class PatentController {
 		int i = 5;//0代表专利；1代表论文；2代表项目；3代表监测;4代表机构；5代表专家；
 		// TODO 静态变量未环绕需调整
 		JSONObject rs = new JSONObject();
-		rs = patentService.executeIns(insname.getString("insname"),pageIndex, pageSize, "person",i);
+		rs = patentService.executeIns(insname.getString("insname"),pageIndex, pageSize, "person",0);
 		return R.ok().put("list", rs.get("list")).put("totalPages", rs.get("totalPages")).put("totalCount", rs.get("totalCount")).put("pageIndex", pageIndex);
     }
 	
