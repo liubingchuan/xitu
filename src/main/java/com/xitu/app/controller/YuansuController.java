@@ -333,7 +333,7 @@ public class YuansuController {
 		//rs.put("totalPages", totalPages);
 		//rs.put("totalCount", totalCount);
 		if(instance.containsKey("name")) {
-			rs = orgService.executeIns(instance.getString("name"),0, pageSize, "tags",i);
+			rs = orgService.executeIns(instance.getString("name"),0, pageSize, "tags",5);
 		}
 		return R.ok().put("orgList", rs.get("list")).put("totalPages", rs.get("totalPages")).put("totalCount", rs.get("totalCount"));
 	}
