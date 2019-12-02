@@ -1,11 +1,14 @@
 package com.xitu.app.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.elasticsearch.action.search.SearchResponse;
@@ -50,6 +53,7 @@ import com.xitu.app.common.R;
 import com.xitu.app.common.request.SaveProjectRequest;
 import com.xitu.app.mapper.ItemMapper;
 import com.xitu.app.model.Item;
+import com.xitu.app.model.Patent;
 import com.xitu.app.model.Project;
 import com.xitu.app.repository.ProjectRepository;
 import com.xitu.app.service.es.ProjectService;
@@ -161,6 +165,13 @@ public class ProjectController {
 			}
 		}
 		return view;
+	}
+	
+	
+	@GetMapping(value = "project/inport")
+	public String inport() {
+		
+		return "bsdf";
 	}
 	
 //	@GetMapping(value = "project/list")
