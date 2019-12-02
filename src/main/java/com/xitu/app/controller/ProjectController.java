@@ -1,8 +1,14 @@
 package com.xitu.app.controller;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -170,7 +176,44 @@ public class ProjectController {
 	
 	@GetMapping(value = "project/inport")
 	public String inport() {
-		
+		try {
+			String record;
+			final Base64.Decoder decoder = Base64.getDecoder();
+			String fileName = "/Users/liubingchuan/Downloads/nengyuan_project.csv";
+			BufferedReader file = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), "UTF-8"));
+			List<Project> projects = new ArrayList<Project>();
+			while ((record = file.readLine()) != null) {
+				Project project = new Project();
+				String fields[] = record.split(",");
+				project.setName(fields[0].trim());
+				project.setEntrust(fields[1].trim());
+				if(fields[2].trim().equals("/")) {
+					project.setAddress("");
+				}else {
+					project.setAddress(fields[2].trim());
+				}
+				project.setStart(fields[3].trim());
+				project.setAgent(fields[5].trim());
+				project.setContacts(fields[6].trim());
+				project.setPhone(fields[7].trim());
+				if(fields.length > 10) {
+					String desc = new String(decoder.decode(fields[10].trim()), "UTF-8");
+					project.setDescription(desc);
+				}
+				project.setBudget("竞价");
+				projects.add(project);
+			 }
+			projectRepository.saveAll(projects);
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return "bsdf";
 	}
 	
