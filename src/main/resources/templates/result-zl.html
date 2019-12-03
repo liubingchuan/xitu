@@ -381,7 +381,7 @@
 		            				<span th:if="${patent.publictime != null && patent.publictime != ''}" th:text="'公开（公告）日：' + ${patent.publictime}"></span>
 		            			</div>
 		            			<div class="jiansuoLiText">
-		            				<span th:if="${patent.subject != null && patent.subject != ''}" class="jiansuoLiTextSpan" th:text="${patent.subject}">
+		            				<span th:if="${patent.subject != null && patent.subject != ''}" class="jiansuoLiTextSpan" th:utext="${patent.subject}">
 		            				</span>
 		            				<a href="javascript:;" class="jiansuoLImore">
 		            					展开更多
