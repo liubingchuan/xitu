@@ -12,7 +12,32 @@ $("#login").click(function(){
 
 $("#xituzhiku").click(function(){
 	if($.cookie("role")!=null) {
-		window.location.href = "/org/list?pageSize=10&pageIndex=0&front=0";
+		window.location.href = "/patent/agmount";
+	}else {
+		alert("请先登录")
+		$("#login").click()
+	}
+});
+
+$("#cailiaojisuan").click(function(){
+	if($.cookie("role")!=null) {
+		window.location.href = "/material/calculate";
+	}else {
+		alert("请先登录")
+		$("#login").click()
+	}
+});
+$("#chanyejiance").click(function(){
+	if($.cookie("role")!=null) {
+		window.location.href = "/jiance/jiancelist";
+	}else {
+		alert("请先登录")
+		$("#login").click()
+	}
+});
+$("#zhishifuwu").click(function(){
+	if($.cookie("role")!=null) {
+		window.location.href = "/zhishifuwu/zhishifuwu";
 	}else {
 		alert("请先登录")
 		$("#login").click()
@@ -26,7 +51,7 @@ function showLoginInfoFrontend(){
 		$("#loginBefore").css('display','none'); 
 		$("#headImg").attr("src", $.cookie("headImg"));
 		$("#loginAfter").css('display','block');
-		if($.cookie("role")!=null && $.cookie("role")==="普通用户"){
+		if($.cookie("role")!=null && $.cookie("role")==="visitor"){
 			$(".vip").html("普通用户"); 
 			$("#backgroud").css('display','none'); 
 		}
