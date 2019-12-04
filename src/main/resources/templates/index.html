@@ -446,14 +446,6 @@
 					getQcode();
 				});
 				
-				$("#quit").click(function(){
-					$.cookie("openId", "", {expires: -1});
-					$.cookie("nickName", "", {expires: -1});
-					$.cookie("headImg", "", {expires: -1});
-					$.cookie("role", "", {expires: -1});
-					window.location.href = "/";
-				});
-				
 				 $("#bindButtion").click(function(){
 					if($("#bdaccount").val() == ""){
 						alert('请输入用户名','提示')

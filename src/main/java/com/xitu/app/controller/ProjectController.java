@@ -179,7 +179,7 @@ public class ProjectController {
 		try {
 			String record;
 			final Base64.Decoder decoder = Base64.getDecoder();
-			String fileName = "/Users/liubingchuan/Downloads/nengyuan_project.csv";
+			String fileName = "/Users/liubingchuan/Downloads/project.csv";
 			BufferedReader file = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), "UTF-8"));
 			List<Project> projects = new ArrayList<Project>();
 			while ((record = file.readLine()) != null) {
@@ -196,6 +196,7 @@ public class ProjectController {
 				project.setAgent(fields[5].trim());
 				project.setContacts(fields[6].trim());
 				project.setPhone(fields[7].trim());
+				project.setId(UUID.randomUUID().toString().replaceAll("\\-", ""));
 				if(fields.length > 10) {
 					String desc = new String(decoder.decode(fields[10].trim()), "UTF-8");
 					project.setDescription(desc);
