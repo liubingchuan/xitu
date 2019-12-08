@@ -131,19 +131,19 @@
 				    				<option>
 				    					全部单位
 				    				</option>
-				    				<option th:each="item : ${unit}" th:value="${item.key}" th:text="${item.key}"></option>
+				    				<option th:each="item : ${unit}" th:if="${item.key != null && item.key != ''}" th:value="${item.key}" th:text="${item.key}"></option>
 				    			</select>
 				    			<select class="left" id="areaselect">
 				    				<option>
 				    					全部研究领域
 				    				</option>
-				    				<option th:each="item : ${area}" th:value="${item.key}" th:text="${item.key}"></option>
+				    				<option th:each="item : ${area}" th:if="${item.key != null && item.key != ''}" th:value="${item.key}" th:text="${item.key}"></option>
 				    			</select>
 				    			<select class="left" id="dutyselect">
 				    				<option>
-				    					全部担任职务
+				    					全部职称
 				    				</option>
-				    				<option th:each="item : ${duty}" th:value="${item.key}" th:text="${item.key}"></option>
+				    				<option th:each="item : ${title}" th:if="${item.key != null && item.key != ''}" th:value="${item.key}" th:text="${item.key}"></option>
 				    			</select>
 				    			<input type="button" class="left shaixuanbtn" value="筛选" onClick="shuaixuan();">
 				    		</div>
@@ -160,6 +160,10 @@
 				        				</div>
 				        				<div class="rencailiMList">
 				        					<p th:if="${expert.unit != null && expert.unit != ''}" th:text="'单位：' + ${expert.unit}">
+				        					</p>
+				        					<p th:if="${expert.title != null && expert.title != '' && #arrays.length(expert.title) > 0 && !(#arrays.length(expert.title) == 1 && expert.title[0] == '')}">
+				        						职称：
+				        						<span th:each="title: ${expert.title}" th:text="${title}"></span>
 				        					</p>
 				        					<p th:if="${expert.duty != null && expert.duty != '' && #arrays.length(expert.duty) > 0 && !(#arrays.length(expert.duty) == 1 && expert.duty[0] == '')}">
 				        						担任职务：
@@ -179,11 +183,11 @@
 		            	 <span th:if=" ${totalCount > 0}">
 					    	<span th:text="'共 ' + ${totalCount}+' 条专家信息'">
 					    	</span>
-					    	<a th:style="'display:' + @{((${pageIndex}+1) == 1 ? 'none' : 'inline-block')} + ''"  th:href="@{/expert/list(q=${query},front=0,pageIndex=0,pageSize=10,unit=${units},area=${areas},duty=${dutys})}"><首页</a>
- 							<a th:style="'display:' + @{((${pageIndex}+1) == 1 ? 'none' : 'inline-block')} + ''" th:href="@{/expert/list(q=${query},front=0,pageIndex=(${pageIndex}-1),pageSize=10,unit=${units},area=${areas},duty=${dutys})}"><上一页</a>
+					    	<a th:style="'display:' + @{((${pageIndex}+1) == 1 ? 'none' : 'inline-block')} + ''"  th:href="@{/expert/list(q=${query},front=0,pageIndex=0,pageSize=10,unit=${units},area=${areas},title=${titles})}"><首页</a>
+ 							<a th:style="'display:' + @{((${pageIndex}+1) == 1 ? 'none' : 'inline-block')} + ''" th:href="@{/expert/list(q=${query},front=0,pageIndex=(${pageIndex}-1),pageSize=10,unit=${units},area=${areas},title=${titles})}"><上一页</a>
  							<!-- <a th:href="@{/jiance/jiancelist(pageIndex=(${pageIndex}),pageSize=10)}" th:text="(${pageIndex}+1) + '/' + ${totalPages}" ></a> -->
-							<a th:style="'display:' + @{((${pageIndex}+1) == ${totalPages} ? 'none' : 'inline-block')} + ''" th:href="@{/expert/list(q=${query},front=0,pageIndex=(${pageIndex}+1),pageSize=10,unit=${units},area=${areas},duty=${dutys})}">下一页<em>></em></a>
-							<a th:style="'display:' + @{((${pageIndex}+1) == ${totalPages} ? 'none' : 'inline-block')} + ''" th:href="@{/expert/list(q=${query},front=0,pageIndex=(${totalPages}-1),pageSize=10,unit=${units},area=${areas},duty=${dutys})}">尾页<em>></em></a>
+							<a th:style="'display:' + @{((${pageIndex}+1) == ${totalPages} ? 'none' : 'inline-block')} + ''" th:href="@{/expert/list(q=${query},front=0,pageIndex=(${pageIndex}+1),pageSize=10,unit=${units},area=${areas},title=${titles})}">下一页<em>></em></a>
+							<a th:style="'display:' + @{((${pageIndex}+1) == ${totalPages} ? 'none' : 'inline-block')} + ''" th:href="@{/expert/list(q=${query},front=0,pageIndex=(${totalPages}-1),pageSize=10,unit=${units},area=${areas},title=${titles})}">尾页<em>></em></a>
 		            		<span th:text="'页次：' + (${pageIndex}+1) + '/' + ${totalPages}"></span>
 		            	</span>
 		            	</div>
@@ -200,7 +204,7 @@
 		
 		var unit =  [[${units}]];
 		var area =  [[${areas}]];
-		var duty =  [[${dutys}]];
+		var title =  [[${titles}]];
 		var query =  [[${query}]];
 		
 		$(document).ready(function () {
@@ -216,8 +220,8 @@
 		    if(area != null){
 		    	document.getElementById('areaselect').value=area;
 		    }
-		    if(duty != null){
-		    	document.getElementById('dutyselect').value=duty;
+		    if(title != null){
+		    	document.getElementById('dutyselect').value=title;
 		    }
 		});
 		
@@ -231,10 +235,10 @@
 			if (arease != null && arease == "全部研究领域") {
 				arease = null;
 			}
-			if (dutyse !=null && dutyse == "全部担任职务") {
+			if (dutyse !=null && dutyse == "全部职称") {
 				dutyse = null;
 			}
-			window.location.href="/expert/list?front=0&q="+query+"&unit=" + encodeURI(encodeURIComponent(unitse)) + "&area=" + encodeURI(encodeURIComponent(arease)) + "&duty="+encodeURI(encodeURIComponent(dutyse));
+			window.location.href="/expert/list?front=0&q="+query+"&unit=" + encodeURI(encodeURIComponent(unitse)) + "&area=" + encodeURI(encodeURIComponent(arease)) + "&title="+encodeURI(encodeURIComponent(dutyse));
 		}
 		
 		function search(){

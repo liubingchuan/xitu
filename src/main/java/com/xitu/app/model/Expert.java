@@ -44,11 +44,11 @@ public class Expert implements Serializable{
 
 	private String address; // 地址
 	
-	@AggQuery
-	@SingleQuery
+	
 	@Field(type=FieldType.Keyword)
 	private List<String> duty; // 职务
-	
+	@AggQuery
+	@SingleQuery
 	@Field(type=FieldType.Keyword)
 	private List<String> title; // 职称
 	private String resume; // 简历
