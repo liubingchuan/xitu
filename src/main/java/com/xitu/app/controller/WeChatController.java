@@ -20,8 +20,10 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -132,6 +134,7 @@ public class WeChatController {
 				} else if (msgType.equals(Constant.MsgType.EVENT)) { // 事件处理
 					String event = map.get("Event");
 					if (event.equals(Constant.Event.SUBSCRIBE)) { // 关注公众号
+						System.out.println("关注公众号了！！！！！！！！！！");
 						result = msgService.returnText(map, message.getSubscribe());
 						String eventKeyValue = map.get("EventKey");
 						String openId = map.get("FromUserName");
@@ -148,7 +151,7 @@ public class WeChatController {
 					        	SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 					        	user.setWechat(nickName);
 					        	user.setOpenId(openId);
-					        	user.setRole("普通用户");
+					        	user.setRole("visitor");
 					        	user.setStamp(df.format(new Date()));
 					        	userMapper.insertUser(user);
 					        	System.out.println("插入新的用户，wechat 名字为 " + nickName);
@@ -164,6 +167,7 @@ public class WeChatController {
 							result = msgService.returnText(map, "今日歌曲如下：");
 						}
 					} else if (event.equals(Constant.Event.SCAN)) { // 扫码事件
+						System.out.println("发送扫描二维码事件了！！！！！！！");
 						String eventKey = map.get("EventKey");
 						String openId = map.get("FromUserName");
 						cache.save(eventKey, openId + "%binded");
@@ -235,6 +239,7 @@ public class WeChatController {
 		String openId = "";
 		String bind = "true";
 		openId = openIdInfo.split("%")[0];
+		System.out.println("openid is ------>" + openId);
 		if (openIdInfo.contains("unbind")) {
 			bind = "false";
 		} else {
@@ -254,7 +259,7 @@ public class WeChatController {
         		headUrl = weChatUserInfo.getHeadImgUrl();
         		if(nickName == null || headUrl == null) {
         			retry--;
-        			System.out.println("获取用户信息失败，重试1次");
+        			System.out.println("获取用户信息失败，倒数第" + retry + "次重试");
         			try {
 						Thread.sleep(1000);
 					} catch (InterruptedException e) {
@@ -274,6 +279,16 @@ public class WeChatController {
 		return R.ok().put("openId", openId).put("bind", bind).put("nickName", nickName).put("headUrl", headUrl).put("role", role);
 
 	}
+	
+	@GetMapping(value = "wechat/quit")
+	public String quit(HttpServletRequest request, Model model) {
+		String sessionId = request.getSession().getId();
+		User user = new User();
+		model.addAttribute("user", user);
+		cache.delete(sessionId);
+		return "index";
+	}
+	
 	
 	/**
 	 * 初始化菜单
