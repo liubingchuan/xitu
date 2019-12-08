@@ -348,7 +348,7 @@ public class ExpertController {
 			@RequestParam(required=false,value="q") String q,
 			@RequestParam(required=false,value="unit") String unit,
 			@RequestParam(required=false,value="area") String area,
-			@RequestParam(required=false,value="duty") String duty,
+			@RequestParam(required=false,value="title") String title,
 			@RequestParam(required=false,value="pageSize") Integer pageSize, 
 			@RequestParam(required=false, value="pageIndex") Integer pageIndex, 
 			Model model) {
@@ -363,7 +363,7 @@ public class ExpertController {
 		int i = 5;//0代表专利；1代表论文；2代表项目；3代表监测;4代表机构；5代表专家；
 		// TODO 静态变量未环绕需调整
 		ThreadLocalUtil.set(model);
-		expertService.execute(pageIndex, pageSize, i,q,unit,area,duty);
+		expertService.execute(pageIndex, pageSize, i,q,unit,area,title);
 		ThreadLocalUtil.remove();
 		String view = "qiyezhikuhangyerencailiebiao";
 		if (front != null) {
