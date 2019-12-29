@@ -3,6 +3,8 @@ package com.xitu.app.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -132,6 +134,8 @@ public class UserController {
 		redirectAttributes.addAttribute("token", request.getToken());
 		return "redirect:/user/list";
 	}
+	
+	
 	
 	@GetMapping(value = "user/list")
 	public String users(@RequestParam(required=false, value="token") String token, 

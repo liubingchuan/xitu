@@ -82,7 +82,7 @@
 			</span>
 		</div>
 		<div class="clearfix yuansu">
-		<a th:href="@{/yuansu/xiangqing?name=镧}">
+		<a id="la" th:href="@{/yuansu/xiangqing?name=镧}">
 				<p class="yuansuTop">
 					57
 				</p>
@@ -93,7 +93,7 @@
 					La
 				</p>
 			</a>
-			<a th:href="@{/yuansu/xiangqing?name=铈}">
+			<a id="ce" th:href="@{/yuansu/xiangqing?name=铈}">
 				<p class="yuansuTop">
 					58
 				</p>
@@ -104,7 +104,7 @@
 					Ce
 				</p>
 			</a>
-			<a th:href="@{/yuansu/xiangqing?name=镨}">
+			<a id="pr" th:href="@{/yuansu/xiangqing?name=镨}">
 				<p class="yuansuTop">
 					59
 				</p>
@@ -115,7 +115,7 @@
 					Pr
 				</p>
 			</a>
-			<a th:href="@{/yuansu/xiangqing?name=钕}">
+			<a id="nd" th:href="@{/yuansu/xiangqing?name=钕}">
 				<p class="yuansuTop">
 					60
 				</p>
@@ -126,7 +126,7 @@
 					Nd
 				</p>
 			</a>
-			<a th:href="@{/yuansu/xiangqing?name=钷}">
+			<a id="pm" th:href="@{/yuansu/xiangqing?name=钷}">
 				<p class="yuansuTop">
 					61
 				</p>
@@ -137,7 +137,7 @@
 					Pm
 				</p>
 			</a>
-			<a th:href="@{/yuansu/xiangqing?name=钐}">
+			<a id="sm" th:href="@{/yuansu/xiangqing?name=钐}">
 				<p class="yuansuTop">
 					62
 				</p>
@@ -148,7 +148,7 @@
 					Sm
 				</p>
 			</a>
-			<a th:href="@{/yuansu/xiangqing?name=铕}">
+			<a id="eu" th:href="@{/yuansu/xiangqing?name=铕}">
 				<p class="yuansuTop">
 					63
 				</p>
@@ -159,7 +159,7 @@
 					Eu
 				</p>
 			</a>
-			<a th:href="@{/yuansu/xiangqing?name=钆}">
+			<a id="gd" th:href="@{/yuansu/xiangqing?name=钆}">
 				<p class="yuansuTop">
 					64
 				</p>
@@ -170,7 +170,7 @@
 					Gd
 				</p>
 			</a>
-			<a th:href="@{/yuansu/xiangqing?name=铽}">
+			<a id="tb" th:href="@{/yuansu/xiangqing?name=铽}">
 				<p class="yuansuTop">
 					65
 				</p>
@@ -181,7 +181,7 @@
 					Tb
 				</p>
 			</a>
-			<a th:href="@{/yuansu/xiangqing?name=镝}">
+			<a id="dy" th:href="@{/yuansu/xiangqing?name=镝}">
 				<p class="yuansuTop">
 					66
 				</p>
@@ -192,7 +192,7 @@
 					Dy
 				</p>
 			</a>
-			<a th:href="@{/yuansu/xiangqing?name=钬}">
+			<a id="ho" th:href="@{/yuansu/xiangqing?name=钬}">
 				<p class="yuansuTop">
 					67
 				</p>
@@ -203,7 +203,7 @@
 					Ho
 				</p>
 			</a>
-			<a th:href="@{/yuansu/xiangqing?name=铒}">
+			<a id="er" th:href="@{/yuansu/xiangqing?name=铒}">
 				<p class="yuansuTop">
 					68
 				</p>
@@ -214,7 +214,7 @@
 					Er
 				</p>
 			</a>
-			<a th:href="@{/yuansu/xiangqing?name=铥}">
+			<a id="tm" th:href="@{/yuansu/xiangqing?name=铥}">
 				<p class="yuansuTop">
 					69
 				</p>
@@ -225,7 +225,7 @@
 					Tm
 				</p>
 			</a>
-			<a th:href="@{/yuansu/xiangqing?name=镱}">
+			<a id="yb" th:href="@{/yuansu/xiangqing?name=镱}">
 				<p class="yuansuTop">
 					70
 				</p>
@@ -236,7 +236,7 @@
 					Yb
 				</p>
 			</a>
-			<a th:href="@{/yuansu/xiangqing?name=镥}">
+			<a id="lu" th:href="@{/yuansu/xiangqing?name=镥}">
 				<p class="yuansuTop">
 					71
 				</p>
@@ -247,7 +247,7 @@
 					Lu
 				</p>
 			</a>
-			<a th:href="@{/yuansu/xiangqing?name=钪}">
+			<a id="sc" th:href="@{/yuansu/xiangqing?name=钪}">
 				<p class="yuansuTop">
 					21
 				</p>
@@ -258,7 +258,7 @@
 					Sc
 				</p>
 			</a>
-			<a th:href="@{/yuansu/xiangqing?name=钇}">
+			<a id="y" th:href="@{/yuansu/xiangqing?name=钇}">
 				<p class="yuansuTop">
 					39
 				</p>
@@ -437,6 +437,7 @@
 	            });
 	    	}
 
+	    	var timeRun = 0;
 	      //轮询判断是否登录
 	        function isLogin() {
 	                var url = "/wechat/islogin";
@@ -464,6 +465,11 @@
 	                        } else if (resObj.code == 1) {
 	                            window.clearInterval(time);
 	                            console.log("获取微信用户信息失败")
+	                        }else {
+	                        	timeRun += 1;
+	                        	if(timeRun >= 20) {
+	                        		window.clearInterval(time);
+	                        	}
 	                        }
 	                    }
 	                });
