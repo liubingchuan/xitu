@@ -30,13 +30,13 @@
 				<div th:replace="qiantaidenglu :: myqiantaidenglu"></div>
 			</div>
 		</div>
-		<div class="logoText">
+		<!-- <div class="logoText">
 			稀土大数据平台
 		</div>
 		<div class="indexTopSmall">
 			整合稀土领域各类科技信息资源，为稀土行业提供定制化知识服务
-		</div>
-		<div class="clearfix">
+		</div> -->
+		<!-- <div class="clearfix">
 			<div class="headSS left clearfix">
 				<input type="text" class="left headSSLf" placeholder="请输入稀土相关的关键词" id="keywords"/>
 				<input type="button" class="left headSSRt" value="搜索" id="search" onClick="search();"/>
@@ -46,6 +46,35 @@
 				<input type="button" class="left headSSRt" value="文献入口" id="search" onClick="papersearch();"/>
 				<input type="button" class="right headSSRt" value="专利入口" id="search" onClick="search();"/>
 			</div>
+		</div> -->
+		<div class="clearfix">
+		<div class="left rare-earth-lf">
+			<a href="#" class="ahover">
+				全部
+			</a>
+			<a href="javascript:search()">
+				专利入口
+			</a>
+			<a href="javascript:papersearch()">
+				文献入口
+			</a>
+		</div>
+		<div class="rare-earth-rt">
+        <div class="logoText">
+			稀土大数据平台
+		</div>
+		<div class="indexTopSmall">
+			整合稀土领域各类科技信息资源，为稀土行业提供定制化知识服务
+		</div>
+		<div class="clearfix">
+			<div class="headSS left clearfix">
+				<input type="text" class="left headSSLf" placeholder="请输入稀土相关的关键词" id="keywords">
+				<input type="button" class="left headSSRt" value="搜索" id="search" onclick="search();">
+				
+			</div>
+			
+		</div>
+		</div>
 		</div>
 		<div class="headCompanyTl">
 			<span>

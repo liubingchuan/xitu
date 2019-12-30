@@ -678,3 +678,9 @@ i{font-style: normal;}
 .footerpartner{margin-bottom: 15px;}
 .footerpartner li{line-height: 34px;}
 .footerTopErw p{margin-top: 16px;}
+.rare-earth-lf{width: 113px;}
+.rare-earth-rt{margin-left: 143px;}
+.rare-earth-lf a{display: block;position: relative;height: 45px;line-height: 45px;font-size: 14px;text-align: center;border-right: 1px solid #979797;cursor: pointer;overflow: hidden;-webkit-transition: color .5s;-moz-transition: color .5s;-ms-transition: color .5s;-o-transition: color .5s;transition: color .5s;color: #fff;text-align: left;padding-left: 30px;}
+.rare-earth-lf a::before {content: "";position: absolute;left: 0;width: 113px;height: 45px; background: url(../ximages/search-tab-bg.png) no-repeat;-webkit-transition: transform .3s ease-in;-moz-transition: transform .3s ease-in;-ms-transition: transform .3s ease-in;-o-transition: transform .3s ease-in;transition: transform .3s ease-in;-webkit-transform: translateX(113px);-moz-transform: translateX(113px);-ms-transform: translateX(113px);-o-transform: translateX(113px);transform: translateX(113px);}
+.rare-earth-lf a:hover,.rare-earth-lf .ahover{padding-right: 1px;color: #fff;border-right: none;}
+.rare-earth-lf a:hover::before,.rare-earth-lf .ahover::before{-webkit-transform: translateX(0);-moz-transform: translateX(0);-ms-transform: translateX(0);-o-transform: translateX(0);transform: translateX(0);}
