@@ -179,7 +179,7 @@ public class ProjectController {
 		try {
 			String record;
 			final Base64.Decoder decoder = Base64.getDecoder();
-			String fileName = "/Users/liubingchuan/Downloads/project.csv";
+			String fileName = "/Users/liubingchuan/Downloads/nengyuan_project.csv";
 			BufferedReader file = new BufferedReader(new InputStreamReader(new FileInputStream(fileName), "UTF-8"));
 			List<Project> projects = new ArrayList<Project>();
 			while ((record = file.readLine()) != null) {
