@@ -190,104 +190,11 @@
 		<script type="text/javascript" th:src="@{/js/common.js}" ></script>
 		<script type="text/javascript">
 			
-			var myChart = echarts.init(document.getElementById('leixing'));
-			var name = "氧化钆";
-			var time = "3";
-			var conditions = {"time":time, "name":name}
 			$(document).ready(function() {
 				showLoginInfoFrontend();
 				showleixing('jinsanyue');
 			});
-		    
-			function showleixing(type) {
-				if(type == 'jinwunian'){
-				}
-				if(type == 'jinyinian'){
-					time = "1";
-				}
-				if(type == 'jinsanyue'){
-					time = "3";
-				}
-				conditions = {"time":time, "name":name}
-				getGraph();
-			}
 			
-			function getGraph() {
-				$.ajax({
-		            url:"/price/avg",
-		            type:"post",
-		            contentType: "application/json; charset=utf-8",
-		            data: JSON.stringify(conditions),
-		            dataType: "json",
-		            success:function(data){
-		            	
-		                let x = [];
-		    			let y = [];
-		    			let avg = data.avg;
-		    			$.each(avg, function(i) {
-		    			   x.push(i);
-		    			   y.push(avg[i]);
-		    			});
-		    			
-						option = {
-							
-							tooltip: {
-								trigger: 'axis'
-							},
-							grid: {
-								left: '3%',
-								right: '4%',
-								bottom: '3%',
-								containLabel: true
-							},
-							toolbox: {
-								feature: {
-									saveAsImage: {}
-								}
-							},
-							xAxis: {
-								type: 'category',
-								data: x
-							},
-							yAxis: {
-								type: 'value'
-							},
-							series: [
-								{
-									type:'line',
-									stack: '总量',
-									data: y,
-									itemStyle : { normal: {label : {show: true}}}
-								}
-							]
-						};
-
-					   myChart.setOption(option);
-		            },
-		            error:function(e){
-		                alert("获取报价失败！！");
-		            }
-		        });
-			}
-			
-			$("#yuansu").change(function(){
-				name = $("#yuansu").val();
-				
-				showleixing('wuleixing');
-			});
-			
-			
-			function search(){
-			    /*  window.location.href="http://127.0.0.1:8088/project/list?q=" + $("#keywords").val(); */
-			     window.location.href="/patent/list?q=" + $("#keywords").val();
-				/* window.location.href="http://47.104.7.73/patent/list?q=" + $("#keywords").val(); */
-			}
-			$("#keywords").keypress(function(e) {
-	            var eCode = e.keyCode ? e.keyCode : e.which ? e.which : e.charCode;
-	             if (eCode == 13){
-	                 search();
-	             }
-	     	});
 		</script>
 	</body>
 </html>
