@@ -86,7 +86,7 @@ $("#zhishifuwu, #zhishifuwu11, #zhishifuwu1, #zhishifuwu2").click(function(){
 		$("#login").click()
 	}
 });
-$("zhishifuwu3").click(function(){
+$("#zhishifuwu3").click(function(){
 	if($.cookie("role")!=null) {
 		window.location.href = "/zhishifuwu/chanyeqingbao";
 	}else {
@@ -94,9 +94,18 @@ $("zhishifuwu3").click(function(){
 		$("#login").click()
 	}
 });
-$("zhishifuwu4").click(function(){
+$("#zhishifuwu4").click(function(){
 	if($.cookie("role")!=null) {
 		window.location.href = "/zhishifuwu/zhishichanquan";
+	}else {
+		alert("请先登录")
+		$("#login").click()
+	}
+});
+
+$("#zhishifuwu5").click(function(){
+	if($.cookie("role")!=null) {
+		window.location.href = "/zhishifuwu/juecezixun";
 	}else {
 		alert("请先登录")
 		$("#login").click()
