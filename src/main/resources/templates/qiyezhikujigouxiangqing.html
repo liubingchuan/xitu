@@ -139,12 +139,8 @@
 		var name= [[${name}]];
 			var frontendId =  [[${frontendId}]];
 			$(document).ready(function () {
+				showLoginInfoFrontend();
 				$("#frontendImg").attr('src','/file/fileDownload?filename='+frontendId);
-			    if($.cookie("role")!=null && $.cookie("role")==="普通用户"){
-					$("#backgroud").css('display','none'); 
-				}
-				$("#logoinName").html($.cookie("nickName"));
-			    $("#headImg").attr("src", $.cookie("headImg"));
 			    
 			    getExpert();
 				getPatent(0);

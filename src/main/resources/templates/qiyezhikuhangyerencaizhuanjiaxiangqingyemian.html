@@ -111,12 +111,7 @@
 			var frontendId =  [[${frontendId}]];
 			var namebieming = [[${namebieming}]];
 			$(document).ready(function () {
-				//$("#frontendImg").attr('src','/file/fileDownload?filename='+frontendId);
-			    if($.cookie("role")!=null && $.cookie("role")==="普通用户"){
-					$("#backgroud").css('display','none'); 
-				}
-				$("#logoinName").html($.cookie("nickName"));
-			    $("#headImg").attr("src", $.cookie("headImg"));
+				showLoginInfoFrontend();
 			    
 			    getPatent(0);
 			});

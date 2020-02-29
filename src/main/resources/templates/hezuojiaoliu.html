@@ -132,13 +132,8 @@
 			var time = "3";
 			var conditions = {"time":time, "name":name}
 			$(document).ready(function() {
-
+				showLoginInfoFrontend();
 				showleixing('jinsanyue');
-				if($.cookie("role")!=null && $.cookie("role")==="普通用户"){
-					$("#backgroud").css('display','none'); 
-				}
-				$("#logoinName").html($.cookie("nickName"));
-			    $("#headImg").attr("src", $.cookie("headImg"));
 			});
 		    
 			function showleixing(type) {

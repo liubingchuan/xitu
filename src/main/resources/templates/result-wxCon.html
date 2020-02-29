@@ -153,11 +153,7 @@
 		var keywords = [[${keywords}]];
 		var title = [[${title}]];
 			$(document).ready(function () {
-			    if($.cookie("role")!=null && $.cookie("role")==="普通用户"){
-					$("#backgroud").css('display','none'); 
-				}
-				$("#logoinName").html($.cookie("nickName"));
-			    $("#headImg").attr("src", $.cookie("headImg"));
+				showLoginInfoFrontend();
 			    
 			    getPaper(0);
 			});

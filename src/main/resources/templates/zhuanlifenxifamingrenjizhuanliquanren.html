@@ -263,12 +263,8 @@
 		
 			
 			$(document).ready(function() {
+				showLoginInfoFrontend();
 				showfamingrenshenqingliang('famingren');
-			    if($.cookie("role")!=null && $.cookie("role")==="普通用户"){
-					$("#backgroud").css('display','none'); 
-				}
-				$("#logoinName").html($.cookie("nickName"));
-			    $("#headImg").attr("src", $.cookie("headImg"));
 			});
 			 function showfamingrenshenqingliang(type){
 				if(type=='famingren'){

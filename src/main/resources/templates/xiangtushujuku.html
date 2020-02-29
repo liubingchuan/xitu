@@ -140,12 +140,7 @@
 		var arease =  [[${arease}]];
 		
 		$(document).ready(function () {
-			if($.cookie("role")!=null && $.cookie("role")==="普通用户"){
-				$("#backgroud").css('display','none'); 
-			}
-			$("#logoinName").html($.cookie("nickName"));
-		    $("#headImg").attr("src", $.cookie("headImg"));
-
+			showLoginInfoFrontend();
 		    if(unitse != null){
 		    	document.getElementById('unitselect').value=unitse;
 		    }

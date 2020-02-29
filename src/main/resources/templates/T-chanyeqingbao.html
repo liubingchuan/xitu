@@ -368,16 +368,7 @@
 		var shenqingfujianId = '';
 		var display =  [[${display}]];
 		$(document).ready(function () {
-			//alert($.cookie("openId"));
-		    if($.cookie("role")!=null && $.cookie("role")==="普通用户"){
-				$("#backgroud").css('display','none'); 
-			}
-		    if($.cookie("role")!=null && $.cookie("role")==="管理员"){
-				//$(".vip").html("管理员"); 
-				$("#backgroud").css('display','block'); 
-			}
-			$("#logoinName").html($.cookie("nickName"));
-		    $("#headImg").attr("src", $.cookie("headImg"));
+			showLoginInfoFrontend();
 		    document.getElementById("shenqinglist").href="/zhishifuwu/shenqinglist?userid="+$.cookie("openId");
 		    if(display != null && display == 1){
 		    	 document.getElementById("shenqinglist2").href="/zhishifuwu/shenqinglist?userid="+$.cookie("openId");

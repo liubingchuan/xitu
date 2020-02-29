@@ -295,11 +295,7 @@
 		 var pubtime =  [[${pubtimes}]];
 		 var query =  [[${query}]];
 		 	$(document).ready(function () {
-			    if($.cookie("role")!=null && $.cookie("role")==="普通用户"){
-					$("#backgroud").css('display','none'); 
-				}
-				$("#logoinName").html($.cookie("nickName"));
-			    $("#headImg").attr("src", $.cookie("headImg"));
+		 		showLoginInfoFrontend();
 			});
 		
 			function search(){

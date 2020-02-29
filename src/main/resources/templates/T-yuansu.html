@@ -174,11 +174,7 @@
 		<script type="text/javascript" th:inline="javascript">
 		var name = [[${name}]];
 		$(document).ready(function () {
-		    if($.cookie("role")!=null && $.cookie("role")==="普通用户"){
-				$("#backgroud").css('display','none'); 
-			}
-			$("#logoinName").html($.cookie("nickName"));
-		    $("#headImg").attr("src", $.cookie("headImg"));
+			showLoginInfoFrontend();
 		    getExperts(0);
 		    getPatent(0);
 		    getPaper(0);

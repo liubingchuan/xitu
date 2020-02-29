@@ -95,14 +95,10 @@
 			var pdfId =  [[${pdfId}]];
 			
 			$(document).ready(function () {
+		        showLoginInfoFrontend();
 				$("#frontendImg").attr('src','/file/fileDownload?filename='+frontendId);
 				$("#pdfImg").attr('href','/file/fileDownload?filename='+pdfId);
 		        $('#pdfImg').media({width:800, height:600});
-		        if($.cookie("role")!=null && $.cookie("role")==="普通用户"){
-					$("#backgroud").css('display','none'); 
-				}
-				$("#logoinName").html($.cookie("nickName"));
-			    $("#headImg").attr("src", $.cookie("headImg"));
 			    
 			    if(pdfId != null && pdfId != ''){
 					
