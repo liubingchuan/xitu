@@ -24,6 +24,10 @@ spring:
        #cluster-nodes: 47.104.7.73:9300
        cluster-nodes: 39.96.82.217:9300
        #cluster-nodes: 172.17.161.12:9300
+  servlet:
+      multipart:
+        maxFileSize:30MB
+        maxRequestSize:30MB
 
 server:
   port: 80
