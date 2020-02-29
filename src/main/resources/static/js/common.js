@@ -10,7 +10,7 @@ $("#login").click(function(){
 	$("#alertZh").css('display','block');
 });
 
-$("#xituzhiku").click(function(){
+$("#xituzhiku, #xituzhiku11, #xituzhiku1, #xituzhiku2").click(function(){
 	if($.cookie("role")!=null) {
 		window.location.href = "/patent/agmount";
 	}else {
@@ -19,16 +19,40 @@ $("#xituzhiku").click(function(){
 	}
 });
 
-$("#xituzhiku11").click(function(){
+$("#xituzhiku3").click(function(){
 	if($.cookie("role")!=null) {
-		window.location.href = "/patent/agmount";
+		window.location.href = "/expert/list";
+	}else {
+		alert("请先登录")
+		$("#login").click()
+	}
+});
+$("#xituzhiku4").click(function(){
+	if($.cookie("role")!=null) {
+		window.location.href = "/org/list";
+	}else {
+		alert("请先登录")
+		$("#login").click()
+	}
+});
+$("#xituzhiku5").click(function(){
+	if($.cookie("role")!=null) {
+		window.location.href = "/patent/agcountry";
+	}else {
+		alert("请先登录")
+		$("#login").click()
+	}
+});
+$("#xituzhiku6").click(function(){
+	if($.cookie("role")!=null) {
+		window.location.href = "/report/list";
 	}else {
 		alert("请先登录")
 		$("#login").click()
 	}
 });
 
-$("#cailiaojisuan").click(function(){
+$("#cailiaojisuan, #cailiaojisuan11, #cailiaojisuan1, #cailiaojisuan2").click(function(){
 	if($.cookie("role")!=null) {
 		window.location.href = "/material/calculate";
 	}else {
@@ -36,15 +60,7 @@ $("#cailiaojisuan").click(function(){
 		$("#login").click()
 	}
 });
-$("#cailiaojisuan11").click(function(){
-	if($.cookie("role")!=null) {
-		window.location.href = "/material/calculate";
-	}else {
-		alert("请先登录")
-		$("#login").click()
-	}
-});
-$("#chanyejiance").click(function(){
+$("#chanyejiance, #chanyejiance11,#chanyejiance1, #chanyejiance2").click(function(){
 	if($.cookie("role")!=null) {
 		window.location.href = "/jiance/jiancelist";
 	}else {
@@ -52,15 +68,17 @@ $("#chanyejiance").click(function(){
 		$("#login").click()
 	}
 });
-$("#chanyejiance11").click(function(){
+
+$("#chanyejiance3").click(function(){
 	if($.cookie("role")!=null) {
-		window.location.href = "/jiance/jiancelist";
+		window.location.href = "/project/list";
 	}else {
 		alert("请先登录")
 		$("#login").click()
 	}
 });
-$("#zhishifuwu").click(function(){
+
+$("#zhishifuwu, #zhishifuwu11, #zhishifuwu1, #zhishifuwu2").click(function(){
 	if($.cookie("role")!=null) {
 		window.location.href = "/zhishifuwu/zhishifuwu";
 	}else {
@@ -68,9 +86,17 @@ $("#zhishifuwu").click(function(){
 		$("#login").click()
 	}
 });
-$("#zhishifuwu11").click(function(){
+$("zhishifuwu3").click(function(){
 	if($.cookie("role")!=null) {
-		window.location.href = "/zhishifuwu/zhishifuwu";
+		window.location.href = "/zhishifuwu/chanyeqingbao";
+	}else {
+		alert("请先登录")
+		$("#login").click()
+	}
+});
+$("zhishifuwu4").click(function(){
+	if($.cookie("role")!=null) {
+		window.location.href = "/zhishifuwu/zhishichanquan";
 	}else {
 		alert("请先登录")
 		$("#login").click()
