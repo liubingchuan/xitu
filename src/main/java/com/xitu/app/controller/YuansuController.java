@@ -350,7 +350,7 @@ public class YuansuController {
         Row row = null;
         List<Map<String,String>> list = null;
         String cellData = null;
-        String filePath = "/Users/liubingchuan/Desktop/abcdefg.xlsx";
+        String filePath = "/Users/liubingchuan/Downloads/abcdefg.xlsx";
         wb = readExcel(filePath);
         if(wb != null){
             //用来存放表中数据

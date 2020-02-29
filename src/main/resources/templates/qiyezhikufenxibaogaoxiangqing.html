@@ -30,9 +30,9 @@
 			    				报告分类：
 			    			</span>
 			    			<div class="M_messGpRt">
-			    				<select th:field="*{type}"  th:value="*{type}" name="type">
+			    				<select th:value="请选择报告分类" onchange="func()">
                             		<option value="">请选择报告分类</option>
-                            		<option th:each="item : ${items}" th:value="${item}" th:text="${item}"></option>
+                            		<option th:each="item : ${bgflitems}" th:value="${item}" th:text="${item}"></option>
                         		</select>
 			    			</div>
 			    		</div>

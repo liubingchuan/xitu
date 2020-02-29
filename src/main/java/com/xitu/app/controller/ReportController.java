@@ -139,7 +139,7 @@ public class ReportController {
 			model.addAttribute("disable", "1");
 		}
 		
-		Item item = itemMapper.selectItemByService("xmfl");
+		Item item = itemMapper.selectItemByService("bgfl");
 		List<String> items = new ArrayList<String>();
 		if (item != null) {
 			for(String s: item.getItem().split(";")) {
