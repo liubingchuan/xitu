@@ -572,11 +572,13 @@ public class OrgController {
         Row row = null;
         List<Map<String,String>> list = null;
         String cellData = null;
-        String filePath = "/Users/liubingchuan/Desktop/shuju/jigou.xlsx";
-        String photoLocalPath = "/Users/liubingchuan/Desktop/shuju/jigou";
+//        String filePath = "/Users/liubingchuan/Desktop/shuju/jigou.xlsx";
+//        String photoLocalPath = "/Users/liubingchuan/Desktop/shuju/jigou";
+        String filePath = "/Users/liubingchuan/Downloads/guowai/for-jigou.xlsx";
+        String photoLocalPath = "/Users/liubingchuan/Downloads/guowai/for-jigou";
         wb = readExcel(filePath);
-//        Scpclient client = Scpclient.getInstance("47.93.216.109", 22, "root", "Xitudashuju%1688");
-        Scpclient client = Scpclient.getInstance("47.104.7.73", 22, "root", "Alibaba%1688");
+        Scpclient client = Scpclient.getInstance("47.93.216.109", 22, "root", "Xitudashuju%1688");
+//        Scpclient client = Scpclient.getInstance("47.104.7.73", 22, "root", "Alibaba%1688");
         if(wb != null){
             //用来存放表中数据
             list = new ArrayList<Map<String,String>>();

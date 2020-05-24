@@ -430,11 +430,13 @@ public class ExpertController {
 		List<ElementMaster> masters = elementMapper.selectAllMasters();
 		List<ElementSlave> slaves = elementMapper.selectAllSlaves();
         String cellData = null;
-        String filePath = "/Users/liubingchuan/Desktop/shuju/zhuanjia.xlsx";
-        String photoLocalPath = "/Users/liubingchuan/Desktop/shuju/zhuanjia";
+//        String filePath = "/Users/liubingchuan/Desktop/shuju/zhuanjia.xlsx";
+//        String photoLocalPath = "/Users/liubingchuan/Desktop/shuju/zhuanjia";
+        String filePath = "/Users/liubingchuan/Downloads/guowai/for-zhuanjia.xlsx";
+        String photoLocalPath = "/Users/liubingchuan/Desktop/shuju/for-zhuanjia";
         wb = readExcel(filePath);
-//        Scpclient client = Scpclient.getInstance("47.93.216.109", 22, "root", "Xitudashuju%1688");
-        Scpclient client = Scpclient.getInstance("47.104.7.73", 22, "root", "Alibaba%1688");
+        Scpclient client = Scpclient.getInstance("47.93.216.109", 22, "root", "Xitudashuju%1688");
+//        Scpclient client = Scpclient.getInstance("47.104.7.73", 22, "root", "Alibaba%1688");
         Set<String> yanjiulingyus = new HashSet<String>();
         Set<String> zhiwus = new HashSet<String>();
         Set<String> zhichengs = new HashSet<String>();
