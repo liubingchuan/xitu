@@ -527,7 +527,7 @@ body{font-family:"寰蒋闆呴粦","Microsoft YaHei"!important;}
 .shaixuanbtn{width: 64px;border-radius: 2px;background: #F5A623;color: #fff;font-size: 14px;height: 35px;line-height: 35px;text-align: center;cursor: pointer;border: none;}
 .rencaiUl li{float: left;width: 50%;margin-bottom: 20px;}
 .rencaiUl{margin-top: 28px;}
-.rencailiM{display: block;border: 1px solid #BCBCBC;border-radius: 4px;margin: 0px 7px;padding: 22px 25px;background: #F9F9F9;}
+.rencailiM{display: block;border: 1px solid #BCBCBC;border-radius: 4px;margin: 0px 7px;padding: 22px 25px;background: #F9F9F9;height:150px}
 .rencailiMImg{display: block;vertical-align: middle;width: 109px;height: 146px;}
 .rencailiMRt{padding-left: 125px;padding-top: 15px;}
 .rencailiMRtName{line-height: 20px;color: #4A90E2;font-size: 20px;height: 20px;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;margin-bottom: 15px;}

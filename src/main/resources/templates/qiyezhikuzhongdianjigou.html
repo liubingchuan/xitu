@@ -106,10 +106,10 @@
 		            				</a>
 		            			</div>
 		            			<div class="jiansuoLiTag">
-		            				<span>相关成果：专家 <i class="colorBlue" th:id = "ex+${org.name}"></i>人 </span>
-		            				<span>专利：<i class="colorBlue" th:id = "pa+${org.name}"></i>件 </span>
-		            				<span>文献：<i class="colorBlue" th:id = "par+${org.name}"></i>条</span>
-		            				<span>报道：<i class="colorBlue" th:id = "jc+${org.name}"></i>条</span>
+		            				<span>相关成果：专家 <i class="colorBlue" th:id = "ex+${#strings.replace(#strings.replace(org.name,'(',''),')','')}"></i>人 </span>
+		            				<span>专利：<i class="colorBlue" th:id = "pa+${#strings.replace(#strings.replace(org.name,'(',''),')','')}"></i>件 </span>
+		            				<span>文献：<i class="colorBlue" th:id = "par+${#strings.replace(#strings.replace(org.name,'(',''),')','')}"></i>条</span>
+		            				<span>报道：<i class="colorBlue" th:id = "jc+${#strings.replace(#strings.replace(org.name,'(',''),')','')}"></i>条</span>
 		            			</div>
 		            			<div class="jiansuoLiText">
 		            				<span class="jiansuoLiTextSpan" th:utext="${org.description}">
@@ -218,22 +218,22 @@
 					success : function(data) {
 						for(var s in data.ExpertNum){
 							var countcgs =  data.ExpertNum[s];
-							var ss = "#ex"+s;
+							var ss = "#ex"+s.replace("(","").replace(")","");
 							$(ss).html(" "+countcgs+" "); 
 						}
 						for(var s in data.PatentNum){
 							var countcgs =  data.PatentNum[s];
-							var ss = "#pa"+s;
+							var ss = "#pa"+s.replace("(","").replace(")","");
 							$(ss).html(" "+countcgs+" "); 
 						}
 						for(var s in data.PaperNum){
 							var countcgs =  data.PaperNum[s];
-							var ss = "#par"+s;
+							var ss = "#par"+s.replace("(","").replace(")","");
 							$(ss).html(" "+countcgs+" "); 
 						}
 						for(var s in data.JianceNum){
 							var countcgs =  data.JianceNum[s];
-							var ss = "#jc"+s;
+							var ss = "#jc"+s.replace("(","").replace(")","");
 							$(ss).html(" "+countcgs+" "); 
 						}
 					}
