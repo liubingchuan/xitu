@@ -103,10 +103,15 @@ public abstract class AbstractESHttpService implements ESHttpService {
 			CrossQuery crossQuery = f.getAnnotation(CrossQuery.class);
 			SingleQuery singleQuery = f.getAnnotation(SingleQuery.class);
 			String fieldName = f.getName();
+			int size = 0;
 			if (aggQuery != null) {
 				JSONObject fz = new JSONObject();
 				JSONObject terms = new JSONObject();
-				int size = aggQuery.size();
+				if (type == 5 || type == 4) {
+					size = 50;
+				}else{
+					size = aggQuery.size();
+				}
 				fz.put("field", fieldName);
 				fz.put("size", size);
 				terms.put("terms", fz);
