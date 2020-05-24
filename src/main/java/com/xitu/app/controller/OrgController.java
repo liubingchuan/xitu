@@ -466,9 +466,11 @@ public class OrgController {
     			//bieming.add(name);
     			int count = 0;
     			for (String ns:bieming) {
-					if (expertaggcountMap.containsKey(ns)) {
-						count += expertaggcountMap.get(ns);
-					}
+    				if (ns != null && !ns.equals("")) {
+    					if (expertaggcountMap.containsKey(ns)) {
+    						count += expertaggcountMap.get(ns);
+    					}
+    				}
 				}
     			if (expertaggcountMap.containsKey(name)) {
 					count += expertaggcountMap.get(name);
@@ -492,9 +494,11 @@ public class OrgController {
     			//bieming.add(name);
     			int count = 0;
     			for (String ns:bieming) {
-					if (patentaggcountMap.containsKey(ns)) {
-						count += patentaggcountMap.get(ns);
-					}
+    				if (ns != null && !ns.equals("")) {
+    					if (patentaggcountMap.containsKey(ns)) {
+    						count += patentaggcountMap.get(ns);
+    					}
+    				}
 				}
     			if (patentaggcountMap.containsKey(name)) {
 					count += patentaggcountMap.get(name);
@@ -517,11 +521,17 @@ public class OrgController {
     			List<String> bieming = (List<String>) entry.getValue();
     			//bieming.add(name);
     			int count = 0;
-    			for (String ns:bieming) {
-					if (paperaggcountMap.containsKey(ns)) {
-						count += paperaggcountMap.get(ns);
-					}
+    			if (bieming != null && bieming.size() > 0) {
+    				for (String ns:bieming) {
+    					if (ns != null && !ns.equals("")) {
+    						if (paperaggcountMap.containsKey(ns)) {
+        						count += paperaggcountMap.get(ns);
+        					}
+						}
+    					
+    				}
 				}
+    			
     			if (paperaggcountMap.containsKey(name)) {
 					count += paperaggcountMap.get(name);
 				}
@@ -545,9 +555,11 @@ public class OrgController {
     			//bieming.add(name);
     			int count = 0;
     			for (String ns:bieming) {
-					if (jianceaggcountMap.containsKey(ns)) {
-						count += jianceaggcountMap.get(ns);
-					}
+    				if (ns != null && !ns.equals("")) {
+    					if (jianceaggcountMap.containsKey(ns)) {
+    						count += jianceaggcountMap.get(ns);
+    					}
+    				}
 				}
     			if (jianceaggcountMap.containsKey(name)) {
 					count += jianceaggcountMap.get(name);
