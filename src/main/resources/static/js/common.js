@@ -251,50 +251,10 @@ $("#la").click(function(){
 
 
 function showLoginInfoFrontend(){
-	
-	var url = "/wechat/getLoginInfo";
-	window.openId = "";
-	window.nickName = "";
-	window.headUrl = "";
-	window.role = "";
-	window.bind = "";
-    $.ajax({
-        url: url,
-        type: "get",
-        async: true,
-        success: function (resObj) {
-//             var resObj = JSON.parse(res);
-            if (resObj.code == 200) {
-				window.openId = resObj.openId;
-				window.nickName = resObj.nickName;
-				window.headImg = resObj.headImg;
-				window.role = resObj.role;
-				console.log("current openId " + resObj.openId)
-
-                if(resObj.bind==="false") {
-					$("#showcode").css('display','none');
-					// $("#showqrcode").css('display','none');
-                	$("#alertbd").css('display','block');
-                }else {
-					window.location.href = "/";
-				}
-            } else if (resObj.code == 1) {
-                window.clearInterval(time);
-                console.log("获取微信用户信息失败")
-            }else {
-            	timeRun += 1;
-            	if(timeRun >= 20) {
-            		window.clearInterval(time);
-            	}
-            }
-        }
-    });
-	
-	
 	$("#alertbd").css('display','none');
-    if($.cookie("role")!=null) {
+    if(window.role != "" && window.role!="null") {
 		$("#loginBefore").css('display','none'); 
-		$("#headImg").attr("src", $.cookie("headImg"));
+		$("#headImg").attr("src", window.headUrl);
 		$("#loginAfter").css('display','block');
 		if(window.role==="visitor"){
 			$(".vip").html("普通用户"); 
@@ -305,7 +265,8 @@ function showLoginInfoFrontend(){
 			$("#backgroud").css('display','block'); 
 		}
 		$(".vip").html(window.role);
-		$("#logoinName").html(window.loginName);
+		$("#wodeshenqing").attr("/zhishifuwu/shenqinglist(userid=${" + window.openId + "})");
+		$("#logoinName").html(window.nickName);
 	}else {
 		$("#loginBefore").css('display','block'); 
 		$("#loginAfter").css('display','none'); 

@@ -307,6 +307,7 @@ public class WeChatController {
 	@RequestMapping("wechat/getLoginInfo")
 	@ResponseBody
 	public R getLoginInfo(HttpServletRequest request) {
+		System.out.println("fssssssss");
 		String sessionId = request.getSession().getId();
 		System.out.println("试图获取的sessionId   " + sessionId);
         JSONObject obj = sessionMap.get(sessionId);

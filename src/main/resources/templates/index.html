@@ -326,21 +326,21 @@
 	    				用户名<span>*</span>
 	    			</label>
 	    			<input type="text" class="alertInp" placeholder="请输入用户名" name="account" id="lnaccount"/>
-	    			<div class="erroText">
+<!-- 	    			<div class="erroText">
 	    				输入错误
 	    			</div>
 	    			<div class="erroText" id="noaccount">
 	    				用户名不存在
-	    			</div>
+	    			</div> -->
 	    			</div>
 	    			<div class="alertFormGp">
 	    			<label for="" class="alertFormName">
 	    				密码<span>*</span>
 	    			</label>
 	    			<input type="password" class="alertInp" placeholder="请输入密码" name="password" id="lnpassword"/>
-	    			<div class="erroText" id="passworderror">
+<!-- 	    			<div class="erroText" id="passworderror">
 	    				密码错误
-	    			</div>
+	    			</div> -->
 	    			</div>
 	    			<!-- <div class="alertFormGp">
 	    			<label for="" class="alertFormName">
@@ -450,10 +450,14 @@
 // 	                        var resObj = JSON.parse(res);
 	                        if (resObj.code == 200) {
 	                            window.clearInterval(time);
-		        				$.cookie("openId",resObj.openId);
+/* 		        				$.cookie("openId",resObj.openId);
 		        				$.cookie("nickName",resObj.nickName);
 		        				$.cookie("headImg",resObj.headUrl);
-		        				$.cookie("role",resObj.role);
+		        				$.cookie("role",resObj.role); */
+		        				window.openId = resObj.openId;
+								window.nickName = resObj.nickName;
+								window.headUrl = resObj.headUrl;
+								window.role = resObj.role;
 		        				console.log("openId inserted into cookie " + resObj.openId)
 
 	                            if(resObj.bind==="false") {
@@ -468,7 +472,7 @@
 	                            console.log("获取微信用户信息失败")
 	                        }else {
 	                        	timeRun += 1;
-	                        	if(timeRun >= 20) {
+	                        	if(timeRun >= 60) {
 	                        		window.clearInterval(time);
 	                        	}
 	                        }
@@ -477,6 +481,35 @@
 	            }
 	    	
 			 $(document).ready(function () {
+				 
+					var url = "/wechat/getLoginInfo";
+					window.openId = "";
+					window.nickName = "";
+					window.headUrl = "";
+					window.role = "";
+					window.bind = "";
+				    $.ajax({
+				        url: url,
+				        type: "get",
+				        async: false,
+				        success: function (resObj) {
+//				             var resObj = JSON.parse(res);
+				            if (resObj.code == 200) {
+								window.openId = resObj.openId;
+								window.nickName = resObj.nickName;
+								window.headUrl = resObj.headUrl;
+								window.role = resObj.role;
+								console.log("current openId " + resObj.openId)
+
+				                if(resObj.bind==="false") {
+									$("#showcode").css('display','none');
+									// $("#showqrcode").css('display','none');
+				                	$("#alertbd").css('display','block');
+				                }
+				            }
+				        }
+				    });
+				 
 				showLoginInfoFrontend();
 				$("#loginBefore").click(function(){
 					getQcode();
@@ -515,8 +548,8 @@
 			        $.each(formArray,function(i,item){
 			            formObject[item.name] = item.value;
 			        });
-			        formObject["nickName"] = $.cookie("nickName")
-			        formObject["openId"] = $.cookie("openId")
+			        formObject["nickName"] = window.nickName
+			        formObject["openId"] = window.openId
 			        $.ajax({
 			            url:"user/bind",
 			            type:"post",
@@ -527,9 +560,8 @@
 			            	$("#alertbd").css('display','none'); 
 			                if(data.code == "200")
 			                {
-			                	console.log($.cookie("nickName"))
-			                	$("#logoinName").html($.cookie("nickName"));
-			    			    $("#headImg").attr("src", $.cookie("headImg"));
+			                	$("#logoinName").html(window.nickName);
+			    			    $("#headImg").attr("src", window.headUrl);
 								$("#loginBefore").css('display','none');
 			    			    $("#loginAfter").css('display','block');
 								window.location.href = "/";
