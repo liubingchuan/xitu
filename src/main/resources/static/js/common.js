@@ -1,8 +1,8 @@
 $("#quit").click(function(){
-	$.cookie("openId", "", {expires: -1});
-	$.cookie("nickName", "", {expires: -1});
-	$.cookie("headImg", "", {expires: -1});
-	$.cookie("role", "", {expires: -1});
+//	$.cookie("openId", "", {expires: -1});
+//	$.cookie("nickName", "", {expires: -1});
+//	$.cookie("headImg", "", {expires: -1});
+//	$.cookie("role", "", {expires: -1});
 	window.location.href = "/wechat/quit";
 });
 $("#login").click(function(){
@@ -11,7 +11,7 @@ $("#login").click(function(){
 });
 
 $("#xituzhiku, #xituzhiku11, #xituzhiku1, #xituzhiku2").click(function(){
-	if($.cookie("role")!=null) {
+	if(window.role!="" && window.role != "null") {
 		window.location.href = "/patent/agmount";
 	}else {
 		alert("请先登录")
@@ -20,7 +20,7 @@ $("#xituzhiku, #xituzhiku11, #xituzhiku1, #xituzhiku2").click(function(){
 });
 
 $("#xituzhiku3").click(function(){
-	if($.cookie("role")!=null) {
+	if(window.role!="" && window.role != "null") {
 		window.location.href = "/expert/list";
 	}else {
 		alert("请先登录")
@@ -28,7 +28,7 @@ $("#xituzhiku3").click(function(){
 	}
 });
 $("#xituzhiku4").click(function(){
-	if($.cookie("role")!=null) {
+	if(window.role!="" && window.role != "null") {
 		window.location.href = "/org/list";
 	}else {
 		alert("请先登录")
@@ -36,7 +36,7 @@ $("#xituzhiku4").click(function(){
 	}
 });
 $("#xituzhiku5").click(function(){
-	if($.cookie("role")!=null) {
+	if(window.role!="" && window.role != "null") {
 		window.location.href = "/patent/agcountry";
 	}else {
 		alert("请先登录")
@@ -44,7 +44,7 @@ $("#xituzhiku5").click(function(){
 	}
 });
 $("#xituzhiku6").click(function(){
-	if($.cookie("role")!=null) {
+	if(window.role!="" && window.role != "null") {
 		window.location.href = "/report/list";
 	}else {
 		alert("请先登录")
@@ -53,7 +53,7 @@ $("#xituzhiku6").click(function(){
 });
 
 $("#cailiaojisuan, #cailiaojisuan11, #cailiaojisuan1, #cailiaojisuan2").click(function(){
-	if($.cookie("role")!=null) {
+	if(window.role!="" && window.role != "null") {
 		window.location.href = "/material/calculate";
 	}else {
 		alert("请先登录")
@@ -61,7 +61,7 @@ $("#cailiaojisuan, #cailiaojisuan11, #cailiaojisuan1, #cailiaojisuan2").click(fu
 	}
 });
 $("#chanyejiance, #chanyejiance11,#chanyejiance1, #chanyejiance2").click(function(){
-	if($.cookie("role")!=null) {
+	if(window.role!="" && window.role != "null") {
 		window.location.href = "/jiance/jiancelist";
 	}else {
 		alert("请先登录")
@@ -70,7 +70,7 @@ $("#chanyejiance, #chanyejiance11,#chanyejiance1, #chanyejiance2").click(functio
 });
 
 $("#chanyejiance3").click(function(){
-	if($.cookie("role")!=null) {
+	if(window.role!="" && window.role != "null") {
 		window.location.href = "/project/list";
 	}else {
 		alert("请先登录")
@@ -79,7 +79,7 @@ $("#chanyejiance3").click(function(){
 });
 
 $("#zhishifuwu, #zhishifuwu11, #zhishifuwu1, #zhishifuwu2").click(function(){
-	if($.cookie("role")!=null) {
+	if(window.role!="" && window.role != "null") {
 		window.location.href = "/zhishifuwu/zhishifuwu";
 	}else {
 		alert("请先登录")
@@ -87,7 +87,7 @@ $("#zhishifuwu, #zhishifuwu11, #zhishifuwu1, #zhishifuwu2").click(function(){
 	}
 });
 $("#zhishifuwu3").click(function(){
-	if($.cookie("role")!=null) {
+	if(window.role!="" && window.role != "null") {
 		window.location.href = "/zhishifuwu/chanyeqingbao";
 	}else {
 		alert("请先登录")
@@ -95,7 +95,7 @@ $("#zhishifuwu3").click(function(){
 	}
 });
 $("#zhishifuwu4").click(function(){
-	if($.cookie("role")!=null) {
+	if(window.role!="" && window.role != "null") {
 		window.location.href = "/zhishifuwu/zhishichanquan";
 	}else {
 		alert("请先登录")
@@ -104,7 +104,7 @@ $("#zhishifuwu4").click(function(){
 });
 
 $("#zhishifuwu5").click(function(){
-	if($.cookie("role")!=null) {
+	if(window.role!="" && window.role != "null") {
 		window.location.href = "/zhishifuwu/juecezixun";
 	}else {
 		alert("请先登录")
@@ -113,7 +113,7 @@ $("#zhishifuwu5").click(function(){
 });
 
 $("#y").click(function(){
-	if($.cookie("role")!=null) {
+	if(window.role!="" && window.role != "null") {
 		window.location.href = "/yuansu/xiangqing?name=钇";
 	}else {
 		alert("请先登录")
@@ -121,7 +121,7 @@ $("#y").click(function(){
 	}
 });
 $("#sc").click(function(){
-	if($.cookie("role")!=null) {
+	if(window.role!="" && window.role != "null") {
 		window.location.href = "/yuansu/xiangqing?name=钪";
 	}else {
 		alert("请先登录")
@@ -129,7 +129,7 @@ $("#sc").click(function(){
 	}
 });
 $("#lu").click(function(){
-	if($.cookie("role")!=null) {
+	if(window.role!="" && window.role != "null") {
 		window.location.href = "/yuansu/xiangqing?name=镥";
 	}else {
 		alert("请先登录")
@@ -137,7 +137,7 @@ $("#lu").click(function(){
 	}
 });
 $("#yb").click(function(){
-	if($.cookie("role")!=null) {
+	if(window.role!="" && window.role != "null") {
 		window.location.href = "/yuansu/xiangqing?name=镱";
 	}else {
 		alert("请先登录")
@@ -145,7 +145,7 @@ $("#yb").click(function(){
 	}
 });
 $("#tm").click(function(){
-	if($.cookie("role")!=null) {
+	if(window.role!="" && window.role != "null") {
 		window.location.href = "/yuansu/xiangqing?name=铥";
 	}else {
 		alert("请先登录")
@@ -153,7 +153,7 @@ $("#tm").click(function(){
 	}
 });
 $("#er").click(function(){
-	if($.cookie("role")!=null) {
+	if(window.role!="" && window.role != "null") {
 		window.location.href = "/yuansu/xiangqing?name=铒";
 	}else {
 		alert("请先登录")
@@ -161,7 +161,7 @@ $("#er").click(function(){
 	}
 });
 $("#ho").click(function(){
-	if($.cookie("role")!=null) {
+	if(window.role!="" && window.role != "null") {
 		window.location.href = "/yuansu/xiangqing?name=钬";
 	}else {
 		alert("请先登录")
@@ -169,7 +169,7 @@ $("#ho").click(function(){
 	}
 });
 $("#dy").click(function(){
-	if($.cookie("role")!=null) {
+	if(window.role!="" && window.role != "null") {
 		window.location.href = "/yuansu/xiangqing?name=镝";
 	}else {
 		alert("请先登录")
@@ -177,7 +177,7 @@ $("#dy").click(function(){
 	}
 });
 $("#tb").click(function(){
-	if($.cookie("role")!=null) {
+	if(window.role!="" && window.role != "null") {
 		window.location.href = "/yuansu/xiangqing?name=铽";
 	}else {
 		alert("请先登录")
@@ -185,7 +185,7 @@ $("#tb").click(function(){
 	}
 });
 $("#gd").click(function(){
-	if($.cookie("role")!=null) {
+	if(window.role!="" && window.role != "null") {
 		window.location.href = "/yuansu/xiangqing?name=钆";
 	}else {
 		alert("请先登录")
@@ -193,7 +193,7 @@ $("#gd").click(function(){
 	}
 });
 $("#eu").click(function(){
-	if($.cookie("role")!=null) {
+	if(window.role!="" && window.role != "null") {
 		window.location.href = "/yuansu/xiangqing?name=铕";
 	}else {
 		alert("请先登录")
@@ -201,7 +201,7 @@ $("#eu").click(function(){
 	}
 });
 $("#sm").click(function(){
-	if($.cookie("role")!=null) {
+	if(window.role!="" && window.role != "null") {
 		window.location.href = "/yuansu/xiangqing?name=钐";
 	}else {
 		alert("请先登录")
@@ -209,7 +209,7 @@ $("#sm").click(function(){
 	}
 });
 $("#pm").click(function(){
-	if($.cookie("role")!=null) {
+	if(window.role!="" && window.role != "null") {
 		window.location.href = "/yuansu/xiangqing?name=钷";
 	}else {
 		alert("请先登录")
@@ -217,7 +217,7 @@ $("#pm").click(function(){
 	}
 });
 $("#nd").click(function(){
-	if($.cookie("role")!=null) {
+	if(window.role!="" && window.role != "null") {
 		window.location.href = "/yuansu/xiangqing?name=钕";
 	}else {
 		alert("请先登录")
@@ -225,7 +225,7 @@ $("#nd").click(function(){
 	}
 });
 $("#pr").click(function(){
-	if($.cookie("role")!=null) {
+	if(window.role!="" && window.role != "null") {
 		window.location.href = "/yuansu/xiangqing?name=镨";
 	}else {
 		alert("请先登录")
@@ -233,7 +233,7 @@ $("#pr").click(function(){
 	}
 });
 $("#ce").click(function(){
-	if($.cookie("role")!=null) {
+	if(window.role!="" && window.role != "null") {
 		window.location.href = "/yuansu/xiangqing?name=铈";
 	}else {
 		alert("请先登录")
@@ -241,7 +241,7 @@ $("#ce").click(function(){
 	}
 });
 $("#la").click(function(){
-	if($.cookie("role")!=null) {
+	if(window.role!="" && window.role != "null") {
 		window.location.href = "/yuansu/xiangqing?name=镧";
 	}else {
 		alert("请先登录")
@@ -251,21 +251,61 @@ $("#la").click(function(){
 
 
 function showLoginInfoFrontend(){
+	
+	var url = "/wechat/getLoginInfo";
+	window.openId = "";
+	window.nickName = "";
+	window.headUrl = "";
+	window.role = "";
+	window.bind = "";
+    $.ajax({
+        url: url,
+        type: "get",
+        async: true,
+        success: function (resObj) {
+//             var resObj = JSON.parse(res);
+            if (resObj.code == 200) {
+				window.openId = resObj.openId;
+				window.nickName = resObj.nickName;
+				window.headImg = resObj.headImg;
+				window.role = resObj.role;
+				console.log("current openId " + resObj.openId)
+
+                if(resObj.bind==="false") {
+					$("#showcode").css('display','none');
+					// $("#showqrcode").css('display','none');
+                	$("#alertbd").css('display','block');
+                }else {
+					window.location.href = "/";
+				}
+            } else if (resObj.code == 1) {
+                window.clearInterval(time);
+                console.log("获取微信用户信息失败")
+            }else {
+            	timeRun += 1;
+            	if(timeRun >= 20) {
+            		window.clearInterval(time);
+            	}
+            }
+        }
+    });
+	
+	
 	$("#alertbd").css('display','none');
     if($.cookie("role")!=null) {
 		$("#loginBefore").css('display','none'); 
 		$("#headImg").attr("src", $.cookie("headImg"));
 		$("#loginAfter").css('display','block');
-		if($.cookie("role")!=null && $.cookie("role")==="visitor"){
+		if(window.role==="visitor"){
 			$(".vip").html("普通用户"); 
 			$("#backgroud").css('display','none'); 
 		}
-		if($.cookie("role")!=null && $.cookie("role")==="admin"){
+		if(window.role==="admin"){
 			$(".vip").html("admin"); 
 			$("#backgroud").css('display','block'); 
 		}
-		$(".vip").html($.cookie("role"));
-		$("#logoinName").html($.cookie("loginName"));
+		$(".vip").html(window.role);
+		$("#logoinName").html(window.loginName);
 	}else {
 		$("#loginBefore").css('display','block'); 
 		$("#loginAfter").css('display','none'); 

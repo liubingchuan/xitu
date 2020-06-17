@@ -59,6 +59,8 @@ public class WeChatController {
 
 	@Autowired
 	private Cache cache;
+	
+	private static Map<String, JSONObject> sessionMap = new HashMap<String, JSONObject>();
 
 	// 获取ticket
 	private static final String GET_QRCODE_URL = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token={TOKEN}";
@@ -284,7 +286,31 @@ public class WeChatController {
         System.out.println("headUrl---" + headUrl);
         System.out.println("openId---" + openId);
         System.out.println("role---" + role);
+        JSONObject obj = new JSONObject();
+        obj.put("nickName", nickName);
+        obj.put("headUrl", headUrl);
+        obj.put("openId", openId);
+        obj.put("role", role);
+        obj.put("bind", bind);
+        sessionMap.put(sessionId, obj);
+        
 		return R.ok().put("openId", openId).put("bind", bind).put("nickName", nickName).put("headUrl", headUrl).put("role", role);
+
+	}
+	
+	
+	/**
+	 * 判断是否登录，用于微信扫码后
+	 *
+	 * @return
+	 */
+	@RequestMapping("wechat/getLoginInfo")
+	@ResponseBody
+	public R getLoginInfo(HttpServletRequest request) {
+		String sessionId = request.getSession().getId();
+		System.out.println("试图获取的sessionId   " + sessionId);
+        JSONObject obj = sessionMap.get(sessionId);
+		return R.ok().put("openId", obj==null ?"null":obj.get("openId")).put("nickName", obj==null? "null": obj.get("nickName")).put("headUrl", obj==null? "null":obj.get("headUrl")).put("role", obj==null? "null":obj.get("role")).put("bind", obj==null? "null":obj.get("bind"));
 
 	}
 	
@@ -296,6 +322,7 @@ public class WeChatController {
 		System.out.println("后台打印cache中是否包含 sessionid");
 		System.out.println("target is -------->" + cache.get(sessionId));
 		cache.delete(sessionId);
+		sessionMap.remove(sessionId);
 		return "index";
 	}
 	
