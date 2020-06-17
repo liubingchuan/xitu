@@ -447,6 +447,10 @@ public class OrgController {
     		List<String> insNamearr = new LinkedList<String>();
     		for(Map.Entry<String, Object> entry: map.entrySet()) {
     			insNamearr.add(entry.getKey());
+    			
+    			if(entry.getKey() != null && entry.getKey().contains("（")) {
+    				insNamearr.add(entry.getKey().replace("（", "(").replace("）", ")"));
+    			}
     			if(entry.getValue() != null && !entry.getValue().equals("[]")) {
     				insNamearr.addAll((List)entry.getValue());
     			}
@@ -475,6 +479,12 @@ public class OrgController {
     			if (expertaggcountMap.containsKey(name)) {
 					count += expertaggcountMap.get(name);
 				}
+    			if(name != null && name.contains("（")) {
+    				if (expertaggcountMap.containsKey(name.replace("（", "(").replace("）", ")"))) {
+    					count += expertaggcountMap.get(name.replace("（", "(").replace("）", ")"));
+    				}
+    			}
+    			
     			expertinscountMap.put(name, count);
     		}
     		reData.put("ExpertNum", expertinscountMap);
@@ -503,6 +513,11 @@ public class OrgController {
     			if (patentaggcountMap.containsKey(name)) {
 					count += patentaggcountMap.get(name);
 				}
+    			if(name != null && name.contains("（")) {
+    				if (patentaggcountMap.containsKey(name.replace("（", "(").replace("）", ")"))) {
+    					count += patentaggcountMap.get(name.replace("（", "(").replace("）", ")"));
+    				}
+    			}
     			patentinscountMap.put(name, count);
     		}
     		reData.put("PatentNum", patentinscountMap);
@@ -535,6 +550,11 @@ public class OrgController {
     			if (paperaggcountMap.containsKey(name)) {
 					count += paperaggcountMap.get(name);
 				}
+    			if(name != null && name.contains("（")) {
+    				if (paperaggcountMap.containsKey(name.replace("（", "(").replace("）", ")"))) {
+    					count += paperaggcountMap.get(name.replace("（", "(").replace("）", ")"));
+    				}
+    			}
     			paperinscountMap.put(name, count);
     		}
     		reData.put("PaperNum", paperinscountMap);
@@ -564,6 +584,11 @@ public class OrgController {
     			if (jianceaggcountMap.containsKey(name)) {
 					count += jianceaggcountMap.get(name);
 				}
+    			if(name != null && name.contains("（")) {
+    				if (jianceaggcountMap.containsKey(name.replace("（", "(").replace("）", ")"))) {
+    					count += jianceaggcountMap.get(name.replace("（", "(").replace("）", ")"));
+    				}
+    			}
     			jianceinscountMap.put(name, count);
     		}
     		reData.put("JianceNum", jianceinscountMap);

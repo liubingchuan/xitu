@@ -45,7 +45,7 @@ $("#xituzhiku5").click(function(){
 });
 $("#xituzhiku6").click(function(){
 	if(window.role!="" && window.role != "null") {
-		window.location.href = "/report/list";
+		window.location.href = "/report/list?front=0";
 	}else {
 		alert("请先登录")
 		$("#login").click()
@@ -71,7 +71,7 @@ $("#chanyejiance, #chanyejiance11,#chanyejiance1, #chanyejiance2").click(functio
 
 $("#chanyejiance3").click(function(){
 	if(window.role!="" && window.role != "null") {
-		window.location.href = "/project/list";
+		window.location.href = "/project/list?front=0";
 	}else {
 		alert("请先登录")
 		$("#login").click()
