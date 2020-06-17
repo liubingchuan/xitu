@@ -140,6 +140,9 @@ public class WeChatController {
 						String openId = map.get("FromUserName");
 						if (eventKeyValue.contains("_")) {
 							String[] ek = eventKeyValue.split("_");
+							System.out.println("开始往cache里存数据了");
+							System.out.println("cache key is " + ek[1]);
+							System.out.println("cache value is " + openId + "%unbind");
 							cache.save(ek[1], openId + "%unbind");
 							String getUserInfoUrl = GETUSERINFOURL.replace("{ACCESS_TOKEN}", Constant.ACCESS_TOKEN).replace("{OPENID}", openId);
 							String userInfoStr = HttpRequest.get(getUserInfoUrl, null, false);
@@ -170,6 +173,9 @@ public class WeChatController {
 						System.out.println("发送扫描二维码事件了！！！！！！！");
 						String eventKey = map.get("EventKey");
 						String openId = map.get("FromUserName");
+						System.out.println("开始往cache里存数据了");
+						System.out.println("cache key is " + eventKey);
+						System.out.println("cache value is " + openId + "%binded");
 						cache.save(eventKey, openId + "%binded");
 						result = msgService.returnText(map, "扫描临时二维码");
 						// if (eventKey.equals("temp_qrcode_test")) { //临时二维码
@@ -231,6 +237,8 @@ public class WeChatController {
 		String sessionId = request.getSession().getId();
 		System.out.println("试图获取的sessionId   " + sessionId);
 		String openIdInfo = cache.get(sessionId);
+		System.out.println("查找sessionid的结果是-------->" + openIdInfo);
+		
 		
 		if (openIdInfo == null) {
 			System.out.println("openIdInfo 未找到");
@@ -285,6 +293,8 @@ public class WeChatController {
 		String sessionId = request.getSession().getId();
 		User user = new User();
 		model.addAttribute("user", user);
+		System.out.println("后台打印cache中是否包含 sessionid");
+		System.out.println("target is -------->" + cache.get(sessionId));
 		cache.delete(sessionId);
 		return "index";
 	}

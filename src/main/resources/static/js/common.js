@@ -271,4 +271,4 @@ function showLoginInfoFrontend(){
 		$("#loginAfter").css('display','none'); 
 	}
 }
-document.write(unescape("%3Cspan id='_ideConac' %3E%3C/span%3E%3Cscript src='http://dcs.conac.cn/js/07/128/0000/60556095/CA071280000605560950010.js' type='text/javascript'%3E%3C/script%3E"));
+//document.write(unescape("%3Cspan id='_ideConac' %3E%3C/span%3E%3Cscript src='http://dcs.conac.cn/js/07/128/0000/60556095/CA071280000605560950010.js' type='text/javascript'%3E%3C/script%3E"));
