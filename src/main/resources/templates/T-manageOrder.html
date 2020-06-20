@@ -85,7 +85,7 @@
 		    					接单 
 		    				</a> -->
 		    				<input id="uuid" type="hidden" th:value="${order.uuid}" />
-		    				<a href="javascript:jiedan()" class="colorBlue">
+		    				<a th:href="'javascript:jiedan(\''+${order.uuid}+'\')'" class="colorBlue">
 		    					接单 
 		    					</a>
 		    			</span>
@@ -116,9 +116,9 @@
 			 showLoginInfoFrontend();
 		 });
 		 
-		 function jiedan() {
-			 var uid = $("#uuid").val();
-			 window.location.href="/zhishifuwu/jiedan?uuid=" + uid + "&pageIndex="+pageIndex+"&pageSize="+pageSize+"&chuliren="+$.cookie("openId");
+		 function jiedan(uid) {
+			// var uid = $("#uuid").val();
+			 window.location.href="/zhishifuwu/jiedan?uuid=" + uid + "&pageIndex="+pageIndex+"&pageSize="+pageSize+"&chuliren="+openId;
 			 //zhishifuwu/jiedan(uuid=${order.uuid},front=0,pageIndex=${pageIndex},pageSize=${pageSize})}
 		 }
 		

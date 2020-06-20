@@ -372,13 +372,13 @@
 		var display =  [[${display}]];
 		$(document).ready(function () {
 			showLoginInfoFrontend();
-		    document.getElementById("shenqinglist").href="/zhishifuwu/shenqinglist?userid="+$.cookie("openId");
+		    document.getElementById("shenqinglist").href="/zhishifuwu/shenqinglist?userid="+openId;
 		    if(display != null && display == 1){
-		    	 document.getElementById("shenqinglist2").href="/zhishifuwu/shenqinglist?userid="+$.cookie("openId");
+		    	 document.getElementById("shenqinglist2").href="/zhishifuwu/shenqinglist?userid="+openId;
 		    }
-		    $("#userId").attr("value",$.cookie("openId"));
+		    $("#userId").attr("value",openId);
 
-		    //document.getElementById("userid").value=$.cookie("openId");
+		   
 		});
 		 $("#frontendFile").live('change',function() {
 				var formData = new FormData();
