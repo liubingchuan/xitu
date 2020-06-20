@@ -1,3 +1,8 @@
+openId = "";
+nickName = "";
+headUrl = "";
+role = "";
+bind = "";
 $("#quit").click(function(){
 //	$.cookie("openId", "", {expires: -1});
 //	$.cookie("nickName", "", {expires: -1});
@@ -251,12 +256,36 @@ $("#la").click(function(){
 
 
 function showLoginInfoFrontend(){
+	
+	var url = "/wechat/getLoginInfo";
+    $.ajax({
+        url: url,
+        type: "get",
+        async: false,
+        success: function (resObj) {
+//             var resObj = JSON.parse(res);
+            if (resObj.code == 200) {
+				openId = resObj.openId;
+				nickName = resObj.nickName;
+				headUrl = resObj.headUrl;
+				role = resObj.role;
+				console.log("current openId " + resObj.openId)
+
+                if(resObj.bind==="false") {
+					$("#showcode").css('display','none');
+					// $("#showqrcode").css('display','none');
+                	$("#alertbd").css('display','block');
+                }
+            }
+        }
+    });
+	
 	$("#alertbd").css('display','none');
-    if(window.role != "" && window.role!="null") {
+    if(role != "" && role!="null") {
 		$("#loginBefore").css('display','none'); 
-		$("#headImg").attr("src", window.headUrl);
+		$("#headImg").attr("src", headUrl);
 		$("#loginAfter").css('display','block');
-		if(window.role==="visitor"){
+		if(role==="visitor"){
 			$(".vip").html("普通用户"); 
 			$("#backgroud").css('display','none'); 
 		}
@@ -265,8 +294,8 @@ function showLoginInfoFrontend(){
 			$("#backgroud").css('display','block'); 
 		}
 		$(".vip").html(window.role);
-		$("#wodeshenqing").attr("/zhishifuwu/shenqinglist(userid=${" + window.openId + "})");
-		$("#logoinName").html(window.nickName);
+		$("#wodeshenqing").attr("/zhishifuwu/shenqinglist(userid=${" + openId + "})");
+		$("#logoinName").html(nickName);
 	}else {
 		$("#loginBefore").css('display','block'); 
 		$("#loginAfter").css('display','none'); 

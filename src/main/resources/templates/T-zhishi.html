@@ -388,11 +388,11 @@
 		//$.cookie("openId","2");
 		$(document).ready(function () {
 			showLoginInfoFrontend();
-		    document.getElementById("shenqinglist").href="/zhishifuwu/shenqinglist?userid="+window.openId;
+		    document.getElementById("shenqinglist").href="/zhishifuwu/shenqinglist?userid="+openId;
 		    if(display != null && display == 1){
-		    	 document.getElementById("shenqinglist2").href="/zhishifuwu/shenqinglist?userid="+window.openId;
+		    	 document.getElementById("shenqinglist2").href="/zhishifuwu/shenqinglist?userid="+openId;
 		    }
-		    $("#userId").attr("value",window.openId);
+		    $("#userId").attr("value",openId);
 
 		    //document.getElementById("userid").value=$.cookie("openId");
 		});

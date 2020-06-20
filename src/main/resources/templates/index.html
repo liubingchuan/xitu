@@ -418,6 +418,7 @@
 	    	var role =  [[${role}]]; */
 	    	
 	    	var time;
+
 	    	// 获取登录二维码
 	        function getQcode() {
 	            var url = "/wechat/getLoginQcode";
@@ -448,10 +449,10 @@
 		        				$.cookie("nickName",resObj.nickName);
 		        				$.cookie("headImg",resObj.headUrl);
 		        				$.cookie("role",resObj.role); */
-		        				window.openId = resObj.openId;
-								window.nickName = resObj.nickName;
-								window.headUrl = resObj.headUrl;
-								window.role = resObj.role;
+		        				openId = resObj.openId;
+								nickName = resObj.nickName;
+								headUrl = resObj.headUrl;
+								role = resObj.role;
 		        				console.log("openId inserted into cookie " + resObj.openId)
 
 	                            if(resObj.bind==="false") {
@@ -475,34 +476,6 @@
 	            }
 	    	
 			 $(document).ready(function () {
-				 
-					var url = "/wechat/getLoginInfo";
-					window.openId = "";
-					window.nickName = "";
-					window.headUrl = "";
-					window.role = "";
-					window.bind = "";
-				    $.ajax({
-				        url: url,
-				        type: "get",
-				        async: false,
-				        success: function (resObj) {
-//				             var resObj = JSON.parse(res);
-				            if (resObj.code == 200) {
-								window.openId = resObj.openId;
-								window.nickName = resObj.nickName;
-								window.headUrl = resObj.headUrl;
-								window.role = resObj.role;
-								console.log("current openId " + resObj.openId)
-
-				                if(resObj.bind==="false") {
-									$("#showcode").css('display','none');
-									// $("#showqrcode").css('display','none');
-				                	$("#alertbd").css('display','block');
-				                }
-				            }
-				        }
-				    });
 				 
 				showLoginInfoFrontend();
 				$("#loginBefore").click(function(){
