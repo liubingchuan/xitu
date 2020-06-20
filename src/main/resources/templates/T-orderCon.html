@@ -41,7 +41,7 @@
 					</div>
 					<div class="dingdanxqB" th:object="${order}">
 					
-		    		<a th:if="${order.chulizhuangtai == '已完成' && order.chulirenfujianId != null && order.chulirenfujianId !='' }" th:href="@{/file/fileDownload(filename=${chufujianId})}" class="btnblue orderconDown">
+		    		<a th:if="${order.chulizhuangtai == '已完成' && order.chulirenfujianId != null && order.chulirenfujianId !='' }" th:href="@{/file/fileDownload(filename=${order.chulirenfujianId})}" class="btnblue orderconDown">
 		    					下载报告 
 		    		</a>
 		    		

@@ -106,7 +106,7 @@
 									<!-- <a th:href="@{/zhishifuwu/xiangqing(uuid=${order.uuid})}" class="shenqingDown" th:if="${order.chulizhuangtai == '已完成'}">
 										下载
 									</a> -->
-									<a class="shenqingDown" th:if="${order.chulizhuangtai == '已完成' && order.chulirenfujianId != null && order.chulirenfujianId !='' }" th:href="@{/file/fileDownload(filename=${chufujianId})}">
+									<a class="shenqingDown" th:if="${order.chulizhuangtai == '已完成' && order.chulirenfujianId != null && order.chulirenfujianId !='' }" th:href="@{/file/fileDownload(filename=${order.chulirenfujianId})}">
 		    							下载
 		    						</a>
 									<a th:href="@{/zhishifuwu/xiangqing(uuid=${order.uuid})}">
