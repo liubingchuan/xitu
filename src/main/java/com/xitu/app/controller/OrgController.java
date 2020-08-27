@@ -44,7 +44,10 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.xitu.app.common.R;
 import com.xitu.app.common.request.SaveOrgRequest;
+import com.xitu.app.mapper.ElementMapper;
 import com.xitu.app.mapper.ItemMapper;
+import com.xitu.app.model.ElementMaster;
+import com.xitu.app.model.ElementSlave;
 import com.xitu.app.model.Expert;
 import com.xitu.app.model.Item;
 import com.xitu.app.model.Org;
@@ -68,6 +71,9 @@ public class OrgController {
 	
 	@Autowired
 	private ElasticsearchTemplate esTemplate;
+	
+	@Autowired
+	private ElementMapper elementMapper;
 	
 	@Autowired
     private ItemMapper itemMapper;
@@ -131,6 +137,8 @@ public class OrgController {
 	
 	@GetMapping(value = "org/update")
 	public String updateOrg() {
+		List<ElementMaster> masters = elementMapper.selectAllMasters();
+		List<ElementSlave> slaves = elementMapper.selectAllSlaves();
 		
 //		Iterator<Org> orgs = orgRepository.findAll().iterator();
 //		while(orgs.hasNext()) {
@@ -158,12 +166,25 @@ public class OrgController {
 		Iterator<Org> orgs = orgRepository.findAll().iterator();
 		while(orgs.hasNext()) {
 			Org org = orgs.next();
+			List<String> tags = new ArrayList<String>();
 			System.out.println(org.getId());
-			String anotherName = "";
-			if(org.getName() != null && !org.getName().equals("")) {
-				anotherName = org.getName();
-			}
-			org.setAnotherName(anotherName);
+//			String anotherName = "";
+//			if(org.getName() != null && !org.getName().equals("")) {
+//				anotherName = org.getName();
+//			}
+//			org.setAnotherName(anotherName);
+			
+//			for(ElementMaster master : masters) {
+//        		if (org.contains(master.getName()) || cellData.contains(master.getEnName())) {
+//        			tags.add(master.getName());
+//        		}
+//        	}
+//        	
+//        	for(ElementSlave slave: slaves) {
+//        		if(cellData.contains(slave.getName()) || cellData.contains(slave.getEnName())) {
+//        			tags.add(slave.getName());
+//        		}
+//        	}
 			orgRepository.save(org);
 		}
 		return "fasdf";
@@ -630,9 +651,6 @@ public class OrgController {
             for (int i = 1; i<rownum; i++) {
             	Org org = new Org();
             	System.out.println("id------>" + i);
-            	if(i==491) {
-            		System.out.println(i);
-            	}
                 row = sheet.getRow(i);
                 if(row !=null){
                     for (int j=0;j<colnum;j++){

@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -51,6 +52,7 @@ import com.xitu.app.model.Expert;
 import com.xitu.app.model.Item;
 import com.xitu.app.model.Org;
 import com.xitu.app.repository.ExpertRepository;
+import com.xitu.app.repository.OrgRepository;
 import com.xitu.app.service.es.ExpertService;
 import com.xitu.app.utils.BeanUtil;
 import com.xitu.app.utils.Scpclient;
@@ -75,6 +77,9 @@ public class ExpertController {
 	
 	@Autowired
     private ItemMapper itemMapper;
+	
+	@Autowired
+    private OrgRepository orgRepository;
 	
 	@Autowired
 	private ExpertService expertService;
@@ -195,18 +200,56 @@ public class ExpertController {
 	
 	@GetMapping(value = "expert/update")
 	public String updateExpert() {
+		
+		
+		Map<String, Org> map = new HashMap<String, Org>();
+		Iterator<Org> orgs = orgRepository.findAll().iterator();
+		while(orgs.hasNext()) {
+			Org org = orgs.next();
+			map.put(org.getName(), org);
+//			List<String> tags = new ArrayList<String>();
+			System.out.println(org.getId());
+//			String anotherName = "";
+//			if(org.getName() != null && !org.getName().equals("")) {
+//				anotherName = org.getName();
+//			}
+//			org.setAnotherName(anotherName);
+			
+//			for(ElementMaster master : masters) {
+//        		if (org.contains(master.getName()) || cellData.contains(master.getEnName())) {
+//        			tags.add(master.getName());
+//        		}
+//        	}
+//        	
+//        	for(ElementSlave slave: slaves) {
+//        		if(cellData.contains(slave.getName()) || cellData.contains(slave.getEnName())) {
+//        			tags.add(slave.getName());
+//        		}
+//        	}
+//			orgRepository.save(org);
+		}
+		
 		Iterator<Expert> experts = expertRepository.findAll().iterator();
 		while(experts.hasNext()) {
 			Expert expert = experts.next();
 			System.out.println(expert.getId());
+			String unit = expert.getUnit();
+			Org org = map.get(unit);
+			if(org != null) {
+				List<String> tags = org.getTags();
+				tags.addAll(expert.getTags());
+				org.setTags(tags);
+				orgRepository.save(org);
+			}
+			
 //			List<String> tags = new ArrayList<String>();
 //			tags.add("测试");
-			String seq = "";
-			if(expert.getFrontend() != null && !expert.getFrontend().equals("")) {
-				seq = expert.getFrontend();
-			}
-			expert.setSeq(seq);
-			expertRepository.save(expert);
+//			String seq = "";
+//			if(expert.getFrontend() != null && !expert.getFrontend().equals("")) {
+//				seq = expert.getFrontend();
+//			}
+//			expert.setSeq(seq);
+//			expertRepository.save(expert);
 		}
 		return "fasdf";
 	}
